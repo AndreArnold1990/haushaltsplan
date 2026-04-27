@@ -1,0 +1,8 @@
+# Sensible Konfiguration – NICHT einchecken
+config.json
+
+# Claude-interne Dateien
+.claude/
+
+# Upload Versionen
+Uploads/
