@@ -212,6 +212,34 @@
   </div>
 </div>
 
+<!-- ══ EDIT CATEGORY MODAL ══ -->
+<div id="editCatModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeEditCatModal()">
+  <div class="modal-box">
+    <div class="modal-title" data-i18n="modalEditTitle">&#9999; Kategorie bearbeiten</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label data-i18n="labelName">Name</label>
+        <input type="text" id="editCatName" maxlength="40">
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelType">Typ</label>
+        <select id="editCatType">
+          <option value="income"  data-i18n="typeIncome">&#8593; Einnahme</option>
+          <option value="expense" data-i18n="typeExpense">&#8595; Ausgabe</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelColor">Farbe</label>
+        <input type="color" id="editCatColor">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveEditCat()" data-i18n="btnSave">&#10003; Speichern</button>
+      <button class="btn btn-secondary" onclick="closeEditCatModal()" data-i18n="btnCancel">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
 <!-- App-Einstiegspunkt (ES-Modul) -->
 <script type="module" src="js/app.js"></script>
 </body>

@@ -36,7 +36,10 @@ function _renderCategoryList(type, container) {
         <span class="cat-name">${escHtml(c.name)}</span>
         <span class="cat-usage">(${usage} ${t('catEntries')})</span>
       </div>
-      <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">${t('btnDelete')}</button>
+      <div class="category-item-actions">
+        <button class="btn btn-edit btn-sm" onclick="openEditCatModal('${c.id}')">${t('btnEdit')}</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">${t('btnDelete')}</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -61,6 +64,60 @@ export function addCategory() {
   renderCategories();
   populateCategorySelect();
   toast(t('toastCatAdded', escHtml(name)));
+}
+
+// ── Kategorie bearbeiten ──────────────────────────────────────────────────────
+
+/** ID der Kategorie, die gerade bearbeitet wird */
+let _editCatId = null;
+
+/**
+ * Öffnet das Edit-Modal vorausgefüllt mit den aktuellen Werten der Kategorie.
+ * @param {string} id
+ */
+export function openEditCatModal(id) {
+  const cat = getCat(id);
+  if (!cat) return;
+  _editCatId = id;
+  document.getElementById('editCatName').value  = cat.name;
+  document.getElementById('editCatType').value  = cat.type;
+  document.getElementById('editCatColor').value = cat.color;
+  document.getElementById('editCatModal').style.display = 'flex';
+}
+
+/**
+ * Speichert die Änderungen an der Kategorie.
+ */
+export function saveEditCat() {
+  if (!_editCatId) return;
+  const name  = document.getElementById('editCatName').value.trim();
+  const type  = document.getElementById('editCatType').value;
+  const color = document.getElementById('editCatColor').value;
+
+  if (!name) { toast(t('toastEnterName')); return; }
+
+  // Namens-Duplikat prüfen (andere Kategorien, nicht sich selbst)
+  const duplicate = appData.categories.some(
+    c => c.id !== _editCatId && c.name.toLowerCase() === name.toLowerCase()
+  );
+  if (duplicate) { toast(t('toastNameExists')); return; }
+
+  const cat = appData.categories.find(c => c.id === _editCatId);
+  cat.name  = name;
+  cat.type  = type;
+  cat.color = color;
+
+  saveData();
+  closeEditCatModal();
+  renderCategories();
+  populateCategorySelect();
+  toast(t('toastCatUpdated', escHtml(name)));
+}
+
+/** Schließt das Edit-Modal und setzt den Zustand zurück. */
+export function closeEditCatModal() {
+  document.getElementById('editCatModal').style.display = 'none';
+  _editCatId = null;
 }
 
 // ── Kategorie löschen ─────────────────────────────────────────────────────────

@@ -19,8 +19,9 @@ import { renderTransactions, populateCategorySelect,
          renderTransactionTable, renderSharedTransactionTable,
          addTransaction, deleteTransaction }            from './transactions.js';
 import { renderCategories, addCategory, deleteCategory,
-         confirmDeleteCategory, closeModal,
-         modalOverlayClick }                            from './categories.js';
+         confirmDeleteCategory, closeModal, modalOverlayClick,
+         openEditCatModal, saveEditCat,
+         closeEditCatModal }                            from './categories.js';
 import { openAddTxModal, closeAddTxModal }               from './transactions.js';
 import { setAuthUI, setSyncUI, showTab }                from './ui.js';
 import { t, setLanguage, setLangChangeCallback,
@@ -188,3 +189,6 @@ window.deleteCategory         = deleteCategory;
 window.confirmDeleteCategory  = confirmDeleteCategory;
 window.closeModal             = closeModal;
 window.modalOverlayClick      = modalOverlayClick;
+window.openEditCatModal       = openEditCatModal;
+window.saveEditCat            = saveEditCat;
+window.closeEditCatModal      = closeEditCatModal;

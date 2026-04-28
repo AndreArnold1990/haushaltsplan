@@ -74,6 +74,12 @@ const translations = {
     emptyCats:             'Keine Kategorien vorhanden.',
     catEntries:            'Einträge',
 
+    // Kategorie bearbeiten
+    btnEdit:               '✏ Bearbeiten',
+    modalEditTitle:        '✏ Kategorie bearbeiten',
+    btnSave:               '✓ Speichern',
+    toastCatUpdated:       name => `Kategorie "${name}" aktualisiert ✓`,
+
     // Modal
     modalTitle:            '🗑 Kategorie löschen',
     modalMoveLabel:        'Transaktionen verschieben nach:',
@@ -181,6 +187,12 @@ const translations = {
     sectionExpenseCats:    '↓ Categorías de gastos',
     emptyCats:             'No hay categorías.',
     catEntries:            'entradas',
+
+    // Editar categoría
+    btnEdit:               '✏ Editar',
+    modalEditTitle:        '✏ Editar categoría',
+    btnSave:               '✓ Guardar',
+    toastCatUpdated:       name => `Categoría "${name}" actualizada ✓`,
 
     modalTitle:            '🗑 Eliminar categoría',
     modalMoveLabel:        'Mover transacciones a:',

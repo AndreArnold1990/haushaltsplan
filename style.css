@@ -189,6 +189,8 @@ main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
 .btn-danger    { background: var(--expense-light); color: var(--expense); }
 .btn-danger:hover  { background: var(--expense); color: white; }
+.btn-edit      { background: var(--primary-light); color: var(--primary); }
+.btn-edit:hover    { background: var(--primary); color: white; }
 .btn-secondary { background: var(--border); color: var(--text-secondary); }
 .btn-secondary:hover { background: #cbd5e1; color: var(--text); }
 .btn-move      { background: var(--primary-light); color: var(--primary); }
@@ -215,7 +217,8 @@ tr:hover td       { background: #f8fafc; }
 .category-list { display: flex; flex-direction: column; gap: 0.45rem; }
 .category-item { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; background: #f8fafc; transition: background 0.15s; }
 .category-item:hover { background: var(--primary-light); border-color: #c7d2fe; }
-.category-item-left  { display: flex; align-items: center; gap: 0.75rem; }
+.category-item-left    { display: flex; align-items: center; gap: 0.75rem; }
+.category-item-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
 .color-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid rgba(0,0,0,0.12); flex-shrink: 0; }
 .cat-name  { font-weight: 500; font-size: 0.9rem; }
 .cat-usage { font-size: 0.78rem; color: var(--text-secondary); }
