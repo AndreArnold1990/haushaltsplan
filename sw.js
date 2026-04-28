@@ -1,6 +1,6 @@
 // Service Worker – Haushaltsplan
-// Cache-Version: v8
-const CACHE = 'haushaltsplan-v8';
+// Cache-Version: v9
+const CACHE = 'haushaltsplan-v9';
 
 const PRECACHE = [
   './index.html',
