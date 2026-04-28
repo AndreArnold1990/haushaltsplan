@@ -20,9 +20,9 @@ const translations = {
     btnRefreshTitle:       'Auf Änderungen prüfen',
 
     // Navigation
-    navDashboard:          '📈 Dashboard',
-    navTransactions:       '💳 Transaktionen',
-    navCategories:         '🏷 Kategorien',
+    navDashboard:          'Dashboard',
+    navTransactions:       'Transaktionen',
+    navCategories:         'Kategorien',
 
     // Dashboard – Kacheln
     labelIncome:           'Einnahmen (Monat)',
@@ -153,9 +153,9 @@ const translations = {
     langToggleTitle:       'Cambiar a Deutsch',
     btnRefreshTitle:       'Buscar cambios',
 
-    navDashboard:          '📈 Panel',
-    navTransactions:       '💳 Transacciones',
-    navCategories:         '🏷 Categorías',
+    navDashboard:          'Panel',
+    navTransactions:       'Transacciones',
+    navCategories:         'Categorías',
 
     labelIncome:           'Ingresos (Mes)',
     labelExpense:          'Gastos (Mes)',

@@ -119,6 +119,9 @@ nav {
   box-shadow: var(--shadow);
 }
 nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.85rem 1.25rem;
   border: none;
   background: none;
@@ -131,6 +134,10 @@ nav button {
 }
 nav button.active            { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
 nav button:hover:not(.active){ color: var(--primary); background: var(--primary-light); }
+
+/* Icon / Label-Spans in der Navigation */
+.nav-icon  { font-size: 1rem; line-height: 1; flex-shrink: 0; }
+.nav-label { font-size: 0.88rem; }
 
 /* ── Main ───────────────────────────────────────────────────── */
 main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
@@ -440,7 +447,7 @@ nav button        { min-height: 44px; }
     padding-top:   max(0.75rem, env(safe-area-inset-top));
   }
 
-  /* Navigation: unten fixiert, besser mit dem Daumen erreichbar */
+  /* Navigation: unten fixiert – typische Smartphone-Bottom-Nav */
   nav {
     position: fixed;
     bottom: 0;
@@ -451,28 +458,37 @@ nav button        { min-height: 44px; }
     border-top: 1px solid var(--border);
     border-bottom: none;
     z-index: 200;
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.1);
+    align-items: stretch;
+    min-height: 60px;
   }
   nav button {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.15rem;
-    padding: 0.55rem 0.25rem;
-    font-size: 0.6rem;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.5rem 0.25rem;
     border-bottom: none;
     border-top: 3px solid transparent;
+    min-height: unset;
   }
   nav button.active {
+    color: var(--primary);
     border-bottom-color: transparent;
     border-top-color: var(--primary);
   }
+  nav button:hover:not(.active) {
+    background: var(--primary-light);
+  }
+  .nav-icon  { font-size: 1.4rem; line-height: 1; }
+  .nav-label { font-size: 0.68rem; font-weight: 500; white-space: nowrap; }
 
   /* Platz unten für fixierte Navigation + Safe Area */
   main {
     padding: 1rem 0.75rem;
-    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(60px + env(safe-area-inset-bottom) + 0.75rem);
   }
 
   /* Summary: 3 nebeneinander aber kompakter */
@@ -510,12 +526,16 @@ nav button        { min-height: 44px; }
     padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
   }
 
-  /* + Button im Bottom-Nav */
+  /* + Button im Bottom-Nav: leicht angehoben, klar erkennbar */
   .nav-add-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 1.7rem;
-    box-shadow: 0 4px 14px rgba(79,70,229,0.5);
+    width: 54px;
+    height: 54px;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 16px rgba(79,70,229,0.55);
+    align-self: center;
+    flex-shrink: 0;
+    flex: 0 0 auto;
   }
 
   /* Header kompakt */

@@ -41,10 +41,19 @@
 </header>
 
 <nav>
-  <button class="active" onclick="showTab('dashboard',this)"    data-i18n="navDashboard">&#128200; Dashboard</button>
-  <button onclick="showTab('transactions',this)"                 data-i18n="navTransactions">&#128179; Transaktionen</button>
-  <button class="nav-add-btn" onclick="openAddTxModal()"        title="Neue Transaktion">&#43;</button>
-  <button onclick="showTab('categories',this)"                   data-i18n="navCategories">&#127991; Kategorien</button>
+  <button class="active" onclick="showTab('dashboard',this)">
+    <span class="nav-icon">&#128200;</span>
+    <span class="nav-label" data-i18n="navDashboard">Dashboard</span>
+  </button>
+  <button onclick="showTab('transactions',this)">
+    <span class="nav-icon">&#128179;</span>
+    <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
+  </button>
+  <button class="nav-add-btn" onclick="openAddTxModal()" title="Neue Transaktion">&#43;</button>
+  <button onclick="showTab('categories',this)">
+    <span class="nav-icon">&#127991;</span>
+    <span class="nav-label" data-i18n="navCategories">Kategorien</span>
+  </button>
 </nav>
 
 <main>
