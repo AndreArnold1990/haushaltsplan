@@ -1,5 +1,5 @@
-# Repo ist privat – config.json kann eingecheckt werden
-# config.json
+# Sensible Konfiguration – NICHT einchecken
+config.json
 
 # Claude-interne Dateien
 .claude/
