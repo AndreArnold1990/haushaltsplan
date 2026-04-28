@@ -122,6 +122,9 @@ const translations = {
     fileNotFoundMsg:       'Keine Datendatei in Google Drive gefunden.\nNeue Datei anlegen?',
     conflictMsg:           'Die Datei in Drive wurde von jemand anderem geändert.\n\nOK = Meine Version speichern\nAbbrechen = Drive-Version laden',
     ownExpenses:           '💰 Eigene Ausgaben',
+    sharedExpenses:        '🤝 Gemeinsame Ausgaben',
+    labelSharedExpense:    'Ausgaben (Monat)',
+    sharedPerPerson:       n => `÷ ${n} Personen = je `,
     toastNotYourTx:        'Nur eigene Transaktionen können gelöscht werden.',
     sectionTxList:         'Meine Transaktionen',
 
@@ -231,6 +234,9 @@ const translations = {
     fileNotFoundMsg:       'No se encontró archivo de datos en Google Drive.\n¿Crear un nuevo archivo?',
     conflictMsg:           'El archivo en Drive fue modificado por otra persona.\n\nAceptar = Guardar mi versión\nCancelar = Cargar versión de Drive',
     ownExpenses:           '💰 Mis gastos',
+    sharedExpenses:        '🤝 Gastos compartidos',
+    labelSharedExpense:    'Gastos (Mes)',
+    sharedPerPerson:       n => `÷ ${n} personas = `,
     toastNotYourTx:        'Solo puedes eliminar tus propias transacciones.',
     sectionTxList:         'Mis transacciones',
 

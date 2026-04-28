@@ -4,7 +4,7 @@
  */
 
 import { config }                    from './config.js';
-import { appData, currentUser }      from './store.js';
+import { appData }                   from './store.js';
 import { t }                         from './i18n.js';
 import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, getCat } from './utils.js';
 
@@ -33,32 +33,33 @@ export function renderDashboard() {
 
   _renderCategoryChart(txs);
   _renderHistoryChart();
-  _renderPersonalSummary(txs);
+  _renderSharedSummary(txs);
 }
 
 /**
- * Rendert die "Eigene Ausgaben"-Sektion gefiltert nach currentUser.sub.
+ * Rendert die "Gemeinsame Ausgaben"-Sektion:
+ * Summe aller Transaktionen mit splitType 'shared' und Typ 'expense' im aktuellen Monat.
  * @param {Array} allTxs - Alle Transaktionen des aktuellen Monats
  * @package
  */
-function _renderPersonalSummary(allTxs) {
-  const card = document.getElementById('personalSummaryCard');
+function _renderSharedSummary(allTxs) {
+  const card = document.getElementById('sharedSummaryCard');
   if (!card) return;
 
-  const sub = currentUser?.sub;
-  if (!sub) { card.style.display = 'none'; return; }
+  const sharedExpenses = allTxs.filter(tx => tx.splitType === 'shared' && !isIncome(tx));
 
-  const myTxs = allTxs.filter(tx => tx.createdBy?.sub === sub);
-  let inc = 0, exp = 0;
-  myTxs.forEach(tx => { if (isIncome(tx)) inc += tx.amount; else exp += tx.amount; });
-  const bal = inc - exp;
+  if (!sharedExpenses.length) {
+    card.style.display = 'none';
+    return;
+  }
 
-  document.getElementById('myIncome').textContent  = fmt(inc);
-  document.getElementById('myExpense').textContent = fmt(exp);
+  const total      = sharedExpenses.reduce((sum, tx) => sum + tx.amount, 0);
+  const perPerson  = config.sharedPersonCount || 2;
+  const share      = Math.round((total / perPerson) * 100) / 100;
 
-  const balEl = document.getElementById('myBalance');
-  balEl.textContent = fmt(bal);
-  balEl.style.color = bal >= 0 ? 'var(--income)' : 'var(--expense)';
+  document.getElementById('sharedExpenseTotal').textContent = fmt(total);
+  document.getElementById('sharedExpensePerPerson').textContent =
+    t('sharedPerPerson', perPerson) + fmt(share);
 
   card.style.display = 'block';
 }

@@ -366,6 +366,18 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   grid-column: 1 / -1;
 }
 
+/* ── Gemeinsame Ausgaben – Dashboard-Kachel ─────────────────── */
+.summary-grid--single {
+  grid-template-columns: 1fr;
+  max-width: 280px;
+}
+.shared-per-person {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+  font-weight: 500;
+}
+
 /* ── Geteilt-Badge in Meine Transaktionen ───────────────────── */
 .cat-badge--shared {
   background: #e0e7ff;
