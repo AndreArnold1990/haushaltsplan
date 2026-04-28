@@ -363,6 +363,21 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   grid-column: 1 / -1;
 }
 
+/* ── Geteilt-Badge in Meine Transaktionen ───────────────────── */
+.cat-badge--shared {
+  background: #e0e7ff;
+  color: #4f46e5;
+  margin-left: 0.3rem;
+  font-size: 0.72rem;
+}
+
+.tx-row--shared {
+  background: #f8f7ff;
+}
+.tx-row--shared:hover {
+  background: #f0eeff;
+}
+
 /* ── iOS Zoom-Prävention: Inputs müssen ≥ 16px haben ─────────── */
 .form-group input,
 .form-group select,

@@ -127,6 +127,7 @@ const translations = {
     emptySharedTx:         'Keine gemeinsamen Transaktionen für diesen Monat.',
     thPaidBy:              'Bezahlt von',
     labelMe:               'Du',
+    badgeShared:           '🤝 Geteilt',
   },
 
   es: {
@@ -229,6 +230,7 @@ const translations = {
     emptySharedTx:         'No hay gastos compartidos este mes.',
     thPaidBy:              'Pagado por',
     labelMe:               'Tú',
+    badgeShared:           '🤝 Compartido',
   },
 };
 

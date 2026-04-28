@@ -79,12 +79,16 @@ export function populateCategorySelect() {
  * Zeigt nur eigene, persönliche Transaktionen (splitType 'personal' oder leer).
  */
 export function renderTransactionTable() {
-  const m   = document.getElementById('txMonthFilter').value;
-  const sub = currentUser?.sub;
+  const m          = document.getElementById('txMonthFilter').value;
+  const sub        = currentUser?.sub;
+  const perPerson  = config.sharedPersonCount || 2;
+
   const txs = txsForMonth(m)
     .filter(tx => {
       const isPersonal = !tx.splitType || tx.splitType === 'personal';
-      return isPersonal && (!sub || tx.createdBy?.sub === sub);
+      const isShared   = tx.splitType === 'shared';
+      // eigene persönliche ODER alle geteilten (betreffen jeden)
+      return (isPersonal && (!sub || tx.createdBy?.sub === sub)) || isShared;
     })
     .sort((a, b) => b.date.localeCompare(a.date));
 
@@ -96,19 +100,43 @@ export function renderTransactionTable() {
   }
 
   const rows = txs.map(tx => {
-    const cat = getCat(tx.categoryId);
-    const inc = isIncome(tx);
-    const badge = cat
+    const cat      = getCat(tx.categoryId);
+    const inc      = isIncome(tx);
+    const isShared = tx.splitType === 'shared';
+    const isOwn    = !sub || tx.createdBy?.sub === sub;
+
+    // Betrag: bei geteilten Transaktionen den eigenen Anteil anzeigen
+    const displayAmt = isShared
+      ? Math.round((tx.amount / perPerson) * 100) / 100
+      : tx.amount;
+
+    const amtCell = isShared
+      ? `<td class="${inc ? 'amount-income' : 'amount-expense'}">
+           ${inc ? '+' : '-'}${fmt(displayAmt)}
+           <span class="split-label">(${fmt(tx.amount)} total)</span>
+         </td>`
+      : `<td class="${inc ? 'amount-income' : 'amount-expense'}">${inc ? '+' : '-'}${fmt(tx.amount)}</td>`;
+
+    const catBadge = cat
       ? `<span class="cat-badge" style="background:${cat.color}22;color:${cat.color}">
            <span class="cat-dot" style="background:${cat.color}"></span>${escHtml(cat.name)}
          </span>`
       : '&mdash;';
-    return `<tr>
+
+    const sharedBadge = isShared
+      ? `<span class="cat-badge cat-badge--shared">${t('badgeShared')}</span>`
+      : '';
+
+    const deleteBtn = isOwn
+      ? `<button class="btn btn-danger btn-sm" onclick="deleteTransaction('${tx.id}')">${t('btnDelete')}</button>`
+      : '';
+
+    return `<tr${isShared ? ' class="tx-row--shared"' : ''}>
       <td>${fmtDate(tx.date)}</td>
       <td>${escHtml(tx.description)}</td>
-      <td>${badge}</td>
-      <td class="${inc ? 'amount-income' : 'amount-expense'}">${inc ? '+' : '-'}${fmt(tx.amount)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteTransaction('${tx.id}')">${t('btnDelete')}</button></td>
+      <td>${catBadge}${sharedBadge}</td>
+      ${amtCell}
+      <td>${deleteBtn}</td>
     </tr>`;
   }).join('');
 
