@@ -366,16 +366,29 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   grid-column: 1 / -1;
 }
 
-/* ── Gemeinsame Ausgaben – Dashboard-Kachel ─────────────────── */
-.summary-grid--single {
-  grid-template-columns: 1fr;
-  max-width: 280px;
+/* ── Gemeinsame Ausgaben – Bilanz-Anzeige ───────────────────── */
+.balance-display {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
 }
-.shared-per-person {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  margin-top: 0.35rem;
-  font-weight: 500;
+.balance-positive {
+  background: var(--income-light);
+  color: var(--income);
+}
+.balance-negative {
+  background: var(--expense-light);
+  color: var(--expense);
+}
+.balance-settled {
+  color: var(--income);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
 }
 
 /* ── Geteilt-Badge in Meine Transaktionen ───────────────────── */

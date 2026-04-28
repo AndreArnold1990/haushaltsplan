@@ -28,7 +28,7 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
  * @property {string}               categoryId  - Referenz auf {@link Category.id}
  * @property {string}               description - Freitext-Beschreibung
  * @property {TxOwner}              [createdBy]   - Google-sub des Erstellers (fehlt bei Altdaten)
- * @property {'personal'|'shared'}  [splitType]   - Zahlungstyp: nur ich (default) oder geteilt
+ * @property {'personal'|'shared'|'settlement'} [splitType] - Zahlungstyp: persönlich, geteilt oder Ausgleich
  * @property {string}               [paidByName]  - Anzeigename des Zahlers (nur bei splitType 'shared')
  */
 

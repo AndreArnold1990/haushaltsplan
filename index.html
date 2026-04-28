@@ -85,16 +85,13 @@
         <div style="position:relative;height:290px"><canvas id="historyChart"></canvas></div>
       </div>
     </div>
-    <!-- Gemeinsame Ausgaben (sichtbar sobald Daten geladen) -->
+    <!-- Gemeinsame Ausgaben + Bilanz -->
     <div class="card mt-15" id="sharedSummaryCard" style="display:none">
-      <div class="section-title" data-i18n="sharedExpenses">&#129309; Gemeinsame Ausgaben</div>
-      <div class="summary-grid summary-grid--single">
-        <div class="summary-card expense">
-          <div class="label" data-i18n="labelSharedExpense">Ausgaben (Monat)</div>
-          <div class="amount" id="sharedExpenseTotal">...</div>
-          <div class="shared-per-person" id="sharedExpensePerPerson"></div>
-        </div>
+      <div class="table-header" style="margin-bottom:1rem">
+        <div class="section-title" style="margin-bottom:0" data-i18n="sharedExpenses">&#129309; Gemeinsame Ausgaben</div>
+        <button class="btn btn-primary btn-sm" id="btnSettle" onclick="openSettlementModal()" style="display:none" data-i18n="btnSettle">Ausgleichen</button>
       </div>
+      <div id="sharedBalanceDisplay"></div>
     </div>
     </div><!-- /dashboardContent -->
   </div>
@@ -229,6 +226,27 @@
     <div class="modal-actions">
       <button class="btn btn-primary" onclick="saveEditCat()" data-i18n="btnSave">&#10003; Speichern</button>
       <button class="btn btn-secondary" onclick="closeEditCatModal()" data-i18n="btnCancel">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETTLEMENT MODAL ══ -->
+<div id="settlementModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeSettlementModal()">
+  <div class="modal-box">
+    <div class="modal-title" data-i18n="modalSettleTitle">&#128184; Ausgleich erfassen</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label data-i18n="labelDate">Datum</label>
+        <input type="date" id="settlementDate">
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelAmount">Betrag (&#8364;)</label>
+        <input type="number" id="settlementAmount" min="0.01" step="0.01">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveSettlement()" data-i18n="btnConfirmSettle">&#10003; Ausgleich best&#228;tigen</button>
+      <button class="btn btn-secondary" onclick="closeSettlementModal()" data-i18n="btnCancel">Abbrechen</button>
     </div>
   </div>
 </div>

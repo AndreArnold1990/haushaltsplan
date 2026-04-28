@@ -137,6 +137,15 @@ const translations = {
     thPaidBy:              'Bezahlt von',
     labelMe:               'Du',
     badgeShared:           '🤝 Geteilt',
+
+    // Ausgleich / Balance
+    btnSettle:             'Ausgleichen',
+    modalSettleTitle:      '💸 Ausgleich erfassen',
+    btnConfirmSettle:      '✓ Ausgleich bestätigen',
+    toastSettlementSaved:  'Ausgleich gespeichert ✓',
+    balanceOwesMe:         (name, amt) => `${name} schuldet dir ${amt}`,
+    balanceIOwe:           amt => `Du schuldest ${amt}`,
+    balanceSettled:        '✓ Alles ausgeglichen',
   },
 
   es: {
@@ -249,6 +258,15 @@ const translations = {
     thPaidBy:              'Pagado por',
     labelMe:               'Tú',
     badgeShared:           '🤝 Compartido',
+
+    // Liquidación / Balance
+    btnSettle:             'Liquidar',
+    modalSettleTitle:      '💸 Registrar liquidación',
+    btnConfirmSettle:      '✓ Confirmar liquidación',
+    toastSettlementSaved:  'Liquidación guardada ✓',
+    balanceOwesMe:         (name, amt) => `${name} te debe ${amt}`,
+    balanceIOwe:           amt => `Debes ${amt}`,
+    balanceSettled:        '✓ Todo saldado',
   },
 };
 

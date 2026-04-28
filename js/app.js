@@ -14,7 +14,8 @@
 import { loadConfig, config }                           from './config.js';
 import { loadData, saveData, setOnSaveCallback,
          setAppData, appData, setCurrentUser }          from './store.js';
-import { renderDashboard }                              from './dashboard.js';
+import { renderDashboard, openSettlementModal,
+         closeSettlementModal, saveSettlement }         from './dashboard.js';
 import { renderTransactions, populateCategorySelect,
          renderTransactionTable, renderSharedTransactionTable,
          addTransaction, deleteTransaction }            from './transactions.js';
@@ -192,3 +193,6 @@ window.modalOverlayClick      = modalOverlayClick;
 window.openEditCatModal       = openEditCatModal;
 window.saveEditCat            = saveEditCat;
 window.closeEditCatModal      = closeEditCatModal;
+window.openSettlementModal    = openSettlementModal;
+window.closeSettlementModal   = closeSettlementModal;
+window.saveSettlement         = saveSettlement;

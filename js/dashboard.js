@@ -1,17 +1,20 @@
 /**
  * @module dashboard
- * Rendert das Dashboard: Monats-Zusammenfassung, Kategorie-Donut-Chart und Verlauf-Balkendiagramm.
+ * Rendert das Dashboard: Monats-Zusammenfassung, Kategorie-Donut-Chart,
+ * Verlauf-Balkendiagramm und Gemeinsame-Ausgaben-Bilanz.
  */
 
-import { config }                    from './config.js';
-import { appData }                   from './store.js';
-import { t }                         from './i18n.js';
+import { config }                        from './config.js';
+import { appData, saveData, currentUser } from './store.js';
+import { t }                    from './i18n.js';
 import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, getCat } from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
 /** @type {import('chart.js').Chart|null} */
 let chartHistory  = null;
+
+// ── Öffentliche API ───────────────────────────────────────────────────────────
 
 /**
  * Rendert das gesamte Dashboard.
@@ -21,7 +24,7 @@ export function renderDashboard() {
   const txs = txsForMonth(m);
 
   let inc = 0, exp = 0;
-  txs.forEach(t => { if (isIncome(t)) inc += t.amount; else exp += t.amount; });
+  txs.forEach(tx => { if (isIncome(tx)) inc += tx.amount; else exp += tx.amount; });
   const bal = inc - exp;
 
   document.getElementById('monthIncome').textContent  = fmt(inc);
@@ -33,35 +36,154 @@ export function renderDashboard() {
 
   _renderCategoryChart(txs);
   _renderHistoryChart();
-  _renderSharedSummary(txs);
+  _renderSharedSummary();
 }
 
 /**
- * Rendert die "Gemeinsame Ausgaben"-Sektion:
- * Summe aller Transaktionen mit splitType 'shared' und Typ 'expense' im aktuellen Monat.
- * @param {Array} allTxs - Alle Transaktionen des aktuellen Monats
+ * Berechnet die Netto-Bilanz aller geteilten Transaktionen + Ausgleiche
+ * über ALLE Monate (Schulden laufen monatsübergreifend).
+ *
+ * Positiv  → andere schulden mir Geld
+ * Negativ  → ich schulde anderen Geld
+ *
+ * @returns {number}
+ */
+export function calculateSharedBalance() {
+  const sub        = currentUser?.sub;
+  if (!sub) return 0;
+  const perPerson  = config.sharedPersonCount || 2;
+  let balance      = 0;
+
+  appData.transactions.forEach(tx => {
+    if (tx.splitType === 'shared' && !isIncome(tx)) {
+      const share = tx.amount / perPerson;
+      if (tx.createdBy?.sub === sub) {
+        balance += share;          // Ich habe gezahlt → andere schulden mir
+      } else {
+        balance -= share;          // Andere haben gezahlt → ich schulde
+      }
+    } else if (tx.splitType === 'settlement') {
+      if (tx.createdBy?.sub === sub) {
+        balance += tx.amount;      // Ich habe ausgeglichen → meine Schuld sinkt
+      } else {
+        balance -= tx.amount;      // Andere haben ausgeglichen → ihre Schuld sinkt
+      }
+    }
+  });
+
+  return Math.round(balance * 100) / 100;
+}
+
+/**
+ * Öffnet das Settlement-Modal vorausgefüllt mit dem offenen Betrag.
+ */
+export function openSettlementModal() {
+  const balance = calculateSharedBalance();
+  const amount  = Math.abs(balance);
+  document.getElementById('settlementDate').value   = new Date().toISOString().split('T')[0];
+  document.getElementById('settlementAmount').value = amount.toFixed(2);
+  document.getElementById('settlementModal').style.display = 'flex';
+}
+
+/**
+ * Schließt das Settlement-Modal.
+ */
+export function closeSettlementModal() {
+  document.getElementById('settlementModal').style.display = 'none';
+}
+
+/**
+ * Speichert einen Ausgleich als Settlement-Transaktion.
+ */
+export function saveSettlement() {
+  const date   = document.getElementById('settlementDate').value;
+  const amount = parseFloat(document.getElementById('settlementAmount').value);
+  const sub    = currentUser?.sub;
+
+  if (!date || !amount || amount <= 0 || !sub) return;
+
+  appData.transactions.push({
+    id:          'tx_' + Date.now(),
+    date,
+    amount:      Math.round(amount * 100) / 100,
+    categoryId:  '',
+    description: t('btnSettle'),
+    createdBy:   { sub },
+    splitType:   'settlement',
+  });
+
+  saveData();
+  closeSettlementModal();
+  renderDashboard();
+
+  // Toast
+  const toast = document.getElementById('toast');
+  if (toast) {
+    toast.textContent = t('toastSettlementSaved');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+}
+
+// ── Interne Hilfsmittel ───────────────────────────────────────────────────────
+
+/**
+ * Gibt den Anzeigenamen der anderen Person zurück
+ * (aus paidByName einer fremden shared-Transaktion).
+ * @returns {string|null}
+ */
+function _getOtherPersonName() {
+  const sub = currentUser?.sub;
+  if (!sub) return null;
+  const tx = appData.transactions.find(
+    tx => tx.splitType === 'shared' && tx.createdBy?.sub !== sub && tx.paidByName
+  );
+  return tx?.paidByName || null;
+}
+
+/**
+ * Rendert die "Gemeinsame Ausgaben"-Karte mit Netto-Bilanz.
  * @package
  */
-function _renderSharedSummary(allTxs) {
+function _renderSharedSummary() {
   const card = document.getElementById('sharedSummaryCard');
   if (!card) return;
 
-  const sharedExpenses = allTxs.filter(tx => tx.splitType === 'shared' && !isIncome(tx));
+  const hasShared = appData.transactions.some(
+    tx => tx.splitType === 'shared' || tx.splitType === 'settlement'
+  );
+  if (!hasShared) { card.style.display = 'none'; return; }
 
-  if (!sharedExpenses.length) {
-    card.style.display = 'none';
+  const balance     = calculateSharedBalance();
+  const absBalance  = Math.abs(balance);
+  const settleBtn   = document.getElementById('btnSettle');
+  const display     = document.getElementById('sharedBalanceDisplay');
+
+  card.style.display = 'block';
+
+  if (Math.abs(balance) < 0.01) {
+    // Ausgeglichen
+    display.innerHTML = `<div class="balance-settled">${t('balanceSettled')}</div>`;
+    if (settleBtn) settleBtn.style.display = 'none';
     return;
   }
 
-  const total      = sharedExpenses.reduce((sum, tx) => sum + tx.amount, 0);
-  const perPerson  = config.sharedPersonCount || 2;
-  const share      = Math.round((total / perPerson) * 100) / 100;
-
-  document.getElementById('sharedExpenseTotal').textContent = fmt(total);
-  document.getElementById('sharedExpensePerPerson').textContent =
-    t('sharedPerPerson', perPerson) + fmt(share);
-
-  card.style.display = 'block';
+  if (balance > 0) {
+    // Andere schulden mir
+    const otherName = _getOtherPersonName() || 'Die andere Person';
+    display.innerHTML = `
+      <div class="balance-display balance-positive">
+        <span class="balance-label">${t('balanceOwesMe', otherName, fmt(absBalance))}</span>
+      </div>`;
+    if (settleBtn) settleBtn.style.display = 'none';
+  } else {
+    // Ich schulde
+    display.innerHTML = `
+      <div class="balance-display balance-negative">
+        <span class="balance-label">${t('balanceIOwe', fmt(absBalance))}</span>
+      </div>`;
+    if (settleBtn) settleBtn.style.display = 'inline-flex';
+  }
 }
 
 /**
@@ -73,7 +195,7 @@ function _renderCategoryChart(txs) {
   if (chartCategory) { chartCategory.destroy(); chartCategory = null; }
 
   const totals = {};
-  txs.filter(tx => !isIncome(tx))
+  txs.filter(tx => !isIncome(tx) && tx.splitType !== 'settlement')
      .forEach(tx => { totals[tx.categoryId] = (totals[tx.categoryId] || 0) + tx.amount; });
 
   const labels = [], values = [], colors = [];
@@ -114,7 +236,10 @@ function _renderHistoryChart() {
   const incData = [], expData = [];
   months.forEach(m => {
     let inc = 0, exp = 0;
-    txsForMonth(m).forEach(tx => { if (isIncome(tx)) inc += tx.amount; else exp += tx.amount; });
+    txsForMonth(m).forEach(tx => {
+      if (tx.splitType === 'settlement') return;
+      if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
+    });
     incData.push(inc);
     expData.push(exp);
   });
@@ -124,7 +249,7 @@ function _renderHistoryChart() {
     data: {
       labels:   months.map(monthLabel),
       datasets: [
-        { label: t('datasetIncome'), data: incData, backgroundColor: 'rgba(16,185,129,0.2)', borderColor: '#10b981', borderWidth: 2, borderRadius: 6, borderSkipped: false },
+        { label: t('datasetIncome'),  data: incData, backgroundColor: 'rgba(16,185,129,0.2)', borderColor: '#10b981', borderWidth: 2, borderRadius: 6, borderSkipped: false },
         { label: t('datasetExpense'), data: expData, backgroundColor: 'rgba(239,68,68,0.2)',  borderColor: '#ef4444', borderWidth: 2, borderRadius: 6, borderSkipped: false },
       ],
     },
