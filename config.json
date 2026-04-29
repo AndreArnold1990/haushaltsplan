@@ -1,0 +1,14 @@
+{
+  "googleClientId":   "1004681328548-5shuj7kik1mlkdvuiqdc08obcn17hetm.apps.googleusercontent.com",
+
+  "locale":           "de-DE",
+  "currency":         "EUR",
+
+  "historyMonths":    6,
+  "syncDebounceMs":   1500,
+
+  "driveFolderName":  "Haushaltsplan",
+  "data":             "haushaltsplan.json",
+
+  "sharedPersonCount": 2
+}
