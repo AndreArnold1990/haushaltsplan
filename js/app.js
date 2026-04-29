@@ -21,8 +21,8 @@ import { renderTransactions, populateCategorySelect,
          addTransaction, deleteTransaction }            from './transactions.js';
 import { renderCategories, addCategory, deleteCategory,
          confirmDeleteCategory, closeModal, modalOverlayClick,
-         openEditCatModal, saveEditCat,
-         closeEditCatModal }                            from './categories.js';
+         openEditCatModal, saveEditCat, closeEditCatModal,
+         deleteFromEditModal }                          from './categories.js';
 import { openAddTxModal, closeAddTxModal }               from './transactions.js';
 import { setAuthUI, setSyncUI, showTab }                from './ui.js';
 import { t, setLanguage, setLangChangeCallback,
@@ -193,6 +193,7 @@ window.modalOverlayClick      = modalOverlayClick;
 window.openEditCatModal       = openEditCatModal;
 window.saveEditCat            = saveEditCat;
 window.closeEditCatModal      = closeEditCatModal;
+window.deleteFromEditModal    = deleteFromEditModal;
 window.openSettlementModal    = openSettlementModal;
 window.closeSettlementModal   = closeSettlementModal;
 window.saveSettlement         = saveSettlement;

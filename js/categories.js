@@ -29,15 +29,12 @@ function _renderCategoryList(type, container) {
     return;
   }
   container.innerHTML = cats.map(c => {
-    return `<div class="category-item">
+    return `<div class="category-item category-item--clickable" onclick="openEditCatModal('${c.id}')">
       <div class="category-item-left">
         <div class="color-swatch" style="background:${c.color}"></div>
         <span class="cat-name">${escHtml(c.name)}</span>
       </div>
-      <div class="category-item-actions">
-        <button class="btn btn-edit btn-sm" onclick="openEditCatModal('${c.id}')">${t('btnEdit')}</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">${t('btnDelete')}</button>
-      </div>
+      <span class="category-item-chevron">›</span>
     </div>`;
   }).join('');
 }
@@ -116,6 +113,16 @@ export function saveEditCat() {
 export function closeEditCatModal() {
   document.getElementById('editCatModal').style.display = 'none';
   _editCatId = null;
+}
+
+/**
+ * Löschen aus dem Edit-Modal heraus:
+ * Modal schließen, dann normalen Lösch-Flow starten.
+ */
+export function deleteFromEditModal() {
+  const id = _editCatId;
+  closeEditCatModal();
+  deleteCategory(id);
 }
 
 // ── Kategorie löschen ─────────────────────────────────────────────────────────
