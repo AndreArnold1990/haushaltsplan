@@ -29,12 +29,10 @@ function _renderCategoryList(type, container) {
     return;
   }
   container.innerHTML = cats.map(c => {
-    const usage = appData.transactions.filter(tx => tx.categoryId === c.id).length;
     return `<div class="category-item">
       <div class="category-item-left">
         <div class="color-swatch" style="background:${c.color}"></div>
         <span class="cat-name">${escHtml(c.name)}</span>
-        <span class="cat-usage">(${usage} ${t('catEntries')})</span>
       </div>
       <div class="category-item-actions">
         <button class="btn btn-edit btn-sm" onclick="openEditCatModal('${c.id}')">${t('btnEdit')}</button>
