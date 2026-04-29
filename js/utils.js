@@ -5,8 +5,8 @@
  */
 
 import { config }         from './config.js';
-import { appData }        from './store.js';
-import { getUiLocale }    from './i18n.js';
+import { appData, currentUser } from './store.js';
+import { getUiLocale, t }       from './i18n.js';
 
 // ── Formatierung ──────────────────────────────────────────────────────────────
 
@@ -106,6 +106,31 @@ export function isIncome(t) {
  */
 export function txsForMonth(m) {
   return appData.transactions.filter(t => t.date.startsWith(m));
+}
+
+/**
+ * Gibt den Vornamen einer Person anhand ihrer Google-sub zurück.
+ * Fallback: übersetztes 'partnerFallback'.
+ *
+ * @param {string|null} sub
+ * @returns {string}
+ */
+export function getPersonName(sub) {
+  if (!sub) return t('partnerFallback');
+  return appData.users?.[sub]?.firstName || t('partnerFallback');
+}
+
+/**
+ * Gibt den anderen Nutzer (nicht der aktuell eingeloggte) zurück.
+ * Da immer genau zwei Personen an der App arbeiten, ist das eindeutig.
+ *
+ * @returns {{ sub: string, firstName: string, picture: string|null }|null}
+ */
+export function getOtherUser() {
+  const sub = currentUser?.sub;
+  if (!appData.users) return null;
+  const entry = Object.entries(appData.users).find(([s]) => s !== sub);
+  return entry ? { sub: entry[0], ...entry[1] } : null;
 }
 
 // ── DOM-Hilfsmittel ───────────────────────────────────────────────────────────

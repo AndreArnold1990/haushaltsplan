@@ -89,14 +89,32 @@ function _renderAll() {
 }
 
 function _onDataLoadedFromDrive(data) {
+  // Sicherstellen dass users-Objekt immer vorhanden ist (Rückwärtskompatibilität)
+  if (!data.users) data.users = {};
   setAppData(data);
   const user = Drive.getUser();
   if (user) {
     setCurrentUser(user);
     _migrateUnknownTransactions(user);
+    _updateUserProfile(user);
   }
   _showSignInHint(false);
   _renderAll();
+}
+
+/**
+ * Speichert Vorname + Profilbild des aktuellen Nutzers in appData.users.
+ * Wird nur gespeichert wenn sich etwas geändert hat.
+ * @param {{ sub: string, given_name?: string, name?: string, email?: string, picture?: string }} user
+ */
+function _updateUserProfile(user) {
+  if (!user?.sub) return;
+  const firstName = user.given_name || user.name?.split(' ')[0] || user.email || '?';
+  const picture   = user.picture || null;
+  const existing  = appData.users[user.sub];
+  if (existing?.firstName === firstName && existing?.picture === picture) return;
+  appData.users[user.sub] = { firstName, picture };
+  saveData();
 }
 
 /**

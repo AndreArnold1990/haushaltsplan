@@ -129,14 +129,21 @@ const translations = {
     sectionTxList:         'Meine Transaktionen',
 
     // Geteilte Transaktionen
-    labelSplitType:        'Wer zahlt?',
-    splitPersonal:         'Ich zahle – nur für mich',
-    splitShared:           'Ich habe gezahlt – geteilt durch alle',
+    labelSplitType:        'Wie wird gezahlt?',
+    splitPersonal:         'Du hast bezahlt, deine Ausgaben',
+    splitEqualMe:          'Du hast bezahlt, gleichmäßig aufteilen',
+    splitFullMe:           'Du bekommst den gesamten Betrag',
+    splitEqualOther:       name => `${name} hat bezahlt, gleichmäßig aufteilen`,
+    splitFullOther:        name => `${name} bekommt den gesamten Betrag`,
+    partnerFallback:       'Partner',
     sectionSharedTxList:   '🤝 Gemeinsame Transaktionen',
     emptySharedTx:         'Keine gemeinsamen Transaktionen für diesen Monat.',
     thPaidBy:              'Bezahlt von',
     labelMe:               'Du',
     badgeShared:           '🤝 Geteilt',
+    splitLabelTotal:       'gesamt',
+    splitLabelEach:        'p.P.',
+    splitLabelFull:        'voller Betrag',
 
     // Ausgleich / Balance
     btnSettle:             'Ausgleichen',
@@ -250,14 +257,21 @@ const translations = {
     sectionTxList:         'Mis transacciones',
 
     // Transacciones compartidas
-    labelSplitType:        '¿Quién paga?',
-    splitPersonal:         'Solo yo pago',
-    splitShared:           'Pago yo – dividido entre todos',
+    labelSplitType:        '¿Cómo se paga?',
+    splitPersonal:         'Tú pagas, solo para ti',
+    splitEqualMe:          'Tú pagas, a partes iguales',
+    splitFullMe:           'Recibes el importe completo',
+    splitEqualOther:       name => `${name} paga, a partes iguales`,
+    splitFullOther:        name => `${name} recibe el importe completo`,
+    partnerFallback:       'Pareja',
     sectionSharedTxList:   '🤝 Gastos compartidos',
     emptySharedTx:         'No hay gastos compartidos este mes.',
     thPaidBy:              'Pagado por',
     labelMe:               'Tú',
     badgeShared:           '🤝 Compartido',
+    splitLabelTotal:       'total',
+    splitLabelEach:        'p.p.',
+    splitLabelFull:        'importe completo',
 
     // Liquidación / Balance
     btnSettle:             'Liquidar',

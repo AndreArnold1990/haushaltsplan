@@ -27,15 +27,19 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
  * @property {number}               amount      - Betrag in Euro (positiv, ohne Vorzeichen)
  * @property {string}               categoryId  - Referenz auf {@link Category.id}
  * @property {string}               description - Freitext-Beschreibung
- * @property {TxOwner}              [createdBy]   - Google-sub des Erstellers (fehlt bei Altdaten)
- * @property {'personal'|'shared'|'settlement'} [splitType] - Zahlungstyp: persönlich, geteilt oder Ausgleich
- * @property {string}               [paidByName]  - Anzeigename des Zahlers (nur bei splitType 'shared')
+ * @property {TxOwner}              [createdBy]  - Google-sub des Erstellers
+ * @property {'personal'|'equal'|'full'|'shared'|'settlement'} [splitType]
+ *   'personal' = nur für mich | 'equal' = 50/50 | 'full' = voller Betrag | 'shared' = legacy | 'settlement' = Ausgleich
+ * @property {string}               [paidBySub]  - sub desjenigen, der gezahlt hat
  */
 
 /**
+ * @typedef {{ firstName: string, picture: string|null }} UserProfile
+ *
  * @typedef {Object} AppData
- * @property {Category[]}    categories   - Alle definierten Kategorien
- * @property {Transaction[]} transactions - Alle eingetragenen Transaktionen
+ * @property {Category[]}              categories   - Alle definierten Kategorien
+ * @property {Transaction[]}           transactions - Alle eingetragenen Transaktionen
+ * @property {Object.<string,UserProfile>} users    - Nutzerprofile, Schlüssel = Google sub
  */
 
 /**
@@ -111,7 +115,7 @@ export const DEFAULT_DATA = {
  * d.h. sie sehen immer den aktuellen Wert, auch nach einem {@link setAppData}-Aufruf.
  * @type {AppData}
  */
-export let appData = { categories: [], transactions: [] };
+export let appData = { categories: [], transactions: [], users: {} };
 
 /**
  * Aktuell angemeldeter Google-Nutzer (wird von app.js nach dem Login gesetzt).
@@ -156,7 +160,7 @@ export function setAppData(data) {
  * Löscht zusätzlich eventuell noch vorhandene alte Cache-Daten aus localStorage.
  */
 export function loadData() {
-  appData = { categories: [], transactions: [] };
+  appData = { categories: [], transactions: [], users: {} };
   // Alte gecachte Daten aus früheren Versionen entfernen
   try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignorieren */ }
 }

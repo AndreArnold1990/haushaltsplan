@@ -6,8 +6,9 @@
 
 import { config }                        from './config.js';
 import { appData, saveData, currentUser } from './store.js';
-import { t }                    from './i18n.js';
-import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, getCat } from './utils.js';
+import { t }                              from './i18n.js';
+import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, getCat,
+         getPersonName, getOtherUser }    from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
@@ -49,24 +50,30 @@ export function renderDashboard() {
  * @returns {number}
  */
 export function calculateSharedBalance() {
-  const sub        = currentUser?.sub;
+  const sub = currentUser?.sub;
   if (!sub) return 0;
-  const perPerson  = config.sharedPersonCount || 2;
-  let balance      = 0;
+  let balance = 0;
 
   appData.transactions.forEach(tx => {
-    if (tx.splitType === 'shared' && !isIncome(tx)) {
-      const share = tx.amount / perPerson;
-      if (tx.createdBy?.sub === sub) {
-        balance += share;          // Ich habe gezahlt → andere schulden mir
-      } else {
-        balance -= share;          // Andere haben gezahlt → ich schulde
+    // Normalisiere legacy 'shared' → 'equal' mit paidBySub = createdBy.sub
+    const splitType = tx.splitType === 'shared' ? 'equal' : tx.splitType;
+    const paidBySub = tx.paidBySub || tx.createdBy?.sub;
+
+    if ((splitType === 'equal' || splitType === 'full') && !isIncome(tx)) {
+      const share = splitType === 'equal'
+        ? Math.round((tx.amount / 2) * 100) / 100
+        : tx.amount;
+
+      if (paidBySub === sub) {
+        balance += share;   // Ich habe gezahlt → andere schulden mir
+      } else if (paidBySub) {
+        balance -= share;   // Andere haben gezahlt → ich schulde
       }
-    } else if (tx.splitType === 'settlement') {
+    } else if (splitType === 'settlement') {
       if (tx.createdBy?.sub === sub) {
-        balance += tx.amount;      // Ich habe ausgeglichen → meine Schuld sinkt
+        balance += tx.amount;
       } else {
-        balance -= tx.amount;      // Andere haben ausgeglichen → ihre Schuld sinkt
+        balance -= tx.amount;
       }
     }
   });
@@ -128,17 +135,11 @@ export function saveSettlement() {
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
 
 /**
- * Gibt den Anzeigenamen der anderen Person zurück
- * (aus paidByName einer fremden shared-Transaktion).
- * @returns {string|null}
+ * Gibt den Vornamen der anderen Person zurück (aus appData.users).
+ * @returns {string}
  */
 function _getOtherPersonName() {
-  const sub = currentUser?.sub;
-  if (!sub) return null;
-  const tx = appData.transactions.find(
-    tx => tx.splitType === 'shared' && tx.createdBy?.sub !== sub && tx.paidByName
-  );
-  return tx?.paidByName || null;
+  return getOtherUser()?.firstName || t('partnerFallback');
 }
 
 /**
@@ -150,7 +151,7 @@ function _renderSharedSummary() {
   if (!card) return;
 
   const hasShared = appData.transactions.some(
-    tx => tx.splitType === 'shared' || tx.splitType === 'settlement'
+    tx => ['shared', 'equal', 'full', 'settlement'].includes(tx.splitType)
   );
   if (!hasShared) { card.style.display = 'none'; return; }
 
@@ -170,7 +171,7 @@ function _renderSharedSummary() {
 
   if (balance > 0) {
     // Andere schulden mir
-    const otherName = _getOtherPersonName() || 'Die andere Person';
+    const otherName = _getOtherPersonName();
     display.innerHTML = `
       <div class="balance-display balance-positive">
         <span class="balance-label">${t('balanceOwesMe', otherName, fmt(absBalance))}</span>
