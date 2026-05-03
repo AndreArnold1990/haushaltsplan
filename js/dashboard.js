@@ -8,7 +8,7 @@ import { config }                        from './config.js';
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
 import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, getCat,
-         getPersonName, getOtherUser }    from './utils.js';
+         getPersonName, getOtherUser, toast, safeColor } from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
@@ -89,14 +89,14 @@ export function openSettlementModal() {
   const amount  = Math.abs(balance);
   document.getElementById('settlementDate').value   = new Date().toISOString().split('T')[0];
   document.getElementById('settlementAmount').value = amount.toFixed(2);
-  document.getElementById('settlementModal').style.display = 'flex';
+  document.getElementById('settlementModal').classList.add('is-open');
 }
 
 /**
  * Schließt das Settlement-Modal.
  */
 export function closeSettlementModal() {
-  document.getElementById('settlementModal').style.display = 'none';
+  document.getElementById('settlementModal').classList.remove('is-open');
 }
 
 /**
@@ -122,14 +122,7 @@ export function saveSettlement() {
   saveData();
   closeSettlementModal();
   renderDashboard();
-
-  // Toast
-  const toast = document.getElementById('toast');
-  if (toast) {
-    toast.textContent = t('toastSettlementSaved');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2800);
-  }
+  toast(t('toastSettlementSaved'));
 }
 
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
@@ -153,19 +146,19 @@ function _renderSharedSummary() {
   const hasShared = appData.transactions.some(
     tx => ['shared', 'equal', 'full', 'settlement'].includes(tx.splitType)
   );
-  if (!hasShared) { card.style.display = 'none'; return; }
+  if (!hasShared) { card.classList.remove('is-visible'); return; }
 
   const balance     = calculateSharedBalance();
   const absBalance  = Math.abs(balance);
   const settleBtn   = document.getElementById('btnSettle');
   const display     = document.getElementById('sharedBalanceDisplay');
 
-  card.style.display = 'block';
+  card.classList.add('is-visible');
 
   if (Math.abs(balance) < 0.01) {
     // Ausgeglichen
     display.innerHTML = `<div class="balance-settled">${t('balanceSettled')}</div>`;
-    if (settleBtn) settleBtn.style.display = 'none';
+    settleBtn?.classList.remove('is-visible');
     return;
   }
 
@@ -176,14 +169,14 @@ function _renderSharedSummary() {
       <div class="balance-display balance-positive">
         <span class="balance-label">${t('balanceOwesMe', otherName, fmt(absBalance))}</span>
       </div>`;
-    if (settleBtn) settleBtn.style.display = 'none';
+    settleBtn?.classList.remove('is-visible');
   } else {
     // Ich schulde
     display.innerHTML = `
       <div class="balance-display balance-negative">
         <span class="balance-label">${t('balanceIOwe', fmt(absBalance))}</span>
       </div>`;
-    if (settleBtn) settleBtn.style.display = 'inline-flex';
+    settleBtn?.classList.add('is-visible');
   }
 }
 
@@ -202,7 +195,7 @@ function _renderCategoryChart(txs) {
   const labels = [], values = [], colors = [];
   Object.entries(totals).forEach(([id, v]) => {
     const c = getCat(id);
-    if (c) { labels.push(c.name); values.push(v); colors.push(c.color); }
+    if (c) { labels.push(c.name); values.push(v); colors.push(safeColor(c.color)); }
   });
   if (!values.length) return;
 

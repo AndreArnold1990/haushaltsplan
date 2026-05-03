@@ -1,18 +1,17 @@
 // Service Worker – Haushaltsplan
-// Cache-Version: v11
-const CACHE = 'haushaltsplan-v13';
+// Cache-Version: v15
+const CACHE = 'haushaltsplan-v15';
 
 const PRECACHE = [
   './index.html',
   './style.css',
   './manifest.json',
   './icon.svg',
-  './config.json',
   './js/app.js',
   './js/config.js',
   './js/store.js',
   './js/utils.js',
-  './js/drive.js',
+  './js/firebase.js',
   './js/ui.js',
   './js/dashboard.js',
   './js/transactions.js',
@@ -37,8 +36,13 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = e.request.url;
-  // Google APIs niemals cachen (Auth-Flows müssen immer live sein)
-  if (url.includes('googleapis.com') || url.includes('accounts.google.com')) return;
+  // Firebase + Google APIs niemals cachen (Auth-Flows müssen immer live sein)
+  if (
+    url.includes('googleapis.com') ||
+    url.includes('firebaseio.com') ||
+    url.includes('gstatic.com') ||
+    url.includes('accounts.google.com')
+  ) return;
 
   e.respondWith(
     caches.match(e.request).then(cached => {

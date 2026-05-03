@@ -1,21 +1,20 @@
 /**
  * @file store.test.js
- * Tests für die Datenhaltungsschicht (js/store.js) im Online-Only-Modus.
+ * Tests für die Datenhaltungsschicht (js/store.js).
  *
- * Online-Only bedeutet:
  * – loadData() initialisiert immer mit leeren Daten (kein localStorage-Read)
- * – loadData() löscht vorhandene localStorage-Einträge (Cache-Bereinigung)
- * – saveData() schreibt NICHT in localStorage, nur Drive-Callback
- * – Alle Daten kommen ausschließlich aus Google Drive (via onDataLoaded)
+ * – loadData() löscht veraltete localStorage-Einträge (Cache-Bereinigung)
+ * – saveData() schreibt NICHT in localStorage, ruft nur den Firestore-Callback auf
+ * – Alle Daten kommen ausschließlich aus Firestore (via onDataLoaded / setAppData)
  */
 
 import {
-  STORAGE_KEY, DEFAULT_DATA,
+  STORAGE_KEY,
   appData, loadData, saveData,
   setAppData, setOnSaveCallback,
 } from '../js/store.js';
 
-// ── Hilfsmittel ───────────────────────────────────────────────────────────────
+// ── Hilfsmittel ─────────────────────────���─────────────────────────────────────
 
 function seedStorage(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -30,8 +29,8 @@ function storedData() {
 
 export async function runStoreTests(suite, assert, assertEqual) {
 
-  // ── 1. loadData – Online-Only-Verhalten ────────────────────────────────────
-  suite('store.loadData – Online-Only (kein localStorage)', test => {
+  // ── 1. loadData ───────────────────────────────────────────────────��────────
+  suite('store.loadData – initialisiert leer, bereinigt localStorage', test => {
     test('initialisiert appData als leere Struktur', async () => {
       loadData();
       assert(Array.isArray(appData.categories),   'categories muss ein Array sein');
@@ -61,8 +60,8 @@ export async function runStoreTests(suite, assert, assertEqual) {
     });
   });
 
-  // ── 2. saveData – kein localStorage-Write ─────────────────────────────────
-  suite('store.saveData – schreibt nicht in localStorage', test => {
+  // ── 2. saveData ────────────────────────────────────────────────────────────
+  suite('store.saveData – kein localStorage-Write, nur Firestore-Callback', test => {
     test('schreibt nicht in localStorage', async () => {
       localStorage.removeItem(STORAGE_KEY);
       setOnSaveCallback(null);
@@ -72,12 +71,12 @@ export async function runStoreTests(suite, assert, assertEqual) {
         'saveData darf nicht in localStorage schreiben');
     });
 
-    test('ruft den Drive-Sync-Callback auf', async () => {
+    test('ruft den Firestore-Sync-Callback auf', async () => {
       let callCount = 0;
       setOnSaveCallback(() => { callCount++; });
       setAppData({ categories: [], transactions: [] });
       saveData();
-      assertEqual(callCount, 1, 'Drive-Callback muss einmal aufgerufen werden');
+      assertEqual(callCount, 1, 'Firestore-Callback muss einmal aufgerufen werden');
       setOnSaveCallback(null);
     });
 
@@ -89,50 +88,21 @@ export async function runStoreTests(suite, assert, assertEqual) {
     });
   });
 
-  // ── 3. setAppData – Drive-Daten übernehmen ─────────────────────────────────
-  suite('store.setAppData – Daten aus Drive übernehmen', test => {
+  // ── 3. setAppData ─────────────────────────────��────────────────────────────
+  suite('store.setAppData – Daten aus Firestore übernehmen', test => {
     test('ersetzt appData vollständig (simuliert onDataLoaded)', async () => {
-      loadData(); // leere Ausgangssituation
+      loadData();
       assertEqual(appData.categories.length, 0, 'Ausgangszustand: leer');
 
-      const driveData = {
-        categories:   [{ id: 'drive_cat', name: 'Drive-Kategorie', type: 'income', color: '#10b981' }],
-        transactions: [{ id: 'drive_tx',  date: '2026-04-01', amount: 100, categoryId: 'drive_cat', description: 'Test' }],
+      const firestoreData = {
+        categories:   [{ id: 'fs_cat', name: 'Firestore-Kategorie', type: 'income', color: '#10b981' }],
+        transactions: [{ id: 'fs_tx',  date: '2026-04-01', amount: 100, categoryId: 'fs_cat', description: 'Test' }],
       };
-      setAppData(driveData);
+      setAppData(firestoreData);
 
-      assertEqual(appData.categories.length,   1,          'Muss 1 Kategorie aus Drive haben');
-      assertEqual(appData.transactions.length, 1,          'Muss 1 Transaktion aus Drive haben');
-      assertEqual(appData.categories[0].id,    'drive_cat','ID muss übereinstimmen');
-    });
-  });
-
-  // ── 4. DEFAULT_DATA – Integrität der Demo-Daten ────────────────────────────
-  suite('store.DEFAULT_DATA – Datenintegrität', test => {
-    test('alle Kategorien haben die Pflichtfelder id, name, type, color', async () => {
-      DEFAULT_DATA.categories.forEach(c => {
-        assert(c.id    && c.id.length > 0,    `Kategorie ohne id: ${JSON.stringify(c)}`);
-        assert(c.name  && c.name.length > 0,  `Kategorie ohne name: ${c.id}`);
-        assert(c.type === 'income' || c.type === 'expense', `Ungültiger type in: ${c.id}`);
-        assert(c.color && c.color.startsWith('#'), `Ungültige color in: ${c.id}`);
-      });
-    });
-
-    test('alle Transaktionen referenzieren vorhandene Kategorie-IDs', async () => {
-      const catIds = new Set(DEFAULT_DATA.categories.map(c => c.id));
-      DEFAULT_DATA.transactions.forEach(t => {
-        assert(catIds.has(t.categoryId),
-          `Transaktion "${t.id}" referenziert unbekannte Kategorie "${t.categoryId}"`);
-        assert(t.amount > 0, `Transaktion "${t.id}" hat ungültigen Betrag: ${t.amount}`);
-      });
-    });
-
-    test('alle Transaktionen haben valides ISO-Datum (YYYY-MM-DD)', async () => {
-      const iso = /^\d{4}-\d{2}-\d{2}$/;
-      DEFAULT_DATA.transactions.forEach(t => {
-        assert(iso.test(t.date),
-          `Transaktion "${t.id}" hat ungültiges Datum: "${t.date}"`);
-      });
+      assertEqual(appData.categories.length,   1,       'Muss 1 Kategorie aus Firestore haben');
+      assertEqual(appData.transactions.length, 1,       'Muss 1 Transaktion aus Firestore haben');
+      assertEqual(appData.categories[0].id,    'fs_cat', 'ID muss übereinstimmen');
     });
   });
 }
