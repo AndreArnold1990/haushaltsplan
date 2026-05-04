@@ -19,7 +19,7 @@
 
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, signInWithPopup, signOut as _fbSignOut,
+import { getAuth, signInWithRedirect, getRedirectResult, signOut as _fbSignOut,
          onAuthStateChanged, GoogleAuthProvider }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, onSnapshot, setDoc }
@@ -80,6 +80,14 @@ export function init(options) {
   _auth     = getAuth(app);
   _db       = getFirestore(app);
 
+  // Redirect-Ergebnis nach Google-Weiterleitung verarbeiten (Safari-kompatibel)
+  getRedirectResult(_auth).catch(e => {
+    if (e.code !== 'auth/cancelled-popup-request') {
+      console.error('Redirect sign-in error:', e);
+      _opts.onAuthUI?.('error');
+    }
+  });
+
   onAuthStateChanged(_auth, user => {
     if (user) {
       _user = {
@@ -100,16 +108,14 @@ export function init(options) {
   });
 }
 
-/** Öffnet den Google-Anmelde-Popup. */
+/** Leitet den Nutzer zur Google-Anmeldung weiter (Safari-kompatibel, kein Popup). */
 export async function signIn() {
   if (!_auth) return;
   try {
-    await signInWithPopup(_auth, new GoogleAuthProvider());
+    await signInWithRedirect(_auth, new GoogleAuthProvider());
   } catch (e) {
-    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      console.error('Sign-in error:', e);
-      _opts.onAuthUI?.('error');
-    }
+    console.error('Sign-in error:', e);
+    _opts.onAuthUI?.('error');
   }
 }
 
