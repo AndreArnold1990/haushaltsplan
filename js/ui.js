@@ -1,11 +1,14 @@
 /**
  * @module ui
  * DOM-Hilfsmittel für den Auth-Bereich und den Sync-Status-Indikator im Header.
+ *
+ * Auth-Buttons nutzen CSS-Klassen (.js-sign-in / .js-sign-out) statt onclick-Attributen.
+ * Der zugehörige Event-Listener sitzt in app.js (_initEventListeners → Delegation).
  */
 
 import { config }        from './config.js';
 import { escHtml }       from './utils.js';
-import { GOOGLE_LOGO }   from './drive.js';
+import { GOOGLE_LOGO }   from './firebase.js';
 import { t }             from './i18n.js';
 
 /**
@@ -20,12 +23,12 @@ export function setAuthUI(state, user) {
 
   switch (state) {
     case 'no-config':
-      document.getElementById('setupBanner').style.display = 'block';
-      el.innerHTML = `<span style="font-size:0.78rem;opacity:0.7">${t('offlineMode')}</span>`;
+      document.getElementById('setupBanner').classList.add('is-visible');
+      el.innerHTML = `<span class="auth-offline">${t('offlineMode')}</span>`;
       break;
 
     case 'signed-out':
-      el.innerHTML = `<button class="btn-google" onclick="DriveSync.signIn()">
+      el.innerHTML = `<button class="btn-google js-sign-in">
         ${GOOGLE_LOGO} ${t('btnSignIn')}
       </button>`;
       break;
@@ -38,13 +41,13 @@ export function setAuthUI(state, user) {
       el.innerHTML = `<div class="user-pill">
         ${pic}
         <span class="user-name">${name}</span>
-        <button class="btn-signout" onclick="DriveSync.signOut()" title="${t('titleSignOut')}">&#10005;</button>
+        <button class="btn-signout js-sign-out" title="${t('titleSignOut')}">&#10005;</button>
       </div>`;
       break;
     }
 
     case 'error':
-      el.innerHTML = `<button class="btn-google" onclick="DriveSync.signIn()" title="${t('btnRetrySignIn')}">
+      el.innerHTML = `<button class="btn-google js-sign-in" title="${t('btnRetrySignIn')}">
         ${t('btnRetrySignIn')}
       </button>`;
       break;
@@ -60,7 +63,8 @@ export function setSyncUI(status) {
   const el = document.getElementById('syncStatus');
   if (!el) return;
 
-  if (!config.googleClientId) { el.style.display = 'none'; return; }
+  // Kein Firebase-Projekt → Indikator nicht zeigen (display: none via CSS-Default)
+  if (!config.firebaseConfig?.projectId) return;
 
   const map = {
     offline: { cls: 'sync-offline', html: t('syncOffline') },
@@ -76,9 +80,9 @@ export function setSyncUI(status) {
 /**
  * Wechselt zwischen den drei Tab-Panels.
  *
- * @param {string}   name      - 'dashboard' | 'transactions' | 'categories'
- * @param {HTMLElement} btn    - Angeklickter Nav-Button
- * @param {Object}   renderFns - { renderDashboard, renderTransactions, renderCategories }
+ * @param {string}      name      - 'dashboard' | 'transactions' | 'categories'
+ * @param {HTMLElement} btn       - Angeklickter Nav-Button
+ * @param {Object}      renderFns - { renderDashboard, renderTransactions, renderCategories }
  */
 export function showTab(name, btn, renderFns) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));

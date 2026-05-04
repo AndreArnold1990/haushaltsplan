@@ -14,7 +14,7 @@
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
 import { fmt, fmtDate, monthKey, getCurrentMonth, monthLabel,
-         txsForMonth, getCat, isIncome, escHtml, toast,
+         txsForMonth, getCat, isIncome, escHtml, toast, safeColor,
          getPersonName, getOtherUser }    from './utils.js';
 import { renderDashboard }                from './dashboard.js';
 
@@ -156,8 +156,8 @@ export function renderTransactionTable() {
     </td>`;
 
     const catBadge = cat
-      ? `<span class="cat-badge" style="background:${cat.color}22;color:${cat.color}">
-           <span class="cat-dot" style="background:${cat.color}"></span>${escHtml(cat.name)}
+      ? `<span class="cat-badge" style="background:${safeColor(cat.color)}22;color:${safeColor(cat.color)}">
+           <span class="cat-dot" style="background:${safeColor(cat.color)}"></span>${escHtml(cat.name)}
          </span>`
       : '&mdash;';
 
@@ -166,7 +166,7 @@ export function renderTransactionTable() {
       : '';
 
     const deleteBtn = isOwn
-      ? `<button class="btn btn-danger btn-sm" onclick="deleteTransaction('${tx.id}')">${t('btnDelete')}</button>`
+      ? `<button class="btn btn-danger btn-sm" data-tx-id="${tx.id}">${t('btnDelete')}</button>`
       : '';
 
     return `<tr${isShared ? ' class="tx-row--shared"' : ''}>
@@ -230,8 +230,8 @@ export function renderSharedTransactionTable() {
     }
 
     const badge = cat
-      ? `<span class="cat-badge" style="background:${cat.color}22;color:${cat.color}">
-           <span class="cat-dot" style="background:${cat.color}"></span>${escHtml(cat.name)}
+      ? `<span class="cat-badge" style="background:${safeColor(cat.color)}22;color:${safeColor(cat.color)}">
+           <span class="cat-dot" style="background:${safeColor(cat.color)}"></span>${escHtml(cat.name)}
          </span>`
       : '&mdash;';
 
@@ -242,7 +242,7 @@ export function renderSharedTransactionTable() {
       <td>${escHtml(paidByName)}</td>
       <td class="${inc ? 'amount-income' : 'amount-expense'}">${amtDisplay}</td>
       <td>${isOwn
-        ? `<button class="btn btn-danger btn-sm" onclick="deleteTransaction('${tx.id}')">${t('btnDelete')}</button>`
+        ? `<button class="btn btn-danger btn-sm" data-tx-id="${tx.id}">${t('btnDelete')}</button>`
         : ''}</td>
     </tr>`;
   }).join('');
@@ -268,14 +268,14 @@ export function openAddTxModal() {
   document.getElementById('txDescription').value = '';
   _populateSplitSelect();
   populateCategorySelect();
-  document.getElementById('addTxModal').style.display = 'flex';
+  document.getElementById('addTxModal').classList.add('is-open');
 }
 
 /**
  * Schließt das Add-Transaktion-Modal.
  */
 export function closeAddTxModal() {
-  document.getElementById('addTxModal').style.display = 'none';
+  document.getElementById('addTxModal').classList.remove('is-open');
 }
 
 /**
@@ -377,6 +377,6 @@ function _splitBadgeText(splitType, paidBySub) {
       : `🤝 50/50 (${escHtml(name)})`;
   }
   return paidByMe
-    ? `🤝 ${t('splitFullMe').split(',')[1]?.trim() || 'Voll'}`
+    ? `🤝 ${t('splitLabelFull')}`
     : `🤝 ${escHtml(name)}`;
 }

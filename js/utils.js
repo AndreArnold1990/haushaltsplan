@@ -91,11 +91,11 @@ export function getCat(id) {
 /**
  * Gibt zurück, ob eine Transaktion eine Einnahme ist.
  *
- * @param {import('./store.js').Transaction} t
+ * @param {import('./store.js').Transaction} tx
  * @returns {boolean}
  */
-export function isIncome(t) {
-  return getCat(t.categoryId)?.type === 'income';
+export function isIncome(tx) {
+  return getCat(tx.categoryId)?.type === 'income';
 }
 
 /**
@@ -134,6 +134,17 @@ export function getOtherUser() {
 }
 
 // ── DOM-Hilfsmittel ───────────────────────────────────────────────────────────
+
+/**
+ * Gibt eine CSS-Farbe zurück, wenn sie exakt dem #rrggbb-Format entspricht.
+ * Verhindert CSS-Injection in dynamisch gesetzten style-Attributen (Kategoriefarben).
+ *
+ * @param {string} color
+ * @returns {string} Die Farbe oder ein sicherer Fallback ('#cccccc')
+ */
+export function safeColor(color) {
+  return /^#[0-9a-fA-F]{6}$/.test(color) ? color : '#cccccc';
+}
 
 /**
  * Escaped HTML-Sonderzeichen in einem String, um XSS-Angriffe zu verhindern.

@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // config/allowlist ist für keinen Client lesbar oder schreibbar —
+    // nur die Rules-Engine hat via get() Zugriff darauf.
+    match /config/{doc} {
+      allow read, write: if false;
+    }
+
+    // Haushalt-Dokument: Zugriff nur wenn die E-Mail des eingeloggten Nutzers
+    // in config/allowlist eingetragen ist. Die E-Mails sind damit nie im Code sichtbar.
+    match /households/{householdId} {
+      allow read, write:
+        if request.auth != null
+        && householdId == 'haushaltsplan-16082'
+        && request.auth.token.email in
+             get(/databases/$(database)/documents/config/allowlist).data.emails;
+    }
+
+  }
+}

@@ -5,7 +5,7 @@
 
 import { appData, saveData }                            from './store.js';
 import { t }                                            from './i18n.js';
-import { getCat, escHtml, toast }                       from './utils.js';
+import { getCat, escHtml, toast, safeColor }             from './utils.js';
 import { populateCategorySelect, renderTransactionTable } from './transactions.js';
 import { renderDashboard }                              from './dashboard.js';
 
@@ -29,9 +29,9 @@ function _renderCategoryList(type, container) {
     return;
   }
   container.innerHTML = cats.map(c => {
-    return `<div class="category-item category-item--clickable" onclick="openEditCatModal('${c.id}')">
+    return `<div class="category-item category-item--clickable" data-cat-id="${c.id}">
       <div class="category-item-left">
-        <div class="color-swatch" style="background:${c.color}"></div>
+        <div class="color-swatch" style="background:${safeColor(c.color)}"></div>
         <span class="cat-name">${escHtml(c.name)}</span>
       </div>
       <span class="category-item-chevron">›</span>
@@ -77,7 +77,7 @@ export function openEditCatModal(id) {
   document.getElementById('editCatName').value  = cat.name;
   document.getElementById('editCatType').value  = cat.type;
   document.getElementById('editCatColor').value = cat.color;
-  document.getElementById('editCatModal').style.display = 'flex';
+  document.getElementById('editCatModal').classList.add('is-open');
 }
 
 /**
@@ -111,7 +111,7 @@ export function saveEditCat() {
 
 /** Schließt das Edit-Modal und setzt den Zustand zurück. */
 export function closeEditCatModal() {
-  document.getElementById('editCatModal').style.display = 'none';
+  document.getElementById('editCatModal').classList.remove('is-open');
   _editCatId = null;
 }
 
@@ -162,15 +162,15 @@ export function deleteCategory(id) {
   const btn    = document.getElementById('btnMove');
 
   if (others.length) {
-    sel.innerHTML     = others.map(c => `<option value="${c.id}">${escHtml(c.name)}</option>`).join('');
-    sec.style.display = 'block';
-    btn.style.display = 'inline-flex';
+    sel.innerHTML = others.map(c => `<option value="${c.id}">${escHtml(c.name)}</option>`).join('');
+    sec.classList.add('is-visible');
+    btn.classList.add('is-visible');
   } else {
-    sec.style.display = 'none';
-    btn.style.display = 'none';
+    sec.classList.remove('is-visible');
+    btn.classList.remove('is-visible');
   }
 
-  document.getElementById('deleteCatModal').style.display = 'flex';
+  document.getElementById('deleteCatModal').classList.add('is-open');
 }
 
 /**
@@ -199,14 +199,6 @@ export function confirmDeleteCategory(action) {
 
 /** Schließt das Lösch-Modal und setzt den Zustand zurück. */
 export function closeModal() {
-  document.getElementById('deleteCatModal').style.display = 'none';
+  document.getElementById('deleteCatModal').classList.remove('is-open');
   _deleteCatId = null;
-}
-
-/**
- * Schließt das Modal bei Klick außerhalb der Modal-Box.
- * @param {MouseEvent} e
- */
-export function modalOverlayClick(e) {
-  if (e.target === document.getElementById('deleteCatModal')) closeModal();
 }

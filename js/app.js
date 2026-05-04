@@ -3,15 +3,15 @@
  * Einstiegspunkt der Haushaltsplan-App.
  *
  * Aufgaben:
- * 1. Konfiguration aus config.json laden.
+ * 1. Konfiguration laden.
  * 2. Sprache aus localStorage wiederherstellen.
- * 3. Lokale Daten laden und alle Module initialisieren.
- * 4. Google Drive Sync starten.
- * 5. Service Worker registrieren.
- * 6. Globale Funktionen für HTML-onclick-Handler auf window exponieren.
+ * 3. Lokale Daten initialisieren und alle Module starten.
+ * 4. Firebase Auth + Firestore Sync starten.
+ * 5. Event-Listener für alle Buttons/Selects setzen (kein inline-onclick mehr).
+ * 6. Service Worker registrieren.
  */
 
-import { loadConfig, config }                           from './config.js';
+import { config }                                        from './config.js';
 import { loadData, saveData, setOnSaveCallback,
          setAppData, appData, setCurrentUser }          from './store.js';
 import { renderDashboard, openSettlementModal,
@@ -19,62 +19,151 @@ import { renderDashboard, openSettlementModal,
 import { renderTransactions, populateCategorySelect,
          renderTransactionTable, renderSharedTransactionTable,
          addTransaction, deleteTransaction }            from './transactions.js';
-import { renderCategories, addCategory, deleteCategory,
-         confirmDeleteCategory, closeModal, modalOverlayClick,
+import { renderCategories, addCategory,
+         confirmDeleteCategory, closeModal,
          openEditCatModal, saveEditCat, closeEditCatModal,
          deleteFromEditModal }                          from './categories.js';
 import { openAddTxModal, closeAddTxModal }               from './transactions.js';
 import { setAuthUI, setSyncUI, showTab }                from './ui.js';
 import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
-import * as Drive                                       from './drive.js';
+import * as Firebase                                    from './firebase.js';
 
 // ── Initialisierung ───────────────────────────────────────────────────────────
 
 (async () => {
-  await loadConfig();
-
-  // Online-Only: leere Daten initialisieren (räumt auch alten localStorage-Cache auf)
   loadData();
 
-  // Sync-Callback: nach jedem saveData() per Drive-Debounce schreiben
-  setOnSaveCallback(() => Drive.scheduleSave(appData));
+  setOnSaveCallback(() => Firebase.scheduleSave(appData));
 
-  // Sprach-Callback: dynamischen Inhalt nach Sprachumschaltung neu rendern
   setLangChangeCallback(() => {
     _updateLangButton();
     _renderAll();
-    const authState = document.getElementById('authArea')?.querySelector('.user-pill')
-      ? 'signed-in' : document.getElementById('authArea')?.querySelector('.btn-google')
-        ? 'signed-out' : null;
+    const authArea = document.getElementById('authArea');
+    const authState = authArea?.querySelector('.user-pill')   ? 'signed-in'
+                    : authArea?.querySelector('.btn-google')  ? 'signed-out'
+                    : null;
     if (authState) setAuthUI(authState);
     setSyncUI('offline');
   });
 
-  // Initiales Rendering: App-Shell ohne Daten — zeigt Anmelde-Hinweis
   applyTranslations();
   _updateLangButton();
   _showSignInHint(true);
   document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
 
-  // Google Drive Sync
-  Drive.init({
-    clientId:        config.googleClientId,
-    driveFolderName: config.driveFolderName,
-    dataFileName:    config.dataFileName,
-    debounceMs:      config.syncDebounceMs,
-    onAuthUI:        setAuthUI,
-    onSyncUI:        setSyncUI,
-    onDataLoaded:    _onDataLoadedFromDrive,
-    onFileNotFound:  _onFileNotFound,
-    onConflict:      _onConflict,
+  _initEventListeners();
+
+  Firebase.init({
+    firebaseConfig: config.firebaseConfig,
+    householdId:    config.householdId,
+    debounceMs:     config.syncDebounceMs,
+    onAuthUI:       setAuthUI,
+    onSyncUI:       setSyncUI,
+    onDataLoaded:   _onDataLoaded,
+    onFileNotFound: _onFileNotFound,
   });
 
-  // Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(e => console.warn('SW:', e));
   }
 })();
+
+// ── Event-Listener ────────────────────────────────────────────────────────────
+
+function _initEventListeners() {
+  // ── Header ────────────────────────────────────────────────────────────────
+
+  document.getElementById('btnCloseBanner')?.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('setupBanner').classList.remove('is-visible');
+  });
+
+  document.getElementById('refreshBtn').addEventListener('click', () => {
+    const btn = document.getElementById('refreshBtn');
+    btn.classList.add('spinning');
+    btn.addEventListener('animationend', () => btn.classList.remove('spinning'), { once: true });
+    Firebase.checkForUpdates();
+  });
+
+  document.getElementById('langToggle').addEventListener('click', () =>
+    setLanguage(currentLang === 'de' ? 'es' : 'de')
+  );
+
+  // ── Navigation ────────────────────────────────────────────────────────────
+
+  document.querySelectorAll('nav button[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () =>
+      showTab(btn.dataset.tab, btn, { renderDashboard, renderTransactions, renderCategories })
+    );
+  });
+
+  document.querySelector('.nav-add-btn').addEventListener('click', openAddTxModal);
+
+  // ── Transaktionen-Tab ─────────────────────────────────────────────────────
+
+  document.querySelector('.btn-add-tx')?.addEventListener('click', openAddTxModal);
+
+  document.getElementById('txMonthFilter').addEventListener('change', () => {
+    renderTransactionTable();
+    renderSharedTransactionTable();
+  });
+
+  // ── Kategorien-Formular ───────────────────────────────────────────────────
+
+  document.getElementById('btnAddCategory').addEventListener('click', addCategory);
+
+  // ── Modal: Transaktion hinzufügen ─────────────────────────────────────────
+
+  document.getElementById('btnConfirmAddTx').addEventListener('click', addTransaction);
+  document.getElementById('btnCancelAddTx').addEventListener('click', closeAddTxModal);
+
+  // ── Modal: Kategorie bearbeiten ───────────────────────────────────────────
+
+  document.getElementById('btnSaveEditCat').addEventListener('click', saveEditCat);
+  document.getElementById('btnDeleteFromEditCat').addEventListener('click', deleteFromEditModal);
+  document.getElementById('btnCancelEditCat').addEventListener('click', closeEditCatModal);
+
+  // ── Modal: Kategorie löschen ──────────────────────────────────────────────
+
+  document.getElementById('btnDeleteTx').addEventListener('click',    () => confirmDeleteCategory('delete'));
+  document.getElementById('btnMove').addEventListener('click',        () => confirmDeleteCategory('move'));
+  document.getElementById('btnCancelModal').addEventListener('click', closeModal);
+
+  // ── Modal: Ausgleich ──────────────────────────────────────────────────────
+
+  document.getElementById('btnSettle').addEventListener('click',        openSettlementModal);
+  document.getElementById('btnConfirmSettle').addEventListener('click', saveSettlement);
+  document.getElementById('btnCancelSettle').addEventListener('click',  closeSettlementModal);
+
+  // ── Event-Delegation ──────────────────────────────────────────────────────
+
+  document.addEventListener('click', e => {
+    // Transaktion löschen (data-tx-id auf dem Button)
+    const txEl = e.target.closest('[data-tx-id]');
+    if (txEl) { deleteTransaction(txEl.dataset.txId); return; }
+
+    // Kategorie bearbeiten (data-cat-id auf dem Listeneintrag)
+    const catEl = e.target.closest('[data-cat-id]');
+    if (catEl) { openEditCatModal(catEl.dataset.catId); return; }
+
+    // Klick außerhalb der Modal-Box → Modal schließen
+    if (e.target.classList.contains('modal-overlay')) {
+      const closeFns = {
+        deleteCatModal:  closeModal,
+        addTxModal:      closeAddTxModal,
+        editCatModal:    closeEditCatModal,
+        settlementModal: closeSettlementModal,
+      };
+      closeFns[e.target.id]?.();
+      return;
+    }
+
+    // Dynamisch injizierte Auth-Buttons (von ui.js via innerHTML)
+    if (e.target.closest('.js-sign-in'))  { Firebase.signIn();  return; }
+    if (e.target.closest('.js-sign-out')) { Firebase.signOut(); return; }
+  });
+}
 
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
 
@@ -88,11 +177,10 @@ function _renderAll() {
   }
 }
 
-function _onDataLoadedFromDrive(data) {
-  // Sicherstellen dass users-Objekt immer vorhanden ist (Rückwärtskompatibilität)
+function _onDataLoaded(data) {
   if (!data.users) data.users = {};
   setAppData(data);
-  const user = Drive.getUser();
+  const user = Firebase.getUser();
   if (user) {
     setCurrentUser(user);
     _migrateUnknownTransactions(user);
@@ -104,7 +192,6 @@ function _onDataLoadedFromDrive(data) {
 
 /**
  * Speichert Vorname + Profilbild des aktuellen Nutzers in appData.users.
- * Wird nur gespeichert wenn sich etwas geändert hat.
  * @param {{ sub: string, given_name?: string, name?: string, email?: string, picture?: string }} user
  */
 function _updateUserProfile(user) {
@@ -124,94 +211,30 @@ function _updateUserProfile(user) {
 function _migrateUnknownTransactions(user) {
   let changed = false;
   appData.transactions.forEach(tx => {
-    if (!tx.createdBy) {
-      tx.createdBy = { sub: user.sub };
-      changed = true;
-    }
+    if (!tx.createdBy) { tx.createdBy = { sub: user.sub }; changed = true; }
   });
   if (changed) saveData();
 }
 
 function _onFileNotFound() {
   if (confirm(t('fileNotFoundMsg'))) {
-    Drive.createNewFile(appData);
-  }
-}
-
-function _onConflict({ overwrite, reload }) {
-  if (confirm(t('conflictMsg'))) {
-    overwrite();
-  } else {
-    reload();
+    Firebase.createNewFile(appData);
   }
 }
 
 /**
- * Zeigt oder versteckt den Anmelde-Hinweis im Dashboard.
- * @param {boolean} visible
+ * Zeigt oder versteckt den Anmelde-Hinweis im Dashboard via CSS-Klassen.
+ * @param {boolean} visible - true = Hinweis sichtbar, false = Dashboard-Inhalt sichtbar
  */
 function _showSignInHint(visible) {
-  document.getElementById('signInHint').style.display = visible ? 'flex' : 'none';
-  // Dashboard-Karten ausblenden bis Daten geladen
-  document.getElementById('dashboardContent').style.display = visible ? 'none' : 'block';
+  document.getElementById('signInHint').classList.toggle('is-hidden', !visible);
+  document.getElementById('dashboardContent').classList.toggle('is-visible', !visible);
 }
 
-/**
- * Aktualisiert den Sprach-Toggle-Button im Header.
- */
+/** Aktualisiert den Sprach-Toggle-Button im Header. */
 function _updateLangButton() {
   const btn = document.getElementById('langToggle');
   if (!btn) return;
-  if (currentLang === 'es') {
-    btn.textContent = '🇪🇸';
-    btn.title       = t('langToggleTitle'); // "Cambiar a Deutsch"
-  } else {
-    btn.textContent = '🇩🇪';
-    btn.title       = t('langToggleTitle'); // "Auf Español wechseln"
-  }
+  btn.textContent = currentLang === 'es' ? '🇪🇸' : '🇩🇪';
+  btn.title       = t('langToggleTitle');
 }
-
-// ── Globale Funktionen ────────────────────────────────────────────────────────
-
-window.showTab = (name, btn) => showTab(name, btn, {
-  renderDashboard,
-  renderTransactions,
-  renderCategories,
-});
-
-/** Schaltet zwischen Deutsch und Spanisch um. */
-window.switchLanguage = () => {
-  setLanguage(currentLang === 'de' ? 'es' : 'de');
-};
-
-window.DriveSync = {
-  signIn:          () => Drive.signIn(),
-  signOut:         () => Drive.signOut(),
-  createNewFile:   (data) => Drive.createNewFile(data),
-  checkForUpdates: () => {
-    const btn = document.getElementById('refreshBtn');
-    btn?.classList.add('spinning');
-    btn?.addEventListener('animationend', () => btn.classList.remove('spinning'), { once: true });
-    Drive.checkForUpdates();
-  },
-};
-
-window.addTransaction               = addTransaction;
-window.deleteTransaction            = deleteTransaction;
-window.renderTransactionTable       = renderTransactionTable;
-window.renderSharedTransactionTable = renderSharedTransactionTable;
-window.openAddTxModal               = openAddTxModal;
-window.closeAddTxModal              = closeAddTxModal;
-
-window.addCategory            = addCategory;
-window.deleteCategory         = deleteCategory;
-window.confirmDeleteCategory  = confirmDeleteCategory;
-window.closeModal             = closeModal;
-window.modalOverlayClick      = modalOverlayClick;
-window.openEditCatModal       = openEditCatModal;
-window.saveEditCat            = saveEditCat;
-window.closeEditCatModal      = closeEditCatModal;
-window.deleteFromEditModal    = deleteFromEditModal;
-window.openSettlementModal    = openSettlementModal;
-window.closeSettlementModal   = closeSettlementModal;
-window.saveSettlement         = saveSettlement;
