@@ -242,6 +242,7 @@ tr:hover td       { background: #f8fafc; }
 .mt-15 { margin-top:    1.5rem; }
 
 /* ── Show/Hide-Helfer (JS-gesteuert via classList) ───────────── */
+.is-hidden { display: none !important; }
 /* Dashboard: Anmelde-Hinweis vs. Inhalt */
 #dashboardContent           { display: none; }
 #dashboardContent.is-visible{ display: block; }
