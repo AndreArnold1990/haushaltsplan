@@ -107,6 +107,25 @@ export function populateCategorySelect() {
     exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
     sel.appendChild(g);
   }
+
+  // Split-Feld direkt nach dem Befüllen aktualisieren
+  _updateSplitVisibility();
+}
+
+/**
+ * Zeigt oder versteckt die Split-Auswahl je nach Kategorie-Typ.
+ * Einnahmen sind immer persönlich – Split ergibt hier keinen Sinn.
+ */
+function _updateSplitVisibility() {
+  const catId    = document.getElementById('txCategory').value;
+  const cat      = appData.categories.find(c => c.id === catId);
+  const isIncome = cat?.type === 'income';
+  const group    = document.getElementById('txSplitGroup');
+  if (!group) return;
+  group.classList.toggle('is-hidden', isIncome);
+  if (isIncome) {
+    document.getElementById('txSplitType').value = 'personal';
+  }
 }
 
 /**
@@ -268,6 +287,12 @@ export function openAddTxModal() {
   document.getElementById('txDescription').value = '';
   _populateSplitSelect();
   populateCategorySelect();
+
+  // Einmalig registrieren: Split-Sichtbarkeit bei Kategorie-Wechsel aktualisieren
+  const catSel = document.getElementById('txCategory');
+  catSel.removeEventListener('change', _updateSplitVisibility);
+  catSel.addEventListener('change', _updateSplitVisibility);
+
   document.getElementById('addTxModal').classList.add('is-open');
 }
 
@@ -294,10 +319,14 @@ export function addTransaction() {
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
 
   // splitVal → internes splitType + paidBySub
+  // Einnahmen sind immer persönlich, unabhängig vom Split-Select
+  const selectedCat = appData.categories.find(c => c.id === catId);
   let splitType = 'personal';
   let paidBySub = null;
 
-  if (splitVal === 'equal_me') {
+  if (selectedCat?.type === 'income') {
+    // Keine weitere Verarbeitung – bleibt personal
+  } else if (splitVal === 'equal_me') {
     splitType = 'equal';
     paidBySub = currentUser?.sub || null;
   } else if (splitVal === 'full_me') {
