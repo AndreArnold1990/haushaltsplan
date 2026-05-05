@@ -22,7 +22,9 @@ const translations = {
     // Navigation
     navDashboard:          'Dashboard',
     navTransactions:       'Transaktionen',
-    navCategories:         'Kategorien',
+    navSettings:           'Einstellungen',
+    subTabCategories:      'Kategorien',
+    subTabRecurring:       'Wiederkehrend',
 
     // Dashboard – Kacheln
     labelIncome:           'Einnahmen (Monat)',
@@ -56,6 +58,21 @@ const translations = {
     // Optgroup-Labels im Kategorie-Dropdown
     groupIncome:           '↑ Einnahmen',
     groupExpense:          '↓ Ausgaben',
+
+    // Wiederkehrende Ausgaben
+    sectionRecurring:      '↻ Neue wiederkehrende Ausgabe',
+    sectionRecurringList:  'Aktive Regeln',
+    labelStartDate:        'Startdatum',
+    labelInterval:         'Wiederholung',
+    intervalMonthly:       'Monatlich',
+    intervalQuarterly:     'Vierteljährlich',
+    intervalBiannual:      'Halbjährlich',
+    btnAddRecurring:       '↻ Hinzufügen',
+    recurringEmpty:        'Keine aktiven Regeln.',
+    recurringFrom:         'ab',
+    toastRecurringAdded:   'Wiederkehrende Ausgabe hinzugefügt ✓',
+    toastRecurringDeleted: 'Wiederkehrende Ausgabe gelöscht.',
+    confirmDeleteRecurring:'Regel und alle generierten Transaktionen löschen?',
 
     // Kategorien – Formular
     sectionNewCat:         '+ Neue Kategorie',
@@ -160,7 +177,9 @@ const translations = {
 
     navDashboard:          'Panel',
     navTransactions:       'Transacciones',
-    navCategories:         'Categorías',
+    navSettings:           'Ajustes',
+    subTabCategories:      'Categorías',
+    subTabRecurring:       'Recurrente',
 
     labelIncome:           'Ingresos (Mes)',
     labelExpense:          'Gastos (Mes)',
@@ -189,6 +208,20 @@ const translations = {
 
     groupIncome:           '↑ Ingresos',
     groupExpense:          '↓ Gastos',
+
+    sectionRecurring:      '↻ Nuevo gasto recurrente',
+    sectionRecurringList:  'Reglas activas',
+    labelStartDate:        'Fecha de inicio',
+    labelInterval:         'Frecuencia',
+    intervalMonthly:       'Mensual',
+    intervalQuarterly:     'Trimestral',
+    intervalBiannual:      'Semestral',
+    btnAddRecurring:       '↻ Añadir',
+    recurringEmpty:        'No hay reglas activas.',
+    recurringFrom:         'desde',
+    toastRecurringAdded:   'Gasto recurrente añadido ✓',
+    toastRecurringDeleted: 'Gasto recurrente eliminado.',
+    confirmDeleteRecurring:'¿Eliminar regla y todas las transacciones generadas?',
 
     sectionNewCat:         '+ Nueva categoría',
     labelName:             'Nombre',

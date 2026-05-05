@@ -53,9 +53,9 @@
     <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
   </button>
   <button class="nav-add-btn" title="Neue Transaktion">&#43;</button>
-  <button data-tab="categories">
-    <span class="nav-icon">&#127991;</span>
-    <span class="nav-label" data-i18n="navCategories">Kategorien</span>
+  <button data-tab="settings">
+    <span class="nav-icon">&#9881;</span>
+    <span class="nav-label" data-i18n="navSettings">Einstellungen</span>
   </button>
 </nav>
 
@@ -127,33 +127,83 @@
   </div>
 
   <!-- ══ KATEGORIEN ══ -->
-  <div class="tab-panel" id="tab-categories">
-    <div class="card mb-15">
-      <div class="section-title" data-i18n="sectionNewCat">&#43; Neue Kategorie</div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label data-i18n="labelName">Name</label>
-          <input type="text" id="catName" data-i18n-ph="namePlaceholder" placeholder="z.B. Urlaub" maxlength="40">
-        </div>
-        <div class="form-group">
-          <label data-i18n="labelType">Typ</label>
-          <select id="catType">
-            <option value="income"  data-i18n="typeIncome">&#8593; Einnahme</option>
-            <option value="expense" data-i18n="typeExpense">&#8595; Ausgabe</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label data-i18n="labelColor">Farbe</label>
-          <input type="color" id="catColor" value="#4f46e5">
-        </div>
-      </div>
-      <button id="btnAddCategory" class="btn btn-primary" data-i18n="btnAddCat">&#10003; Kategorie hinzuf&#252;gen</button>
+  <div class="tab-panel" id="tab-settings">
+    <div class="settings-subtabs">
+      <button class="settings-subtab active" data-settings-tab="categories" data-i18n="subTabCategories">Kategorien</button>
+      <button class="settings-subtab" data-settings-tab="recurring" data-i18n="subTabRecurring">Wiederkehrend</button>
     </div>
-    <div class="card">
-      <div class="cat-section-title" data-i18n="sectionIncomeCats">&#8593; Einnahmen-Kategorien</div>
-      <div class="category-list" id="incomeCategoryList"></div>
-      <div class="cat-section-title" data-i18n="sectionExpenseCats">&#8595; Ausgaben-Kategorien</div>
-      <div class="category-list" id="expenseCategoryList"></div>
+
+    <!-- Sub-Panel: Kategorien -->
+    <div class="settings-panel active" id="settings-categories">
+      <div class="card mb-15">
+        <div class="section-title" data-i18n="sectionNewCat">&#43; Neue Kategorie</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label data-i18n="labelName">Name</label>
+            <input type="text" id="catName" data-i18n-ph="namePlaceholder" placeholder="z.B. Urlaub" maxlength="40">
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelType">Typ</label>
+            <select id="catType">
+              <option value="income"  data-i18n="typeIncome">&#8593; Einnahme</option>
+              <option value="expense" data-i18n="typeExpense">&#8595; Ausgabe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelColor">Farbe</label>
+            <input type="color" id="catColor" value="#4f46e5">
+          </div>
+        </div>
+        <button id="btnAddCategory" class="btn btn-primary" data-i18n="btnAddCat">&#10003; Kategorie hinzuf&#252;gen</button>
+      </div>
+      <div class="card">
+        <div class="cat-section-title" data-i18n="sectionIncomeCats">&#8593; Einnahmen-Kategorien</div>
+        <div class="category-list" id="incomeCategoryList"></div>
+        <div class="cat-section-title" data-i18n="sectionExpenseCats">&#8595; Ausgaben-Kategorien</div>
+        <div class="category-list" id="expenseCategoryList"></div>
+      </div>
+    </div>
+
+    <!-- Sub-Panel: Wiederkehrende Ausgaben -->
+    <div class="settings-panel" id="settings-recurring">
+      <div class="card mb-15">
+        <div class="section-title" data-i18n="sectionRecurring">&#x21BB; Neue wiederkehrende Ausgabe</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label data-i18n="labelCategory">Kategorie</label>
+            <select id="recCategory"></select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelAmount">Betrag (&#8364;)</label>
+            <input type="number" id="recAmount" placeholder="0.00" min="0.01" step="0.01">
+          </div>
+          <div class="form-group form-group--full" id="recSplitGroup">
+            <label data-i18n="labelSplitType">Wie wird gezahlt?</label>
+            <select id="recSplitType"></select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelStartDate">Startdatum</label>
+            <input type="date" id="recStartDate">
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelInterval">Wiederholung</label>
+            <select id="recInterval">
+              <option value="monthly"   data-i18n="intervalMonthly">Monatlich</option>
+              <option value="quarterly" data-i18n="intervalQuarterly">Viertelj&#228;hrlich</option>
+              <option value="biannual"  data-i18n="intervalBiannual">Halbj&#228;hrlich</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelDescription">Beschreibung</label>
+            <input type="text" id="recDescription" data-i18n-ph="descPlaceholder" placeholder="z.B. Miete" maxlength="80">
+          </div>
+        </div>
+        <button id="btnAddRecurring" class="btn btn-primary" data-i18n="btnAddRecurring">&#x21BB; Hinzuf&#252;gen</button>
+      </div>
+      <div class="card">
+        <div class="section-title" data-i18n="sectionRecurringList">Aktive Regeln</div>
+        <div id="recurringList"></div>
+      </div>
     </div>
   </div>
 

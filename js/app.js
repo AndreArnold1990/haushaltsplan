@@ -25,6 +25,9 @@ import { renderCategories, addCategory,
          deleteFromEditModal }                          from './categories.js';
 import { openAddTxModal, closeAddTxModal }               from './transactions.js';
 import { setAuthUI, setSyncUI, showTab }                from './ui.js';
+import { applyRecurringRules, addRecurringRule, deleteRecurringRule,
+         renderRecurringRules, populateRecurringCategorySelect,
+         populateRecurringSplitSelect }                 from './recurring.js';
 import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
 import * as Firebase                                    from './firebase.js';
@@ -94,8 +97,29 @@ function _initEventListeners() {
 
   document.querySelectorAll('nav button[data-tab]').forEach(btn => {
     btn.addEventListener('click', () =>
-      showTab(btn.dataset.tab, btn, { renderDashboard, renderTransactions, renderCategories })
+      showTab(btn.dataset.tab, btn, { renderDashboard, renderTransactions, renderCategories, renderRecurringRules })
     );
+  });
+
+  // ── Einstellungen Sub-Tabs ────────────────────────────────────────────────
+  document.querySelectorAll('.settings-subtab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.settings-subtab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('settings-' + btn.dataset.settingsTab).classList.add('active');
+      if (btn.dataset.settingsTab === 'recurring') {
+        populateRecurringCategorySelect();
+        populateRecurringSplitSelect();
+        renderRecurringRules();
+      }
+    });
+  });
+
+  // ── Wiederkehrende Ausgaben ───────────────────────────────────────────────
+  document.getElementById('btnAddRecurring').addEventListener('click', addRecurringRule);
+  document.getElementById('recCategory').addEventListener('change', () => {
+    populateRecurringCategorySelect();
   });
 
   document.querySelector('.nav-add-btn').addEventListener('click', openAddTxModal);
@@ -139,6 +163,10 @@ function _initEventListeners() {
   // ── Event-Delegation ──────────────────────────────────────────────────────
 
   document.addEventListener('click', e => {
+    // Wiederkehrende Regel löschen (data-rec-id auf dem Button)
+    const recEl = e.target.closest('[data-rec-id]');
+    if (recEl) { deleteRecurringRule(recEl.dataset.recId); return; }
+
     // Transaktion löschen (data-tx-id auf dem Button)
     const txEl = e.target.closest('[data-tx-id]');
     if (txEl) { deleteTransaction(txEl.dataset.txId); return; }
@@ -178,8 +206,10 @@ function _renderAll() {
 }
 
 function _onDataLoaded(data) {
-  if (!data.users) data.users = {};
+  if (!data.users)          data.users          = {};
+  if (!data.recurringRules) data.recurringRules = [];
   setAppData(data);
+  if (applyRecurringRules()) saveData(); // Fehlende Monate automatisch auffüllen
   const user = Firebase.getUser();
   if (user) {
     setCurrentUser(user);

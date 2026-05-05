@@ -92,5 +92,5 @@ export function showTab(name, btn, renderFns) {
 
   if (name === 'dashboard')    renderFns.renderDashboard();
   if (name === 'transactions') renderFns.renderTransactions();
-  if (name === 'categories')   renderFns.renderCategories();
+  if (name === 'settings')     renderFns.renderCategories();
 }
