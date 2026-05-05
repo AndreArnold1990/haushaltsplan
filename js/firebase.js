@@ -19,8 +19,8 @@
 
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, signInWithRedirect, getRedirectResult, signOut as _fbSignOut,
-         onAuthStateChanged, GoogleAuthProvider }
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
+         signOut as _fbSignOut, onAuthStateChanged, GoogleAuthProvider }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, onSnapshot, setDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
@@ -108,14 +108,28 @@ export function init(options) {
   });
 }
 
-/** Leitet den Nutzer zur Google-Anmeldung weiter (Safari-kompatibel, kein Popup). */
+/**
+ * Meldet den Nutzer an.
+ * Primär via Popup (postMessage, ITP-sicher).
+ * Fallback via Redirect wenn Popup geblockt wird (z.B. manche Browser-Konfigurationen).
+ */
 export async function signIn() {
   if (!_auth) return;
   try {
-    await signInWithRedirect(_auth, new GoogleAuthProvider());
+    await signInWithPopup(_auth, new GoogleAuthProvider());
   } catch (e) {
-    console.error('Sign-in error:', e);
-    _opts.onAuthUI?.('error');
+    if (e.code === 'auth/popup-blocked') {
+      // Popup-Blocker aktiv → Redirect-Fallback
+      try {
+        await signInWithRedirect(_auth, new GoogleAuthProvider());
+      } catch (re) {
+        console.error('[Auth] Redirect fallback error:', re.code, re.message);
+        _opts.onAuthUI?.('error');
+      }
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      console.error('[Auth] Sign-in error:', e.code, e.message);
+      _opts.onAuthUI?.('error');
+    }
   }
 }
 
