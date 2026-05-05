@@ -11,7 +11,7 @@
 export const config = {
   firebaseConfig: {
     apiKey:            'AIzaSyAOv6I5WnjvYkDswg67X9ZoKa6Ue8Y-a2Y',
-    authDomain:        'haushaltsplan-16082.web.app',
+    authDomain:        'haushaltsplan-16082.firebaseapp.com',
     projectId:         'haushaltsplan-16082',
     storageBucket:     'haushaltsplan-16082.firebasestorage.app',
     messagingSenderId: '803394068548',

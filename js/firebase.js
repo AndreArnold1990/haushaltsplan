@@ -81,11 +81,11 @@ export function init(options) {
   _db       = getFirestore(app);
 
   // Redirect-Ergebnis nach Google-Weiterleitung verarbeiten (Safari-kompatibel)
-  getRedirectResult(_auth).catch(e => {
-    if (e.code !== 'auth/cancelled-popup-request') {
-      console.error('Redirect sign-in error:', e);
-      _opts.onAuthUI?.('error');
-    }
+  getRedirectResult(_auth).then(result => {
+    if (result) console.log('[Auth] Redirect result OK:', result.user?.email);
+  }).catch(e => {
+    console.error('[Auth] Redirect error code:', e.code, e.message);
+    _opts.onAuthUI?.('error');
   });
 
   onAuthStateChanged(_auth, user => {
