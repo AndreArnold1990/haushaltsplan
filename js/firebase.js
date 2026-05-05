@@ -80,12 +80,12 @@ export function init(options) {
   _auth     = getAuth(app);
   _db       = getFirestore(app);
 
-  // Redirect-Ergebnis nach Google-Weiterleitung verarbeiten (Safari-kompatibel)
+  // Redirect-Ergebnis verarbeiten – nur als Fallback wenn Popup geblockt war.
+  // Fehler hier still loggen, nie Error-State setzen (kein Redirect = kein Ergebnis = kein Fehler).
   getRedirectResult(_auth).then(result => {
     if (result) console.log('[Auth] Redirect result OK:', result.user?.email);
   }).catch(e => {
-    console.error('[Auth] Redirect error code:', e.code, e.message);
-    _opts.onAuthUI?.('error');
+    console.warn('[Auth] getRedirectResult (ignoriert):', e.code);
   });
 
   onAuthStateChanged(_auth, user => {
