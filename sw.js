@@ -1,6 +1,6 @@
 // Service Worker – Haushaltsplan
-// Cache-Version: v22
-const CACHE = 'haushaltsplan-v22';
+// Cache-Version: v23
+const CACHE = 'haushaltsplan-v23';
 
 const PRECACHE = [
   './index.html',
@@ -37,14 +37,8 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = e.request.url;
-  // Firebase + Google APIs niemals cachen (Auth-Flows müssen immer live sein)
-  if (
-    url.includes('googleapis.com') ||
-    url.includes('firebaseio.com') ||
-    url.includes('gstatic.com') ||
-    url.includes('google.com') ||
-    url.includes('cdn.jsdelivr.net')
-  ) return;
+  // Nur eigene Ressourcen cachen – alle externen Domains durchleiten
+  if (!url.startsWith(self.location.origin)) return;
 
   e.respondWith(
     caches.match(e.request).then(cached => {
