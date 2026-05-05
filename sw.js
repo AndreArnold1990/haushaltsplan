@@ -1,6 +1,6 @@
 // Service Worker – Haushaltsplan
-// Cache-Version: v21
-const CACHE = 'haushaltsplan-v21';
+// Cache-Version: v22
+const CACHE = 'haushaltsplan-v22';
 
 const PRECACHE = [
   './index.html',
@@ -42,7 +42,8 @@ self.addEventListener('fetch', e => {
     url.includes('googleapis.com') ||
     url.includes('firebaseio.com') ||
     url.includes('gstatic.com') ||
-    url.includes('accounts.google.com')
+    url.includes('google.com') ||
+    url.includes('cdn.jsdelivr.net')
   ) return;
 
   e.respondWith(
