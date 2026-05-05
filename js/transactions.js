@@ -14,7 +14,7 @@
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
 import { fmt, fmtDate, monthKey, getCurrentMonth, monthLabel,
-         txsForMonth, getCat, isIncome, escHtml, toast, safeColor,
+         txsForMonth, getCat, isIncome, isPendingTx, escHtml, toast, safeColor,
          getPersonName, getOtherUser }    from './utils.js';
 import { renderDashboard }                from './dashboard.js';
 
@@ -156,6 +156,7 @@ export function renderTransactionTable() {
     const cat      = getCat(tx.categoryId);
     const inc      = isIncome(tx);
     const isOwn    = !sub || tx.createdBy?.sub === sub;
+    const pending  = isPendingTx(tx);
 
     // Normalisiere legacy 'shared'
     const splitType = tx.splitType === 'shared' ? 'equal' : (tx.splitType || 'personal');
@@ -184,12 +185,18 @@ export function renderTransactionTable() {
       ? `<span class="cat-badge cat-badge--shared">${_splitBadgeText(splitType, paidBySub)}</span>`
       : '';
 
-    const deleteBtn = isOwn
+    const pendingBadge = pending
+      ? `<span class="pending-badge">⏳</span>`
+      : '';
+
+    const deleteBtn = (isOwn && !pending)
       ? `<button class="btn btn-danger btn-sm" data-tx-id="${tx.id}">${t('btnDelete')}</button>`
       : '';
 
-    return `<tr${isShared ? ' class="tx-row--shared"' : ''}>
-      <td>${fmtDate(tx.date)}</td>
+    const rowClass = [isShared ? 'tx-row--shared' : '', pending ? 'tx-pending' : ''].filter(Boolean).join(' ');
+
+    return `<tr${rowClass ? ` class="${rowClass}"` : ''}>
+      <td>${fmtDate(tx.date)}${pendingBadge}</td>
       <td>${escHtml(tx.description)}</td>
       <td>${catBadge}${sharedBadge}</td>
       ${amtCell}
@@ -216,7 +223,7 @@ export function renderSharedTransactionTable() {
   const sub = currentUser?.sub;
 
   const txs = txsForMonth(m)
-    .filter(tx => ['equal', 'full', 'shared'].includes(tx.splitType))
+    .filter(tx => ['equal', 'full', 'shared'].includes(tx.splitType) && !isPendingTx(tx))
     .sort((a, b) => b.date.localeCompare(a.date));
 
   const box = document.getElementById('sharedTransactionTableContainer');

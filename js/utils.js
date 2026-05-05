@@ -99,6 +99,20 @@ export function isIncome(tx) {
 }
 
 /**
+ * Gibt zurück, ob eine wiederkehrende Transaktion noch nicht fällig ist
+ * (Datum liegt nach heute). Solche Transaktionen werden angezeigt,
+ * aber nicht in Berechnungen einbezogen.
+ *
+ * @param {import('./store.js').Transaction} tx
+ * @returns {boolean}
+ */
+export function isPendingTx(tx) {
+  if (!tx.recurringRuleId) return false;
+  const today = new Date().toISOString().split('T')[0];
+  return tx.date > today;
+}
+
+/**
  * Gibt alle Transaktionen eines bestimmten Monats zurück.
  *
  * @param {string} m - Monatschlüssel (YYYY-MM)

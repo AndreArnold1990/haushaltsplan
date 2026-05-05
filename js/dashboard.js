@@ -7,8 +7,8 @@
 import { config }                        from './config.js';
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
-import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, getCat,
-         getPersonName, getOtherUser, toast, safeColor } from './utils.js';
+import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, isPendingTx,
+         getCat, getPersonName, getOtherUser, toast, safeColor } from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
@@ -22,7 +22,7 @@ let chartHistory  = null;
  */
 export function renderDashboard() {
   const m   = getCurrentMonth();
-  const txs = txsForMonth(m);
+  const txs = txsForMonth(m).filter(tx => !isPendingTx(tx));
 
   let inc = 0, exp = 0;
   txs.forEach(tx => { if (isIncome(tx)) inc += tx.amount; else exp += tx.amount; });
@@ -54,7 +54,7 @@ export function calculateSharedBalance() {
   if (!sub) return 0;
   let balance = 0;
 
-  appData.transactions.forEach(tx => {
+  appData.transactions.filter(tx => !isPendingTx(tx)).forEach(tx => {
     // Normalisiere legacy 'shared' → 'equal' mit paidBySub = createdBy.sub
     const splitType = tx.splitType === 'shared' ? 'equal' : tx.splitType;
     const paidBySub = tx.paidBySub || tx.createdBy?.sub;
@@ -230,7 +230,7 @@ function _renderHistoryChart() {
   const incData = [], expData = [];
   months.forEach(m => {
     let inc = 0, exp = 0;
-    txsForMonth(m).forEach(tx => {
+    txsForMonth(m).filter(tx => !isPendingTx(tx)).forEach(tx => {
       if (tx.splitType === 'settlement') return;
       if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
     });

@@ -497,6 +497,18 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
 .tx-row--shared:hover {
   background: #f0eeff;
 }
+.tx-pending {
+  opacity: 0.45;
+}
+.tx-pending td {
+  font-style: italic;
+}
+.pending-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  font-style: normal;
+  font-size: 0.85em;
+}
 
 /* ── iOS Zoom-Prävention: Inputs müssen ≥ 16px haben ─────────── */
 .form-group input,
