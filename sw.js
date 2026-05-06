@@ -1,6 +1,6 @@
 // Service Worker – Haushaltsplan
 // Cache-Version: v24
-const CACHE = 'haushaltsplan-v33';
+const CACHE = 'haushaltsplan-v34';
 
 const PRECACHE = [
   './index.html',
@@ -22,15 +22,10 @@ const PRECACHE = [
 ];
 
 self.addEventListener('install', e => {
-  // Kein skipWaiting() – warten bis App-Banner den Reload auslöst
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(PRECACHE).catch(() => {}))
   );
-});
-
-// App sendet SKIP_WAITING wenn Nutzer auf "Aktualisieren" tippt
-self.addEventListener('message', e => {
-  if (e.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
