@@ -43,19 +43,23 @@
 </header>
 
 <nav>
-  <button class="active" data-tab="dashboard">
-    <span class="nav-icon">&#128200;</span>
-    <span class="nav-label" data-i18n="navDashboard">Dashboard</span>
-  </button>
-  <button data-tab="transactions">
-    <span class="nav-icon">&#128179;</span>
-    <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
-  </button>
+  <div class="nav-group nav-group--left">
+    <button class="active" data-tab="dashboard">
+      <span class="nav-icon">&#128200;</span>
+      <span class="nav-label" data-i18n="navDashboard">Dashboard</span>
+    </button>
+    <button data-tab="transactions">
+      <span class="nav-icon">&#128179;</span>
+      <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
+    </button>
+  </div>
   <button class="nav-add-btn" title="Neue Transaktion">&#43;</button>
-  <button data-tab="settings">
-    <span class="nav-icon">&#9881;</span>
-    <span class="nav-label" data-i18n="navSettings">Einstellungen</span>
-  </button>
+  <div class="nav-group nav-group--right">
+    <button data-tab="settings">
+      <span class="nav-icon">&#9881;</span>
+      <span class="nav-label" data-i18n="navSettings">Einstellungen</span>
+    </button>
+  </div>
 </nav>
 
 <main>
