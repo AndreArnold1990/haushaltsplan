@@ -21,12 +21,12 @@ let chartHistory  = null;
  * Rendert das gesamte Dashboard.
  */
 export function renderDashboard() {
-  const m    = getCurrentMonth();
-  const txs  = txsForMonth(m).filter(tx => !isPendingTx(tx));
-  const mine = _myTxs(txs);
+  const m      = getCurrentMonth();
+  const txs    = txsForMonth(m).filter(tx => !isPendingTx(tx));
+  const shares = _myShareTxs(txs);
 
   let inc = 0, exp = 0;
-  mine.forEach(tx => {
+  shares.forEach(tx => {
     if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
   });
   const bal = inc - exp;
@@ -38,7 +38,7 @@ export function renderDashboard() {
   balEl.textContent = fmt(bal);
   balEl.style.color = bal >= 0 ? 'var(--income)' : 'var(--expense)';
 
-  _renderCategoryChart(mine);
+  _renderCategoryChart(shares);
   _renderHistoryChart();
   _renderSharedSummary();
 }
@@ -131,29 +131,61 @@ export function saveSettlement() {
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
 
 /**
- * Filtert eine Transaktionsliste auf die aus Sicht des aktuellen Nutzers
- * relevanten Einträge für Einnahmen/Ausgaben-Berechnungen:
+ * Gibt den Betrag zurück, der dem aktuellen Nutzer aus einer Transaktion
+ * als Kosten/Einnahmen zuzurechnen ist (Kostenaufteilungs-Modell):
  *
- *   - Settlements:  immer ausgeschlossen (reine Verrechnungen)
- *   - Persönlich:   nur eigene Transaktionen (createdBy === ich)
- *   - Geteilt (equal/full): nur wenn ich der Zahler bin (paidBySub === ich)
- *     → User B zahlt nicht, also fließt die Transaktion nicht in User Bs Monatstotals
+ *   settlement        → null  (reine Verrechnung, nie in Totals)
+ *   personal          → voller Betrag, aber nur für den Ersteller
+ *   equal / shared    → immer amount/2 für BEIDE Nutzer
+ *   full (ich zahlte) → 0 € für mich (anderer trägt die Kosten)
+ *   full (anderer z.) → voller Betrag für mich (ich trage die Kosten)
+ *
+ * Beispiel: A zahlt 100 € equal-split
+ *   → A sieht 50 € Ausgaben, B sieht 50 € Ausgaben
+ *   → Bilanz: B schuldet A 50 € (separat in calculateSharedBalance)
+ *
+ * @param {import('./store.js').Transaction} tx
+ * @returns {number|null}
+ */
+function _myShare(tx) {
+  const sub = currentUser?.sub;
+
+  if (tx.splitType === 'settlement') return null;
+
+  if (tx.splitType === 'equal' || tx.splitType === 'shared') {
+    return Math.round((tx.amount / 2) * 100) / 100;
+  }
+
+  if (tx.splitType === 'full') {
+    const paidBySub = tx.paidBySub || tx.createdBy?.sub;
+    // Ich habe vorgestreckt → anderer trägt die Kosten → meine Ausgabe: 0
+    if (paidBySub === sub) return 0;
+    // Anderer hat vorgestreckt → ich trage die Kosten → voller Betrag
+    return tx.amount;
+  }
+
+  // Personal: nur eigene Transaktionen zählen
+  if (sub && tx.createdBy?.sub !== sub) return null;
+  return tx.amount;
+}
+
+/**
+ * Gibt eine modifizierte Transaktionsliste zurück, bei der jedes
+ * `amount`-Feld den Anteil des aktuellen Nutzers enthält.
+ * Transaktionen mit null-Anteil (Settlement, fremde Personal-Tx) werden entfernt.
  *
  * @param {import('./store.js').Transaction[]} txs
- * @returns {import('./store.js').Transaction[]}
+ * @returns {Array<import('./store.js').Transaction & { amount: number }>}
  */
-function _myTxs(txs) {
-  const sub = currentUser?.sub;
-  return txs.filter(tx => {
-    if (tx.splitType === 'settlement') return false;
-    const isShared = tx.splitType === 'equal' || tx.splitType === 'full' || tx.splitType === 'shared';
-    if (isShared) {
-      const paidBySub = tx.paidBySub || tx.createdBy?.sub;
-      return paidBySub === sub; // Nur zählen wenn ich gezahlt habe
-    }
-    // Persönlich: nur eigene Transaktionen
-    return !sub || tx.createdBy?.sub === sub;
-  });
+function _myShareTxs(txs) {
+  return txs
+    .map(tx => {
+      const share = _myShare(tx);
+      if (share === null) return null;
+      return { ...tx, amount: share };
+    })
+    .filter(Boolean)
+    .filter(tx => tx.amount > 0);
 }
 
 /**
@@ -269,7 +301,7 @@ function _renderHistoryChart() {
   const incData = [], expData = [];
   months.forEach(m => {
     let inc = 0, exp = 0;
-    _myTxs(txsForMonth(m).filter(tx => !isPendingTx(tx))).forEach(tx => {
+    _myShareTxs(txsForMonth(m).filter(tx => !isPendingTx(tx))).forEach(tx => {
       if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
     });
     incData.push(inc);
