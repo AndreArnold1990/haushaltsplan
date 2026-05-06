@@ -12,7 +12,7 @@
  */
 
 import { appData, saveData, currentUser } from './store.js';
-import { t }                              from './i18n.js';
+import { t, getUiLocale }                 from './i18n.js';
 import { fmt, fmtDate, monthKey, getCurrentMonth, monthLabel,
          txsForMonth, getCat, isIncome, isPendingTx, escHtml, toast, safeColor,
          getPersonName, getOtherUser }    from './utils.js';
@@ -152,70 +152,59 @@ export function renderTransactionTable() {
     return;
   }
 
-  const rows = txs.map(tx => {
+  const items = txs.map(tx => {
     const cat      = getCat(tx.categoryId);
     const inc      = isIncome(tx);
     const isOwn    = !sub || tx.createdBy?.sub === sub;
     const pending  = isPendingTx(tx);
 
-    // Normalisiere legacy 'shared'
     const splitType = tx.splitType === 'shared' ? 'equal' : (tx.splitType || 'personal');
     const paidBySub = tx.paidBySub || tx.createdBy?.sub;
     const isShared  = splitType === 'equal' || splitType === 'full';
 
-    // Anzeigebetrag: bei equal = Anteil, bei full = voll
     let displayAmt = tx.amount;
-    let amtHint    = '';
+    let amtSub     = '';
     if (splitType === 'equal') {
       displayAmt = Math.round((tx.amount / 2) * 100) / 100;
-      amtHint    = `<span class="split-label">(${fmt(tx.amount)} ${t('splitLabelTotal')})</span>`;
+      amtSub     = `<span class="tx-list-sub">${fmt(tx.amount)} ${t('splitLabelTotal')}</span>`;
     }
 
-    const amtCell = `<td class="${inc ? 'amount-income' : 'amount-expense'}">
-      ${inc ? '+' : '-'}${fmt(displayAmt)}${amtHint}
-    </td>`;
+    const d       = new Date(tx.date + 'T00:00:00');
+    const day     = String(d.getDate()).padStart(2, '0');
+    const month   = d.toLocaleDateString(getUiLocale ? getUiLocale() : 'de-DE', { month: 'short' });
 
-    const catBadge = cat
-      ? `<span class="cat-badge" style="background:${safeColor(cat.color)}22;color:${safeColor(cat.color)}">
-           <span class="cat-dot" style="background:${safeColor(cat.color)}"></span>${escHtml(cat.name)}
-         </span>`
-      : '&mdash;';
+    const dotColor = safeColor(cat?.color || '#ccc');
+    const catLabel = cat ? escHtml(cat.name) : '';
+    const sharedLabel = isShared ? ` · ${_splitBadgeText(splitType, paidBySub)}` : '';
 
-    const sharedBadge = isShared
-      ? `<span class="cat-badge cat-badge--shared">${_splitBadgeText(splitType, paidBySub)}</span>`
-      : '';
-
-    const pendingBadge = pending
-      ? `<span class="pending-badge">⏳</span>`
-      : '';
-
-    const rowClass = [
-      'tx-row-clickable',
-      isShared ? 'tx-row--shared' : '',
-      pending  ? 'tx-pending'     : '',
+    const classes = [
+      'tx-list-item',
+      isShared ? 'tx-list-item--shared' : '',
+      pending  ? 'tx-pending' : '',
+      (!pending && isOwn) ? 'tx-row-clickable' : '',
     ].filter(Boolean).join(' ');
 
     const editAttr = (!pending && isOwn) ? ` data-tx-edit-id="${tx.id}"` : '';
 
-    return `<tr class="${rowClass}"${editAttr}>
-      <td class="td-date">
-        <span class="tx-date">${fmtDate(tx.date)}${pendingBadge}</span>
-        <span class="tx-cat-below">${catBadge}${sharedBadge}</span>
-      </td>
-      <td>${escHtml(tx.description)}</td>
-      ${amtCell}
-    </tr>`;
+    return `<div class="${classes}"${editAttr}>
+      <div class="tx-list-date">
+        <span class="tx-list-day">${day}</span>
+        <span class="tx-list-month">${month}${pending ? ' ⏳' : ''}</span>
+      </div>
+      <div class="tx-list-mid">
+        <span class="tx-list-desc">${escHtml(tx.description)}</span>
+        <span class="tx-list-cat">
+          <span class="tx-list-dot" style="background:${dotColor}"></span>${catLabel}${sharedLabel}
+        </span>
+      </div>
+      <div class="tx-list-right">
+        <span class="tx-list-amt ${inc ? 'amount-income' : 'amount-expense'}">${inc ? '+' : '−'}${fmt(displayAmt)}</span>
+        ${amtSub}
+      </div>
+    </div>`;
   }).join('');
 
-  box.innerHTML = `<table>
-    <thead>
-      <tr>
-        <th>${t('thDate')}</th><th>${t('thDescription')}</th>
-        <th>${t('thAmount')}</th>
-      </tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  box.innerHTML = `<div class="tx-list">${items}</div>`;
 }
 
 /**
@@ -264,27 +253,30 @@ export function renderSharedTransactionTable() {
          </span>`
       : '&mdash;';
 
+    const d     = new Date(tx.date + 'T00:00:00');
+    const day   = String(d.getDate()).padStart(2, '0');
+    const month = d.toLocaleDateString(getUiLocale ? getUiLocale() : 'de-DE', { month: 'short' });
+    const dotColor = safeColor(cat?.color || '#ccc');
+
     const editAttr = isOwn ? ` data-tx-edit-id="${tx.id}"` : '';
-    return `<tr class="tx-row-clickable"${editAttr}>
-      <td class="td-date">
-        <span class="tx-date">${fmtDate(tx.date)}</span>
-        <span class="tx-cat-below">${badge}</span>
-      </td>
-      <td>${escHtml(tx.description)}</td>
-      <td>${escHtml(paidByName)}</td>
-      <td class="${inc ? 'amount-income' : 'amount-expense'}">${amtDisplay}</td>
-    </tr>`;
+    return `<div class="tx-list-item tx-list-item--shared${isOwn ? ' tx-row-clickable' : ''}"${editAttr}>
+      <div class="tx-list-date">
+        <span class="tx-list-day">${day}</span>
+        <span class="tx-list-month">${month}</span>
+      </div>
+      <div class="tx-list-mid">
+        <span class="tx-list-desc">${escHtml(tx.description)}</span>
+        <span class="tx-list-cat">
+          <span class="tx-list-dot" style="background:${dotColor}"></span>${escHtml(cat?.name || '')} · ${escHtml(paidByName)}
+        </span>
+      </div>
+      <div class="tx-list-right">
+        <span class="tx-list-amt ${inc ? 'amount-income' : 'amount-expense'}">${amtDisplay}</span>
+      </div>
+    </div>`;
   }).join('');
 
-  box.innerHTML = `<table>
-    <thead>
-      <tr>
-        <th>${t('thDate')}</th><th>${t('thDescription')}</th>
-        <th>${t('thPaidBy')}</th><th>${t('thAmount')}</th>
-      </tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  box.innerHTML = `<div class="tx-list">${rows}</div>`;
 }
 
 /** Aktuell im Edit-Modal geladene Transaktions-ID. @type {string|null} */
