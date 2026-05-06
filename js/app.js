@@ -18,7 +18,8 @@ import { renderDashboard, openSettlementModal,
          closeSettlementModal, saveSettlement }         from './dashboard.js';
 import { renderTransactions, populateCategorySelect,
          renderTransactionTable, renderSharedTransactionTable,
-         addTransaction, deleteTransaction }            from './transactions.js';
+         addTransaction, deleteTransaction,
+         openEditTxModal, closeEditTxModal, saveEditTx, deleteEditTx } from './transactions.js';
 import { renderCategories, addCategory,
          confirmDeleteCategory, closeModal,
          openEditCatModal, saveEditCat, closeEditCatModal,
@@ -147,6 +148,12 @@ function _initEventListeners() {
   document.getElementById('btnConfirmAddTx').addEventListener('click', addTransaction);
   document.getElementById('btnCancelAddTx').addEventListener('click', closeAddTxModal);
 
+  // ── Modal: Transaktion bearbeiten ─────────────────────────────────────────
+
+  document.getElementById('btnSaveEditTx').addEventListener('click',   saveEditTx);
+  document.getElementById('btnDeleteEditTx').addEventListener('click', deleteEditTx);
+  document.getElementById('btnCancelEditTx').addEventListener('click', closeEditTxModal);
+
   // ── Modal: Kategorie bearbeiten ───────────────────────────────────────────
 
   document.getElementById('btnSaveEditCat').addEventListener('click', saveEditCat);
@@ -176,9 +183,9 @@ function _initEventListeners() {
     const recEl = e.target.closest('[data-rec-id]');
     if (recEl) { deleteRecurringRule(recEl.dataset.recId); return; }
 
-    // Transaktion löschen (data-tx-id auf dem Button)
-    const txEl = e.target.closest('[data-tx-id]');
-    if (txEl) { deleteTransaction(txEl.dataset.txId); return; }
+    // Transaktion bearbeiten (data-tx-edit-id auf der Tabellenzeile)
+    const txEditEl = e.target.closest('[data-tx-edit-id]');
+    if (txEditEl) { openEditTxModal(txEditEl.dataset.txEditId); return; }
 
     // Kategorie bearbeiten (data-cat-id auf dem Listeneintrag)
     const catEl = e.target.closest('[data-cat-id]');
@@ -189,6 +196,7 @@ function _initEventListeners() {
       const closeFns = {
         deleteCatModal:      closeModal,
         addTxModal:          closeAddTxModal,
+        editTxModal:         closeEditTxModal,
         editCatModal:        closeEditCatModal,
         settlementModal:     closeSettlementModal,
         editRecurringModal:  closeEditRecurringModal,

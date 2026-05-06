@@ -261,6 +261,40 @@
   </div>
 </div>
 
+<!-- ══ EDIT TRANSACTION MODAL ══ -->
+<div id="editTxModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title" data-i18n="modalEditTxTitle">&#9999; Transaktion bearbeiten</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label data-i18n="labelDate">Datum</label>
+        <input type="date" id="editTxDate">
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelCategory">Kategorie</label>
+        <select id="editTxCategory"></select>
+      </div>
+      <div class="form-group form-group--full" id="editTxSplitGroup">
+        <label data-i18n="labelSplitType">Wie wird gezahlt?</label>
+        <select id="editTxSplitType"></select>
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelAmount">Betrag (&#8364;)</label>
+        <input type="number" id="editTxAmount" placeholder="0.00" min="0.01" step="0.01">
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelDescription">Beschreibung</label>
+        <input type="text" id="editTxDescription" data-i18n-ph="descPlaceholder" placeholder="z.B. Gehalt April" maxlength="80">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary"   id="btnSaveEditTx"   data-i18n="btnSave">&#10003; Speichern</button>
+      <button class="btn btn-danger"    id="btnDeleteEditTx" data-i18n="btnDelete">&#128465; L&#246;schen</button>
+      <button class="btn btn-secondary" id="btnCancelEditTx" data-i18n="btnCancel">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ EDIT CATEGORY MODAL ══ -->
 <div id="editCatModal" class="modal-overlay">
   <div class="modal-box">

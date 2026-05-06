@@ -38,6 +38,8 @@ const translations = {
     datasetExpense:        'Ausgaben',
 
     // Transaktionen – Formular
+    modalEditTxTitle:      '✎ Transaktion bearbeiten',
+    toastTxUpdated:        'Transaktion aktualisiert ✓',
     sectionNewTx:          '+ Neue Transaktion',
     labelDate:             'Datum',
     labelAmount:           'Betrag (€)',
@@ -192,6 +194,8 @@ const translations = {
     datasetIncome:         'Ingresos',
     datasetExpense:        'Gastos',
 
+    modalEditTxTitle:      '✎ Editar transacción',
+    toastTxUpdated:        'Transacción actualizada ✓',
     sectionNewTx:          '+ Nueva transacción',
     labelDate:             'Fecha',
     labelAmount:           'Importe (€)',

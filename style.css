@@ -500,6 +500,12 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   font-size: 0.72rem;
 }
 
+.tx-row-clickable[data-tx-edit-id] {
+  cursor: pointer;
+}
+.tx-row-clickable[data-tx-edit-id]:hover td {
+  background: #f5f5ff;
+}
 .tx-row--shared {
   background: #f8f7ff;
 }
