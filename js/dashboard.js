@@ -21,12 +21,12 @@ let chartHistory  = null;
  * Rendert das gesamte Dashboard.
  */
 export function renderDashboard() {
-  const m   = getCurrentMonth();
-  const txs = txsForMonth(m).filter(tx => !isPendingTx(tx));
+  const m    = getCurrentMonth();
+  const txs  = txsForMonth(m).filter(tx => !isPendingTx(tx));
+  const mine = _myTxs(txs);
 
   let inc = 0, exp = 0;
-  txs.forEach(tx => {
-    if (tx.splitType === 'settlement') return; // Ausgleiche sind keine Einnahmen/Ausgaben
+  mine.forEach(tx => {
     if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
   });
   const bal = inc - exp;
@@ -38,7 +38,7 @@ export function renderDashboard() {
   balEl.textContent = fmt(bal);
   balEl.style.color = bal >= 0 ? 'var(--income)' : 'var(--expense)';
 
-  _renderCategoryChart(txs);
+  _renderCategoryChart(mine);
   _renderHistoryChart();
   _renderSharedSummary();
 }
@@ -129,6 +129,32 @@ export function saveSettlement() {
 }
 
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
+
+/**
+ * Filtert eine Transaktionsliste auf die aus Sicht des aktuellen Nutzers
+ * relevanten Einträge für Einnahmen/Ausgaben-Berechnungen:
+ *
+ *   - Settlements:  immer ausgeschlossen (reine Verrechnungen)
+ *   - Persönlich:   nur eigene Transaktionen (createdBy === ich)
+ *   - Geteilt (equal/full): nur wenn ich der Zahler bin (paidBySub === ich)
+ *     → User B zahlt nicht, also fließt die Transaktion nicht in User Bs Monatstotals
+ *
+ * @param {import('./store.js').Transaction[]} txs
+ * @returns {import('./store.js').Transaction[]}
+ */
+function _myTxs(txs) {
+  const sub = currentUser?.sub;
+  return txs.filter(tx => {
+    if (tx.splitType === 'settlement') return false;
+    const isShared = tx.splitType === 'equal' || tx.splitType === 'full' || tx.splitType === 'shared';
+    if (isShared) {
+      const paidBySub = tx.paidBySub || tx.createdBy?.sub;
+      return paidBySub === sub; // Nur zählen wenn ich gezahlt habe
+    }
+    // Persönlich: nur eigene Transaktionen
+    return !sub || tx.createdBy?.sub === sub;
+  });
+}
 
 /**
  * Gibt den Vornamen der anderen Person zurück (aus appData.users).
@@ -243,8 +269,7 @@ function _renderHistoryChart() {
   const incData = [], expData = [];
   months.forEach(m => {
     let inc = 0, exp = 0;
-    txsForMonth(m).filter(tx => !isPendingTx(tx)).forEach(tx => {
-      if (tx.splitType === 'settlement') return;
+    _myTxs(txsForMonth(m).filter(tx => !isPendingTx(tx))).forEach(tx => {
       if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
     });
     incData.push(inc);
