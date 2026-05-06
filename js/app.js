@@ -32,6 +32,7 @@ import { applyRecurringRules, addRecurringRule, deleteRecurringRule,
          populateRecurringSplitSelect }                 from './recurring.js';
 import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
+import { toast }                                        from './utils.js';
 import * as Firebase                                    from './firebase.js';
 
 // ── Initialisierung ───────────────────────────────────────────────────────────
@@ -127,6 +128,17 @@ function _initEventListeners() {
         renderRecurringRules();
       }
     });
+  });
+
+  // ── Systemeinstellungen ───────────────────────────────────────────────────
+  document.getElementById('btnResetTransactions').addEventListener('click', () => {
+    if (!confirm(t('confirmResetTx'))) return;
+    appData.transactions = [];
+    saveData();
+    renderDashboard();
+    renderTransactionTable();
+    renderSharedTransactionTable();
+    toast(t('toastTxReset'));
   });
 
   // ── Wiederkehrende Ausgaben ───────────────────────────────────────────────

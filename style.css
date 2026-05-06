@@ -303,6 +303,29 @@ tr:hover td       { background: #f8fafc; }
 .btn-edit-rec:hover   { color: var(--primary); }
 .btn-delete-rec:hover { color: var(--expense); }
 
+/* ── Systemeinstellungen ─────────────────────────────────────── */
+.system-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.system-setting-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+.system-setting-label {
+  font-weight: 600;
+  color: var(--text);
+}
+.system-setting-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
 /* ── Show/Hide-Helfer (JS-gesteuert via classList) ───────────── */
 .is-hidden { display: none !important; }
 /* Dashboard: Anmelde-Hinweis vs. Inhalt */

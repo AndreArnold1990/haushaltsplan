@@ -24,6 +24,7 @@ const translations = {
     navSettings:           'Einstellungen',
     subTabCategories:      'Kategorien',
     subTabRecurring:       'Wiederkehrend',
+    subTabSystem:          'Systemeinstellungen',
 
     // Dashboard – Kacheln
     labelIncome:           'Einnahmen (Monat)',
@@ -71,6 +72,14 @@ const translations = {
     toastRecurringDeleted: 'Wiederkehrende Ausgabe gelöscht.',
     confirmDeleteRecurring:'Regel und alle generierten Transaktionen löschen?',
     modalEditRecurringTitle: '✎ Wiederkehrende Ausgabe bearbeiten',
+
+    // Systemeinstellungen
+    sectionSystem:         '⚙ Systemeinstellungen',
+    resetTxLabel:          'Transaktionen zurücksetzen',
+    resetTxDesc:           'Alle Transaktionen unwiderruflich löschen. Kategorien und Regeln bleiben erhalten.',
+    btnResetTx:            '🗑 Zurücksetzen',
+    confirmResetTx:        'Wirklich alle Transaktionen löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
+    toastTxReset:          'Alle Transaktionen gelöscht.',
 
     // Kategorien – Formular
     sectionNewCat:         '+ Neue Kategorie',
@@ -174,6 +183,7 @@ const translations = {
     navSettings:           'Ajustes',
     subTabCategories:      'Categorías',
     subTabRecurring:       'Recurrente',
+    subTabSystem:          'Ajustes del sistema',
 
     labelIncome:           'Ingresos (Mes)',
     labelExpense:          'Gastos (Mes)',
@@ -215,6 +225,14 @@ const translations = {
     toastRecurringDeleted: 'Gasto recurrente eliminado.',
     confirmDeleteRecurring:'¿Eliminar regla y todas las transacciones generadas?',
     modalEditRecurringTitle: '✎ Editar gasto recurrente',
+
+    // Ajustes del sistema
+    sectionSystem:         '⚙ Ajustes del sistema',
+    resetTxLabel:          'Restablecer transacciones',
+    resetTxDesc:           'Eliminar todas las transacciones de forma permanente. Las categorías y reglas se conservan.',
+    btnResetTx:            '🗑 Restablecer',
+    confirmResetTx:        '¿Eliminar realmente todas las transacciones? Esta acción no se puede deshacer.',
+    toastTxReset:          'Todas las transacciones eliminadas.',
 
     sectionNewCat:         '+ Nueva categoría',
     labelName:             'Nombre',

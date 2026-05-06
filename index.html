@@ -130,6 +130,7 @@
     <div class="settings-subtabs">
       <button class="settings-subtab active" data-settings-tab="categories" data-i18n="subTabCategories">Kategorien</button>
       <button class="settings-subtab" data-settings-tab="recurring" data-i18n="subTabRecurring">Wiederkehrend</button>
+      <button class="settings-subtab" data-settings-tab="system" data-i18n="subTabSystem">Systemeinstellungen</button>
     </div>
 
     <!-- Sub-Panel: Kategorien -->
@@ -202,6 +203,20 @@
       <div class="card">
         <div class="section-title" data-i18n="sectionRecurringList">Aktive Regeln</div>
         <div id="recurringList"></div>
+      </div>
+    </div>
+
+    <!-- Sub-Panel: Systemeinstellungen -->
+    <div class="settings-panel" id="settings-system">
+      <div class="card">
+        <div class="section-title" data-i18n="sectionSystem">&#9881; Systemeinstellungen</div>
+        <div class="system-setting-row">
+          <div class="system-setting-info">
+            <span class="system-setting-label" data-i18n="resetTxLabel">Transaktionen zurücksetzen</span>
+            <span class="system-setting-desc" data-i18n="resetTxDesc">Alle Transaktionen unwiderruflich löschen. Kategorien und Regeln bleiben erhalten.</span>
+          </div>
+          <button id="btnResetTransactions" class="btn btn-danger" data-i18n="btnResetTx">&#128465; Zurücksetzen</button>
+        </div>
       </div>
     </div>
   </div>
