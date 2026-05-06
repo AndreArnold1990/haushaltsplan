@@ -70,9 +70,42 @@ import * as Firebase                                    from './firebase.js';
   });
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(e => console.warn('SW:', e));
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        // Sofort auf Updates prüfen
+        reg.update();
+
+        // Neuen SW erkennen (frische Installation oder Update)
+        const onNewSW = (sw) => {
+          sw.addEventListener('statechange', () => {
+            if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+              // Neuer SW wartet → Update-Banner anzeigen
+              _showUpdateBanner(sw);
+            }
+          });
+        };
+
+        if (reg.installing) onNewSW(reg.installing);
+        if (reg.waiting)   _showUpdateBanner(reg.waiting);
+        reg.addEventListener('updatefound', () => onNewSW(reg.installing));
+
+        // Nach SW-Wechsel automatisch neu laden
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
+      })
+      .catch(e => console.warn('SW:', e));
   }
 })();
+
+function _showUpdateBanner(sw) {
+  const banner = document.getElementById('updateBanner');
+  if (!banner) return;
+  banner.classList.add('is-visible');
+  document.getElementById('btnUpdateReload').onclick = () => {
+    sw.postMessage({ type: 'SKIP_WAITING' });
+  };
+}
 
 // ── Event-Listener ────────────────────────────────────────────────────────────
 

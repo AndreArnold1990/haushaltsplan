@@ -99,6 +99,36 @@ header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
 .btn-signout:hover { color: white; }
 
 /* ── Setup-Banner ───────────────────────────────────────────── */
+.update-banner {
+  display: none;
+  position: fixed;
+  bottom: 80px; /* über der Bottom-Nav */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1b4b;
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+  white-space: nowrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.update-banner.is-visible { display: flex; }
+.btn-update-reload {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-update-reload:hover { background: #4338ca; }
+
 #setupBanner {
   background: #fef3c7;
   border-bottom: 2px solid #fbbf24;
