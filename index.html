@@ -74,14 +74,17 @@
     <div id="dashboardContent">
     <div class="summary-grid">
       <div class="summary-card income">
+        <div class="summary-card-icon">&#8593;</div>
         <div class="label" data-i18n="labelIncome">Einnahmen (Monat)</div>
         <div class="amount" id="monthIncome">...</div>
       </div>
       <div class="summary-card expense">
+        <div class="summary-card-icon">&#8595;</div>
         <div class="label" data-i18n="labelExpense">Ausgaben (Monat)</div>
         <div class="amount" id="monthExpense">...</div>
       </div>
       <div class="summary-card balance">
+        <div class="summary-card-icon">=</div>
         <div class="label" data-i18n="labelBalance">Saldo (Monat)</div>
         <div class="amount" id="monthBalance">...</div>
       </div>
@@ -89,7 +92,13 @@
     <div class="charts-grid">
       <div class="card">
         <div class="chart-title" data-i18n="chartCategoryTitle">&#127774; Ausgaben nach Kategorie</div>
-        <div class="chart-container"><canvas id="categoryChart"></canvas></div>
+        <div class="chart-container">
+          <canvas id="categoryChart"></canvas>
+          <div class="chart-empty" id="categoryChartEmpty">
+            <div class="chart-empty-icon">&#128202;</div>
+            <div class="chart-empty-text" data-i18n="chartCategoryEmpty">Keine Ausgaben diesen Monat</div>
+          </div>
+        </div>
       </div>
       <div class="card">
         <div class="chart-title" data-i18n="chartHistoryTitle">&#128200; Verlauf letzte Monate</div>

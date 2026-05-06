@@ -163,10 +163,11 @@ main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .summary-card {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem 1.5rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
   border-top: 4px solid transparent;
+  position: relative;
 }
 .summary-card.income  { border-top-color: var(--income); }
 .summary-card.expense { border-top-color: var(--expense); }
@@ -177,10 +178,43 @@ main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .summary-card.expense .amount { color: var(--expense); }
 .summary-card.balance .amount { color: var(--primary); }
 
+/* Icon-Badge oben rechts in jeder Kachel */
+.summary-card-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.summary-card.income  .summary-card-icon { background: var(--income-light);  color: var(--income); }
+.summary-card.expense .summary-card-icon { background: var(--expense-light); color: var(--expense); }
+.summary-card.balance .summary-card-icon { background: var(--primary-light); color: var(--primary); }
+
 /* ── Charts ─────────────────────────────────────────────────── */
 .charts-grid   { display: grid; grid-template-columns: 5fr 7fr; gap: 1.25rem; }
 .chart-title   { font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; }
 .chart-container { position: relative; height: 290px; }
+
+/* Empty-State innerhalb der Chart-Box */
+.chart-empty {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  pointer-events: none;
+}
+.chart-empty-icon { font-size: 2.8rem; opacity: 0.18; }
+.chart-empty-text { font-size: 0.875rem; color: var(--text-secondary); font-weight: 500; }
 
 /* ── Formulare ──────────────────────────────────────────────── */
 .form-grid  { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
@@ -661,15 +695,15 @@ nav button        { min-height: 44px; }
   .summary-card {
     padding: 0.85rem 0.65rem;
   }
-  .summary-card .label  { font-size: 0.62rem; }
-  .summary-card .amount { font-size: 1.15rem; }
+  .summary-card .label       { font-size: 0.62rem; }
+  .summary-card .amount      { font-size: 1.15rem; }
+  .summary-card-icon         { display: none; } /* zu wenig Platz bei kompakten Kacheln */
 
   /* Formulare: eine Spalte */
   .form-grid { grid-template-columns: 1fr; }
 
-  /* Tabelle: horizontal scrollbar statt Overflow */
-  .card { overflow-x: auto; }
-  table { min-width: 480px; }
+  /* Charts: auf Smartphones etwas kompakter */
+  .chart-container { height: 220px; }
 
   /* Toast: über dem Home-Indikator */
   #toast {

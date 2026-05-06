@@ -185,7 +185,9 @@ function _renderSharedSummary() {
  * @package
  */
 function _renderCategoryChart(txs) {
-  const ctx = document.getElementById('categoryChart').getContext('2d');
+  const canvas  = document.getElementById('categoryChart');
+  const emptyEl = document.getElementById('categoryChartEmpty');
+  const ctx     = canvas.getContext('2d');
   if (chartCategory) { chartCategory.destroy(); chartCategory = null; }
 
   const totals = {};
@@ -197,7 +199,15 @@ function _renderCategoryChart(txs) {
     const c = getCat(id);
     if (c) { labels.push(c.name); values.push(v); colors.push(safeColor(c.color)); }
   });
-  if (!values.length) return;
+
+  // Empty state
+  if (!values.length) {
+    canvas.style.display  = 'none';
+    if (emptyEl) emptyEl.style.display = 'flex';
+    return;
+  }
+  canvas.style.display  = '';
+  if (emptyEl) emptyEl.style.display = 'none';
 
   chartCategory = new Chart(ctx, {
     type: 'doughnut',

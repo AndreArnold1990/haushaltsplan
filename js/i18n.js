@@ -33,6 +33,7 @@ const translations = {
 
     // Dashboard – Charts
     chartCategoryTitle:    '🌞 Ausgaben nach Kategorie',
+    chartCategoryEmpty:    'Keine Ausgaben diesen Monat',
     chartHistoryTitle:     '📈 Verlauf letzte Monate',
     datasetIncome:         'Einnahmen',
     datasetExpense:        'Ausgaben',
@@ -190,6 +191,7 @@ const translations = {
     labelBalance:          'Saldo (Mes)',
 
     chartCategoryTitle:    '🌞 Gastos por categoría',
+    chartCategoryEmpty:    'Sin gastos este mes',
     chartHistoryTitle:     '📈 Historial últimos meses',
     datasetIncome:         'Ingresos',
     datasetExpense:        'Gastos',
