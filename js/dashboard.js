@@ -25,7 +25,10 @@ export function renderDashboard() {
   const txs = txsForMonth(m).filter(tx => !isPendingTx(tx));
 
   let inc = 0, exp = 0;
-  txs.forEach(tx => { if (isIncome(tx)) inc += tx.amount; else exp += tx.amount; });
+  txs.forEach(tx => {
+    if (tx.splitType === 'settlement') return; // Ausgleiche sind keine Einnahmen/Ausgaben
+    if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
+  });
   const bal = inc - exp;
 
   document.getElementById('monthIncome').textContent  = fmt(inc);
