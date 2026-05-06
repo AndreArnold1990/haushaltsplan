@@ -196,9 +196,11 @@ export function renderTransactionTable() {
     const rowClass = [isShared ? 'tx-row--shared' : '', pending ? 'tx-pending' : ''].filter(Boolean).join(' ');
 
     return `<tr${rowClass ? ` class="${rowClass}"` : ''}>
-      <td>${fmtDate(tx.date)}${pendingBadge}</td>
+      <td class="td-date">
+        <span class="tx-date">${fmtDate(tx.date)}${pendingBadge}</span>
+        <span class="tx-cat-below">${catBadge}${sharedBadge}</span>
+      </td>
       <td>${escHtml(tx.description)}</td>
-      <td>${catBadge}${sharedBadge}</td>
       ${amtCell}
       <td>${deleteBtn}</td>
     </tr>`;
@@ -208,7 +210,7 @@ export function renderTransactionTable() {
     <thead>
       <tr>
         <th>${t('thDate')}</th><th>${t('thDescription')}</th>
-        <th>${t('thCategory')}</th><th>${t('thAmount')}</th><th>${t('thAction')}</th>
+        <th>${t('thAmount')}</th><th>${t('thAction')}</th>
       </tr>
     </thead>
     <tbody>${rows}</tbody>

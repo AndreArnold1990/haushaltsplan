@@ -214,6 +214,9 @@ tr:last-child td  { border-bottom: none; }
 tr:hover td       { background: #f8fafc; }
 .amount-income    { color: var(--income);  font-weight: 700; }
 .amount-expense   { color: var(--expense); font-weight: 700; }
+.td-date          { vertical-align: top; white-space: nowrap; }
+.tx-date          { display: block; }
+.tx-cat-below     { display: block; margin-top: 0.3rem; }
 
 /* ── Kategorie-Badge ────────────────────────────────────────── */
 .cat-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.18rem 0.55rem; border-radius: 20px; font-size: 0.78rem; font-weight: 500; }
