@@ -285,15 +285,21 @@ tr:hover td       { background: #f8fafc; }
 .recurring-amount { font-weight: 700; color: var(--expense); }
 .recurring-desc   { color: var(--text); }
 .recurring-meta   { font-size: 0.78rem; color: var(--text-secondary); flex-basis: 100%; }
-.btn-delete-rec {
+.recurring-actions {
+  display: flex;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+.btn-delete-rec,
+.btn-edit-rec {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 1rem;
   padding: 0.25rem 0.5rem;
   color: var(--text-secondary);
-  flex-shrink: 0;
 }
+.btn-edit-rec:hover   { color: var(--primary); }
 .btn-delete-rec:hover { color: var(--expense); }
 
 /* ── Show/Hide-Helfer (JS-gesteuert via classList) ───────────── */

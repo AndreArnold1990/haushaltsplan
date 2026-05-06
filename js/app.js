@@ -26,6 +26,7 @@ import { renderCategories, addCategory,
 import { openAddTxModal, closeAddTxModal }               from './transactions.js';
 import { setAuthUI, setSyncUI, showTab }                from './ui.js';
 import { applyRecurringRules, addRecurringRule, deleteRecurringRule,
+         openEditRecurringModal, closeEditRecurringModal, saveEditRecurringRule,
          renderRecurringRules, populateRecurringCategorySelect,
          populateRecurringSplitSelect }                 from './recurring.js';
 import { t, setLanguage, setLangChangeCallback,
@@ -122,6 +123,10 @@ function _initEventListeners() {
     populateRecurringCategorySelect();
   });
 
+  // ── Modal: Wiederkehrende Ausgabe bearbeiten ──────────────────────────────
+  document.getElementById('btnSaveEditRecurring').addEventListener('click',   saveEditRecurringRule);
+  document.getElementById('btnCancelEditRecurring').addEventListener('click', closeEditRecurringModal);
+
   document.querySelector('.nav-add-btn').addEventListener('click', openAddTxModal);
 
   // ── Transaktionen-Tab ─────────────────────────────────────────────────────
@@ -163,6 +168,10 @@ function _initEventListeners() {
   // ── Event-Delegation ──────────────────────────────────────────────────────
 
   document.addEventListener('click', e => {
+    // Wiederkehrende Regel bearbeiten (data-rec-edit-id auf dem Button)
+    const recEditEl = e.target.closest('[data-rec-edit-id]');
+    if (recEditEl) { openEditRecurringModal(recEditEl.dataset.recEditId); return; }
+
     // Wiederkehrende Regel löschen (data-rec-id auf dem Button)
     const recEl = e.target.closest('[data-rec-id]');
     if (recEl) { deleteRecurringRule(recEl.dataset.recId); return; }
@@ -178,10 +187,11 @@ function _initEventListeners() {
     // Klick außerhalb der Modal-Box → Modal schließen
     if (e.target.classList.contains('modal-overlay')) {
       const closeFns = {
-        deleteCatModal:  closeModal,
-        addTxModal:      closeAddTxModal,
-        editCatModal:    closeEditCatModal,
-        settlementModal: closeSettlementModal,
+        deleteCatModal:      closeModal,
+        addTxModal:          closeAddTxModal,
+        editCatModal:        closeEditCatModal,
+        settlementModal:     closeSettlementModal,
+        editRecurringModal:  closeEditRecurringModal,
       };
       closeFns[e.target.id]?.();
       return;

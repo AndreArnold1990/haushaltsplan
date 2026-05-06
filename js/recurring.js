@@ -126,6 +126,118 @@ export function addRecurringRule() {
   toast(t('toastRecurringAdded'));
 }
 
+/** Aktuell im Edit-Modal geladene Regel-ID. @type {string|null} */
+let _editingRuleId = null;
+
+/**
+ * Öffnet das Edit-Modal und befüllt es mit den Werten der Regel.
+ * @param {string} id
+ */
+export function openEditRecurringModal(id) {
+  const rule = (appData.recurringRules || []).find(r => r.id === id);
+  if (!rule) return;
+  _editingRuleId = id;
+
+  // Kategorie-Dropdown befüllen (wie im Add-Formular)
+  const catSel = document.getElementById('editRecCategory');
+  const exp    = appData.categories.filter(c => c.type === 'expense');
+  catSel.innerHTML = '';
+  const g = document.createElement('optgroup');
+  g.label = t('groupExpense');
+  exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
+  if (exp.length) catSel.appendChild(g);
+  catSel.value = rule.categoryId;
+
+  // Split-Dropdown befüllen
+  const splitSel  = document.getElementById('editRecSplitType');
+  const otherName = _getOtherFirstName();
+  splitSel.innerHTML = [
+    `<option value="personal">${t('splitPersonal')}</option>`,
+    `<option value="equal_me">${t('splitEqualMe')}</option>`,
+    `<option value="full_me">${t('splitFullMe')}</option>`,
+    `<option value="equal_other">${t('splitEqualOther', otherName)}</option>`,
+    `<option value="full_other">${t('splitFullOther', otherName)}</option>`,
+  ].join('');
+
+  // Gespeichertes splitType + paidBySub → UI-Wert umrechnen
+  const sub = currentUser?.sub;
+  const otherSub = _getOtherSub();
+  let splitVal = 'personal';
+  if (rule.splitType === 'equal') {
+    splitVal = rule.paidBySub === sub ? 'equal_me' : 'equal_other';
+  } else if (rule.splitType === 'full') {
+    splitVal = rule.paidBySub === sub ? 'full_me' : 'full_other';
+  }
+  splitSel.value = splitVal;
+
+  document.getElementById('editRecAmount').value      = rule.amount;
+  document.getElementById('editRecStartDate').value   = rule.startDate;
+  document.getElementById('editRecInterval').value    = rule.interval;
+  document.getElementById('editRecDescription').value = rule.description !== '-' ? rule.description : '';
+
+  document.getElementById('editRecurringModal').classList.add('is-open');
+}
+
+/**
+ * Schließt das Edit-Modal für wiederkehrende Ausgaben.
+ */
+export function closeEditRecurringModal() {
+  _editingRuleId = null;
+  document.getElementById('editRecurringModal').classList.remove('is-open');
+}
+
+/**
+ * Speichert die geänderte Regel, löscht alte generierte Transaktionen und regeneriert sie.
+ */
+export function saveEditRecurringRule() {
+  if (!_editingRuleId) return;
+
+  const catId     = document.getElementById('editRecCategory').value;
+  const raw       = document.getElementById('editRecAmount').value;
+  const splitVal  = document.getElementById('editRecSplitType').value;
+  const startDate = document.getElementById('editRecStartDate').value;
+  const interval  = document.getElementById('editRecInterval').value;
+  const desc      = document.getElementById('editRecDescription').value.trim();
+  const amount    = parseFloat(raw);
+
+  if (!catId)                               { toast(t('toastSelectCategory')); return; }
+  if (!raw || amount <= 0 || isNaN(amount)) { toast(t('toastInvalidAmount'));  return; }
+  if (!startDate)                           { toast(t('toastSelectDate'));      return; }
+
+  let splitType = 'personal';
+  let paidBySub = null;
+  const otherSub = _getOtherSub();
+  if      (splitVal === 'equal_me')    { splitType = 'equal'; paidBySub = currentUser?.sub || null; }
+  else if (splitVal === 'full_me')     { splitType = 'full';  paidBySub = currentUser?.sub || null; }
+  else if (splitVal === 'equal_other') { splitType = 'equal'; paidBySub = otherSub; }
+  else if (splitVal === 'full_other')  { splitType = 'full';  paidBySub = otherSub; }
+
+  const idx = (appData.recurringRules || []).findIndex(r => r.id === _editingRuleId);
+  if (idx === -1) return;
+
+  // Regel aktualisieren
+  const updatedRule = {
+    ...appData.recurringRules[idx],
+    categoryId:  catId,
+    amount:      Math.round(amount * 100) / 100,
+    description: desc || '-',
+    startDate,
+    interval,
+    splitType,
+    paidBySub:   paidBySub || undefined,
+  };
+  if (!paidBySub) delete updatedRule.paidBySub;
+  appData.recurringRules[idx] = updatedRule;
+
+  // Alle bisher generierten Transaktionen für diese Regel löschen und neu erzeugen
+  appData.transactions = appData.transactions.filter(tx => tx.recurringRuleId !== _editingRuleId);
+  applyRecurringRules();
+  saveData();
+  closeEditRecurringModal();
+  renderRecurringRules();
+  toast(t('toastRecurringUpdated'));
+}
+
 /**
  * Löscht eine Regel und alle daraus generierten Transaktionen.
  * @param {string} id
@@ -193,12 +305,17 @@ export function renderRecurringRules() {
     const cat = getCat(rule.categoryId);
     return `<div class="recurring-item">
       <div class="recurring-info">
-        <span class="cat-badge" style="background:${safeColor(cat?.color || '#ccc')}">${escHtml(cat?.name || '?')}</span>
+        <span class="cat-badge" style="background:${safeColor(cat?.color || '#ccc')}22;color:${safeColor(cat?.color || '#ccc')}">
+          <span class="cat-dot" style="background:${safeColor(cat?.color || '#ccc')}"></span>${escHtml(cat?.name || '?')}
+        </span>
         <span class="recurring-amount">${fmt(rule.amount)}</span>
         <span class="recurring-desc">${escHtml(rule.description)}</span>
         <span class="recurring-meta">&#x21BB; ${intLabel[rule.interval] ?? rule.interval} &middot; ${t('recurringFrom')} ${fmtDate(rule.startDate)}</span>
       </div>
-      <button class="btn-delete-rec" data-rec-id="${rule.id}" title="${t('btnDelete')}">&#128465;</button>
+      <div class="recurring-actions">
+        <button class="btn-edit-rec" data-rec-edit-id="${rule.id}" title="${t('btnSave')}">&#9999;</button>
+        <button class="btn-delete-rec" data-rec-id="${rule.id}" title="${t('btnDelete')}">&#128465;</button>
+      </div>
     </div>`;
   }).join('');
 }

@@ -71,8 +71,10 @@ const translations = {
     recurringEmpty:        'Keine aktiven Regeln.',
     recurringFrom:         'ab',
     toastRecurringAdded:   'Wiederkehrende Ausgabe hinzugefügt ✓',
+    toastRecurringUpdated: 'Wiederkehrende Ausgabe aktualisiert ✓',
     toastRecurringDeleted: 'Wiederkehrende Ausgabe gelöscht.',
     confirmDeleteRecurring:'Regel und alle generierten Transaktionen löschen?',
+    modalEditRecurringTitle: '✎ Wiederkehrende Ausgabe bearbeiten',
 
     // Kategorien – Formular
     sectionNewCat:         '+ Neue Kategorie',
@@ -220,8 +222,10 @@ const translations = {
     recurringEmpty:        'No hay reglas activas.',
     recurringFrom:         'desde',
     toastRecurringAdded:   'Gasto recurrente añadido ✓',
+    toastRecurringUpdated: 'Gasto recurrente actualizado ✓',
     toastRecurringDeleted: 'Gasto recurrente eliminado.',
     confirmDeleteRecurring:'¿Eliminar regla y todas las transacciones generadas?',
+    modalEditRecurringTitle: '✎ Editar gasto recurrente',
 
     sectionNewCat:         '+ Nueva categoría',
     labelName:             'Nombre',
