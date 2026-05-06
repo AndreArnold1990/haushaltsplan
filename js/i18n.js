@@ -371,22 +371,28 @@ export function setLangChangeCallback(fn) {
  * Muss nach dem ersten DOM-Ready-Event und nach jeder Sprachumschaltung aufgerufen werden.
  */
 export function applyTranslations() {
-  // Texte
+  // Texte – nur setzen wenn der Key wirklich existiert (kein Key-Namen als Fallback)
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    const val = t(key);
+    const raw = translations[currentLang]?.[key] ?? translations.de?.[key];
+    if (raw === undefined) return; // Key unbekannt → hardcodierten HTML-Text behalten
+    const val = typeof raw === 'function' ? raw() : raw;
     if (val) el.textContent = val;
   });
   // Platzhalter
   document.querySelectorAll('[data-i18n-ph]').forEach(el => {
     const key = el.getAttribute('data-i18n-ph');
-    const val = t(key);
+    const raw = translations[currentLang]?.[key] ?? translations.de?.[key];
+    if (raw === undefined) return;
+    const val = typeof raw === 'function' ? raw() : raw;
     if (val) el.placeholder = val;
   });
   // title-Attribute
   document.querySelectorAll('[data-i18n-title]').forEach(el => {
     const key = el.getAttribute('data-i18n-title');
-    const val = t(key);
+    const raw = translations[currentLang]?.[key] ?? translations.de?.[key];
+    if (raw === undefined) return;
+    const val = typeof raw === 'function' ? raw() : raw;
     if (val) el.title = val;
   });
 }
