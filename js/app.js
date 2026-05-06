@@ -70,11 +70,22 @@ import * as Firebase                                    from './firebase.js';
   });
 
   if ('serviceWorker' in navigator) {
+    let _reloading = false;
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (_reloading) return;
+      _reloading = true;
+      window.location.reload();
+    });
+
     navigator.serviceWorker.register('./sw.js')
       .then(reg => {
+        // Sofort beim Start prüfen
         reg.update();
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          window.location.reload();
+
+        // Auch prüfen wenn App aus dem Hintergrund kommt (iOS PWA)
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') reg.update();
         });
       })
       .catch(e => console.warn('SW:', e));
