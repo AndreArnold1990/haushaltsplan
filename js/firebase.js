@@ -11,7 +11,7 @@
  * 5. {@link scheduleSave} – debounced Schreibvorgang in Firestore.
  *
  * ## Kein Polling
- * onSnapshot liefert Änderungen in Echtzeit – checkForUpdates() ist ein No-op.
+ * onSnapshot liefert Änderungen in Echtzeit – kein manuelles Polling nötig.
  *
  * ## Keine zirkulären Abhängigkeiten
  * Dieses Modul importiert kein anderes App-Modul.
@@ -159,9 +159,6 @@ export function scheduleSave(data) {
 export async function createNewFile(data) {
   await _saveToFirestore(data);
 }
-
-/** Echtzeit-Sync macht manuelles Prüfen überflüssig – No-op für Kompatibilität. */
-export function checkForUpdates() {}
 
 /** Gibt das aktuelle Nutzerobjekt zurück (null wenn nicht angemeldet). */
 export const getUser = () => _user;

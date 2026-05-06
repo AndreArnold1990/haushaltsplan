@@ -17,7 +17,6 @@ const translations = {
     // Header / Titel
     appTitle:              '🏠 Haushaltsplan',
     langToggleTitle:       'Auf Español wechseln',
-    btnRefreshTitle:       'Auf Änderungen prüfen',
 
     // Navigation
     navDashboard:          'Dashboard',
@@ -48,12 +47,7 @@ const translations = {
     descPlaceholder:       'z.B. Gehalt April',
     btnAddTx:              '✓ Transaktion hinzufügen',
 
-    // Transaktionen – Tabelle
-    thDate:                'Datum',
-    thDescription:         'Beschreibung',
-    thCategory:            'Kategorie',
-    thAmount:              'Betrag',
-    thAction:              'Aktion',
+    // Transaktionen – Liste
     btnDelete:             '🗑 Löschen',
     emptyTx:               'Keine Transaktionen für diesen Monat.',
 
@@ -92,7 +86,6 @@ const translations = {
     sectionIncomeCats:     '↑ Einnahmen-Kategorien',
     sectionExpenseCats:    '↓ Ausgaben-Kategorien',
     emptyCats:             'Keine Kategorien vorhanden.',
-    catEntries:            'Einträge',
 
     // Kategorie bearbeiten
     btnEdit:               '✏ Bearbeiten',
@@ -158,8 +151,6 @@ const translations = {
     sectionSharedTxList:   '🤝 Gemeinsame Transaktionen',
     emptySharedTx:         'Keine gemeinsamen Transaktionen für diesen Monat.',
     thPaidBy:              'Bezahlt von',
-    labelMe:               'Du',
-    badgeShared:           '🤝 Geteilt',
     splitLabelTotal:       'gesamt',
     splitLabelEach:        'p.P.',
     splitLabelFull:        'voller Betrag',
@@ -177,7 +168,6 @@ const translations = {
   es: {
     appTitle:              '🏠 Plan de Gastos',
     langToggleTitle:       'Cambiar a Deutsch',
-    btnRefreshTitle:       'Buscar cambios',
 
     navDashboard:          'Panel',
     navTransactions:       'Transacciones',
@@ -204,11 +194,6 @@ const translations = {
     descPlaceholder:       'p.ej. Sueldo abril',
     btnAddTx:              '✓ Añadir transacción',
 
-    thDate:                'Fecha',
-    thDescription:         'Descripción',
-    thCategory:            'Categoría',
-    thAmount:              'Importe',
-    thAction:              'Acción',
     btnDelete:             '🗑 Eliminar',
     emptyTx:               'No hay transacciones este mes.',
 
@@ -243,7 +228,6 @@ const translations = {
     sectionIncomeCats:     '↑ Categorías de ingresos',
     sectionExpenseCats:    '↓ Categorías de gastos',
     emptyCats:             'No hay categorías.',
-    catEntries:            'entradas',
 
     // Editar categoría
     btnEdit:               '✏ Editar',
@@ -304,8 +288,6 @@ const translations = {
     sectionSharedTxList:   '🤝 Gastos compartidos',
     emptySharedTx:         'No hay gastos compartidos este mes.',
     thPaidBy:              'Pagado por',
-    labelMe:               'Tú',
-    badgeShared:           '🤝 Compartido',
     splitLabelTotal:       'total',
     splitLabelEach:        'p.p.',
     splitLabelFull:        'importe completo',

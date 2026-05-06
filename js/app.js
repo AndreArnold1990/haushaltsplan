@@ -18,7 +18,7 @@ import { renderDashboard, openSettlementModal,
          closeSettlementModal, saveSettlement }         from './dashboard.js';
 import { renderTransactions, populateCategorySelect,
          renderTransactionTable, renderSharedTransactionTable,
-         addTransaction, deleteTransaction,
+         addTransaction,
          openEditTxModal, closeEditTxModal, saveEditTx, deleteEditTx } from './transactions.js';
 import { renderCategories, addCategory,
          confirmDeleteCategory, closeModal,
@@ -100,13 +100,6 @@ function _initEventListeners() {
   document.getElementById('btnCloseBanner')?.addEventListener('click', e => {
     e.preventDefault();
     document.getElementById('setupBanner').classList.remove('is-visible');
-  });
-
-  document.getElementById('refreshBtn').addEventListener('click', () => {
-    const btn = document.getElementById('refreshBtn');
-    btn.classList.add('spinning');
-    btn.addEventListener('animationend', () => btn.classList.remove('spinning'), { once: true });
-    Firebase.checkForUpdates();
   });
 
   document.getElementById('langToggle').addEventListener('click', () =>
@@ -271,10 +264,14 @@ function _updateUserProfile(user) {
 }
 
 /**
- * Weist Transaktionen ohne `createdBy` dem aktuellen Nutzer zu (einmalige Migration).
+ * Weist Transaktionen ohne `createdBy` dem aktuellen Nutzer zu –
+ * aber nur wenn noch kein zweiter Nutzer existiert (einmalige Migration).
+ * Verhindert, dass ein Nutzer fremde Einträge in Besitz nimmt.
  * @param {{ sub: string }} user
  */
 function _migrateUnknownTransactions(user) {
+  const otherUsersExist = Object.keys(appData.users || {}).some(s => s !== user.sub);
+  if (otherUsersExist) return; // Zweiter Nutzer bereits registriert → keine Migration
   let changed = false;
   appData.transactions.forEach(tx => {
     if (!tx.createdBy) { tx.createdBy = { sub: user.sub }; changed = true; }

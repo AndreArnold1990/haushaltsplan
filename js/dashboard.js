@@ -8,7 +8,7 @@ import { config }                        from './config.js';
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
 import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, isPendingTx,
-         getCat, getPersonName, getOtherUser, toast, safeColor } from './utils.js';
+         getCat, getPersonName, getOtherUser, toast, safeColor, escHtml } from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
@@ -164,7 +164,7 @@ function _renderSharedSummary() {
 
   if (balance > 0) {
     // Andere schulden mir
-    const otherName = _getOtherPersonName();
+    const otherName = escHtml(_getOtherPersonName());
     display.innerHTML = `
       <div class="balance-display balance-positive">
         <span class="balance-label">${t('balanceOwesMe', otherName, fmt(absBalance))}</span>

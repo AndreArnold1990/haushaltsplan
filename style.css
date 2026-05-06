@@ -392,22 +392,6 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
 .btn-lang:hover  { background: rgba(255,255,255,0.28); transform: scale(1.08); }
 .btn-lang:active { transform: scale(0.95); }
 
-.btn-refresh {
-  background: rgba(255,255,255,0.15);
-  border: 1.5px solid rgba(255,255,255,0.3);
-  border-radius: 8px;
-  padding: 0.3rem 0.55rem;
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  color: white;
-  transition: background 0.15s, transform 0.2s;
-  flex-shrink: 0;
-}
-.btn-refresh:hover  { background: rgba(255,255,255,0.28); }
-.btn-refresh:active { transform: rotate(180deg); }
-.btn-refresh.spinning { animation: spin 0.7s linear; }
-@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Nav + Button ───────────────────────────────────────────── */
 .nav-add-btn {
@@ -695,7 +679,6 @@ nav button        { min-height: 44px; }
   }
 
   /* Header kompakt */
-  .btn-refresh,
   .btn-lang { padding: 0.35rem 0.45rem; font-size: 1rem; }
 
   .sync-indicator { display: none !important; } /* zu wenig Platz im Header */

@@ -54,7 +54,7 @@ function _getOtherFirstName() {
  */
 function _populateSplitSelect() {
   const sel       = document.getElementById('txSplitType');
-  const otherName = _getOtherFirstName();
+  const otherName = escHtml(_getOtherFirstName());
   sel.innerHTML = [
     `<option value="personal">${t('splitPersonal')}</option>`,
     `<option value="equal_me">${t('splitEqualMe')}</option>`,
@@ -312,7 +312,7 @@ export function openEditTxModal(id) {
 
   // Split-Dropdown befüllen
   const splitSel  = document.getElementById('editTxSplitType');
-  const otherName = _getOtherFirstName();
+  const otherName = escHtml(_getOtherFirstName());
   splitSel.innerHTML = [
     `<option value="personal">${t('splitPersonal')}</option>`,
     `<option value="equal_me">${t('splitEqualMe')}</option>`,
@@ -515,29 +515,6 @@ export function addTransaction() {
   renderSharedTransactionTable();
   renderDashboard();
   toast(t('toastTxSaved'));
-}
-
-/**
- * Löscht eine Transaktion — nur wenn sie vom aktuellen Nutzer erstellt wurde.
- *
- * @param {string} id
- */
-export function deleteTransaction(id) {
-  const tx = appData.transactions.find(t => t.id === id);
-  if (!tx) return;
-
-  if (currentUser?.sub && tx.createdBy?.sub !== currentUser.sub) {
-    toast(t('toastNotYourTx'));
-    return;
-  }
-
-  if (!confirm(t('confirmDeleteTx'))) return;
-  appData.transactions = appData.transactions.filter(t => t.id !== id);
-  saveData();
-  renderTransactionTable();
-  renderSharedTransactionTable();
-  renderDashboard();
-  toast(t('toastTxDeleted'));
 }
 
 // ── Interne Anzeige-Hilfsmittel ───────────────────────────────────────────────

@@ -150,7 +150,7 @@ export function openEditRecurringModal(id) {
 
   // Split-Dropdown befüllen
   const splitSel  = document.getElementById('editRecSplitType');
-  const otherName = _getOtherFirstName();
+  const otherName = escHtml(_getOtherFirstName());
   splitSel.innerHTML = [
     `<option value="personal">${t('splitPersonal')}</option>`,
     `<option value="equal_me">${t('splitEqualMe')}</option>`,
@@ -272,7 +272,7 @@ export function populateRecurringCategorySelect() {
 export function populateRecurringSplitSelect() {
   const sel = document.getElementById('recSplitType');
   if (!sel) return;
-  const otherName = _getOtherFirstName();
+  const otherName = escHtml(_getOtherFirstName());
   sel.innerHTML = [
     `<option value="personal">${t('splitPersonal')}</option>`,
     `<option value="equal_me">${t('splitEqualMe')}</option>`,
