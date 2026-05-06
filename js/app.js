@@ -133,11 +133,13 @@ function _initEventListeners() {
   // ── Systemeinstellungen ───────────────────────────────────────────────────
   document.getElementById('btnResetTransactions').addEventListener('click', () => {
     if (!confirm(t('confirmResetTx'))) return;
-    appData.transactions = [];
+    appData.transactions   = [];
+    appData.recurringRules = [];
     saveData();
     renderDashboard();
     renderTransactionTable();
     renderSharedTransactionTable();
+    renderRecurringRules();
     toast(t('toastTxReset'));
   });
 

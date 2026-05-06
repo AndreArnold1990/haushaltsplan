@@ -76,11 +76,11 @@ const translations = {
 
     // Systemeinstellungen
     sectionSystem:         '⚙ Systemeinstellungen',
-    resetTxLabel:          'Transaktionen zurücksetzen',
-    resetTxDesc:           'Alle Transaktionen unwiderruflich löschen. Kategorien und Regeln bleiben erhalten.',
+    resetTxLabel:          'Alles zurücksetzen',
+    resetTxDesc:           'Löscht alle Transaktionen und wiederkehrenden Regeln. Kategorien bleiben erhalten.',
     btnResetTx:            '🗑 Zurücksetzen',
-    confirmResetTx:        'Wirklich alle Transaktionen löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
-    toastTxReset:          'Alle Transaktionen gelöscht.',
+    confirmResetTx:        'Wirklich alle Transaktionen und wiederkehrenden Regeln löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.',
+    toastTxReset:          'Alle Transaktionen und Regeln gelöscht.',
 
     // Kategorien – Formular
     sectionNewCat:         '+ Neue Kategorie',
@@ -230,11 +230,11 @@ const translations = {
 
     // Ajustes del sistema
     sectionSystem:         '⚙ Ajustes del sistema',
-    resetTxLabel:          'Restablecer transacciones',
-    resetTxDesc:           'Eliminar todas las transacciones de forma permanente. Las categorías y reglas se conservan.',
+    resetTxLabel:          'Restablecer todo',
+    resetTxDesc:           'Elimina todas las transacciones y reglas recurrentes. Las categorías se conservan.',
     btnResetTx:            '🗑 Restablecer',
-    confirmResetTx:        '¿Eliminar realmente todas las transacciones? Esta acción no se puede deshacer.',
-    toastTxReset:          'Todas las transacciones eliminadas.',
+    confirmResetTx:        '¿Eliminar realmente todas las transacciones y reglas recurrentes?\n\nEsta acción no se puede deshacer.',
+    toastTxReset:          'Todas las transacciones y reglas eliminadas.',
 
     sectionNewCat:         '+ Nueva categoría',
     labelName:             'Nombre',
