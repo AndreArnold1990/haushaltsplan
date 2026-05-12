@@ -297,6 +297,12 @@ tr:hover td       { background: #f8fafc; }
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  padding: 0.75rem 0 0.5rem;
+  margin-top: -0.75rem;
 }
 .settings-subtab {
   flex: 1;
@@ -660,7 +666,6 @@ nav button        { min-height: 44px; }
   }
 
   /* Navigation: unten fixiert – typische Smartphone-Bottom-Nav */
-  /* .app-bar bleibt sticky für den Header, aber nav bricht aus und dockt unten an */
   .app-bar { position: static; }
   header   { position: sticky; top: 0; z-index: 100; }
   nav {
@@ -673,10 +678,12 @@ nav button        { min-height: 44px; }
     border-bottom: none;
     z-index: 200;
     box-shadow: 0 -2px 16px rgba(0,0,0,0.1);
-    min-height: 60px;
+    /* Definite height so align-items:stretch gives groups a real height */
+    grid-template-rows: 60px;
     align-items: stretch;
   }
   .nav-group {
+    align-self: stretch;
     align-items: stretch;
   }
   nav button {
