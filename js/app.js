@@ -109,15 +109,26 @@ function _initEventListeners() {
     setLanguage(currentLang === 'de' ? 'es' : 'de')
   );
 
-  // Geheimmenü: Doppelklick auf App-Titel
-  document.querySelector('header h1').addEventListener('dblclick', () => {
+  // Geheimmenü: Doppelklick (Desktop) + Long Press 600ms (Mobile)
+  const _triggerSecret = () => {
     const h1 = document.querySelector('header h1');
     h1.classList.remove('secret-pulse');
-    void h1.offsetWidth; // Reflow, damit Animation neu startet
+    void h1.offsetWidth;
     h1.classList.add('secret-pulse');
     h1.addEventListener('animationend', () => h1.classList.remove('secret-pulse'), { once: true });
     openSecretMenu();
-  });
+  };
+
+  // Desktop: Doppelklick
+  document.querySelector('header h1').addEventListener('dblclick', _triggerSecret);
+
+  // Mobile: Long Press (600 ms halten, kein Scrollen)
+  let _longPressTimer = null;
+  document.querySelector('header h1').addEventListener('touchstart', e => {
+    _longPressTimer = setTimeout(() => { _longPressTimer = null; _triggerSecret(); }, 600);
+  }, { passive: true });
+  document.querySelector('header h1').addEventListener('touchend',  () => { clearTimeout(_longPressTimer); _longPressTimer = null; });
+  document.querySelector('header h1').addEventListener('touchmove', () => { clearTimeout(_longPressTimer); _longPressTimer = null; });
 
   // ── Navigation ────────────────────────────────────────────────────────────
 
