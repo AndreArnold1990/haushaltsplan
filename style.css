@@ -21,27 +21,28 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* ── Ganzseitige Flex-Spalte: nur <main> scrollt ─────────────── */
+html, body { height: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* body selbst scrollt nie – nur main */
 }
-
-/* ── Layout-Variablen ────────────────────────────────────────── */
-:root {
-  --header-h: 53px;
-  --nav-h:    48px;
+main {
+  flex: 1 1 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* max-width und padding werden weiter unten gesetzt */
 }
 
 /* ── Header ─────────────────────────────────────────────────── */
-/* .app-bar ist nur ein Gruppierungs-Wrapper ohne eigene Sticky-Logik */
-.app-bar {}
+/* Header und Nav sind flex-shrink:0 – kein sticky nötig */
+.app-bar { flex-shrink: 0; }
 
 header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
   background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: white;
   padding: 0.75rem 1.5rem;
@@ -121,9 +122,6 @@ header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
 
 /* ── Navigation ─────────────────────────────────────────────── */
 nav {
-  position: sticky;
-  top: var(--header-h);
-  z-index: 99;
   background: var(--card);
   border-bottom: 1px solid var(--border);
   display: grid;
@@ -164,6 +162,7 @@ nav button:hover:not(.active){ color: var(--primary); background: var(--primary-
 .nav-label { font-size: 0.88rem; }
 
 /* ── Main ───────────────────────────────────────────────────── */
+/* flex/overflow deklariert oben bei body – hier nur Layout-Details */
 main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .tab-panel        { display: none; }
 .tab-panel.active { display: block; }
@@ -306,7 +305,7 @@ tr:hover td       { background: #f8fafc; }
   gap: 0.5rem;
   margin-bottom: 1rem;
   position: sticky;
-  top: calc(var(--header-h) + var(--nav-h));
+  top: 0;
   z-index: 50;
   background: var(--bg);
   padding: 0.75rem 0 0.5rem;
@@ -674,10 +673,8 @@ nav button        { min-height: 44px; }
   }
 
   /* Navigation: unten fixiert – typische Smartphone-Bottom-Nav */
-  /* header bleibt sticky (top:0 aus globalem Regel), nav wird fixed unten */
   nav {
     position: fixed;
-    top: unset; /* globales sticky top überschreiben */
     bottom: 0;
     left: 0;
     right: 0;
@@ -711,11 +708,6 @@ nav button        { min-height: 44px; }
   }
   .nav-icon  { font-size: 1.4rem; line-height: 1; }
   .nav-label { font-size: 0.68rem; font-weight: 500; white-space: nowrap; }
-
-  /* Settings-Subtabs: auf Mobile klebt nur header oben, nav ist unten */
-  .settings-subtabs {
-    top: var(--header-h);
-  }
 
   /* Platz unten für fixierte Navigation + Safe Area */
   main {
