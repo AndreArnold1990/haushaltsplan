@@ -169,6 +169,10 @@ export function renderTransactionTable() {
       amtSub     = `<span class="tx-list-sub">${fmt(tx.amount)} ${t('splitLabelTotal')}</span>`;
     }
 
+    // Bei 'full'-Split: wer gezahlt hat, bekommt den Betrag erstattet → grün/Plus anzeigen
+    const fullPaidByMe = splitType === 'full' && paidBySub === sub;
+    const showAsIncome = inc || fullPaidByMe;
+
     const d       = new Date(tx.date + 'T00:00:00');
     const day     = String(d.getDate()).padStart(2, '0');
     const month   = d.toLocaleDateString(getUiLocale ? getUiLocale() : 'de-DE', { month: 'short' });
@@ -198,7 +202,7 @@ export function renderTransactionTable() {
         </span>
       </div>
       <div class="tx-list-right">
-        <span class="tx-list-amt ${inc ? 'amount-income' : 'amount-expense'}">${inc ? '+' : '−'}${fmt(displayAmt)}</span>
+        <span class="tx-list-amt ${showAsIncome ? 'amount-income' : 'amount-expense'}">${showAsIncome ? '+' : '−'}${fmt(displayAmt)}</span>
         ${amtSub}
       </div>
     </div>`;
@@ -236,6 +240,10 @@ export function renderSharedTransactionTable() {
       ? getPersonName(sub)
       : getPersonName(paidBySub);
 
+    // Bei 'full'-Split: wer gezahlt hat, bekommt den Betrag erstattet → grün/Plus anzeigen
+    const fullPaidByMe = splitType === 'full' && paidBySub === sub;
+    const showAsIncome = inc || fullPaidByMe;
+
     // Betragsanzeige je nach Aufteilungstyp
     let amtDisplay = '';
     if (splitType === 'equal') {
@@ -243,7 +251,7 @@ export function renderSharedTransactionTable() {
       amtDisplay = `${inc ? '+' : '-'}${fmt(tx.amount)}
         <span class="split-label">&divide;2&nbsp;=&nbsp;${fmt(share)}&nbsp;${t('splitLabelEach')}</span>`;
     } else {
-      amtDisplay = `${inc ? '+' : '-'}${fmt(tx.amount)}
+      amtDisplay = `${showAsIncome ? '+' : '-'}${fmt(tx.amount)}
         <span class="split-label">${t('splitLabelFull')}</span>`;
     }
 
@@ -271,7 +279,7 @@ export function renderSharedTransactionTable() {
         </span>
       </div>
       <div class="tx-list-right">
-        <span class="tx-list-amt ${inc ? 'amount-income' : 'amount-expense'}">${amtDisplay}</span>
+        <span class="tx-list-amt ${showAsIncome ? 'amount-income' : 'amount-expense'}">${amtDisplay}</span>
       </div>
     </div>`;
   }).join('');
