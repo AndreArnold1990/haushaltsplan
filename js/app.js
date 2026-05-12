@@ -146,7 +146,6 @@ function _initEventListeners() {
   });
 
   // ── Systemeinstellungen ───────────────────────────────────────────────────
-  // ── Systemeinstellungen – Übersetzungs-API-Schlüssel ─────────────────────────
 
   document.getElementById('btnSaveApiKey').addEventListener('click', () => {
     const key = document.getElementById('translationApiKey').value.trim();
@@ -156,7 +155,6 @@ function _initEventListeners() {
     toast(t('toastApiKeySaved'));
   });
 
-  // ── Systemeinstellungen ───────────────────────────────────────────────────
   document.getElementById('btnResetTransactions').addEventListener('click', () => {
     if (!confirm(t('confirmResetTx'))) return;
     appData.transactions   = [];

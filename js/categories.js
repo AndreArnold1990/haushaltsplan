@@ -42,6 +42,30 @@ function _renderCategoryList(type, container) {
 /**
  * Liest das Kategorie-Formular aus und fügt eine neue Kategorie hinzu.
  */
+/**
+ * Prüft ob bereits eine Kategorie mit einem der angegebenen Namen existiert.
+ * Vergleicht gegen alle Sprachvarianten (de + es) der vorhandenen Kategorien.
+ *
+ * @param {string}      nameDe    - Neuer deutscher Name (Pflicht)
+ * @param {string}      nameEs    - Neuer spanischer Name (optional)
+ * @param {string|null} excludeId - Kategorie-ID, die vom Vergleich ausgeschlossen wird (für Edit)
+ * @returns {boolean}
+ */
+function _isDuplicateName(nameDe, nameEs, excludeId = null) {
+  const lde = nameDe.toLowerCase();
+  const les = nameEs.toLowerCase();
+  return appData.categories.some(c => {
+    if (c.id === excludeId) return false;
+    const variants = typeof c.name === 'string'
+      ? [c.name]
+      : Object.values(c.name).filter(Boolean);
+    return variants.some(v => {
+      const lv = v.toLowerCase();
+      return lv === lde || (les && lv === les);
+    });
+  });
+}
+
 export function addCategory() {
   const nameDe = document.getElementById('catNameDe').value.trim();
   const nameEs = document.getElementById('catNameEs').value.trim();
@@ -49,15 +73,7 @@ export function addCategory() {
   const color  = document.getElementById('catColor').value;
 
   if (!nameDe) { toast(t('toastEnterName')); return; }
-
-  const lowerDe = nameDe.toLowerCase();
-  const lowerEs = nameEs.toLowerCase();
-  if (appData.categories.some(c => {
-    const existing = catName(c).toLowerCase();
-    const existEs  = (typeof c.name === 'object' ? c.name.es : '') || '';
-    return existing === lowerDe || existing === lowerEs ||
-           (lowerEs && (existEs.toLowerCase() === lowerDe || existEs.toLowerCase() === lowerEs));
-  })) {
+  if (_isDuplicateName(nameDe, nameEs)) {
     toast(t('toastNameExists'));
     return;
   }
@@ -105,16 +121,7 @@ export function saveEditCat() {
   if (!nameDe) { toast(t('toastEnterName')); return; }
 
   // Namens-Duplikat prüfen (andere Kategorien, nicht sich selbst)
-  const lowerDe = nameDe.toLowerCase();
-  const lowerEs = nameEs.toLowerCase();
-  const duplicate = appData.categories.some(c => {
-    if (c.id === _editCatId) return false;
-    const existing = catName(c).toLowerCase();
-    const existEs  = (typeof c.name === 'object' ? c.name.es : '') || '';
-    return existing === lowerDe || existing === lowerEs ||
-           (lowerEs && (existEs.toLowerCase() === lowerDe || existEs.toLowerCase() === lowerEs));
-  });
-  if (duplicate) { toast(t('toastNameExists')); return; }
+  if (_isDuplicateName(nameDe, nameEs, _editCatId)) { toast(t('toastNameExists')); return; }
 
   const cat = appData.categories.find(c => c.id === _editCatId);
   cat.name  = { de: nameDe, es: nameEs };

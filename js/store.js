@@ -11,10 +11,10 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
 
 /**
  * @typedef {Object} Category
- * @property {string}              id    - Eindeutige ID (z.B. "cat_1234567890")
- * @property {string}              name  - Anzeigename der Kategorie
- * @property {'income'|'expense'}  type  - Typ: Einnahme oder Ausgabe
- * @property {string}              color - Hex-Farbe (z.B. "#10b981")
+ * @property {string}                        id    - Eindeutige ID (z.B. "cat_1234567890")
+ * @property {{ de: string, es?: string }|string} name  - Mehrsprachiger Name oder Legacy-String
+ * @property {'income'|'expense'}            type  - Typ: Einnahme oder Ausgabe
+ * @property {string}                        color - Hex-Farbe (z.B. "#10b981")
  */
 
 /**
@@ -34,6 +34,8 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
  * @property {Category[]}                    categories   - Alle Kategorien
  * @property {Transaction[]}                 transactions - Alle Transaktionen
  * @property {Object.<string, { firstName: string, picture: string|null }>} users
+ * @property {RecurringRule[]}               recurringRules
+ * @property {{ translationApiKey: string }} settings     - App-Einstellungen (via Firestore synchronisiert)
  */
 
 /**

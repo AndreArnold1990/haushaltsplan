@@ -86,7 +86,6 @@ const translations = {
     apiKeyPlaceholder:          'API-Schlüssel eingeben…',
     btnSaveApiKey:              '✓ Speichern',
     toastApiKeySaved:           'API-Schlüssel gespeichert ✓',
-    toastTranslating:           'Wird übersetzt…',
     toastTranslateError:        'Übersetzung fehlgeschlagen.',
 
     // Kategorien – Formular
@@ -260,7 +259,6 @@ const translations = {
     apiKeyPlaceholder:          'Introduce la clave API…',
     btnSaveApiKey:              '✓ Guardar',
     toastApiKeySaved:           'Clave API guardada ✓',
-    toastTranslating:           'Traduciendo…',
     toastTranslateError:        'Error al traducir.',
 
     sectionNewCat:         '+ Nueva categoría',
