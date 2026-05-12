@@ -159,7 +159,10 @@ export function renderTransactionTable() {
     const pending  = isPendingTx(tx);
 
     const splitType = tx.splitType === 'shared' ? 'equal' : (tx.splitType || 'personal');
-    const paidBySub = tx.paidBySub || tx.createdBy?.sub;
+    // Kein createdBy-Fallback bei 'full': paidBySub MUSS explizit gesetzt sein.
+    const paidBySub = splitType === 'full'
+      ? tx.paidBySub
+      : (tx.paidBySub || tx.createdBy?.sub);
     const isShared  = splitType === 'equal' || splitType === 'full';
 
     let displayAmt = tx.amount;
@@ -233,7 +236,10 @@ export function renderSharedTransactionTable() {
     const cat       = getCat(tx.categoryId);
     const inc       = isIncome(tx);
     const splitType = tx.splitType === 'shared' ? 'equal' : tx.splitType;
-    const paidBySub = tx.paidBySub || tx.createdBy?.sub;
+    // Kein createdBy-Fallback bei 'full': paidBySub MUSS explizit gesetzt sein.
+    const paidBySub = splitType === 'full'
+      ? tx.paidBySub
+      : (tx.paidBySub || tx.createdBy?.sub);
     const isOwn     = sub && tx.createdBy?.sub === sub;
 
     const paidByName = paidBySub === sub

@@ -60,7 +60,10 @@ export function calculateSharedBalance() {
   appData.transactions.filter(tx => !isPendingTx(tx)).forEach(tx => {
     // Normalisiere legacy 'shared' → 'equal' mit paidBySub = createdBy.sub
     const splitType = tx.splitType === 'shared' ? 'equal' : tx.splitType;
-    const paidBySub = tx.paidBySub || tx.createdBy?.sub;
+    // Kein createdBy-Fallback bei 'full': paidBySub MUSS explizit gesetzt sein.
+    const paidBySub = splitType === 'full'
+      ? tx.paidBySub
+      : (tx.paidBySub || tx.createdBy?.sub);
 
     if ((splitType === 'equal' || splitType === 'full') && !isIncome(tx)) {
       const share = splitType === 'equal'
@@ -157,11 +160,12 @@ function _myShare(tx) {
   }
 
   if (tx.splitType === 'full') {
-    const paidBySub = tx.paidBySub || tx.createdBy?.sub;
-    // Ich habe vorgestreckt → anderer trägt die Kosten → meine Ausgabe: 0
-    if (paidBySub === sub) return 0;
-    // Anderer hat vorgestreckt → ich trage die Kosten → voller Betrag
-    return tx.amount;
+    // Kein createdBy-Fallback: bei 'full' MUSS paidBySub explizit gesetzt sein.
+    // Der createdBy-Fallback wäre nur für 'full_me' korrekt, aber falsch für 'full_other'.
+    const paidBySub = tx.paidBySub;
+    if (!paidBySub) return null;         // Zahler unbekannt → aus Totals ausschließen
+    if (paidBySub === sub) return 0;     // Ich habe gezahlt → Erstattung steht aus → 0 Ausgabe
+    return tx.amount;                    // Anderer hat gezahlt → ich trage den vollen Betrag
   }
 
   // Personal: nur eigene Transaktionen zählen
