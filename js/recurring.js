@@ -140,12 +140,7 @@ export function openEditRecurringModal(id) {
 
   // Kategorie-Dropdown befüllen (wie im Add-Formular)
   const catSel = document.getElementById('editRecCategory');
-  const exp    = appData.categories.filter(c => c.type === 'expense');
-  catSel.innerHTML = '';
-  const g = document.createElement('optgroup');
-  g.label = t('groupExpense');
-  exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
-  if (exp.length) catSel.appendChild(g);
+  _fillCategorySelect(catSel);
   catSel.value = rule.categoryId;
 
   // Split-Dropdown befüllen
@@ -174,6 +169,11 @@ export function openEditRecurringModal(id) {
   document.getElementById('editRecStartDate').value   = rule.startDate;
   document.getElementById('editRecInterval').value    = rule.interval;
   document.getElementById('editRecDescription').value = rule.description !== '-' ? rule.description : '';
+
+  // Split-Sichtbarkeit initial setzen + bei Kategorie-Wechsel aktualisieren
+  _updateEditRecSplitVisibility();
+  catSel.removeEventListener('change', _updateEditRecSplitVisibility);
+  catSel.addEventListener('change', _updateEditRecSplitVisibility);
 
   document.getElementById('editRecurringModal').classList.add('is-open');
 }
@@ -257,12 +257,7 @@ export function deleteRecurringRule(id) {
 export function populateRecurringCategorySelect() {
   const sel = document.getElementById('recCategory');
   if (!sel) return;
-  const exp = appData.categories.filter(c => c.type === 'expense');
-  sel.innerHTML = '';
-  const g = document.createElement('optgroup');
-  g.label = t('groupExpense');
-  exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
-  if (exp.length) sel.appendChild(g);
+  _fillCategorySelect(sel);
   _updateRecurringSplitVisibility();
 }
 
@@ -333,10 +328,40 @@ function _getOtherFirstName() {
   return (other && appData.users?.[other]?.firstName) || t('partnerFallback');
 }
 
+/**
+ * Befüllt ein <select>-Element mit allen Kategorien gruppiert nach Typ.
+ * @param {HTMLSelectElement} sel
+ */
+function _fillCategorySelect(sel) {
+  const inc = appData.categories.filter(c => c.type === 'income');
+  const exp = appData.categories.filter(c => c.type === 'expense');
+  sel.innerHTML = '';
+  if (inc.length) {
+    const g = document.createElement('optgroup');
+    g.label = t('groupIncome');
+    inc.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    sel.appendChild(g);
+  }
+  if (exp.length) {
+    const g = document.createElement('optgroup');
+    g.label = t('groupExpense');
+    exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    sel.appendChild(g);
+  }
+}
+
 function _updateRecurringSplitVisibility() {
   const catId = document.getElementById('recCategory')?.value;
   const cat   = appData.categories.find(c => c.id === catId);
   const group = document.getElementById('recSplitGroup');
+  if (!group) return;
+  group.classList.toggle('is-hidden', cat?.type === 'income');
+}
+
+function _updateEditRecSplitVisibility() {
+  const catId = document.getElementById('editRecCategory')?.value;
+  const cat   = appData.categories.find(c => c.id === catId);
+  const group = document.getElementById('editRecSplitGroup');
   if (!group) return;
   group.classList.toggle('is-hidden', cat?.type === 'income');
 }
