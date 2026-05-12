@@ -4,6 +4,8 @@
  * Öffnen: Doppelklick auf den App-Titel in der Header-Leiste.
  */
 
+import { t } from './i18n.js';
+
 // ── Kurs-Cache ────────────────────────────────────────────────────────────────
 
 /** Aktueller MXN-pro-EUR-Kurs (z.B. 21.5 → 1 EUR = 21.5 MXN) */
@@ -69,7 +71,7 @@ async function _loadRate() {
   const info   = document.getElementById('currencyRateText');
 
   btn.classList.add('loading');
-  info.textContent = 'Kurs wird geladen…';
+  info.textContent = t('currencyRateLoading');
 
   try {
     const res  = await fetch('https://api.frankfurter.app/latest?from=EUR&to=MXN');
@@ -79,10 +81,10 @@ async function _loadRate() {
     _mxnPerEur = data.rates.MXN;
     _rateDate  = data.date;
 
-    info.textContent = `1 € = ${_mxnPerEur.toFixed(4)} MXN  ·  ${_rateDate}`;
+    info.textContent = t('currencyRateInfo', _mxnPerEur.toFixed(4), _rateDate);
     _recalcFromActive();
   } catch (err) {
-    info.textContent = 'Kurs konnte nicht geladen werden.';
+    info.textContent = t('currencyRateError');
     console.error('[tools] Kurs-Fehler:', err);
   } finally {
     btn.classList.remove('loading');

@@ -165,6 +165,15 @@ const translations = {
     splitLabelEach:        'p.P.',
     splitLabelFull:        'voller Betrag',
 
+    // Geheimmenü / Tools
+    secretToolsTitle:      '🔧 Tools',
+    secretCurrencyTab:     '💲 Währung',
+    currencyMxnLabel:      'Mexikanische Pesos (MXN)',
+    currencyEurLabel:      'Euro (EUR)',
+    currencyRateLoading:   'Kurs wird geladen…',
+    currencyRateError:     'Kurs konnte nicht geladen werden.',
+    currencyRateInfo:      (rate, date) => `1 € = ${rate} MXN  ·  ${date}`,
+
     // Ausgleich / Balance
     btnSettle:             'Ausgleichen',
     modalSettleTitle:      '💸 Ausgleich erfassen',
@@ -311,6 +320,15 @@ const translations = {
     splitLabelTotal:       'total',
     splitLabelEach:        'p.p.',
     splitLabelFull:        'importe completo',
+
+    // Menú secreto / Herramientas
+    secretToolsTitle:      '🔧 Herramientas',
+    secretCurrencyTab:     '💲 Moneda',
+    currencyMxnLabel:      'Pesos mexicanos (MXN)',
+    currencyEurLabel:      'Euro (EUR)',
+    currencyRateLoading:   'Cargando tipo de cambio…',
+    currencyRateError:     'No se pudo cargar el tipo de cambio.',
+    currencyRateInfo:      (rate, date) => `1 € = ${rate} MXN  ·  ${date}`,
 
     // Liquidación / Balance
     btnSettle:             'Liquidar',

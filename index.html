@@ -417,13 +417,13 @@
 <div id="secretMenuModal" class="secret-overlay">
   <div class="secret-box">
     <div class="secret-header">
-      <span class="secret-title">&#128295; Tools</span>
+      <span class="secret-title" data-i18n="secretToolsTitle">&#128295; Tools</span>
       <button class="secret-close" id="btnCloseSecret">&times;</button>
     </div>
 
     <!-- Tab-Leiste -->
     <div class="secret-tabs">
-      <button class="secret-tab active" data-secret-tab="currency">&#128178; Währung</button>
+      <button class="secret-tab active" data-secret-tab="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
     </div>
 
     <!-- Tool: Währungsrechner -->
@@ -435,7 +435,7 @@
 
       <div class="currency-converter">
         <div class="currency-field">
-          <label>Mexikanische Pesos (MXN)</label>
+          <label data-i18n="currencyMxnLabel">Mexikanische Pesos (MXN)</label>
           <div class="currency-input-wrap">
             <span class="currency-symbol">$</span>
             <input type="number" id="inputMxn" placeholder="0.00" min="0" step="0.01">
@@ -445,7 +445,7 @@
         <div class="currency-arrow">&#8597;</div>
 
         <div class="currency-field">
-          <label>Euro (EUR)</label>
+          <label data-i18n="currencyEurLabel">Euro (EUR)</label>
           <div class="currency-input-wrap">
             <span class="currency-symbol">€</span>
             <input type="number" id="inputEur" placeholder="0.00" min="0" step="0.01">
