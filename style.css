@@ -304,6 +304,7 @@ tr:hover td       { background: #f8fafc; }
 .section-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; }
 .table-header .section-title { margin-bottom: 0; }
 .mb-15 { margin-bottom: 1.5rem; }
+.mt-10 { margin-top:    0.75rem; }
 .mt-15 { margin-top:    1.5rem; }
 
 /* ── Einstellungen Sub-Tabs ──────────────────────────────────── */

@@ -41,7 +41,7 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
  * Andere Module importieren diese Variable als **Live-Binding**.
  * @type {AppData}
  */
-export let appData = { categories: [], transactions: [], users: {}, recurringRules: [] };
+export let appData = { categories: [], transactions: [], users: {}, recurringRules: [], settings: { translationApiKey: '' } };
 
 /**
  * Aktuell angemeldeter Nutzer (wird von app.js nach dem Login gesetzt).
@@ -73,7 +73,7 @@ export function setAppData(data) { appData = data; }
  * Alle echten Daten kommen via Firestore onSnapshot.
  */
 export function loadData() {
-  appData = { categories: [], transactions: [], users: {}, recurringRules: [] };
+  appData = { categories: [], transactions: [], users: {}, recurringRules: [], settings: { translationApiKey: '' } };
   try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignorieren */ }
 }
 

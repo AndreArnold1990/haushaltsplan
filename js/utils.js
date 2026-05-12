@@ -6,7 +6,7 @@
 
 import { config }         from './config.js';
 import { appData, currentUser } from './store.js';
-import { getUiLocale, t }       from './i18n.js';
+import { getUiLocale, t, currentLang } from './i18n.js';
 
 // ── Formatierung ──────────────────────────────────────────────────────────────
 
@@ -77,6 +77,42 @@ export function monthLabel(ym) {
 }
 
 // ── Daten-Hilfsmittel ─────────────────────────────────────────────────────────
+
+/**
+ * Gibt den Anzeigenamen einer Kategorie in der aktuellen UI-Sprache zurück.
+ * Unterstützt sowohl das neue Objekt-Format { de, es } als auch veraltete String-Namen.
+ *
+ * @param {import('./store.js').Category|null|undefined} cat
+ * @returns {string}
+ */
+export function catName(cat) {
+  if (!cat) return '';
+  const n = cat.name;
+  if (typeof n === 'string') return n;
+  return n[currentLang] || n.de || n.es || '';
+}
+
+/**
+ * Übersetzt einen Text über die MyMemory-API.
+ * Benötigt keine Registrierung (Freinutzung bis 1000 Wörter/Tag).
+ * Höheres Limit mit optionalem API-Schlüssel in appData.settings.translationApiKey.
+ *
+ * @param {string} text     - Zu übersetzender Text
+ * @param {'de'|'es'} fromLang - Quellsprache
+ * @param {'de'|'es'} toLang   - Zielsprache
+ * @returns {Promise<string>} Übersetzter Text
+ */
+export async function translateText(text, fromLang, toLang) {
+  if (!text?.trim()) return '';
+  const from = fromLang === 'es' ? 'es-MX' : fromLang;
+  const to   = toLang   === 'es' ? 'es-MX' : toLang;
+  const key  = appData.settings?.translationApiKey?.trim() || '';
+  const url  = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}${key ? `&key=${encodeURIComponent(key)}` : ''}`;
+  const res  = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  return data.responseData?.translatedText || '';
+}
 
 /**
  * Sucht eine Kategorie anhand ihrer ID im aktuellen appData.

@@ -8,7 +8,7 @@ import { config }                        from './config.js';
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
 import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, isPendingTx,
-         getCat, getPersonName, getOtherUser, toast, safeColor, escHtml } from './utils.js';
+         getCat, catName, getPersonName, getOtherUser, toast, safeColor, escHtml } from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
@@ -258,7 +258,7 @@ function _renderCategoryChart(txs) {
   const labels = [], values = [], colors = [];
   Object.entries(totals).forEach(([id, v]) => {
     const c = getCat(id);
-    if (c) { labels.push(c.name); values.push(v); colors.push(safeColor(c.color)); }
+    if (c) { labels.push(catName(c)); values.push(v); colors.push(safeColor(c.color)); }
   });
 
   // Empty state

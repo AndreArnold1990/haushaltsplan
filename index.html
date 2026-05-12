@@ -152,8 +152,12 @@
         <div class="section-title" data-i18n="sectionNewCat">&#43; Neue Kategorie</div>
         <div class="form-grid">
           <div class="form-group">
-            <label data-i18n="labelName">Name</label>
-            <input type="text" id="catName" data-i18n-ph="namePlaceholder" placeholder="z.B. Urlaub" maxlength="40">
+            <label data-i18n="labelNameDe">Name (Deutsch)</label>
+            <input type="text" id="catNameDe" data-i18n-ph="catNameDePlaceholder" placeholder="z.B. Urlaub" maxlength="40">
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelNameEs">Name (Español)</label>
+            <input type="text" id="catNameEs" data-i18n-ph="catNameEsPlaceholder" placeholder="p.ej. Vacaciones" maxlength="40">
           </div>
           <div class="form-group">
             <label data-i18n="labelType">Typ</label>
@@ -221,8 +225,23 @@
 
     <!-- Sub-Panel: Systemeinstellungen -->
     <div class="settings-panel" id="settings-system">
-      <div class="card">
+      <div class="card mb-15">
         <div class="section-title" data-i18n="sectionSystem">&#9881; Systemeinstellungen</div>
+
+        <!-- Übersetzungs-API-Schlüssel -->
+        <div class="system-setting-row">
+          <div class="system-setting-info">
+            <span class="system-setting-label" data-i18n="labelTranslationApiKey">MyMemory API-Schlüssel (optional)</span>
+            <span class="system-setting-desc" data-i18n="translationApiKeyDesc">Für automatische Kategorie-Übersetzungen. Ohne Schlüssel ist die Nutzung auf ~1000 Wörter/Tag begrenzt.</span>
+          </div>
+        </div>
+        <div class="form-group mt-10">
+          <input type="text" id="translationApiKey" data-i18n-ph="apiKeyPlaceholder" placeholder="API-Schlüssel eingeben…" autocomplete="off">
+        </div>
+        <button id="btnSaveApiKey" class="btn btn-primary btn-sm" data-i18n="btnSaveApiKey">&#10003; Speichern</button>
+      </div>
+
+      <div class="card">
         <div class="system-setting-row">
           <div class="system-setting-info">
             <span class="system-setting-label" data-i18n="resetTxLabel">Alles zurücksetzen</span>
@@ -328,8 +347,12 @@
     <div class="modal-title" data-i18n="modalEditTitle">&#9999; Kategorie bearbeiten</div>
     <div class="form-grid">
       <div class="form-group">
-        <label data-i18n="labelName">Name</label>
-        <input type="text" id="editCatName" maxlength="40">
+        <label data-i18n="labelNameDe">Name (Deutsch)</label>
+        <input type="text" id="editCatNameDe" maxlength="40">
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelNameEs">Name (Español)</label>
+        <input type="text" id="editCatNameEs" maxlength="40">
       </div>
       <div class="form-group">
         <label data-i18n="labelType">Typ</label>

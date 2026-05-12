@@ -14,7 +14,7 @@
 import { appData, saveData, currentUser } from './store.js';
 import { t, getUiLocale }                 from './i18n.js';
 import { fmt, fmtDate, monthKey, getCurrentMonth, monthLabel,
-         txsForMonth, getCat, isIncome, isPendingTx, escHtml, toast, safeColor,
+         txsForMonth, getCat, catName, isIncome, isPendingTx, escHtml, toast, safeColor,
          getPersonName, getOtherUser }    from './utils.js';
 import { renderDashboard }                from './dashboard.js';
 
@@ -98,13 +98,13 @@ export function populateCategorySelect() {
   if (inc.length) {
     const g = document.createElement('optgroup');
     g.label = t('groupIncome');
-    inc.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    inc.forEach(c => g.appendChild(new Option(catName(c), c.id)));
     sel.appendChild(g);
   }
   if (exp.length) {
     const g = document.createElement('optgroup');
     g.label = t('groupExpense');
-    exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    exp.forEach(c => g.appendChild(new Option(catName(c), c.id)));
     sel.appendChild(g);
   }
 
@@ -174,7 +174,7 @@ export function renderTransactionTable() {
     const month   = d.toLocaleDateString(getUiLocale ? getUiLocale() : 'de-DE', { month: 'short' });
 
     const dotColor = safeColor(cat?.color || '#ccc');
-    const catLabel = cat ? escHtml(cat.name) : '';
+    const catLabel = cat ? escHtml(catName(cat)) : '';
     const sharedLabel = isShared ? ` · ${_splitBadgeText(splitType, paidBySub)}` : '';
 
     const classes = [
@@ -249,7 +249,7 @@ export function renderSharedTransactionTable() {
 
     const badge = cat
       ? `<span class="cat-badge" style="background:${safeColor(cat.color)}22;color:${safeColor(cat.color)}">
-           <span class="cat-dot" style="background:${safeColor(cat.color)}"></span>${escHtml(cat.name)}
+           <span class="cat-dot" style="background:${safeColor(cat.color)}"></span>${escHtml(catName(cat))}
          </span>`
       : '&mdash;';
 
@@ -267,7 +267,7 @@ export function renderSharedTransactionTable() {
       <div class="tx-list-mid">
         <span class="tx-list-desc">${escHtml(tx.description)}</span>
         <span class="tx-list-cat">
-          <span class="tx-list-dot" style="background:${dotColor}"></span>${escHtml(cat?.name || '')} · ${escHtml(paidByName)}
+          <span class="tx-list-dot" style="background:${dotColor}"></span>${escHtml(catName(cat))} · ${escHtml(paidByName)}
         </span>
       </div>
       <div class="tx-list-right">
@@ -299,13 +299,13 @@ export function openEditTxModal(id) {
   if (inc.length) {
     const g = document.createElement('optgroup');
     g.label = t('groupIncome');
-    inc.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    inc.forEach(c => g.appendChild(new Option(catName(c), c.id)));
     catSel.appendChild(g);
   }
   if (exp.length) {
     const g = document.createElement('optgroup');
     g.label = t('groupExpense');
-    exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    exp.forEach(c => g.appendChild(new Option(catName(c), c.id)));
     catSel.appendChild(g);
   }
   catSel.value = tx.categoryId;

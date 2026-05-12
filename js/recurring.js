@@ -18,7 +18,7 @@
 
 import { appData, currentUser, saveData } from './store.js';
 import { t }                               from './i18n.js';
-import { getCat, fmt, fmtDate, safeColor, escHtml, toast } from './utils.js';
+import { getCat, catName, fmt, fmtDate, safeColor, escHtml, toast } from './utils.js';
 
 // ── Öffentliche API ───────────────────────────────────────────────────────────
 
@@ -301,7 +301,7 @@ export function renderRecurringRules() {
     return `<div class="recurring-item">
       <div class="recurring-info">
         <span class="cat-badge" style="background:${safeColor(cat?.color || '#ccc')}22;color:${safeColor(cat?.color || '#ccc')}">
-          <span class="cat-dot" style="background:${safeColor(cat?.color || '#ccc')}"></span>${escHtml(cat?.name || '?')}
+          <span class="cat-dot" style="background:${safeColor(cat?.color || '#ccc')}"></span>${escHtml(catName(cat) || '?')}
         </span>
         <span class="recurring-amount">${fmt(rule.amount)}</span>
         <span class="recurring-desc">${escHtml(rule.description)}</span>
@@ -339,13 +339,13 @@ function _fillCategorySelect(sel) {
   if (inc.length) {
     const g = document.createElement('optgroup');
     g.label = t('groupIncome');
-    inc.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    inc.forEach(c => g.appendChild(new Option(catName(c), c.id)));
     sel.appendChild(g);
   }
   if (exp.length) {
     const g = document.createElement('optgroup');
     g.label = t('groupExpense');
-    exp.forEach(c => g.appendChild(new Option(c.name, c.id)));
+    exp.forEach(c => g.appendChild(new Option(catName(c), c.id)));
     sel.appendChild(g);
   }
 }

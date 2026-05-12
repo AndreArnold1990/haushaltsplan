@@ -32,7 +32,7 @@ import { applyRecurringRules, addRecurringRule, deleteRecurringRule,
          populateRecurringSplitSelect }                 from './recurring.js';
 import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
-import { toast }                                        from './utils.js';
+import { toast, translateText }                         from './utils.js';
 import * as Firebase                                    from './firebase.js';
 import { initTools, openSecretMenu }                    from './tools.js';
 
@@ -139,7 +139,21 @@ function _initEventListeners() {
         populateRecurringSplitSelect();
         renderRecurringRules();
       }
+      if (btn.dataset.settingsTab === 'system') {
+        document.getElementById('translationApiKey').value = appData.settings?.translationApiKey || '';
+      }
     });
+  });
+
+  // ── Systemeinstellungen ───────────────────────────────────────────────────
+  // ── Systemeinstellungen – Übersetzungs-API-Schlüssel ─────────────────────────
+
+  document.getElementById('btnSaveApiKey').addEventListener('click', () => {
+    const key = document.getElementById('translationApiKey').value.trim();
+    if (!appData.settings) appData.settings = {};
+    appData.settings.translationApiKey = key;
+    saveData();
+    toast(t('toastApiKeySaved'));
   });
 
   // ── Systemeinstellungen ───────────────────────────────────────────────────
@@ -179,6 +193,12 @@ function _initEventListeners() {
   // ── Kategorien-Formular ───────────────────────────────────────────────────
 
   document.getElementById('btnAddCategory').addEventListener('click', addCategory);
+
+  // ── Kategorien – Auto-Übersetzung bei Blur ────────────────────────────────────
+  document.getElementById('catNameDe').addEventListener('blur',     () => _autoTranslateCat('catNameDe',     'catNameEs',     'de', 'es'));
+  document.getElementById('catNameEs').addEventListener('blur',     () => _autoTranslateCat('catNameEs',     'catNameDe',     'es', 'de'));
+  document.getElementById('editCatNameDe').addEventListener('blur', () => _autoTranslateCat('editCatNameDe', 'editCatNameEs', 'de', 'es'));
+  document.getElementById('editCatNameEs').addEventListener('blur', () => _autoTranslateCat('editCatNameEs', 'editCatNameDe', 'es', 'de'));
 
   // ── Modal: Transaktion hinzufügen ─────────────────────────────────────────
 
@@ -250,6 +270,43 @@ function _initEventListeners() {
 
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
 
+/**
+ * Übersetzt den Inhalt eines Felds und füllt das Zielfeld (nur wenn leer).
+ * @param {string} fromId   - ID des Quell-Inputs
+ * @param {string} toId     - ID des Ziel-Inputs
+ * @param {'de'|'es'} from
+ * @param {'de'|'es'} to
+ */
+async function _autoTranslateCat(fromId, toId, from, to) {
+  const fromEl = document.getElementById(fromId);
+  const toEl   = document.getElementById(toId);
+  const text   = fromEl?.value.trim();
+  if (!text || toEl?.value.trim()) return; // Nicht überschreiben wenn schon befüllt
+  try {
+    const translated = await translateText(text, from, to);
+    if (translated && !toEl.value.trim()) {
+      toEl.value = translated;
+    }
+  } catch {
+    toast(t('toastTranslateError'));
+  }
+}
+
+/**
+ * Migriert veraltete String-Namen in Kategorien auf das neue Objekt-Format { de, es }.
+ * Läuft beim ersten Laden neuer Daten aus Firestore, um Abwärtskompatibilität zu gewährleisten.
+ */
+function _migrateCategories() {
+  let changed = false;
+  (appData.categories || []).forEach(cat => {
+    if (typeof cat.name === 'string') {
+      cat.name = { de: cat.name };
+      changed = true;
+    }
+  });
+  if (changed) saveData();
+}
+
 function _renderAll() {
   renderDashboard();
   renderCategories();
@@ -263,7 +320,9 @@ function _renderAll() {
 function _onDataLoaded(data) {
   if (!data.users)          data.users          = {};
   if (!data.recurringRules) data.recurringRules = [];
+  if (!data.settings)       data.settings       = { translationApiKey: '' };
   setAppData(data);
+  _migrateCategories();
   if (applyRecurringRules()) saveData(); // Fehlende Monate automatisch auffüllen
   const user = Firebase.getUser();
   if (user) {

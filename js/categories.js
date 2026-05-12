@@ -5,7 +5,7 @@
 
 import { appData, saveData }                            from './store.js';
 import { t }                                            from './i18n.js';
-import { getCat, escHtml, toast, safeColor }             from './utils.js';
+import { getCat, catName, escHtml, toast, safeColor }     from './utils.js';
 import { populateCategorySelect, renderTransactionTable } from './transactions.js';
 import { renderDashboard }                              from './dashboard.js';
 
@@ -32,7 +32,7 @@ function _renderCategoryList(type, container) {
     return `<div class="category-item category-item--clickable" data-cat-id="${c.id}">
       <div class="category-item-left">
         <div class="color-swatch" style="background:${safeColor(c.color)}"></div>
-        <span class="cat-name">${escHtml(c.name)}</span>
+        <span class="cat-name">${escHtml(catName(c))}</span>
       </div>
       <span class="category-item-chevron">›</span>
     </div>`;
@@ -43,22 +43,32 @@ function _renderCategoryList(type, container) {
  * Liest das Kategorie-Formular aus und fügt eine neue Kategorie hinzu.
  */
 export function addCategory() {
-  const name  = document.getElementById('catName').value.trim();
-  const type  = document.getElementById('catType').value;
-  const color = document.getElementById('catColor').value;
+  const nameDe = document.getElementById('catNameDe').value.trim();
+  const nameEs = document.getElementById('catNameEs').value.trim();
+  const type   = document.getElementById('catType').value;
+  const color  = document.getElementById('catColor').value;
 
-  if (!name) { toast(t('toastEnterName')); return; }
-  if (appData.categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+  if (!nameDe) { toast(t('toastEnterName')); return; }
+
+  const lowerDe = nameDe.toLowerCase();
+  const lowerEs = nameEs.toLowerCase();
+  if (appData.categories.some(c => {
+    const existing = catName(c).toLowerCase();
+    const existEs  = (typeof c.name === 'object' ? c.name.es : '') || '';
+    return existing === lowerDe || existing === lowerEs ||
+           (lowerEs && (existEs.toLowerCase() === lowerDe || existEs.toLowerCase() === lowerEs));
+  })) {
     toast(t('toastNameExists'));
     return;
   }
 
-  appData.categories.push({ id: 'cat_' + Date.now(), name, type, color });
+  appData.categories.push({ id: 'cat_' + Date.now(), name: { de: nameDe, es: nameEs }, type, color });
   saveData();
-  document.getElementById('catName').value = '';
+  document.getElementById('catNameDe').value = '';
+  document.getElementById('catNameEs').value = '';
   renderCategories();
   populateCategorySelect();
-  toast(t('toastCatAdded', escHtml(name)));
+  toast(t('toastCatAdded', escHtml(nameDe)));
 }
 
 // ── Kategorie bearbeiten ──────────────────────────────────────────────────────
@@ -74,9 +84,11 @@ export function openEditCatModal(id) {
   const cat = getCat(id);
   if (!cat) return;
   _editCatId = id;
-  document.getElementById('editCatName').value  = cat.name;
-  document.getElementById('editCatType').value  = cat.type;
-  document.getElementById('editCatColor').value = cat.color;
+  const n = cat.name;
+  document.getElementById('editCatNameDe').value = typeof n === 'string' ? n : (n.de || '');
+  document.getElementById('editCatNameEs').value = typeof n === 'string' ? '' : (n.es || '');
+  document.getElementById('editCatType').value   = cat.type;
+  document.getElementById('editCatColor').value  = cat.color;
   document.getElementById('editCatModal').classList.add('is-open');
 }
 
@@ -85,20 +97,27 @@ export function openEditCatModal(id) {
  */
 export function saveEditCat() {
   if (!_editCatId) return;
-  const name  = document.getElementById('editCatName').value.trim();
-  const type  = document.getElementById('editCatType').value;
-  const color = document.getElementById('editCatColor').value;
+  const nameDe = document.getElementById('editCatNameDe').value.trim();
+  const nameEs = document.getElementById('editCatNameEs').value.trim();
+  const type   = document.getElementById('editCatType').value;
+  const color  = document.getElementById('editCatColor').value;
 
-  if (!name) { toast(t('toastEnterName')); return; }
+  if (!nameDe) { toast(t('toastEnterName')); return; }
 
   // Namens-Duplikat prüfen (andere Kategorien, nicht sich selbst)
-  const duplicate = appData.categories.some(
-    c => c.id !== _editCatId && c.name.toLowerCase() === name.toLowerCase()
-  );
+  const lowerDe = nameDe.toLowerCase();
+  const lowerEs = nameEs.toLowerCase();
+  const duplicate = appData.categories.some(c => {
+    if (c.id === _editCatId) return false;
+    const existing = catName(c).toLowerCase();
+    const existEs  = (typeof c.name === 'object' ? c.name.es : '') || '';
+    return existing === lowerDe || existing === lowerEs ||
+           (lowerEs && (existEs.toLowerCase() === lowerDe || existEs.toLowerCase() === lowerEs));
+  });
   if (duplicate) { toast(t('toastNameExists')); return; }
 
   const cat = appData.categories.find(c => c.id === _editCatId);
-  cat.name  = name;
+  cat.name  = { de: nameDe, es: nameEs };
   cat.type  = type;
   cat.color = color;
 
@@ -106,7 +125,7 @@ export function saveEditCat() {
   closeEditCatModal();
   renderCategories();
   populateCategorySelect();
-  toast(t('toastCatUpdated', escHtml(name)));
+  toast(t('toastCatUpdated', escHtml(nameDe)));
 }
 
 /** Schließt das Edit-Modal und setzt den Zustand zurück. */
@@ -141,7 +160,7 @@ export function deleteCategory(id) {
   const usage = appData.transactions.filter(tx => tx.categoryId === id).length;
 
   if (usage === 0) {
-    if (!confirm(t('confirmDeleteCat', cat.name))) return;
+    if (!confirm(t('confirmDeleteCat', catName(cat)))) return;
     appData.categories = appData.categories.filter(c => c.id !== id);
     saveData(); renderCategories(); populateCategorySelect();
     toast(t('toastCatDeleted'));
@@ -150,7 +169,7 @@ export function deleteCategory(id) {
 
   // Modal öffnen
   _deleteCatId = id;
-  document.getElementById('modalDesc').textContent       = t('modalDesc', cat.name, usage);
+  document.getElementById('modalDesc').textContent       = t('modalDesc', catName(cat), usage);
   document.getElementById('modalMoveLabel').textContent  = t('modalMoveLabel');
   document.getElementById('btnDeleteTx').textContent     = t('btnDeleteTx');
   document.getElementById('btnMove').textContent         = t('btnMoveTx');
@@ -162,7 +181,7 @@ export function deleteCategory(id) {
   const btn    = document.getElementById('btnMove');
 
   if (others.length) {
-    sel.innerHTML = others.map(c => `<option value="${c.id}">${escHtml(c.name)}</option>`).join('');
+    sel.innerHTML = others.map(c => `<option value="${c.id}">${escHtml(catName(c))}</option>`).join('');
     sec.classList.add('is-visible');
     btn.classList.add('is-visible');
   } else {
