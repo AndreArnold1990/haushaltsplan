@@ -1,7 +1,7 @@
 {
-  "name": "Haushaltsplan",
-  "short_name": "Haushalt",
-  "description": "Persönliche Finanzübersicht mit Google Drive Synchronisation",
+  "name": "Casaflow",
+  "short_name": "Casaflow",
+  "description": "Gemeinsame Finanzverwaltung für zwei Personen",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

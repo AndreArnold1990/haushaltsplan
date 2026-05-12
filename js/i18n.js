@@ -15,7 +15,7 @@
 const translations = {
   de: {
     // Header / Titel
-    appTitle:              '🏠 Haushaltsplan',
+    appTitle:              '💸 Casaflow',
     langToggleTitle:       'Auf Español wechseln',
 
     // Navigation
@@ -195,7 +195,7 @@ const translations = {
   },
 
   es: {
-    appTitle:              '🏠 Plan de Gastos',
+    appTitle:              '💸 Casaflow',
     langToggleTitle:       'Cambiar a Deutsch',
 
     navDashboard:          'Panel',
