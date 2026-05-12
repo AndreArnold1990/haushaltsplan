@@ -419,9 +419,20 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
 .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 0.9rem; }
 
 /* ── Modal ──────────────────────────────────────────────────── */
-/* display: none by default; JS adds .is-open to reveal */
-.modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.55); backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; z-index: 500; }
-.modal-overlay.is-open { display: flex; }
+/* Immer display:flex – Sichtbarkeit über opacity/pointer-events */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.is-open { opacity: 1; pointer-events: all; }
 .modal-box     { background: var(--card); border-radius: var(--radius); padding: 2rem; width: min(480px, 92vw); box-shadow: 0 20px 60px rgba(0,0,0,0.25); border: 1px solid var(--border); }
 .modal-title   { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
 .modal-desc    { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5; }
@@ -742,13 +753,19 @@ nav button        { min-height: 44px; }
   inset: 0;
   background: rgba(15,23,42,0.6);
   backdrop-filter: blur(4px);
-  display: none;
+  display: flex;             /* immer flex – nie display:none */
   align-items: flex-start;
   justify-content: center;
   z-index: 600;
   padding-top: 4rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
 }
-.secret-overlay.is-open { display: flex; }
+.secret-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
 
 .secret-box {
   background: #1e293b;
