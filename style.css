@@ -121,16 +121,17 @@ header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
 #setupBanner code { background: #fde68a; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.8rem; }
 
 /* ── Navigation ─────────────────────────────────────────────── */
+/* Einheitliches Design auf allen Größen: Icon über Label, feste Höhe */
 nav {
   background: var(--card);
   border-bottom: 1px solid var(--border);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  grid-template-rows: 60px;
+  align-items: stretch;
   box-shadow: var(--shadow);
 }
 
-/* Linke und rechte Gruppe: gleichmäßig aufteilen */
 .nav-group {
   display: flex;
   align-items: stretch;
@@ -141,25 +142,24 @@ nav {
 
 nav button {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  padding: 0.85rem 1.25rem;
+  gap: 0.2rem;
+  padding: 0.5rem 1rem;
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 0.88rem;
   color: var(--text-secondary);
   border-bottom: 3px solid transparent;
-  transition: all 0.2s;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
   font-weight: 500;
 }
-nav button.active            { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
-nav button:hover:not(.active){ color: var(--primary); background: var(--primary-light); }
+nav button.active             { color: var(--primary); border-bottom-color: var(--primary); }
+nav button:hover:not(.active) { color: var(--primary); background: var(--primary-light); }
 
-/* Icon / Label-Spans in der Navigation */
-.nav-icon  { font-size: 1rem; line-height: 1; flex-shrink: 0; }
-.nav-label { font-size: 0.88rem; }
+.nav-icon  { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+.nav-label { font-size: 0.7rem; font-weight: 500; white-space: nowrap; }
 
 /* ── Main ───────────────────────────────────────────────────── */
 /* flex/overflow deklariert oben bei body – hier nur Layout-Details */
@@ -484,11 +484,11 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   background: var(--primary) !important;
   color: white !important;
   border-radius: 50%;
-  width: 46px;
-  height: 46px;
-  min-height: unset;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
   padding: 0;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   line-height: 1;
   border-bottom: none !important;
   border-top: none !important;
@@ -672,7 +672,7 @@ nav button        { min-height: 44px; }
     padding-top:   max(0.75rem, env(safe-area-inset-top));
   }
 
-  /* Navigation: unten fixiert – typische Smartphone-Bottom-Nav */
+  /* Navigation: auf Mobile unten fixiert */
   nav {
     position: fixed;
     bottom: 0;
@@ -683,31 +683,10 @@ nav button        { min-height: 44px; }
     border-bottom: none;
     z-index: 200;
     box-shadow: 0 -2px 16px rgba(0,0,0,0.1);
-    /* Definite height so align-items:stretch gives groups a real height */
-    grid-template-rows: 60px;
-    align-items: stretch;
   }
-  .nav-group {
-    align-self: stretch;
-    align-items: stretch;
-  }
-  nav button {
-    flex-direction: column;
-    gap: 0.2rem;
-    padding: 0.5rem 0.25rem;
-    border-bottom: none;
-    border-top: 3px solid transparent;
-    min-height: unset;
-  }
-  nav button.active {
-    border-bottom-color: transparent;
-    border-top-color: var(--primary);
-  }
-  nav button:hover:not(.active) {
-    background: var(--primary-light);
-  }
-  .nav-icon  { font-size: 1.4rem; line-height: 1; }
-  .nav-label { font-size: 0.68rem; font-weight: 500; white-space: nowrap; }
+  /* Aktiv-Indikator auf Mobile: oben statt unten */
+  nav button        { border-bottom: none; border-top: 3px solid transparent; }
+  nav button.active { border-bottom-color: transparent; border-top-color: var(--primary); }
 
   /* Platz unten für fixierte Navigation + Safe Area */
   main {
@@ -751,18 +730,6 @@ nav button        { min-height: 44px; }
   }
 
   /* + Button im Bottom-Nav: leicht angehoben, perfekt rund */
-  .nav-add-btn {
-    width: 54px;
-    height: 54px;
-    min-width: 54px;
-    padding: 0;
-    font-size: 1.8rem;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 16px rgba(79,70,229,0.55);
-    align-self: center;
-    flex: 0 0 54px;
-  }
-
   /* Header kompakt */
   .btn-lang { padding: 0.35rem 0.45rem; font-size: 1rem; }
 
