@@ -74,7 +74,7 @@ async function _loadRate() {
   info.textContent = t('currencyRateLoading');
 
   try {
-    const res  = await fetch('https://api.frankfurter.app/latest?from=EUR&to=MXN');
+    const res  = await fetch('https://api.frankfurter.dev/v1/latest?from=EUR&to=MXN');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
