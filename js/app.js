@@ -109,13 +109,13 @@ function _initEventListeners() {
     setLanguage(currentLang === 'de' ? 'es' : 'de')
   );
 
-  // Geheimmenü: einfacher Klick auf den App-Titel
-  document.querySelector('header h1').addEventListener('click', () => {
-    const h1 = document.querySelector('header h1');
-    h1.classList.remove('secret-pulse');
-    void h1.offsetWidth;
-    h1.classList.add('secret-pulse');
-    h1.addEventListener('animationend', () => h1.classList.remove('secret-pulse'), { once: true });
+  // Geheimmenü: Klick auf Logo-Button
+  document.getElementById('btnSecretMenu').addEventListener('click', () => {
+    const btn = document.getElementById('btnSecretMenu');
+    btn.classList.remove('secret-pulse');
+    void btn.offsetWidth;
+    btn.classList.add('secret-pulse');
+    btn.addEventListener('animationend', () => btn.classList.remove('secret-pulse'), { once: true });
     openSecretMenu();
   });
 

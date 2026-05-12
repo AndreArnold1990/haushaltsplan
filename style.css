@@ -44,6 +44,20 @@ header {
 }
 
 header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
+#btnSecretMenu {
+  background: none;
+  border: none;
+  color: white;
+  font-size: inherit;
+  font-weight: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  margin: -0.4rem -0.6rem;
+  border-radius: 8px;
+  transition: background 0.15s;
+  min-height: 44px; /* iOS touch target */
+}
 
 .header-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 
