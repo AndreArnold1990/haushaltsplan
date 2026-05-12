@@ -34,6 +34,7 @@ import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
 import { toast }                                        from './utils.js';
 import * as Firebase                                    from './firebase.js';
+import { initTools, openSecretMenu }                    from './tools.js';
 
 // ── Initialisierung ───────────────────────────────────────────────────────────
 
@@ -59,6 +60,7 @@ import * as Firebase                                    from './firebase.js';
   document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
 
   _initEventListeners();
+  initTools();
 
   Firebase.init({
     firebaseConfig: config.firebaseConfig,
@@ -106,6 +108,16 @@ function _initEventListeners() {
   document.getElementById('langToggle').addEventListener('click', () =>
     setLanguage(currentLang === 'de' ? 'es' : 'de')
   );
+
+  // Geheimmenü: Doppelklick auf App-Titel
+  document.querySelector('header h1').addEventListener('dblclick', () => {
+    const h1 = document.querySelector('header h1');
+    h1.classList.remove('secret-pulse');
+    void h1.offsetWidth; // Reflow, damit Animation neu startet
+    h1.classList.add('secret-pulse');
+    h1.addEventListener('animationend', () => h1.classList.remove('secret-pulse'), { once: true });
+    openSecretMenu();
+  });
 
   // ── Navigation ────────────────────────────────────────────────────────────
 

@@ -415,6 +415,49 @@
   </div>
 </div>
 
+<!-- ══ GEHEIMMENÜ ══ -->
+<div id="secretMenuModal" class="secret-overlay">
+  <div class="secret-box">
+    <div class="secret-header">
+      <span class="secret-title">&#128295; Tools</span>
+      <button class="secret-close" id="btnCloseSecret">&times;</button>
+    </div>
+
+    <!-- Tab-Leiste -->
+    <div class="secret-tabs">
+      <button class="secret-tab active" data-secret-tab="currency">&#128178; Währung</button>
+    </div>
+
+    <!-- Tool: Währungsrechner -->
+    <div class="secret-panel active" id="secret-currency">
+      <div class="currency-rate-info" id="currencyRateInfo">
+        <span id="currencyRateText">Kurs wird geladen…</span>
+        <button class="btn-refresh-rate" id="btnRefreshRate" title="Kurs aktualisieren">&#8635;</button>
+      </div>
+
+      <div class="currency-converter">
+        <div class="currency-field">
+          <label>Mexikanische Pesos (MXN)</label>
+          <div class="currency-input-wrap">
+            <span class="currency-symbol">$</span>
+            <input type="number" id="inputMxn" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="currency-arrow">&#8597;</div>
+
+        <div class="currency-field">
+          <label>Euro (EUR)</label>
+          <div class="currency-input-wrap">
+            <span class="currency-symbol">€</span>
+            <input type="number" id="inputEur" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- App-Einstiegspunkt (ES-Modul) -->
 <script type="module" src="js/app.js"></script>
 </body>
