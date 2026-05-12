@@ -29,6 +29,13 @@ body {
 }
 
 /* ── Header ─────────────────────────────────────────────────── */
+/* Header + Nav gemeinsam sticky – Nav scrollt nicht mehr mit */
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 header {
   background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: white;
@@ -37,9 +44,6 @@ header {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 2px 12px rgba(79,70,229,0.35);
-  position: sticky;
-  top: 0;
-  z-index: 100;
   gap: 1rem;
 }
 
@@ -656,6 +660,9 @@ nav button        { min-height: 44px; }
   }
 
   /* Navigation: unten fixiert – typische Smartphone-Bottom-Nav */
+  /* .app-bar bleibt sticky für den Header, aber nav bricht aus und dockt unten an */
+  .app-bar { position: static; }
+  header   { position: sticky; top: 0; z-index: 100; }
   nav {
     position: fixed;
     bottom: 0;
