@@ -447,6 +447,7 @@
     <!-- Tab-Leiste -->
     <div class="secret-tabs">
       <button class="secret-tab active" data-secret-tab="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
+      <button class="secret-tab" data-secret-tab="cats">&#128049; Katzen füttern</button>
     </div>
 
     <!-- Tool: Währungsrechner -->
@@ -476,6 +477,46 @@
         </div>
       </div>
     </div>
+    <!-- Tool: Katzen füttern -->
+    <div class="secret-panel" id="secret-cats">
+
+      <!-- Durchschnitt -->
+      <div class="cats-avg-row">
+        <div class="cats-avg-card">
+          <div class="cats-avg-emoji">&#127825;</div>
+          <div class="cats-avg-name">Peach</div>
+          <div class="cats-avg-val" id="avgPeach">&#8211; g</div>
+        </div>
+        <div class="cats-avg-card">
+          <div class="cats-avg-emoji">&#127992;</div>
+          <div class="cats-avg-name">Juna</div>
+          <div class="cats-avg-val" id="avgJuna">&#8211; g</div>
+        </div>
+      </div>
+
+      <!-- Eingabe -->
+      <div class="cats-form">
+        <div class="form-group">
+          <label class="cats-label">Datum</label>
+          <input type="date" id="catFeedDate" class="cats-input">
+        </div>
+        <div class="cats-inputs-row">
+          <div class="form-group">
+            <label class="cats-label">&#127825; Peach (g)</label>
+            <input type="number" id="catFeedPeach" class="cats-input" placeholder="0" min="0" step="1">
+          </div>
+          <div class="form-group">
+            <label class="cats-label">&#127992; Juna (g)</label>
+            <input type="number" id="catFeedJuna" class="cats-input" placeholder="0" min="0" step="1">
+          </div>
+        </div>
+        <button class="btn cats-save-btn" id="btnSaveCatFeed">&#10003; Eintragen</button>
+      </div>
+
+      <!-- Tabelle -->
+      <div class="cats-table-wrap" id="catFeedTable"></div>
+    </div>
+
   </div>
 </div>
 

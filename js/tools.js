@@ -4,7 +4,9 @@
  * Öffnen: Doppelklick auf den App-Titel in der Header-Leiste.
  */
 
-import { t } from './i18n.js';
+import { t }               from './i18n.js';
+import { appData, saveData } from './store.js';
+import { toast }             from './utils.js';
 
 // ── Kurs-Cache ────────────────────────────────────────────────────────────────
 
@@ -18,7 +20,10 @@ let _rateDate  = null;
 /** Öffnet das Geheimmenü und lädt ggf. den Kurs. */
 export function openSecretMenu() {
   document.getElementById('secretMenuModal').classList.add('is-open');
-  if (!_mxnPerEur) _loadRate();
+  const activeTab = document.querySelector('.secret-tab.active');
+  const activeKey = activeTab?.dataset.secretTab ?? 'currency';
+  if (activeKey === 'currency' && !_mxnPerEur) _loadRate();
+  if (activeKey === 'cats') renderCatFeeding();
 }
 
 /** Schließt das Geheimmenü. */
@@ -41,7 +46,7 @@ export function initTools() {
       if (e.target === e.currentTarget) closeSecretMenu();
     });
 
-  // Sub-Tab-Wechsel (für spätere weitere Tools)
+  // Sub-Tab-Wechsel
   document.querySelectorAll('.secret-tab').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.secret-tab, .secret-panel')
@@ -49,8 +54,13 @@ export function initTools() {
       btn.classList.add('active');
       const target = btn.dataset.secretTab;
       document.getElementById(`secret-${target}`)?.classList.add('active');
+      if (target === 'cats')     renderCatFeeding();
+      if (target === 'currency' && !_mxnPerEur) _loadRate();
     });
   });
+
+  // Katzen füttern initialisieren
+  _initCatFeeding();
 
   // Kurs aktualisieren
   document.getElementById('btnRefreshRate')
@@ -122,4 +132,105 @@ function _onEurInput() {
     return;
   }
   mxnEl.value = (eur * _mxnPerEur).toFixed(2);
+}
+
+// ── Katzen füttern ────────────────────────────────────────────────────────────
+
+/** Initialisiert Formular + Datum-Default. Wird von initTools() aufgerufen. */
+function _initCatFeeding() {
+  const dateEl = document.getElementById('catFeedDate');
+  if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+
+  document.getElementById('btnSaveCatFeed')?.addEventListener('click', _saveCatFeed);
+}
+
+/** Speichert einen neuen (oder aktualisierten) Tageseintrag. */
+function _saveCatFeed() {
+  const date  = document.getElementById('catFeedDate').value;
+  const peach = parseFloat(document.getElementById('catFeedPeach').value);
+  const juna  = parseFloat(document.getElementById('catFeedJuna').value);
+
+  if (!date)                    { toast('Bitte ein Datum wählen.');            return; }
+  if (isNaN(peach) || peach < 0) { toast('Bitte Menge für Peach eingeben (g).'); return; }
+  if (isNaN(juna)  || juna  < 0) { toast('Bitte Menge für Juna eingeben (g).');  return; }
+
+  if (!appData.catFeeding) appData.catFeeding = [];
+
+  const idx = appData.catFeeding.findIndex(e => e.date === date);
+  if (idx >= 0) {
+    appData.catFeeding[idx] = { date, peach, juna };
+  } else {
+    appData.catFeeding.push({ date, peach, juna });
+  }
+
+  saveData();
+  renderCatFeeding();
+
+  document.getElementById('catFeedPeach').value = '';
+  document.getElementById('catFeedJuna').value  = '';
+  toast('Eintrag gespeichert ✓');
+}
+
+/**
+ * Rendert Durchschnitt-Karten und Tabelle.
+ * Öffentlich damit app.js es nach Datenladen aufrufen kann.
+ */
+export function renderCatFeeding() {
+  const entries = [...(appData.catFeeding || [])].sort((a, b) => b.date.localeCompare(a.date));
+
+  // Durchschnitte berechnen
+  const avgP = entries.length
+    ? Math.round(entries.reduce((s, e) => s + (e.peach ?? 0), 0) / entries.length)
+    : null;
+  const avgJ = entries.length
+    ? Math.round(entries.reduce((s, e) => s + (e.juna  ?? 0), 0) / entries.length)
+    : null;
+
+  const avgPeachEl = document.getElementById('avgPeach');
+  const avgJunaEl  = document.getElementById('avgJuna');
+  if (avgPeachEl) avgPeachEl.textContent = avgP !== null ? `⌀ ${avgP} g` : '– g';
+  if (avgJunaEl)  avgJunaEl.textContent  = avgJ !== null ? `⌀ ${avgJ} g` : '– g';
+
+  // Tabelle rendern
+  const container = document.getElementById('catFeedTable');
+  if (!container) return;
+
+  if (!entries.length) {
+    container.innerHTML = '<p class="cats-empty">Noch keine Einträge – trag den ersten Fütterungstag ein! 🐾</p>';
+    return;
+  }
+
+  const rows = entries.map(e => {
+    const label = new Date(e.date + 'T00:00:00').toLocaleDateString('de-DE', {
+      day: '2-digit', month: '2-digit', year: '2-digit',
+    });
+    return `<tr>
+      <td>${label}</td>
+      <td class="cats-amount">${e.peach} g</td>
+      <td class="cats-amount">${e.juna} g</td>
+      <td class="cats-amount cats-total">${e.peach + e.juna} g</td>
+      <td><button class="cats-del-btn" data-cat-date="${e.date}" title="Eintrag löschen">&#128465;</button></td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <table class="cats-table">
+      <thead><tr>
+        <th>Datum</th>
+        <th>&#127825; Peach</th>
+        <th>&#127992; Juna</th>
+        <th>Gesamt</th>
+        <th></th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  container.querySelectorAll('.cats-del-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const d = btn.dataset.catDate;
+      appData.catFeeding = (appData.catFeeding || []).filter(e => e.date !== d);
+      saveData();
+      renderCatFeeding();
+    });
+  });
 }

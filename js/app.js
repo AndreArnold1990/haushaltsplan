@@ -34,7 +34,7 @@ import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
 import { toast, translateText }                         from './utils.js';
 import * as Firebase                                    from './firebase.js';
-import { initTools, openSecretMenu }                    from './tools.js';
+import { initTools, openSecretMenu, renderCatFeeding }  from './tools.js';
 
 // ── Initialisierung ───────────────────────────────────────────────────────────
 
@@ -318,6 +318,7 @@ function _renderAll() {
 function _onDataLoaded(data) {
   if (!data.users)          data.users          = {};
   if (!data.recurringRules) data.recurringRules = [];
+  if (!data.catFeeding)     data.catFeeding     = [];
   if (!data.settings)       data.settings       = { translationApiKey: '' };
   setAppData(data);
   _migrateCategories();
@@ -330,6 +331,7 @@ function _onDataLoaded(data) {
   }
   _showSignInHint(false);
   _renderAll();
+  renderCatFeeding(); // Durchschnitt im Geheimmenü aktuell halten
 }
 
 /**
