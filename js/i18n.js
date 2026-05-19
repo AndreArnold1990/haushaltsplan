@@ -184,6 +184,20 @@ const translations = {
     currencyRateError:     'Kurs konnte nicht geladen werden.',
     currencyRateInfo:      (rate, date) => `1 € = ${rate} MXN  ·  ${date}`,
 
+    // Katzen füttern
+    catFeedTab:          '🐱 Katzen füttern',
+    catFeedTodayLabel:   date => `Heute · ${date}`,
+    catFeedAvgTitle:     '⌀ Durchschnitt',
+    catFeedSave:         '✓ Eintragen',
+    catFeedEmpty:        'Noch keine Einträge. 🐾',
+    catFeedToastSaved:   'Eintrag gespeichert ✓',
+    catFeedToastDeleted: 'Eintrag gelöscht.',
+    catFeedErrPeach:     'Bitte Gramm für Peach eingeben.',
+    catFeedErrJuna:      'Bitte Gramm für Juna eingeben.',
+    catFeedColDate:      'Datum',
+    catFeedColTotal:     'Gesamt',
+    catFeedDelTooltip:   'Eintrag löschen',
+
     // Ausgleich / Balance
     btnSettle:             'Ausgleichen',
     modalSettleTitle:      '💸 Ausgleich erfassen',
@@ -349,6 +363,20 @@ const translations = {
     currencyRateLoading:   'Cargando tipo de cambio…',
     currencyRateError:     'No se pudo cargar el tipo de cambio.',
     currencyRateInfo:      (rate, date) => `1 € = ${rate} MXN  ·  ${date}`,
+
+    // Alimentar gatos
+    catFeedTab:          '🐱 Alimentar gatos',
+    catFeedTodayLabel:   date => `Hoy · ${date}`,
+    catFeedAvgTitle:     '⌀ Promedio',
+    catFeedSave:         '✓ Registrar',
+    catFeedEmpty:        'Sin registros todavía. 🐾',
+    catFeedToastSaved:   'Registro guardado ✓',
+    catFeedToastDeleted: 'Registro eliminado.',
+    catFeedErrPeach:     'Introduce los gramos de Peach.',
+    catFeedErrJuna:      'Introduce los gramos de Juna.',
+    catFeedColDate:      'Fecha',
+    catFeedColTotal:     'Total',
+    catFeedDelTooltip:   'Eliminar registro',
 
     // Liquidación / Balance
     btnSettle:             'Liquidar',

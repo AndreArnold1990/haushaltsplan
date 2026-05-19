@@ -913,6 +913,47 @@ nav button        { min-height: 44px; }
 .secret-pulse { animation: secret-pulse 0.35s ease; }
 
 /* ── Katzen füttern ──────────────────────────────────────── */
+
+/* Speichern-Button: volle Breite, passend zum Dark-Theme */
+.cats-save-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.cats-save-btn:hover  { background: #4338ca; }
+.cats-save-btn:active { transform: scale(0.98); }
+
+/* Abschnitt-Trenner mit Mitteltext (analog zu hr + label) */
+.cats-section {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.cats-section::before,
+.cats-section::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #1e293b;
+}
+
+/* Durchschnitt-Karten */
 .cats-avg-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -921,81 +962,29 @@ nav button        { min-height: 44px; }
 }
 .cats-avg-card {
   background: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 10px;
-  padding: 1rem 0.75rem;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 0.85rem 0.75rem;
   text-align: center;
 }
-.cats-avg-emoji  { font-size: 1.8rem; margin-bottom: 0.2rem; line-height: 1; }
 .cats-avg-name {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: 0.35rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
 }
 .cats-avg-val {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #818cf8;
   font-variant-numeric: tabular-nums;
 }
 
-.cats-form {
-  background: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-.cats-label {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.3rem;
-}
-.cats-input {
-  width: 100%;
-  background: #1e293b;
-  border: 1.5px solid #334155;
-  border-radius: 8px;
-  color: #e2e8f0;
-  font-size: 1rem;
-  padding: 0.5rem 0.75rem;
-  outline: none;
-  transition: border-color 0.15s;
-  color-scheme: dark;
-}
-.cats-input:focus { border-color: #818cf8; }
-.cats-inputs-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-.cats-save-btn {
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.55rem 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-  align-self: flex-start;
-}
-.cats-save-btn:hover  { background: #4338ca; }
-.cats-save-btn:active { transform: scale(0.96); }
-
+/* Verlaufstabelle */
 .cats-table-wrap {
-  max-height: 220px;
+  max-height: 210px;
   overflow-y: auto;
   border: 1px solid #1e293b;
   border-radius: 8px;
@@ -1005,7 +994,7 @@ nav button        { min-height: 44px; }
   border-collapse: collapse;
   font-size: 0.82rem;
 }
-.cats-table thead { position: sticky; top: 0; z-index: 1; }
+.cats-table thead   { position: sticky; top: 0; z-index: 1; }
 .cats-table th {
   background: #0f172a;
   color: #475569;
@@ -1015,11 +1004,11 @@ nav button        { min-height: 44px; }
   letter-spacing: 0.06em;
   padding: 0.5rem 0.6rem;
   text-align: left;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid #1e293b;
 }
 .cats-table td {
   padding: 0.5rem 0.6rem;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid #0f172a;
   color: #cbd5e1;
 }
 .cats-table tr:last-child td { border-bottom: none; }
@@ -1027,16 +1016,16 @@ nav button        { min-height: 44px; }
 .cats-amount { text-align: right; font-variant-numeric: tabular-nums; }
 .cats-total  { color: #818cf8; font-weight: 700; }
 .cats-del-btn {
+  display: block;
+  margin: 0 auto;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 0.82rem;
-  opacity: 0.35;
-  padding: 0.1rem 0.2rem;
+  opacity: 0.3;
+  padding: 0.1rem 0.25rem;
   border-radius: 4px;
   transition: opacity 0.15s;
-  display: block;
-  margin: 0 auto;
 }
 .cats-del-btn:hover { opacity: 1; }
 .cats-empty {
@@ -1044,5 +1033,4 @@ nav button        { min-height: 44px; }
   font-size: 0.82rem;
   text-align: center;
   padding: 1.5rem 0.75rem;
-  line-height: 1.5;
 }

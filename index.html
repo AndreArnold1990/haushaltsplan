@@ -447,7 +447,7 @@
     <!-- Tab-Leiste -->
     <div class="secret-tabs">
       <button class="secret-tab active" data-secret-tab="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
-      <button class="secret-tab" data-secret-tab="cats">&#128049; Katzen füttern</button>
+      <button class="secret-tab" data-secret-tab="cats" data-i18n="catFeedTab">&#128049; Katzen f&#252;ttern</button>
     </div>
 
     <!-- Tool: Währungsrechner -->
@@ -480,41 +480,48 @@
     <!-- Tool: Katzen füttern -->
     <div class="secret-panel" id="secret-cats">
 
+      <!-- Datum (analog zu currency-rate-info) -->
+      <div class="currency-rate-info">
+        <span id="catFeedTodayText"></span>
+      </div>
+
+      <!-- Eingabe (analog zu currency-converter) -->
+      <div class="currency-converter">
+        <div class="currency-field">
+          <label>&#127825; Peach</label>
+          <div class="currency-input-wrap">
+            <span class="currency-symbol">g</span>
+            <input type="number" id="catFeedPeach" placeholder="0" min="0" step="1">
+          </div>
+        </div>
+        <div class="currency-arrow">&#128062;</div>
+        <div class="currency-field">
+          <label>&#127992; Juna</label>
+          <div class="currency-input-wrap">
+            <span class="currency-symbol">g</span>
+            <input type="number" id="catFeedJuna" placeholder="0" min="0" step="1">
+          </div>
+        </div>
+      </div>
+
+      <button class="cats-save-btn" id="btnSaveCatFeed" data-i18n="catFeedSave">&#10003; Eintragen</button>
+
       <!-- Durchschnitt -->
+      <div class="cats-section" data-i18n="catFeedAvgTitle">&#8960; Durchschnitt</div>
       <div class="cats-avg-row">
         <div class="cats-avg-card">
-          <div class="cats-avg-emoji">&#127825;</div>
-          <div class="cats-avg-name">Peach</div>
+          <div class="cats-avg-name">&#127825; Peach</div>
           <div class="cats-avg-val" id="avgPeach">&#8211; g</div>
         </div>
         <div class="cats-avg-card">
-          <div class="cats-avg-emoji">&#127992;</div>
-          <div class="cats-avg-name">Juna</div>
+          <div class="cats-avg-name">&#127992; Juna</div>
           <div class="cats-avg-val" id="avgJuna">&#8211; g</div>
         </div>
       </div>
 
-      <!-- Eingabe -->
-      <div class="cats-form">
-        <div class="form-group">
-          <label class="cats-label">Datum</label>
-          <input type="date" id="catFeedDate" class="cats-input">
-        </div>
-        <div class="cats-inputs-row">
-          <div class="form-group">
-            <label class="cats-label">&#127825; Peach (g)</label>
-            <input type="number" id="catFeedPeach" class="cats-input" placeholder="0" min="0" step="1">
-          </div>
-          <div class="form-group">
-            <label class="cats-label">&#127992; Juna (g)</label>
-            <input type="number" id="catFeedJuna" class="cats-input" placeholder="0" min="0" step="1">
-          </div>
-        </div>
-        <button class="btn cats-save-btn" id="btnSaveCatFeed">&#10003; Eintragen</button>
-      </div>
-
-      <!-- Tabelle -->
+      <!-- Verlaufstabelle -->
       <div class="cats-table-wrap" id="catFeedTable"></div>
+
     </div>
 
   </div>

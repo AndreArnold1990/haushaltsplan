@@ -4,7 +4,7 @@
  * Öffnen: Doppelklick auf den App-Titel in der Header-Leiste.
  */
 
-import { t }               from './i18n.js';
+import { t, getUiLocale }  from './i18n.js';
 import { appData, saveData } from './store.js';
 import { toast }             from './utils.js';
 
@@ -136,24 +136,20 @@ function _onEurInput() {
 
 // ── Katzen füttern ────────────────────────────────────────────────────────────
 
-/** Initialisiert Formular + Datum-Default. Wird von initTools() aufgerufen. */
+/** Registriert den Speichern-Button. Wird einmalig von initTools() aufgerufen. */
 function _initCatFeeding() {
-  const dateEl = document.getElementById('catFeedDate');
-  if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
-
   document.getElementById('btnSaveCatFeed')?.addEventListener('click', _saveCatFeed);
 }
 
-/** Speichert einen neuen (oder aktualisierten) Tageseintrag. */
+/** Speichert den Eintrag für heute (überschreibt vorhandenen Eintrag desselben Tages). */
 function _saveCatFeed() {
-  const date  = document.getElementById('catFeedDate').value;
   const peach = parseFloat(document.getElementById('catFeedPeach').value);
   const juna  = parseFloat(document.getElementById('catFeedJuna').value);
 
-  if (!date)                    { toast('Bitte ein Datum wählen.');            return; }
-  if (isNaN(peach) || peach < 0) { toast('Bitte Menge für Peach eingeben (g).'); return; }
-  if (isNaN(juna)  || juna  < 0) { toast('Bitte Menge für Juna eingeben (g).');  return; }
+  if (isNaN(peach) || peach < 0) { toast(t('catFeedErrPeach')); return; }
+  if (isNaN(juna)  || juna  < 0) { toast(t('catFeedErrJuna'));  return; }
 
+  const date = new Date().toISOString().split('T')[0];
   if (!appData.catFeeding) appData.catFeeding = [];
 
   const idx = appData.catFeeding.findIndex(e => e.date === date);
@@ -168,14 +164,23 @@ function _saveCatFeed() {
 
   document.getElementById('catFeedPeach').value = '';
   document.getElementById('catFeedJuna').value  = '';
-  toast('Eintrag gespeichert ✓');
+  toast(t('catFeedToastSaved'));
 }
 
 /**
- * Rendert Durchschnitt-Karten und Tabelle.
- * Öffentlich damit app.js es nach Datenladen aufrufen kann.
+ * Rendert Datum-Label, Durchschnitt-Karten und Verlaufstabelle.
+ * Öffentlich, damit app.js es nach Datenladen aufrufen kann.
  */
 export function renderCatFeeding() {
+  // Heutiges Datum lokalisiert anzeigen
+  const todayEl = document.getElementById('catFeedTodayText');
+  if (todayEl) {
+    const dateLabel = new Date().toLocaleDateString(getUiLocale(), {
+      weekday: 'long', day: 'numeric', month: 'long',
+    });
+    todayEl.textContent = t('catFeedTodayLabel', dateLabel);
+  }
+
   const entries = [...(appData.catFeeding || [])].sort((a, b) => b.date.localeCompare(a.date));
 
   // Durchschnitte berechnen
@@ -188,20 +193,21 @@ export function renderCatFeeding() {
 
   const avgPeachEl = document.getElementById('avgPeach');
   const avgJunaEl  = document.getElementById('avgJuna');
-  if (avgPeachEl) avgPeachEl.textContent = avgP !== null ? `⌀ ${avgP} g` : '– g';
-  if (avgJunaEl)  avgJunaEl.textContent  = avgJ !== null ? `⌀ ${avgJ} g` : '– g';
+  if (avgPeachEl) avgPeachEl.textContent = avgP !== null ? `${avgP} g` : '– g';
+  if (avgJunaEl)  avgJunaEl.textContent  = avgJ !== null ? `${avgJ} g` : '– g';
 
   // Tabelle rendern
   const container = document.getElementById('catFeedTable');
   if (!container) return;
 
   if (!entries.length) {
-    container.innerHTML = '<p class="cats-empty">Noch keine Einträge – trag den ersten Fütterungstag ein! 🐾</p>';
+    container.innerHTML = `<p class="cats-empty">${t('catFeedEmpty')}</p>`;
     return;
   }
 
+  const locale = getUiLocale();
   const rows = entries.map(e => {
-    const label = new Date(e.date + 'T00:00:00').toLocaleDateString('de-DE', {
+    const label = new Date(e.date + 'T00:00:00').toLocaleDateString(locale, {
       day: '2-digit', month: '2-digit', year: '2-digit',
     });
     return `<tr>
@@ -209,17 +215,18 @@ export function renderCatFeeding() {
       <td class="cats-amount">${e.peach} g</td>
       <td class="cats-amount">${e.juna} g</td>
       <td class="cats-amount cats-total">${e.peach + e.juna} g</td>
-      <td><button class="cats-del-btn" data-cat-date="${e.date}" title="Eintrag löschen">&#128465;</button></td>
+      <td><button class="cats-del-btn" data-cat-date="${e.date}"
+            title="${t('catFeedDelTooltip')}">&#128465;</button></td>
     </tr>`;
   }).join('');
 
   container.innerHTML = `
     <table class="cats-table">
       <thead><tr>
-        <th>Datum</th>
+        <th>${t('catFeedColDate')}</th>
         <th>&#127825; Peach</th>
         <th>&#127992; Juna</th>
-        <th>Gesamt</th>
+        <th>${t('catFeedColTotal')}</th>
         <th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
@@ -227,10 +234,10 @@ export function renderCatFeeding() {
 
   container.querySelectorAll('.cats-del-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const d = btn.dataset.catDate;
-      appData.catFeeding = (appData.catFeeding || []).filter(e => e.date !== d);
+      appData.catFeeding = (appData.catFeeding || []).filter(e => e.date !== btn.dataset.catDate);
       saveData();
       renderCatFeeding();
+      toast(t('catFeedToastDeleted'));
     });
   });
 }
