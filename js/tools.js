@@ -17,13 +17,14 @@ let _rateDate  = null;
 
 // ── Öffentliche API ───────────────────────────────────────────────────────────
 
-/** Öffnet das Geheimmenü und lädt ggf. den Kurs. */
+/** Öffnet das Geheimmenü und aktiviert das zugehörige Tool. */
 export function openSecretMenu() {
   document.getElementById('secretMenuModal').classList.add('is-open');
   const activeTab = document.querySelector('.secret-tab.active');
   const activeKey = activeTab?.dataset.secretTab ?? 'currency';
   if (activeKey === 'currency' && !_mxnPerEur) _loadRate();
   if (activeKey === 'cats') renderCatFeeding();
+  if (activeKey === 'ocr')  _onOcrTabOpen();
 }
 
 /** Schließt das Geheimmenü. */
@@ -54,13 +55,15 @@ export function initTools() {
       btn.classList.add('active');
       const target = btn.dataset.secretTab;
       document.getElementById(`secret-${target}`)?.classList.add('active');
-      if (target === 'cats')     renderCatFeeding();
+      if (target === 'cats')                    renderCatFeeding();
       if (target === 'currency' && !_mxnPerEur) _loadRate();
+      if (target === 'ocr')                     _onOcrTabOpen();
     });
   });
 
-  // Katzen füttern initialisieren
+  // Katzen füttern + OCR initialisieren
   _initCatFeeding();
+  _initOcr();
 
   // Kurs aktualisieren
   document.getElementById('btnRefreshRate')
@@ -241,3 +244,208 @@ export function renderCatFeeding() {
     });
   });
 }
+
+// ── OCR Test ──────────────────────────────────────────────────────────────────
+
+/** Tesseract-Worker (lazy, lebt bis Seitenreload). */
+let _ocrWorker = null;
+/** Verhindert parallele Initialisierungen und Erkennungsläufe. */
+let _ocrBusy   = false;
+
+/** Registriert den File-Input. Einmalig von initTools() aufgerufen. */
+function _initOcr() {
+  document.getElementById('ocrFileInput')?.addEventListener('change', e => {
+    const file = e.target.files?.[0];
+    if (file) _processOcrImage(file);
+    e.target.value = ''; // Reset → dasselbe Bild kann nochmals gewählt werden
+  });
+}
+
+/**
+ * Lädt Tesseract.js beim ersten Tab-Klick (lazy).
+ * Folgeaufrufe sind Noops sobald der Worker steht.
+ */
+async function _onOcrTabOpen() {
+  if (_ocrWorker || _ocrBusy) return;
+  _ocrBusy = true;
+  _setOcrStatus(t('ocrStatusLoading'), true);
+
+  try {
+    const { createWorker } = await import(
+      'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js'
+    );
+    _ocrWorker = await createWorker('deu', 1, {
+      workerPath:  'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+      langPath:    'https://tessdata.projectnaptha.com/4.0.0',
+      cacheMethod: 'write',
+      logger:      m => {
+        if (m.status === 'recognizing text') _setOcrProgress(Math.round(m.progress * 100));
+      },
+    });
+    _setOcrStatus(t('ocrStatusReady'), false);
+  } catch (err) {
+    console.error('[OCR] Init-Fehler:', err);
+    _setOcrStatus(t('ocrStatusError'), false);
+  } finally {
+    _ocrBusy = false;
+  }
+}
+
+/** Bild vorschauen → vorverarbeiten → OCR → Ergebnis anzeigen. */
+async function _processOcrImage(file) {
+  if (!_ocrWorker) { toast(t('ocrToastNotReady')); return; }
+  if (_ocrBusy)    return;
+  _ocrBusy = true;
+
+  // Vorschau sofort anzeigen
+  const objectUrl  = URL.createObjectURL(file);
+  const previewImg = document.getElementById('ocrPreviewImg');
+  if (previewImg) previewImg.src = objectUrl;
+  _ocrShow('ocrPreview');
+  _ocrHide('ocrResults');
+
+  // Fortschrittsbalken einblenden
+  _setOcrProgress(0);
+  _ocrShow('ocrProgress');
+  _setOcrStatus(t('ocrStatusProcessing'), false);
+
+  try {
+    const canvas = await _ocrPreprocessImage(objectUrl);
+    URL.revokeObjectURL(objectUrl);
+
+    const { data: { text } } = await _ocrWorker.recognize(canvas);
+    _ocrRenderResults(text);
+    _setOcrStatus(t('ocrStatusDone'), false);
+  } catch (err) {
+    console.error('[OCR] Erkennungs-Fehler:', err);
+    _setOcrStatus(t('ocrStatusError'), false);
+    URL.revokeObjectURL(objectUrl);
+  } finally {
+    _ocrBusy = false;
+    _ocrHide('ocrProgress');
+  }
+}
+
+/**
+ * Skaliert das Bild auf max. 1 500 px und wandelt es in Graustufen um.
+ * Verbessert Tesseract-Genauigkeit und Erkennungsgeschwindigkeit.
+ */
+function _ocrPreprocessImage(objectUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onerror = reject;
+    img.onload  = () => {
+      const MAX    = 1500;
+      const scale  = Math.min(1, MAX / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width  = Math.round(img.width  * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.filter = 'grayscale(1) contrast(1.3)';
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas);
+    };
+    img.src = objectUrl;
+  });
+}
+
+/** Extrahiert Beträge + Datum aus dem OCR-Text und rendert das Ergebnis-Panel. */
+function _ocrRenderResults(text) {
+  const rawEl = document.getElementById('ocrRawText');
+  if (rawEl) rawEl.textContent = text.trim();
+
+  const amounts = _ocrExtractAmounts(text);
+  const date    = _ocrExtractDate(text);
+  const fmt     = v => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(v);
+
+  // Bester Betrag
+  const amountEl = document.getElementById('ocrAmount');
+  if (amountEl) amountEl.textContent = amounts.best !== null ? fmt(amounts.best) : '–';
+
+  // Datum
+  const dateEl = document.getElementById('ocrDate');
+  if (dateEl) dateEl.textContent = date || '–';
+
+  // Alle Beträge (Chips) – nur wenn mehr als einer gefunden
+  const allEl = document.getElementById('ocrAllAmounts');
+  if (allEl) {
+    allEl.innerHTML = amounts.all.length > 1
+      ? `<div class="ocr-all-amounts">
+           <span class="ocr-all-label">${t('ocrAllAmounts')}</span>
+           ${amounts.all.map(a => `<span class="ocr-amount-chip">${fmt(a)}</span>`).join('')}
+         </div>`
+      : '';
+  }
+
+  _ocrShow('ocrResults');
+}
+
+/**
+ * Findet alle Geldbeträge im Text (deutsches Format).
+ * Gibt { best, all } zurück – best ist der wahrscheinlichste Gesamtbetrag.
+ */
+function _ocrExtractAmounts(text) {
+  const regex = /\b(\d{1,4}[.,]\d{2})\s*€?\b/g;
+  const found = [];
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    const val = parseFloat(match[1].replace(',', '.'));
+    if (val > 0 && val < 10000) found.push(val);
+  }
+  if (!found.length) return { best: null, all: [] };
+
+  // Keyword-Strategie: Betrag nach bekannten Summen-Labels suchen
+  const lower    = text.toLowerCase();
+  const keywords = ['gesamtbetrag', 'gesamt', 'summe', 'total', 'zu zahlen', 'zahlen', 'betrag'];
+  let best       = null;
+
+  for (const kw of keywords) {
+    const idx = lower.indexOf(kw);
+    if (idx === -1) continue;
+    const m = text.substring(idx, idx + 60).match(/\d{1,4}[.,]\d{2}/);
+    if (m) { best = parseFloat(m[0].replace(',', '.')); break; }
+  }
+
+  // Fallback: größter gefundener Betrag
+  if (best === null) best = Math.max(...found);
+
+  // Dedupliziert, absteigend sortiert
+  const unique = [...new Set(found)].sort((a, b) => b - a);
+  return { best, all: unique };
+}
+
+/** Findet das erste Datum im Format DD.MM.YYYY oder DD.MM.YY. */
+function _ocrExtractDate(text) {
+  const m = text.match(/\b(\d{1,2})[./](\d{1,2})[./](\d{2,4})\b/);
+  if (!m) return null;
+  const [, d, mo, y] = m;
+  const year = y.length === 2 ? `20${y}` : y;
+  return `${d.padStart(2, '0')}.${mo.padStart(2, '0')}.${year}`;
+}
+
+// ── OCR-Hilfsfunktionen ───────────────────────────────────────────────────────
+
+function _setOcrStatus(text, spinning) {
+  const textEl = document.getElementById('ocrStatusText');
+  const spinEl = document.getElementById('ocrStatusSpin');
+  if (textEl) textEl.textContent = text;
+  if (spinEl) {
+    if (spinning) {
+      spinEl.classList.remove('ocr-hidden');
+      spinEl.classList.add('spin');
+    } else {
+      spinEl.classList.add('ocr-hidden');
+      spinEl.classList.remove('spin');
+    }
+  }
+}
+
+function _setOcrProgress(pct) {
+  const fill = document.getElementById('ocrProgressFill');
+  const text = document.getElementById('ocrProgressText');
+  if (fill) fill.style.width = `${pct}%`;
+  if (text) text.textContent = `${pct} %`;
+}
+
+function _ocrShow(id) { document.getElementById(id)?.classList.remove('ocr-hidden'); }
+function _ocrHide(id) { document.getElementById(id)?.classList.add('ocr-hidden'); }

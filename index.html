@@ -448,6 +448,7 @@
     <div class="secret-tabs">
       <button class="secret-tab active" data-secret-tab="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
       <button class="secret-tab" data-secret-tab="cats" data-i18n="catFeedTab">&#128049; Katzen f&#252;ttern</button>
+      <button class="secret-tab" data-secret-tab="ocr"  data-i18n="ocrTab">&#128247; OCR Test</button>
     </div>
 
     <!-- Tool: Währungsrechner -->
@@ -521,6 +522,58 @@
 
       <!-- Verlaufstabelle -->
       <div class="cats-table-wrap" id="catFeedTable"></div>
+
+    </div>
+
+    <!-- Tool: OCR Test -->
+    <div class="secret-panel" id="secret-ocr">
+
+      <!-- Status-Leiste -->
+      <div class="currency-rate-info">
+        <span id="ocrStatusText"></span>
+        <span id="ocrStatusSpin" class="ocr-spinner ocr-hidden">&#8635;</span>
+      </div>
+
+      <!-- Kamera-Button -->
+      <div class="ocr-capture-area">
+        <label class="ocr-capture-btn" for="ocrFileInput">
+          &#128247; <span data-i18n="ocrCaptureBtn">Foto aufnehmen</span>
+        </label>
+        <input type="file" id="ocrFileInput" accept="image/*" capture="environment" class="ocr-file-input">
+      </div>
+
+      <!-- Bildvorschau -->
+      <div class="ocr-preview ocr-hidden" id="ocrPreview">
+        <img id="ocrPreviewImg" alt="">
+      </div>
+
+      <!-- Fortschrittsbalken -->
+      <div class="ocr-progress ocr-hidden" id="ocrProgress">
+        <div class="ocr-progress-bar">
+          <div class="ocr-progress-fill" id="ocrProgressFill"></div>
+        </div>
+        <span class="ocr-progress-text" id="ocrProgressText">0 %</span>
+      </div>
+
+      <!-- Ergebnisse -->
+      <div class="ocr-hidden" id="ocrResults">
+        <div class="cats-section" data-i18n="ocrSectionResult">Ergebnis</div>
+        <div class="cats-avg-row">
+          <div class="cats-avg-card">
+            <div class="cats-avg-name" data-i18n="ocrResultAmount">Betrag</div>
+            <div class="cats-avg-val" id="ocrAmount">&#8211;</div>
+          </div>
+          <div class="cats-avg-card">
+            <div class="cats-avg-name" data-i18n="ocrResultDate">Datum</div>
+            <div class="cats-avg-val ocr-date-val" id="ocrDate">&#8211;</div>
+          </div>
+        </div>
+        <div id="ocrAllAmounts"></div>
+        <details class="ocr-raw-details">
+          <summary data-i18n="ocrRawLabel">Rohtext anzeigen</summary>
+          <pre id="ocrRawText" class="ocr-raw-text"></pre>
+        </details>
+      </div>
 
     </div>
 

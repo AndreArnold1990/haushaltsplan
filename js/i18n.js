@@ -184,6 +184,21 @@ const translations = {
     currencyRateError:     'Kurs konnte nicht geladen werden.',
     currencyRateInfo:      (rate, date) => `1 € = ${rate} MXN  ·  ${date}`,
 
+    // OCR Test
+    ocrTab:              '📷 OCR Test',
+    ocrStatusReady:      'Bereit – Foto aufnehmen',
+    ocrStatusLoading:    'OCR-Engine wird geladen…',
+    ocrStatusProcessing: 'Text wird erkannt…',
+    ocrStatusDone:       'Erkennung abgeschlossen ✓',
+    ocrStatusError:      'Fehler – bitte erneut versuchen',
+    ocrCaptureBtn:       'Foto aufnehmen',
+    ocrSectionResult:    'Ergebnis',
+    ocrResultAmount:     'Betrag',
+    ocrResultDate:       'Datum',
+    ocrAllAmounts:       'Alle Beträge',
+    ocrRawLabel:         'Rohtext anzeigen',
+    ocrToastNotReady:    'OCR-Engine noch nicht bereit.',
+
     // Katzen füttern
     catFeedTab:          '🐱 Katzen füttern',
     catFeedTodayLabel:   date => `Heute · ${date}`,
@@ -363,6 +378,21 @@ const translations = {
     currencyRateLoading:   'Cargando tipo de cambio…',
     currencyRateError:     'No se pudo cargar el tipo de cambio.',
     currencyRateInfo:      (rate, date) => `1 € = ${rate} MXN  ·  ${date}`,
+
+    // OCR Test
+    ocrTab:              '📷 OCR Test',
+    ocrStatusReady:      'Listo – toma una foto',
+    ocrStatusLoading:    'Cargando motor OCR…',
+    ocrStatusProcessing: 'Reconociendo texto…',
+    ocrStatusDone:       'Reconocimiento completado ✓',
+    ocrStatusError:      'Error – inténtalo de nuevo',
+    ocrCaptureBtn:       'Tomar foto',
+    ocrSectionResult:    'Resultado',
+    ocrResultAmount:     'Importe',
+    ocrResultDate:       'Fecha',
+    ocrAllAmounts:       'Todos los importes',
+    ocrRawLabel:         'Ver texto sin procesar',
+    ocrToastNotReady:    'Motor OCR aún no listo.',
 
     // Alimentar gatos
     catFeedTab:          '🐱 Alimentar gatos',

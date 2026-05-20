@@ -1034,3 +1034,148 @@ nav button        { min-height: 44px; }
   text-align: center;
   padding: 1.5rem 0.75rem;
 }
+
+/* ── OCR Test ────────────────────────────────────────────── */
+
+/* Panel scrollbar – Inhalt kann lang werden */
+#secret-ocr {
+  overflow-y: auto;
+  max-height: min(72vh, 580px);
+}
+
+/* Utility: versteckt Elemente (toggle via JS) */
+.ocr-hidden { display: none !important; }
+
+/* Spinner im Status-Bar */
+.ocr-spinner { color: #818cf8; font-size: 1rem; }
+
+/* Kamera-Button */
+.ocr-capture-area {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.ocr-capture-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #4f46e5;
+  color: white;
+  border-radius: 8px;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  user-select: none;
+}
+.ocr-capture-btn:hover  { background: #4338ca; }
+.ocr-capture-btn:active { transform: scale(0.97); }
+.ocr-file-input { display: none; }
+
+/* Bildvorschau */
+.ocr-preview {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  background: #0f172a;
+}
+.ocr-preview img {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+/* Fortschrittsbalken */
+.ocr-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.ocr-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.ocr-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #818cf8;
+  border-radius: 3px;
+  transition: width 0.2s ease;
+}
+.ocr-progress-text {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* Datum-Wert etwas kleiner (damit es in die Karte passt) */
+.ocr-date-val { font-size: 1rem; }
+
+/* Alle-Beträge-Chips */
+.ocr-all-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+.ocr-all-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  width: 100%;
+}
+.ocr-amount-chip {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Aufklappbarer Rohtext */
+.ocr-raw-details {
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+.ocr-raw-details summary {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.78rem;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+  background: #0f172a;
+  list-style: none;
+}
+.ocr-raw-details summary:hover      { color: #94a3b8; }
+.ocr-raw-details summary::marker,
+.ocr-raw-details summary::-webkit-details-marker { display: none; }
+.ocr-raw-details[open] summary      { border-bottom: 1px solid #1e293b; }
+.ocr-raw-text {
+  padding: 0.75rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: #64748b;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 180px;
+  overflow-y: auto;
+  background: #0f172a;
+  margin: 0;
+  line-height: 1.5;
+}
