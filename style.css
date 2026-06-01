@@ -325,6 +325,75 @@ tr:hover td       { background: #f8fafc; }
   flex-wrap: wrap;
 }
 
+/* ── Drive Picker Modal ──────────────────────────────────────────────────── */
+.drive-picker-overlay { align-items: center; justify-content: center; }
+
+.drive-picker-box {
+  width: min(420px, 92vw);
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.drive-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.drive-picker-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.drive-picker-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0.5rem;
+}
+
+.drive-picker-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  gap: 0.5rem;
+}
+.drive-picker-item:hover { background: var(--bg); }
+
+.drive-picker-item-label {
+  font-size: 0.9rem;
+  color: var(--text);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drive-picker-item-meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.drive-picker-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding: 2rem 1rem;
+}
+
 /* ── Einstellungen Sub-Tabs ──────────────────────────────────── */
 .settings-subtabs {
   display: flex;

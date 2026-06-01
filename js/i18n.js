@@ -103,6 +103,8 @@ const translations = {
     toastDriveRestoreDone:      'Daten erfolgreich wiederhergestellt ✓',
     toastDriveError:            'Google Drive Fehler – bitte erneut versuchen.',
     toastDriveInvalidFile:      'Ungültige Backup-Datei.',
+    driveNoFolders:             'Keine Ordner gefunden.',
+    driveNoBackups:             'Keine Backups in diesem Ordner.',
     confirmDriveRestore:        'Wirklich alle aktuellen Daten mit diesem Backup überschreiben?\n\nDiese Aktion kann nicht rückgängig gemacht werden.',
     toastBackupReminder:        '☁️ Wöchentliches Backup fällig – tippe auf Einstellungen.',
 
@@ -323,6 +325,8 @@ const translations = {
     toastDriveRestoreDone:      'Datos restaurados correctamente ✓',
     toastDriveError:            'Error de Google Drive – inténtalo de nuevo.',
     toastDriveInvalidFile:      'Archivo de copia inválido.',
+    driveNoFolders:             'No se encontraron carpetas.',
+    driveNoBackups:             'No hay copias en esta carpeta.',
     confirmDriveRestore:        '¿Sobrescribir todos los datos actuales con esta copia?\n\nEsta acción no se puede deshacer.',
     toastBackupReminder:        '☁️ Copia semanal pendiente – toca Ajustes.',
 
