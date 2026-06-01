@@ -307,6 +307,24 @@ tr:hover td       { background: #f8fafc; }
 .mt-10 { margin-top:    0.75rem; }
 .mt-15 { margin-top:    1.5rem; }
 
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  display: inline-block;
+}
+.btn-link:hover { color: var(--primary-dark); }
+
+.drive-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 /* ── Einstellungen Sub-Tabs ──────────────────────────────────── */
 .settings-subtabs {
   display: flex;

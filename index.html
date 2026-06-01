@@ -23,6 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
           integrity="sha384-e6nUZLBkQ86NJ6TVVKAeSaK8jWa3NhkYWZFomE39AvDbQWeie9PlQqM3pmYW5d1g"
           crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/api.js" defer></script>
 </head>
 <body>
 
@@ -249,6 +250,25 @@
           </div>
           <button id="btnResetTransactions" class="btn btn-danger" data-i18n="btnResetTx">&#128465; Zurücksetzen</button>
         </div>
+      </div>
+
+      <!-- Google Drive Backup -->
+      <div class="card mt-15">
+        <div class="section-title" data-i18n="sectionDriveBackup">&#9729;&#65039; Google Drive Backup</div>
+
+        <div class="system-setting-row">
+          <div class="system-setting-info">
+            <span id="driveFolderName" class="system-setting-label" data-i18n="driveNotConfigured">Kein Backup-Ordner konfiguriert.</span>
+            <span id="driveLastBackup" class="system-setting-desc"></span>
+          </div>
+        </div>
+
+        <div class="drive-actions mt-10">
+          <button id="btnDriveSetup"   class="btn btn-primary btn-sm"             data-i18n="btnDriveSetup">&#9729;&#65039; Ordner einrichten</button>
+          <button id="btnDriveBackup"  class="btn btn-primary btn-sm is-hidden"   data-i18n="btnDriveBackup">&#9729;&#65039; Jetzt sichern</button>
+          <button id="btnDriveRestore" class="btn btn-secondary btn-sm is-hidden" data-i18n="btnDriveRestore">&#8617; Wiederherstellen</button>
+        </div>
+        <button id="btnDriveChange" class="btn-link is-hidden mt-10" data-i18n="btnDriveChange">Ordner ändern</button>
       </div>
     </div>
   </div>

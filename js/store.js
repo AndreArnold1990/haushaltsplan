@@ -35,7 +35,7 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
  * @property {Transaction[]}                 transactions - Alle Transaktionen
  * @property {Object.<string, { firstName: string, picture: string|null }>} users
  * @property {RecurringRule[]}               recurringRules
- * @property {{ translationApiKey: string }} settings     - App-Einstellungen (via Firestore synchronisiert)
+ * @property {{ translationApiKey: string, driveBackup: { folderId: string|null, folderName: string|null, lastBackup: string|null } }} settings
  */
 
 /**
@@ -43,7 +43,7 @@ export const STORAGE_KEY = 'haushaltsplan_v1';
  * Andere Module importieren diese Variable als **Live-Binding**.
  * @type {AppData}
  */
-export let appData = { categories: [], transactions: [], users: {}, recurringRules: [], catFeeding: [], settings: { translationApiKey: '' } };
+export let appData = { categories: [], transactions: [], users: {}, recurringRules: [], catFeeding: [], settings: { translationApiKey: '', driveBackup: { folderId: null, folderName: null, lastBackup: null } } };
 
 /**
  * Aktuell angemeldeter Nutzer (wird von app.js nach dem Login gesetzt).
@@ -75,7 +75,7 @@ export function setAppData(data) { appData = data; }
  * Alle echten Daten kommen via Firestore onSnapshot.
  */
 export function loadData() {
-  appData = { categories: [], transactions: [], users: {}, recurringRules: [], catFeeding: [], settings: { translationApiKey: '' } };
+  appData = { categories: [], transactions: [], users: {}, recurringRules: [], catFeeding: [], settings: { translationApiKey: '', driveBackup: { folderId: null, folderName: null, lastBackup: null } } };
   try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignorieren */ }
 }
 

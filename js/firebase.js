@@ -20,6 +20,7 @@
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
+         reauthenticateWithPopup,
          signOut as _fbSignOut, onAuthStateChanged, GoogleAuthProvider }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, onSnapshot, setDoc }
@@ -39,8 +40,10 @@ export const GOOGLE_LOGO = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/20
 let _auth   = null;
 /** @type {object|null} Firestore */
 let _db     = null;
-/** @type {object|null} Aktuell angemeldeter Nutzer */
+/** @type {object|null} Aktuell angemeldeter Nutzer (eigenes Format) */
 let _user   = null;
+/** @type {import('firebase/auth').User|null} Firebase User-Objekt (für Re-Auth) */
+let _fbUser = null;
 /** @type {ReturnType<typeof setTimeout>|null} Debounce-Timer für Schreibvorgänge */
 let _timer  = null;
 /** @type {Function|null} Firestore onSnapshot Unsubscribe-Funktion */
@@ -92,7 +95,8 @@ export function init(options) {
 
   onAuthStateChanged(_auth, user => {
     if (user) {
-      _user = {
+      _fbUser = user;
+      _user   = {
         sub:        user.uid,
         name:       user.displayName,
         given_name: user.displayName?.split(' ')[0],
@@ -102,7 +106,8 @@ export function init(options) {
       _opts.onAuthUI?.('signed-in', _user);
       _subscribeToData();
     } else {
-      _user = null;
+      _fbUser = null;
+      _user   = null;
       _unsubscribe();
       _opts.onAuthUI?.('signed-out');
       _opts.onSyncUI?.('offline');
@@ -164,6 +169,28 @@ export async function createNewFile(data) {
 
 /** Gibt das aktuelle Nutzerobjekt zurück (null wenn nicht angemeldet). */
 export const getUser = () => _user;
+
+/**
+ * Fordert einen Google OAuth2-Access-Token mit den angegebenen Scopes an.
+ * Nutzt reauthenticateWithPopup damit die bestehende Firebase-Session erhalten bleibt.
+ *
+ * @param {string[]} scopes - Google OAuth Scopes (z.B. ['https://www.googleapis.com/auth/drive'])
+ * @returns {Promise<string|null>} Access-Token oder null wenn abgebrochen
+ */
+export async function getGoogleAccessToken(scopes = []) {
+  if (!_auth || !_fbUser) throw new Error('Not authenticated');
+  const provider = new GoogleAuthProvider();
+  scopes.forEach(s => provider.addScope(s));
+  try {
+    const result = await reauthenticateWithPopup(_fbUser, provider);
+    return GoogleAuthProvider.credentialFromResult(result)?.accessToken ?? null;
+  } catch (e) {
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+      return null;
+    }
+    throw e;
+  }
+}
 
 // ── Intern ────────────────────────────────────────────────────────────────────
 

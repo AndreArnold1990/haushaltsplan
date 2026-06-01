@@ -33,6 +33,7 @@ import { applyRecurringRules, addRecurringRule, deleteRecurringRule,
 import { t, setLanguage, setLangChangeCallback,
          applyTranslations, currentLang }               from './i18n.js';
 import { toast, translateText }                         from './utils.js';
+import * as Drive                                       from './drive.js';
 import * as Firebase                                    from './firebase.js';
 import { initTools, openSecretMenu, renderCatFeeding }  from './tools.js';
 
@@ -141,6 +142,7 @@ function _initEventListeners() {
       }
       if (btn.dataset.settingsTab === 'system') {
         document.getElementById('translationApiKey').value = appData.settings?.translationApiKey || '';
+        renderDriveStatus();
       }
     });
   });
@@ -153,6 +155,57 @@ function _initEventListeners() {
     appData.settings.translationApiKey = key;
     saveData();
     toast(t('toastApiKeySaved'));
+  });
+
+  // ── Google Drive Backup ───────────────────────────────────────────────────
+
+  document.getElementById('btnDriveSetup').addEventListener('click', async () => {
+    const ok = await Drive.setupDrive();
+    if (ok) { renderDriveStatus(); toast(t('toastDriveBackupDone').replace('✓', '').trim() + ' – ' + t('btnDriveSetup').replace('☁️', '').trim()); }
+  });
+
+  document.getElementById('btnDriveChange').addEventListener('click', async () => {
+    const ok = await Drive.setupDrive();
+    if (ok) renderDriveStatus();
+  });
+
+  document.getElementById('btnDriveBackup').addEventListener('click', async () => {
+    try {
+      await Drive.backup(appData);
+      renderDriveStatus();
+      toast(t('toastDriveBackupDone'));
+    } catch (e) {
+      if (e.message !== 'auth/cancelled') { console.error('[Drive]', e); toast(t('toastDriveError')); }
+    }
+  });
+
+  document.getElementById('btnDriveRestore').addEventListener('click', async () => {
+    try {
+      const data = await Drive.restore();
+      if (!data) return;
+
+      if (!Array.isArray(data.categories) || !Array.isArray(data.transactions)) {
+        toast(t('toastDriveInvalidFile')); return;
+      }
+      if (!confirm(t('confirmDriveRestore'))) return;
+
+      // Drive-Einstellungen der aktuellen Session bewahren
+      const currentDrive = { ...appData.settings?.driveBackup };
+
+      // Guards für ältere Backup-Formate
+      if (!data.users)          data.users          = {};
+      if (!data.recurringRules) data.recurringRules = [];
+      if (!data.settings)       data.settings       = {};
+      data.settings.driveBackup = currentDrive;
+
+      setAppData(data);
+      _migrateCategories();
+      saveData();
+      _renderAll();
+      toast(t('toastDriveRestoreDone'));
+    } catch (e) {
+      if (e.message !== 'auth/cancelled') { console.error('[Drive]', e); toast(t('toastDriveError')); }
+    }
   });
 
   document.getElementById('btnResetTransactions').addEventListener('click', () => {
@@ -316,10 +369,12 @@ function _renderAll() {
 }
 
 function _onDataLoaded(data) {
-  if (!data.users)          data.users          = {};
-  if (!data.recurringRules) data.recurringRules = [];
-  if (!data.catFeeding)     data.catFeeding     = [];
-  if (!data.settings)       data.settings       = { translationApiKey: '' };
+  if (!data.users)                       data.users                       = {};
+  if (!data.recurringRules)              data.recurringRules              = [];
+  if (!data.catFeeding)                  data.catFeeding                  = [];
+  if (!data.settings)                    data.settings                    = {};
+  if (!data.settings.translationApiKey)  data.settings.translationApiKey  = '';
+  if (!data.settings.driveBackup)        data.settings.driveBackup        = { folderId: null, folderName: null, lastBackup: null };
   setAppData(data);
   _migrateCategories();
   if (applyRecurringRules()) saveData(); // Fehlende Monate automatisch auffüllen
@@ -329,6 +384,7 @@ function _onDataLoaded(data) {
     _migrateUnknownTransactions(user);
     _updateUserProfile(user);
   }
+  _checkBackupReminder();
   _showSignInHint(false);
   _renderAll();
   renderCatFeeding(); // Durchschnitt im Geheimmenü aktuell halten
@@ -377,6 +433,62 @@ function _onFileNotFound() {
 function _showSignInHint(visible) {
   document.getElementById('signInHint').classList.toggle('is-hidden', !visible);
   document.getElementById('dashboardContent').classList.toggle('is-visible', !visible);
+}
+
+/**
+ * Aktualisiert die Drive-Backup-UI in den Systemeinstellungen.
+ * Zeigt Ordnername + letztes Backup-Datum wenn konfiguriert.
+ */
+function renderDriveStatus() {
+  const folderNameEl  = document.getElementById('driveFolderName');
+  const lastBackupEl  = document.getElementById('driveLastBackup');
+  const btnSetup      = document.getElementById('btnDriveSetup');
+  const btnBackup     = document.getElementById('btnDriveBackup');
+  const btnRestore    = document.getElementById('btnDriveRestore');
+  const btnChange     = document.getElementById('btnDriveChange');
+  if (!folderNameEl) return;
+
+  if (Drive.isConfigured()) {
+    const { folderName, lastBackup } = Drive.getDriveSettings();
+    folderNameEl.textContent = `📁 ${folderName}`;
+    if (lastBackup) {
+      const d = new Date(lastBackup);
+      lastBackupEl.textContent = `${t('driveLastBackupLabel')} ${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    } else {
+      lastBackupEl.textContent = t('driveNoBackupYet');
+    }
+    btnSetup.classList.add('is-hidden');
+    btnBackup.classList.remove('is-hidden');
+    btnRestore.classList.remove('is-hidden');
+    btnChange.classList.remove('is-hidden');
+  } else {
+    folderNameEl.setAttribute('data-i18n', 'driveNotConfigured');
+    folderNameEl.textContent = t('driveNotConfigured');
+    lastBackupEl.textContent = '';
+    btnSetup.classList.remove('is-hidden');
+    btnBackup.classList.add('is-hidden');
+    btnRestore.classList.add('is-hidden');
+    btnChange.classList.add('is-hidden');
+  }
+}
+
+/** Merker damit der Backup-Reminder pro Session nur einmal erscheint. */
+let _backupReminderShown = false;
+
+/**
+ * Zeigt sonntags einen Toast-Hinweis wenn das letzte Backup >6 Tage zurückliegt.
+ */
+function _checkBackupReminder() {
+  if (_backupReminderShown)        return;
+  if (new Date().getDay() !== 0)   return; // 0 = Sonntag
+  if (!Drive.isConfigured())       return;
+  const last = appData.settings?.driveBackup?.lastBackup;
+  if (last) {
+    const daysSince = (Date.now() - new Date(last).getTime()) / 86_400_000;
+    if (daysSince < 6) return;
+  }
+  _backupReminderShown = true;
+  toast(t('toastBackupReminder'));
 }
 
 /** Aktualisiert den Sprach-Toggle-Button im Header. */
