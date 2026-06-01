@@ -47,6 +47,8 @@ let _timer  = null;
 let _unsub  = null;
 /** @type {object} Initialisierungsoptionen */
 let _opts   = {};
+/** @type {boolean} true sobald Daten mindestens einmal erfolgreich geladen wurden */
+let _dataWasLoaded = false;
 
 /**
  * @typedef {Object} FirebaseInitOptions
@@ -186,14 +188,22 @@ function _subscribeToData() {
       if (snap.exists()) {
         const data = snap.data();
         if (data?.categories && data?.transactions) {
+          _dataWasLoaded = true;
           _opts.onDataLoaded?.(data);
           _opts.onSyncUI?.('synced');
           return;
         }
+        // Dokument vorhanden, aber Struktur unvollständig → nur melden, NICHT überschreiben
+        if (_dataWasLoaded) {
+          console.warn('[Firestore] Snapshot ohne categories/transactions empfangen – ignoriert.');
+          return;
+        }
       }
-      // Dokument existiert noch nicht → onFileNotFound aufrufen
-      _opts.onSyncUI?.('offline');
-      _opts.onFileNotFound?.();
+      // Dokument existiert wirklich nicht → onFileNotFound aufrufen
+      if (!_dataWasLoaded) {
+        _opts.onSyncUI?.('offline');
+        _opts.onFileNotFound?.();
+      }
     },
     err => {
       console.error('Firestore snapshot error:', err);
@@ -205,6 +215,15 @@ function _subscribeToData() {
 /** Schreibt data in das Haushalt-Dokument (legt es an falls nicht vorhanden). */
 async function _saveToFirestore(data) {
   if (!_db || !_opts.householdId || !_user) return;
+
+  // Sicherheitssperre: niemals leere Daten schreiben wenn bereits Daten existieren.
+  // Verhindert versehentliches Löschen aller Einträge durch Race-Condition beim Start.
+  const hasContent = (data?.categories?.length > 0) || (data?.transactions?.length > 0);
+  if (!hasContent && _dataWasLoaded) {
+    console.warn('[Firestore] Schreib-Sperre: Leere Daten werden nicht gespeichert (Daten wurden bereits geladen).');
+    return;
+  }
+
   _opts.onSyncUI?.('syncing');
   try {
     await setDoc(doc(_db, 'households', _opts.householdId), data);
