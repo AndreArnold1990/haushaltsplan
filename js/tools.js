@@ -271,11 +271,12 @@ async function _onOcrTabOpen() {
   _setOcrStatus(t('ocrStatusLoading'), true);
 
   try {
+    // Version exakt gepinnt (kein schwebendes @5-Tag) – Schutz vor Supply-Chain-Drift
     const { createWorker } = await import(
-      'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js'
+      'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.esm.min.js'
     );
     _ocrWorker = await createWorker('deu', 1, {
-      workerPath:  'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+      workerPath:  'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',
       langPath:    'https://tessdata.projectnaptha.com/4.0.0',
       cacheMethod: 'write',
       logger:      m => {

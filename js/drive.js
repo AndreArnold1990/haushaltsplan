@@ -15,6 +15,7 @@
 import { appData, saveData }    from './store.js';
 import { getGoogleAccessToken } from './firebase.js';
 import { t }                    from './i18n.js';
+import { escHtml }              from './utils.js';
 
 // ── Konstanten ────────────────────────────────────────────────────────────────
 
@@ -242,14 +243,13 @@ function _showPickerModal(title, items, emptyText) {
       items.forEach(item => {
         const row = document.createElement('button');
         row.className = 'drive-picker-item';
+        // Dateinamen kommen aus Drive und sind nutzerkontrolliert → escapen
         row.innerHTML = `
-          <span class="drive-picker-item-label">${item.label}</span>
-          ${item.meta ? `<span class="drive-picker-item-meta">${item.meta}</span>` : ''}`;
+          <span class="drive-picker-item-label">${escHtml(item.label)}</span>
+          ${item.meta ? `<span class="drive-picker-item-meta">${escHtml(item.meta)}</span>` : ''}`;
         row.addEventListener('click', () => {
           cleanup();
-          // Extrahiere den echten Namen (ohne Emoji-Prefix bei Ordnern)
-          const name = item.label.replace(/^📁 /, '');
-          resolve({ id: item.id, name });
+          resolve({ id: item.id, name: item.label });
         });
         list.appendChild(row);
       });
