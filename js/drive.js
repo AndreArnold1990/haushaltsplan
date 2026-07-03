@@ -2,11 +2,13 @@
  * @module drive
  * Google Drive Backup-Integration für Casaflow.
  *
- * Kein Google Picker API nötig – Ordner- und Dateiauswahl über eigene Modal-UI.
+ * Backups landen in einem festen, App-eigenen Ordner "backups".
+ * Dadurch reicht der unkritische drive.file-Scope (nur App-eigene Dateien) –
+ * keine Ordner-Auswahl, keine sensiblen Berechtigungen, keine Google-Verifizierung.
  *
  * Ablauf:
- * 1. setupDrive()  – OAuth + Ordner-Auswahl aus eigenem Modal (einmalig)
- * 2. backup(data)  – JSON-Datei in den konfigurierten Ordner hochladen
+ * 1. setupDrive()  – OAuth + Ordner "backups" suchen/anlegen (einmalig)
+ * 2. backup(data)  – JSON-Datei in den Ordner hochladen
  * 3. restore()     – Backup-Datei aus eigenem Modal auswählen und laden
  */
 
@@ -20,8 +22,8 @@ const DRIVE_UPLOAD = 'https://www.googleapis.com/upload/drive/v3';
 const DRIVE_API    = 'https://www.googleapis.com/drive/v3';
 /** Minimaler Scope: nur App-eigene Dateien lesen/schreiben */
 const SCOPE_FILE   = 'https://www.googleapis.com/auth/drive.file';
-/** Metadaten aller Dateien lesen (für Ordner-Browser beim Setup) */
-const SCOPE_META   = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+/** Name des festen Backup-Ordners in "Meine Ablage" */
+const FOLDER_NAME  = 'backups';
 
 // ── Modulzustand ──────────────────────────────────────────────────────────────
 
@@ -48,51 +50,41 @@ export function getDriveSettings() {
 }
 
 /**
- * Einmalige Einrichtung: OAuth + eigene Ordner-Auswahl.
- * @returns {Promise<boolean>} true bei Erfolg
+ * Einmalige Einrichtung: OAuth + Ordner "backups" suchen bzw. anlegen.
+ * @returns {Promise<boolean>} true bei Erfolg, false bei Abbruch durch Nutzer
  */
 export async function setupDrive() {
-  // SCOPE_META zum Auflisten aller Ordner + SCOPE_FILE für Backup-Operationen
-  const token = await getGoogleAccessToken([SCOPE_META, SCOPE_FILE]);
+  const token = await getGoogleAccessToken([SCOPE_FILE]);
   if (!token) return false;
   _token    = token;
   _tokenExp = Date.now() + 55 * 60 * 1000;
 
-  const folder = await _showFolderModal();
-  if (!folder) return false;
-
-  if (!appData.settings)             appData.settings             = {};
-  if (!appData.settings.driveBackup) appData.settings.driveBackup = {};
-  appData.settings.driveBackup.folderId   = folder.id;
-  appData.settings.driveBackup.folderName = folder.name;
-  saveData();
+  await _ensureBackupFolder();
   return true;
 }
 
 /**
- * Lädt einen JSON-Snapshot in den konfigurierten Ordner hoch.
+ * Lädt einen JSON-Snapshot in den Ordner "backups" hoch.
+ * Richtet den Ordner bei Bedarf automatisch ein; wurde er in Drive gelöscht,
+ * wird er einmal neu angelegt und der Upload wiederholt.
+ *
  * @param {object} data
  */
 export async function backup(data) {
-  if (!isConfigured()) throw new Error('Drive not configured');
   await _ensureToken([SCOPE_FILE]);
+  if (!isConfigured()) await _ensureBackupFolder();
 
   const now      = new Date();
   const date     = now.toISOString().slice(0, 10);
   const time     = now.toTimeString().slice(0, 5).replace(':', '-');
   const filename = `casaflow-backup-${date}_${time}.json`;
-  const folderId = appData.settings.driveBackup.folderId;
 
-  const meta = { name: filename, mimeType: 'application/json', parents: [folderId] };
-  const form = new FormData();
-  form.append('metadata', new Blob([JSON.stringify(meta)],          { type: 'application/json' }));
-  form.append('file',     new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
-
-  const res = await fetch(`${DRIVE_UPLOAD}/files?uploadType=multipart`, {
-    method:  'POST',
-    headers: { Authorization: `Bearer ${_token}` },
-    body:    form,
-  });
+  let res = await _upload(filename, data, appData.settings.driveBackup.folderId);
+  if (res.status === 404) {
+    // Ordner wurde in Drive gelöscht → neu anlegen und einmal erneut versuchen
+    await _ensureBackupFolder(true);
+    res = await _upload(filename, data, appData.settings.driveBackup.folderId);
+  }
   if (!res.ok) throw new Error(`Drive upload: ${res.status}`);
 
   appData.settings.driveBackup.lastBackup = now.toISOString();
@@ -104,8 +96,8 @@ export async function backup(data) {
  * @returns {Promise<object|null>}
  */
 export async function restore() {
-  if (!isConfigured()) throw new Error('Drive not configured');
   await _ensureToken([SCOPE_FILE]);
+  if (!isConfigured()) await _ensureBackupFolder();
 
   const file = await _showFileModal();
   if (!file) return null;
@@ -128,15 +120,57 @@ async function _ensureToken(scopes) {
 }
 
 /**
- * Lädt alle Ordner aus Google Drive (max. 100, sortiert nach Name).
- * @returns {Promise<Array<{id: string, name: string}>>}
+ * Sucht den App-eigenen Ordner "backups" bzw. legt ihn an und
+ * speichert seine ID in den Einstellungen.
+ * Mit drive.file sieht die App nur selbst erstellte Ordner – ein manuell
+ * angelegter Ordner gleichen Namens wird daher nicht gefunden.
+ *
+ * @param {boolean} [forceCreate=false] - true: Suche überspringen und direkt neu anlegen
  */
-async function _fetchFolders() {
-  const q   = encodeURIComponent("mimeType='application/vnd.google-apps.folder' and trashed=false");
-  const url = `${DRIVE_API}/files?q=${q}&orderBy=name&pageSize=100&fields=files(id,name)`;
-  const res = await fetch(url, { headers: { Authorization: `Bearer ${_token}` } });
-  if (!res.ok) throw new Error(`Drive folders: ${res.status}`);
-  return (await res.json()).files ?? [];
+async function _ensureBackupFolder(forceCreate = false) {
+  let folder = null;
+
+  if (!forceCreate) {
+    const q   = encodeURIComponent(
+      `name='${FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false`);
+    const url = `${DRIVE_API}/files?q=${q}&pageSize=1&fields=files(id,name)`;
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${_token}` } });
+    if (!res.ok) throw new Error(`Drive folder search: ${res.status}`);
+    folder = (await res.json()).files?.[0] ?? null;
+  }
+
+  if (!folder) {
+    const res = await fetch(`${DRIVE_API}/files`, {
+      method:  'POST',
+      headers: { Authorization: `Bearer ${_token}`, 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ name: FOLDER_NAME, mimeType: 'application/vnd.google-apps.folder' }),
+    });
+    if (!res.ok) throw new Error(`Drive folder create: ${res.status}`);
+    folder = await res.json();
+  }
+
+  if (!appData.settings)             appData.settings             = {};
+  if (!appData.settings.driveBackup) appData.settings.driveBackup = {};
+  appData.settings.driveBackup.folderId   = folder.id;
+  appData.settings.driveBackup.folderName = FOLDER_NAME;
+  saveData();
+}
+
+/**
+ * Multipart-Upload einer JSON-Datei in einen Ordner.
+ * @returns {Promise<Response>} Rohe Response (Status wird vom Aufrufer geprüft)
+ */
+function _upload(filename, data, folderId) {
+  const meta = { name: filename, mimeType: 'application/json', parents: [folderId] };
+  const form = new FormData();
+  form.append('metadata', new Blob([JSON.stringify(meta)],          { type: 'application/json' }));
+  form.append('file',     new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+
+  return fetch(`${DRIVE_UPLOAD}/files?uploadType=multipart`, {
+    method:  'POST',
+    headers: { Authorization: `Bearer ${_token}` },
+    body:    form,
+  });
 }
 
 /**
@@ -150,21 +184,6 @@ async function _fetchBackupFiles() {
   const res = await fetch(url, { headers: { Authorization: `Bearer ${_token}` } });
   if (!res.ok) throw new Error(`Drive files: ${res.status}`);
   return (await res.json()).files ?? [];
-}
-
-/**
- * Zeigt ein modales Fenster mit der Ordnerliste und gibt den gewählten Ordner zurück.
- * @returns {Promise<{id: string, name: string}|null>}
- */
-async function _showFolderModal() {
-  const folders = await _fetchFolders();
-  return _showPickerModal(
-    t('drivePickerFolderTitle'),
-    folders.length
-      ? folders.map(f => ({ id: f.id, label: `📁 ${f.name}`, meta: '' }))
-      : [],
-    t('driveNoFolders'),
-  );
 }
 
 /**

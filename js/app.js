@@ -160,13 +160,13 @@ function _initEventListeners() {
   // ── Google Drive Backup ───────────────────────────────────────────────────
 
   document.getElementById('btnDriveSetup').addEventListener('click', async () => {
-    const ok = await Drive.setupDrive();
-    if (ok) { renderDriveStatus(); toast(t('toastDriveBackupDone').replace('✓', '').trim() + ' – ' + t('btnDriveSetup').replace('☁️', '').trim()); }
-  });
-
-  document.getElementById('btnDriveChange').addEventListener('click', async () => {
-    const ok = await Drive.setupDrive();
-    if (ok) renderDriveStatus();
+    try {
+      const ok = await Drive.setupDrive();
+      if (ok) { renderDriveStatus(); toast(t('toastDriveSetupDone')); }
+    } catch (e) {
+      console.error('[Drive]', e);
+      toast(t('toastDriveError'));
+    }
   });
 
   document.getElementById('btnDriveBackup').addEventListener('click', async () => {
@@ -447,7 +447,6 @@ function renderDriveStatus() {
   const btnSetup      = document.getElementById('btnDriveSetup');
   const btnBackup     = document.getElementById('btnDriveBackup');
   const btnRestore    = document.getElementById('btnDriveRestore');
-  const btnChange     = document.getElementById('btnDriveChange');
   if (!folderNameEl) return;
 
   if (Drive.isConfigured()) {
@@ -462,7 +461,6 @@ function renderDriveStatus() {
     btnSetup.classList.add('is-hidden');
     btnBackup.classList.remove('is-hidden');
     btnRestore.classList.remove('is-hidden');
-    btnChange.classList.remove('is-hidden');
   } else {
     folderNameEl.setAttribute('data-i18n', 'driveNotConfigured');
     folderNameEl.textContent = t('driveNotConfigured');
@@ -470,7 +468,6 @@ function renderDriveStatus() {
     btnSetup.classList.remove('is-hidden');
     btnBackup.classList.add('is-hidden');
     btnRestore.classList.add('is-hidden');
-    btnChange.classList.add('is-hidden');
   }
 }
 
