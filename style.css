@@ -789,8 +789,21 @@ nav button        { min-height: 44px; }
     padding-bottom: calc(60px + env(safe-area-inset-bottom) + 0.75rem);
   }
 
-  /* Settings-Subtabs auf Mobile: nur unter Header (nav ist unten) */
-  .settings-subtabs { top: 53px; }
+  /* Settings-Subtabs auf Mobile: nur unter Header (nav ist unten),
+     horizontal scrollbar statt die Seite aufzudrücken */
+  .settings-subtabs {
+    top: 53px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;           /* Firefox: Scrollbar ausblenden */
+  }
+  .settings-subtabs::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+  .settings-subtab {
+    flex: 0 0 auto;                  /* nicht quetschen – Container scrollt */
+    white-space: nowrap;
+    font-size: 0.82rem;
+    padding: 0.5rem 0.9rem;
+  }
 
   /* Summary: 3 nebeneinander aber kompakter */
   .summary-grid {
