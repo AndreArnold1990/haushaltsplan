@@ -420,10 +420,12 @@ function _migrateUnknownTransactions(user) {
   if (changed) saveData();
 }
 
-function _onFileNotFound() {
-  if (confirm(t('fileNotFoundMsg'))) {
-    Firebase.createNewFile(appData);
-  }
+async function _onFileNotFound() {
+  if (!confirm(t('fileNotFoundMsg'))) return;
+  const created = await Firebase.createNewFile(appData);
+  // false = Dokument existiert bereits mit Inhalt → Daten kommen via onSnapshot,
+  // nichts wurde überschrieben.
+  if (!created) console.warn('[App] Haushalt existiert bereits – Neuanlage übersprungen.');
 }
 
 /**

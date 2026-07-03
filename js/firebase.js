@@ -23,7 +23,7 @@ import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
          reauthenticateWithPopup,
          signOut as _fbSignOut, onAuthStateChanged, GoogleAuthProvider }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, doc, onSnapshot, setDoc }
+import { getFirestore, doc, onSnapshot, setDoc, getDoc, getDocs, deleteDoc, collection }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 // ── Inline Google-Logo (SVG) für Auth-Buttons ─────────────────────────────────
@@ -52,6 +52,8 @@ let _unsub  = null;
 let _opts   = {};
 /** @type {boolean} true sobald Daten mindestens einmal erfolgreich geladen wurden */
 let _dataWasLoaded = false;
+/** @type {boolean} true sobald das tägliche Firestore-Backup in dieser Session geprüft wurde */
+let _backupChecked = false;
 
 /**
  * @typedef {Object} FirebaseInitOptions
@@ -161,10 +163,34 @@ export function scheduleSave(data) {
 /**
  * Legt das Haushalt-Dokument in Firestore an (wird aufgerufen wenn es noch nicht existiert).
  *
+ * Sicherheits-Check: Liest das Dokument zuerst direkt vom Server. Existiert es
+ * bereits mit Inhalt, wird NICHT überschrieben – die Daten kommen dann ohnehin
+ * über onSnapshot. Verhindert Datenverlust durch fälschlich ausgelösten
+ * onFileNotFound (z.B. wenn ein Adblocker den Echtzeit-Listener blockiert).
+ *
  * @param {object} data
+ * @returns {Promise<boolean>} true wenn das Dokument angelegt wurde
  */
 export async function createNewFile(data) {
-  await _saveToFirestore(data);
+  if (!_db || !_opts.householdId || !_user) return false;
+
+  try {
+    const ref  = doc(_db, 'households', _opts.householdId);
+    const snap = await getDoc(ref);
+    const existing = snap.exists() ? snap.data() : null;
+    if (existing?.categories?.length || existing?.transactions?.length) {
+      console.warn('[Firestore] createNewFile abgebrochen: Dokument existiert bereits mit Inhalt.');
+      return false;
+    }
+    _opts.onSyncUI?.('syncing');
+    await setDoc(ref, data);
+    _opts.onSyncUI?.('synced');
+    return true;
+  } catch (e) {
+    console.error('[Firestore] createNewFile error:', e);
+    _opts.onSyncUI?.('error');
+    return false;
+  }
 }
 
 /** Gibt das aktuelle Nutzerobjekt zurück (null wenn nicht angemeldet). */
@@ -218,6 +244,7 @@ function _subscribeToData() {
           _dataWasLoaded = true;
           _opts.onDataLoaded?.(data);
           _opts.onSyncUI?.('synced');
+          _dailyBackup(data); // fire-and-forget, läuft nur 1× pro Tag
           return;
         }
         // Dokument vorhanden, aber Struktur unvollständig → nur melden, NICHT überschreiben
@@ -239,15 +266,28 @@ function _subscribeToData() {
   );
 }
 
-/** Schreibt data in das Haushalt-Dokument (legt es an falls nicht vorhanden). */
+/**
+ * Schreibt data in das Haushalt-Dokument.
+ *
+ * Harte Schreibsperre: Es wird ÜBERHAUPT NICHTS geschrieben, bevor nicht in
+ * dieser Session mindestens einmal erfolgreich Daten geladen wurden.
+ * Verhindert, dass ein leerer Startzustand die Cloud-Daten überschreibt –
+ * egal ob durch Offline-Start, blockierten Listener (Adblocker) oder
+ * Race-Condition. Neuanlage läuft ausschließlich über {@link createNewFile}.
+ */
 async function _saveToFirestore(data) {
   if (!_db || !_opts.householdId || !_user) return;
 
-  // Sicherheitssperre: niemals leere Daten schreiben wenn bereits Daten existieren.
-  // Verhindert versehentliches Löschen aller Einträge durch Race-Condition beim Start.
+  if (!_dataWasLoaded) {
+    console.warn('[Firestore] Schreib-Sperre: Es wurden noch keine Daten geladen – Schreibvorgang verworfen.');
+    return;
+  }
+
+  // Zusätzliche Sperre: komplett leere Daten sind nie ein legitimer Zustand
+  // (selbst "Alles zurücksetzen" behält die Kategorien).
   const hasContent = (data?.categories?.length > 0) || (data?.transactions?.length > 0);
-  if (!hasContent && _dataWasLoaded) {
-    console.warn('[Firestore] Schreib-Sperre: Leere Daten werden nicht gespeichert (Daten wurden bereits geladen).');
+  if (!hasContent) {
+    console.warn('[Firestore] Schreib-Sperre: Leere Daten werden nicht gespeichert.');
     return;
   }
 
@@ -258,5 +298,37 @@ async function _saveToFirestore(data) {
   } catch (e) {
     console.error('Firestore save error:', e);
     _opts.onSyncUI?.('error');
+  }
+}
+
+/**
+ * Tägliche Sicherung: Kopiert den geladenen Datenstand nach
+ * households/{id}/backups/{YYYY-MM-DD} – einmal pro Tag, max. 14 Kopien.
+ * Fehler werden nur geloggt (Backup darf die App nie stören).
+ *
+ * @param {object} data - Der frisch aus Firestore geladene Datenstand
+ */
+async function _dailyBackup(data) {
+  if (_backupChecked) return;
+  _backupChecked = true;
+
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const ref   = doc(_db, 'households', _opts.householdId, 'backups', today);
+
+    const existing = await getDoc(ref);
+    if (existing.exists()) return; // Heute schon gesichert
+
+    await setDoc(ref, data);
+    console.log(`[Firestore] Tages-Backup angelegt: backups/${today}`);
+
+    // Alte Backups aufräumen – nur die letzten 14 behalten
+    const all = await getDocs(collection(_db, 'households', _opts.householdId, 'backups'));
+    const ids = all.docs.map(d => d.id).sort(); // ISO-Daten sortieren chronologisch
+    for (const id of ids.slice(0, Math.max(0, ids.length - 14))) {
+      await deleteDoc(doc(_db, 'households', _opts.householdId, 'backups', id));
+    }
+  } catch (e) {
+    console.warn('[Firestore] Tages-Backup fehlgeschlagen (nicht kritisch):', e);
   }
 }
