@@ -11,7 +11,7 @@
  *   'settlement' – Ausgleichszahlung
  */
 
-import { appData, saveData, saveDataNow, currentUser } from './store.js';
+import { appData, saveData, currentUser } from './store.js';
 import { t, getUiLocale }                 from './i18n.js';
 import { fmt, fmtDate, monthKey, getCurrentMonth, monthLabel,
          txsForMonth, getCat, catName, isIncome, isPendingTx, escHtml, toast, safeColor,
@@ -425,8 +425,8 @@ export function saveEditTx() {
 export function deleteEditTx() {
   if (!_editingTxId) return;
   if (!confirm(t('confirmDeleteTx'))) return;
-  appData.transactions = appData.transactions.filter(tx => tx.id !== _editingTxId);
-  saveDataNow();
+  appData.transactions = appData.transactions.filter(t => t.id !== _editingTxId);
+  saveData();
   closeEditTxModal();
   renderTransactionTable();
   renderSharedTransactionTable();

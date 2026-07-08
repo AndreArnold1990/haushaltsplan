@@ -161,19 +161,6 @@ export function scheduleSave(data) {
 }
 
 /**
- * Schreibt sofort nach Firestore – kein Debounce.
- * Für destruktive Operationen (Löschen), damit kein onSnapshot-Echo
- * die lokale Änderung vor dem nächsten Write überschreibt.
- *
- * @param {object} data
- */
-export function saveNow(data) {
-  clearTimeout(_timer);
-  _timer = null;
-  _saveToFirestore(data);
-}
-
-/**
  * Legt das Haushalt-Dokument in Firestore an (wird aufgerufen wenn es noch nicht existiert).
  *
  * Sicherheits-Check: Liest das Dokument zuerst direkt vom Server. Existiert es

@@ -55,9 +55,7 @@ export let currentUser = null;
 export function setCurrentUser(user) { currentUser = user; }
 
 /** @type {(() => void)|null} */
-let _onSaveCallback    = null;
-/** @type {(() => void)|null} */
-let _onSaveNowCallback = null;
+let _onSaveCallback = null;
 
 /**
  * Registriert den Firestore-Sync-Callback, der nach jedem {@link saveData}-Aufruf
@@ -65,12 +63,6 @@ let _onSaveNowCallback = null;
  * @param {() => void} fn
  */
 export function setOnSaveCallback(fn) { _onSaveCallback = fn; }
-
-/**
- * Registriert den Sofort-Schreib-Callback für destruktive Operationen (Löschen).
- * @param {() => void} fn
- */
-export function setOnSaveNowCallback(fn) { _onSaveNowCallback = fn; }
 
 /**
  * Ersetzt appData komplett (z.B. nach dem Laden aus Firestore).
@@ -87,8 +79,6 @@ export function loadData() {
   try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignorieren */ }
 }
 
-/** Triggert den Firestore-Sync-Callback (debounced Write via scheduleSave). */
+/**
+ * Triggert den Firestore-Sync-Callback (debounced Write via scheduleSave). */
 export function saveData() { _onSaveCallback?.(); }
-
-/** Schreibt sofort nach Firestore – ohne Debounce (für Löschvorgänge). */
-export function saveDataNow() { _onSaveNowCallback?.(); }
