@@ -13,6 +13,7 @@
 
 import { config }                                        from './config.js';
 import { loadData, saveData, setOnSaveCallback,
+         setOnSaveNowCallback,
          setAppData, appData, setCurrentUser }          from './store.js';
 import { renderDashboard, openSettlementModal,
          closeSettlementModal, saveSettlement }         from './dashboard.js';
@@ -43,6 +44,7 @@ import { initTools, openSecretMenu, renderCatFeeding }  from './tools.js';
   loadData();
 
   setOnSaveCallback(() => Firebase.scheduleSave(appData));
+  setOnSaveNowCallback(() => Firebase.saveNow(appData));
 
   setLangChangeCallback(() => {
     _updateLangButton();
