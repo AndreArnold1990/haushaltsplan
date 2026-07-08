@@ -26,7 +26,7 @@ function _ownTxs() {
   return appData.transactions.filter(tx => {
     const isPersonal = !tx.splitType || tx.splitType === 'personal';
     if (!isPersonal) return false;
-    return !sub || tx.createdBy?.sub === sub;
+    return !sub || !tx.createdBy || tx.createdBy.sub === sub;
   });
 }
 
@@ -141,7 +141,7 @@ export function renderTransactionTable() {
       if (tx.splitType === 'settlement') return false;
       const isPersonal = !tx.splitType || tx.splitType === 'personal';
       const isShared   = ['equal', 'full', 'shared'].includes(tx.splitType);
-      return (isPersonal && (!sub || tx.createdBy?.sub === sub)) || isShared;
+      return (isPersonal && (!sub || !tx.createdBy || tx.createdBy.sub === sub)) || isShared;
     })
     .sort((a, b) => b.date.localeCompare(a.date));
 
@@ -155,7 +155,7 @@ export function renderTransactionTable() {
   const items = txs.map(tx => {
     const cat      = getCat(tx.categoryId);
     const inc      = isIncome(tx);
-    const isOwn    = !sub || tx.createdBy?.sub === sub;
+    const isOwn    = !sub || !tx.createdBy || tx.createdBy.sub === sub;
     const pending  = isPendingTx(tx);
 
     const splitType = tx.splitType === 'shared' ? 'equal' : (tx.splitType || 'personal');
@@ -240,7 +240,7 @@ export function renderSharedTransactionTable() {
     const paidBySub = splitType === 'full'
       ? tx.paidBySub
       : (tx.paidBySub || tx.createdBy?.sub);
-    const isOwn     = sub && tx.createdBy?.sub === sub;
+    const isOwn     = !sub || !tx.createdBy || tx.createdBy.sub === sub;
 
     const paidByName = paidBySub === sub
       ? getPersonName(sub)
@@ -355,7 +355,7 @@ export function openEditTxModal(id) {
   catSel.addEventListener('change', _updateEditSplitVisibility);
 
   // Löschen-Button nur für eigene Transaktionen
-  const isOwn = !sub || tx.createdBy?.sub === sub;
+  const isOwn = !sub || !tx.createdBy || tx.createdBy.sub === sub;
   document.getElementById('btnDeleteEditTx').style.display = isOwn ? '' : 'none';
 
   document.getElementById('editTxModal').classList.add('is-open');
