@@ -1,29 +1,45 @@
 {
   "id": "linsencurry",
-  "title": "Rotes Linsencurry",
+  "title": { "de": "Rotes Linsencurry", "es": "Curry de lentejas rojas" },
   "emoji": "🍛",
   "servings": 2,
   "timeMinutes": 30,
-  "tags": ["vegetarisch", "schnell"],
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
   "ingredients": [
-    { "amount": 200,  "unit": "g",     "name": "rote Linsen" },
-    { "amount": 1,    "unit": "Dose",  "name": "Kokosmilch (400 ml)" },
-    { "amount": 1,    "unit": "Dose",  "name": "gehackte Tomaten (400 g)" },
-    { "amount": 1,    "unit": "",      "name": "Zwiebel" },
-    { "amount": 2,    "unit": "Zehen", "name": "Knoblauch" },
-    { "amount": 1,    "unit": "EL",    "name": "Currypaste (rot)" },
-    { "amount": 1,    "unit": "TL",    "name": "Kurkuma" },
-    { "amount": 1,    "unit": "EL",    "name": "Öl" },
-    { "amount": null, "unit": "",      "name": "Salz und Pfeffer" },
-    { "amount": 150,  "unit": "g",     "name": "Basmatireis" }
+    { "amount": 200,  "unit": "g",                                  "name": { "de": "rote Linsen", "es": "lentejas rojas" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" },       "name": { "de": "Kokosmilch (400 ml)", "es": "leche de coco (400 ml)" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" },       "name": { "de": "gehackte Tomaten (400 g)", "es": "tomate triturado (400 g)" } },
+    { "amount": 1,    "unit": "",                                   "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" },   "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },         "name": { "de": "Currypaste (rot)", "es": "pasta de curry (roja)" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." },        "name": { "de": "Kurkuma", "es": "cúrcuma" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },         "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                                   "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } },
+    { "amount": 150,  "unit": "g",                                  "name": { "de": "Basmatireis", "es": "arroz basmati" } }
   ],
-  "steps": [
-    "Reis nach Packungsanweisung kochen.",
-    "Zwiebel und Knoblauch fein würfeln und im Öl glasig dünsten.",
-    "Currypaste und Kurkuma zugeben und 1 Minute mitrösten.",
-    "Linsen, Tomaten und Kokosmilch einrühren und aufkochen.",
-    "Bei mittlerer Hitze 15 Minuten köcheln lassen, gelegentlich umrühren.",
-    "Mit Salz und Pfeffer abschmecken und mit dem Reis servieren."
-  ],
-  "notes": "Hält sich abgedeckt 3 Tage im Kühlschrank und schmeckt aufgewärmt fast besser."
+  "steps": {
+    "de": [
+      "Reis nach Packungsanweisung kochen.",
+      "Zwiebel und Knoblauch fein würfeln und im Öl glasig dünsten.",
+      "Currypaste und Kurkuma zugeben und 1 Minute mitrösten.",
+      "Linsen, Tomaten und Kokosmilch einrühren und aufkochen.",
+      "Bei mittlerer Hitze 15 Minuten köcheln lassen, gelegentlich umrühren.",
+      "Mit Salz und Pfeffer abschmecken und mit dem Reis servieren."
+    ],
+    "es": [
+      "Cocer el arroz según las instrucciones del paquete.",
+      "Picar finamente la cebolla y el ajo y sofreírlos en el aceite hasta que estén transparentes.",
+      "Añadir la pasta de curry y la cúrcuma y tostar 1 minuto.",
+      "Incorporar las lentejas, el tomate y la leche de coco y llevar a ebullición.",
+      "Cocer a fuego medio 15 minutos, removiendo de vez en cuando.",
+      "Sazonar con sal y pimienta y servir con el arroz."
+    ]
+  },
+  "notes": {
+    "de": "Hält sich abgedeckt 3 Tage im Kühlschrank und schmeckt aufgewärmt fast besser.",
+    "es": "Se conserva tapado 3 días en la nevera y recalentado sabe casi mejor."
+  }
 }

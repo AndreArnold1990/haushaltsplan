@@ -27,8 +27,13 @@ for (const entry of readdirSync(recipeDir, { withFileTypes: true })) {
   }
   try {
     const recipe = JSON.parse(readFileSync(file, 'utf8'));
-    if (!recipe.title || !Array.isArray(recipe.ingredients) || !Array.isArray(recipe.steps)) {
-      throw new Error('title, ingredients oder steps fehlen');
+    // steps: Array (einsprachig) oder Objekt mit Arrays pro Sprache ({ de, es })
+    const stepsOk = Array.isArray(recipe.steps)
+      || (recipe.steps && typeof recipe.steps === 'object'
+          && Object.values(recipe.steps).length > 0
+          && Object.values(recipe.steps).every(Array.isArray));
+    if (!recipe.title || !Array.isArray(recipe.ingredients) || !stepsOk) {
+      throw new Error('title, ingredients oder steps fehlen/ungültig');
     }
     ids.push(entry.name);
   } catch (e) {

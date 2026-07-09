@@ -12,10 +12,17 @@
  * - Tag-Filter: Tags werden aus allen Rezepten eingesammelt (kleingeschrieben
  *   und getrimmt), Chips entstehen automatisch.
  * - Detailansicht mit Portionsrechner: Zutatenmengen skalieren live.
+ *
+ * ## Zweisprachigkeit
+ * Jedes Textfeld (title, notes, steps, tags, ingredient.name/.unit) ist
+ * entweder ein String (gilt für beide Sprachen) oder ein Objekt
+ * { de: …, es: … }. Aufgelöst wird erst beim Rendern über {@link _loc},
+ * damit ein Sprachwechsel beim nächsten Öffnen greift. Deutsch ist Fallback
+ * und dient bei Tags als kanonischer Filter-Schlüssel.
  */
 
-import { t, getUiLocale } from './i18n.js';
-import { escHtml }        from './utils.js';
+import { t, getUiLocale, currentLang } from './i18n.js';
+import { escHtml }                     from './utils.js';
 
 const BASE = './data/rezepte';
 
@@ -55,7 +62,7 @@ export async function onRecipesTabOpen() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const r = await res.json();
         r.id   = id;
-        r.tags = (r.tags || []).map(tag => String(tag).trim().toLowerCase()).filter(Boolean);
+        r.tags = r.tags || [];
         return r;
       } catch (e) {
         console.warn(`[Rezepte] ${id} konnte nicht geladen werden:`, e);
@@ -71,6 +78,31 @@ export async function onRecipesTabOpen() {
   } finally {
     _loading = false;
   }
+}
+
+// ── Lokalisierung ─────────────────────────────────────────────────────────────
+
+/**
+ * Löst ein lokalisierbares Feld auf: String direkt, Objekt nach aktueller
+ * Sprache mit Deutsch-Fallback.
+ * @param {string|object|undefined} v
+ */
+function _loc(v) {
+  if (v && typeof v === 'object' && !Array.isArray(v)) {
+    return v[currentLang] ?? v.de ?? Object.values(v)[0] ?? '';
+  }
+  return v ?? '';
+}
+
+/** Kanonischer Filter-Schlüssel eines Tags (immer die deutsche Fassung). */
+function _tagKey(tag) {
+  const de = typeof tag === 'object' && tag !== null ? (tag.de ?? Object.values(tag)[0]) : tag;
+  return String(de ?? '').trim().toLowerCase();
+}
+
+/** Anzeigetext eines Tags in der aktuellen Sprache. */
+function _tagLabel(tag) {
+  return String(_loc(tag)).trim().toLowerCase();
 }
 
 // ── Tagesempfehlung ───────────────────────────────────────────────────────────
@@ -125,7 +157,7 @@ function _renderDaily() {
       ${_thumbHtml(r, 'recipe-daily-img')}
       <div class="recipe-daily-info">
         <span class="recipe-daily-badge">${t('recipeDailyBadge')}</span>
-        <span class="recipe-daily-title">${escHtml(r.title)}</span>
+        <span class="recipe-daily-title">${escHtml(_loc(r.title))}</span>
         <span class="recipe-daily-meta">${_metaHtml(r)}</span>
       </div>
     </div>
@@ -141,13 +173,19 @@ function _renderChips() {
   const box = document.getElementById('recipeChips');
   if (!box) return;
 
-  const tags = [...new Set(_recipes.flatMap(r => r.tags))].sort();
-  if (_activeTag && !tags.includes(_activeTag)) _activeTag = '';
+  // key = kanonisch (de), label = aktuelle Sprache; dedupliziert über den Key
+  const tagMap = new Map();
+  _recipes.flatMap(r => r.tags).forEach(tag => {
+    const key = _tagKey(tag);
+    if (key && !tagMap.has(key)) tagMap.set(key, _tagLabel(tag));
+  });
+  const tags = [...tagMap.entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  if (_activeTag && !tagMap.has(_activeTag)) _activeTag = '';
 
   const chip = (label, value) =>
     `<button class="recipe-chip${_activeTag === value ? ' active' : ''}" data-tag="${escHtml(value)}">${escHtml(label)}</button>`;
 
-  box.innerHTML = chip(t('recipeAllTag'), '') + tags.map(tag => chip(tag, tag)).join('');
+  box.innerHTML = chip(t('recipeAllTag'), '') + tags.map(([key, label]) => chip(label, key)).join('');
 
   box.querySelectorAll('.recipe-chip').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -162,7 +200,7 @@ function _renderGrid() {
   const box = document.getElementById('recipeGrid');
   if (!box) return;
 
-  const list = _recipes.filter(r => !_activeTag || r.tags.includes(_activeTag));
+  const list = _recipes.filter(r => !_activeTag || r.tags.some(tag => _tagKey(tag) === _activeTag));
   if (!list.length) {
     box.innerHTML = `<p class="recipe-empty">${t('recipeEmpty')}</p>`;
     return;
@@ -172,7 +210,7 @@ function _renderGrid() {
     <div class="recipe-card" data-recipe-id="${escHtml(r.id)}">
       ${_thumbHtml(r, 'recipe-card-img')}
       <div class="recipe-card-body">
-        <span class="recipe-card-title">${escHtml(r.title)}</span>
+        <span class="recipe-card-title">${escHtml(_loc(r.title))}</span>
         <span class="recipe-card-meta">⏱ ${r.timeMinutes} ${t('recipeMinutes')}</span>
       </div>
     </div>`).join('');
@@ -197,12 +235,16 @@ function _renderDetail(r) {
   const box = document.getElementById('recipeDetailView');
   if (!box) return;
 
+  // steps ist entweder ein Array (einsprachig) oder { de: [...], es: [...] }
+  const steps = Array.isArray(r.steps) ? r.steps : (_loc(r.steps) || []);
+  const notes = _loc(r.notes);
+
   box.innerHTML = `
     <button class="btn btn-secondary btn-sm recipe-back" id="btnRecipeBack">${t('recipeBack')}</button>
     ${_thumbHtml(r, 'recipe-detail-img')}
     <div class="recipe-detail-head">
-      <span class="recipe-detail-title">${escHtml(r.title)}</span>
-      <span class="recipe-detail-meta">⏱ ${r.timeMinutes} ${t('recipeMinutes')} · ${r.tags.map(escHtml).join(' · ')}</span>
+      <span class="recipe-detail-title">${escHtml(_loc(r.title))}</span>
+      <span class="recipe-detail-meta">⏱ ${r.timeMinutes} ${t('recipeMinutes')} · ${r.tags.map(tag => escHtml(_tagLabel(tag))).join(' · ')}</span>
     </div>
     <div class="recipe-servings">
       <button class="recipe-servings-btn" id="btnServingsMinus">−</button>
@@ -213,9 +255,9 @@ function _renderDetail(r) {
     <ul class="recipe-ingredients" id="recipeIngredients"></ul>
     <div class="recipe-section-title">${t('recipeStepsTitle')}</div>
     <ol class="recipe-steps">
-      ${r.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}
+      ${steps.map(s => `<li>${escHtml(_loc(s))}</li>`).join('')}
     </ol>
-    ${r.notes ? `<div class="recipe-notes">💡 ${escHtml(r.notes)}</div>` : ''}`;
+    ${notes ? `<div class="recipe-notes">💡 ${escHtml(notes)}</div>` : ''}`;
 
   box.querySelector('#btnRecipeBack').addEventListener('click', _showList);
   box.querySelector('#btnServingsMinus').addEventListener('click', () => _changeServings(r, -1));
@@ -236,10 +278,11 @@ function _renderIngredients(r) {
   const factor = _servings / (r.servings || _servings);
 
   ul.innerHTML = r.ingredients.map(ing => {
+    const unit = _loc(ing.unit);
     const qty = ing.amount != null
-      ? `<span class="recipe-ing-qty">${_fmtAmount(ing.amount * factor)}${ing.unit ? '&nbsp;' + escHtml(ing.unit) : ''}</span> `
+      ? `<span class="recipe-ing-qty">${_fmtAmount(ing.amount * factor)}${unit ? '&nbsp;' + escHtml(unit) : ''}</span> `
       : '';
-    return `<li>${qty}${escHtml(ing.name)}</li>`;
+    return `<li>${qty}${escHtml(_loc(ing.name))}</li>`;
   }).join('');
 }
 

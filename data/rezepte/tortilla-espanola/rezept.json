@@ -4,22 +4,39 @@
   "emoji": "🥔",
   "servings": 4,
   "timeMinutes": 45,
-  "tags": ["vegetarisch", "spanisch"],
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "spanisch", "es": "español" }
+  ],
   "ingredients": [
-    { "amount": 800,  "unit": "g",  "name": "festkochende Kartoffeln" },
-    { "amount": 6,    "unit": "",   "name": "Eier" },
-    { "amount": 1,    "unit": "",   "name": "große Zwiebel" },
-    { "amount": 150,  "unit": "ml", "name": "Olivenöl" },
-    { "amount": null, "unit": "",   "name": "Salz" }
+    { "amount": 800,  "unit": "g",  "name": { "de": "festkochende Kartoffeln", "es": "patatas para cocer" } },
+    { "amount": 6,    "unit": "",   "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 1,    "unit": "",   "name": { "de": "große Zwiebel", "es": "cebolla grande" } },
+    { "amount": 150,  "unit": "ml", "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",   "name": { "de": "Salz", "es": "sal" } }
   ],
-  "steps": [
-    "Kartoffeln schälen und in dünne Scheiben schneiden, Zwiebel in Halbringe.",
-    "Olivenöl in einer beschichteten Pfanne erhitzen und Kartoffeln mit Zwiebeln bei mittlerer Hitze ca. 20 Minuten weich garen (nicht bräunen).",
-    "Kartoffeln abgießen und das Öl auffangen.",
-    "Eier in einer großen Schüssel verquirlen, salzen und die warmen Kartoffeln unterheben. 5 Minuten ziehen lassen.",
-    "2 EL vom aufgefangenen Öl in der Pfanne erhitzen, die Masse hineingeben und bei kleiner Hitze 5–6 Minuten stocken lassen.",
-    "Tortilla mit einem großen Teller wenden und weitere 4–5 Minuten fertig braten.",
-    "Kurz ruhen lassen — lauwarm schmeckt sie am besten."
-  ],
-  "notes": "Das Wenden traut man sich nur einmal nicht. Aufgefangenes Öl eignet sich zum Braten am nächsten Tag."
+  "steps": {
+    "de": [
+      "Kartoffeln schälen und in dünne Scheiben schneiden, Zwiebel in Halbringe.",
+      "Olivenöl in einer beschichteten Pfanne erhitzen und Kartoffeln mit Zwiebeln bei mittlerer Hitze ca. 20 Minuten weich garen (nicht bräunen).",
+      "Kartoffeln abgießen und das Öl auffangen.",
+      "Eier in einer großen Schüssel verquirlen, salzen und die warmen Kartoffeln unterheben. 5 Minuten ziehen lassen.",
+      "2 EL vom aufgefangenen Öl in der Pfanne erhitzen, die Masse hineingeben und bei kleiner Hitze 5–6 Minuten stocken lassen.",
+      "Tortilla mit einem großen Teller wenden und weitere 4–5 Minuten fertig braten.",
+      "Kurz ruhen lassen — lauwarm schmeckt sie am besten."
+    ],
+    "es": [
+      "Pelar las patatas y cortarlas en láminas finas, la cebolla en medias lunas.",
+      "Calentar el aceite de oliva en una sartén antiadherente y pochar las patatas con la cebolla a fuego medio unos 20 minutos (sin que se doren).",
+      "Escurrir las patatas y reservar el aceite.",
+      "Batir los huevos en un bol grande, salar e incorporar las patatas calientes. Dejar reposar 5 minutos.",
+      "Calentar 2 cucharadas del aceite reservado en la sartén, verter la mezcla y cuajar a fuego bajo 5–6 minutos.",
+      "Dar la vuelta a la tortilla con un plato grande y cocinar otros 4–5 minutos.",
+      "Dejar reposar un momento — templada sabe mejor."
+    ]
+  },
+  "notes": {
+    "de": "Das Wenden traut man sich nur einmal nicht. Aufgefangenes Öl eignet sich zum Braten am nächsten Tag.",
+    "es": "Darle la vuelta solo da miedo la primera vez. El aceite reservado sirve para cocinar al día siguiente."
+  }
 }
