@@ -1,0 +1,29 @@
+{
+  "id": "linsencurry",
+  "title": "Rotes Linsencurry",
+  "emoji": "🍛",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": ["vegetarisch", "schnell"],
+  "ingredients": [
+    { "amount": 200,  "unit": "g",     "name": "rote Linsen" },
+    { "amount": 1,    "unit": "Dose",  "name": "Kokosmilch (400 ml)" },
+    { "amount": 1,    "unit": "Dose",  "name": "gehackte Tomaten (400 g)" },
+    { "amount": 1,    "unit": "",      "name": "Zwiebel" },
+    { "amount": 2,    "unit": "Zehen", "name": "Knoblauch" },
+    { "amount": 1,    "unit": "EL",    "name": "Currypaste (rot)" },
+    { "amount": 1,    "unit": "TL",    "name": "Kurkuma" },
+    { "amount": 1,    "unit": "EL",    "name": "Öl" },
+    { "amount": null, "unit": "",      "name": "Salz und Pfeffer" },
+    { "amount": 150,  "unit": "g",     "name": "Basmatireis" }
+  ],
+  "steps": [
+    "Reis nach Packungsanweisung kochen.",
+    "Zwiebel und Knoblauch fein würfeln und im Öl glasig dünsten.",
+    "Currypaste und Kurkuma zugeben und 1 Minute mitrösten.",
+    "Linsen, Tomaten und Kokosmilch einrühren und aufkochen.",
+    "Bei mittlerer Hitze 15 Minuten köcheln lassen, gelegentlich umrühren.",
+    "Mit Salz und Pfeffer abschmecken und mit dem Reis servieren."
+  ],
+  "notes": "Hält sich abgedeckt 3 Tage im Kühlschrank und schmeckt aufgewärmt fast besser."
+}

@@ -1,6 +1,6 @@
 // Service Worker – Haushaltsplan
 // Cache-Version: v24
-const CACHE = 'haushaltsplan-v80';
+const CACHE = 'haushaltsplan-v81';
 
 const PRECACHE = [
   './index.html',
@@ -20,6 +20,7 @@ const PRECACHE = [
   './js/categories.js',
   './js/i18n.js',
   './js/tools.js',
+  './js/recipes.js',
 ];
 
 self.addEventListener('install', e => {

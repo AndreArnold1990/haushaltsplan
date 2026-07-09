@@ -1,0 +1,26 @@
+{
+  "id": "pasta-al-limone",
+  "title": "Pasta al Limone",
+  "emoji": "🍋",
+  "servings": 2,
+  "timeMinutes": 20,
+  "tags": ["vegetarisch", "schnell", "pasta"],
+  "ingredients": [
+    { "amount": 250,  "unit": "g",  "name": "Spaghetti" },
+    { "amount": 1,    "unit": "",   "name": "Bio-Zitrone (Saft und Schale)" },
+    { "amount": 60,   "unit": "g",  "name": "Butter" },
+    { "amount": 60,   "unit": "g",  "name": "Parmesan, gerieben" },
+    { "amount": 100,  "unit": "ml", "name": "Sahne" },
+    { "amount": null, "unit": "",   "name": "Salz und schwarzer Pfeffer" },
+    { "amount": null, "unit": "",   "name": "frisches Basilikum (optional)" }
+  ],
+  "steps": [
+    "Spaghetti in reichlich Salzwasser al dente kochen. Eine Tasse Nudelwasser aufheben.",
+    "Währenddessen Zitronenschale fein abreiben und den Saft auspressen.",
+    "Butter in einer großen Pfanne schmelzen, Sahne und Zitronensaft zugeben und kurz einkochen.",
+    "Nudeln abgießen und direkt in die Pfanne geben.",
+    "Parmesan und Zitronenschale unterrühren, mit Nudelwasser zur cremigen Sauce verdünnen.",
+    "Mit Salz und viel schwarzem Pfeffer abschmecken, mit Basilikum servieren."
+  ],
+  "notes": "Das aufgehobene Nudelwasser ist der Schlüssel zur cremigen Sauce — nicht weglassen."
+}

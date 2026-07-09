@@ -1,0 +1,25 @@
+{
+  "id": "tortilla-espanola",
+  "title": "Tortilla Española",
+  "emoji": "🥔",
+  "servings": 4,
+  "timeMinutes": 45,
+  "tags": ["vegetarisch", "spanisch"],
+  "ingredients": [
+    { "amount": 800,  "unit": "g",  "name": "festkochende Kartoffeln" },
+    { "amount": 6,    "unit": "",   "name": "Eier" },
+    { "amount": 1,    "unit": "",   "name": "große Zwiebel" },
+    { "amount": 150,  "unit": "ml", "name": "Olivenöl" },
+    { "amount": null, "unit": "",   "name": "Salz" }
+  ],
+  "steps": [
+    "Kartoffeln schälen und in dünne Scheiben schneiden, Zwiebel in Halbringe.",
+    "Olivenöl in einer beschichteten Pfanne erhitzen und Kartoffeln mit Zwiebeln bei mittlerer Hitze ca. 20 Minuten weich garen (nicht bräunen).",
+    "Kartoffeln abgießen und das Öl auffangen.",
+    "Eier in einer großen Schüssel verquirlen, salzen und die warmen Kartoffeln unterheben. 5 Minuten ziehen lassen.",
+    "2 EL vom aufgefangenen Öl in der Pfanne erhitzen, die Masse hineingeben und bei kleiner Hitze 5–6 Minuten stocken lassen.",
+    "Tortilla mit einem großen Teller wenden und weitere 4–5 Minuten fertig braten.",
+    "Kurz ruhen lassen — lauwarm schmeckt sie am besten."
+  ],
+  "notes": "Das Wenden traut man sich nur einmal nicht. Aufgefangenes Öl eignet sich zum Braten am nächsten Tag."
+}

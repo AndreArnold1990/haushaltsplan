@@ -221,6 +221,19 @@ const translations = {
     ocrRawLabel:         'Rohtext anzeigen',
     ocrToastNotReady:    'OCR-Engine noch nicht bereit.',
 
+    // Rezepte
+    recipesTab:              '🍳 Rezepte',
+    recipeDailyBadge:        'Empfehlung des Tages',
+    recipeNewDaily:          '🎲 Neues Tagesgericht',
+    recipeAllTag:            'Alle',
+    recipeMinutes:           'Min',
+    recipeServings:          'Portionen',
+    recipeIngredientsTitle:  'Zutaten',
+    recipeStepsTitle:        'Zubereitung',
+    recipeBack:              '← Zurück',
+    recipeEmpty:             'Keine Rezepte gefunden.',
+    recipeLoadError:         'Rezepte konnten nicht geladen werden.',
+
     // Katzen füttern
     catFeedTab:          '🐱 Katzen füttern',
     catFeedTodayLabel:   date => `Heute · ${date}`,
@@ -437,6 +450,19 @@ const translations = {
     ocrAllAmounts:       'Todos los importes',
     ocrRawLabel:         'Ver texto sin procesar',
     ocrToastNotReady:    'Motor OCR aún no listo.',
+
+    // Recetas
+    recipesTab:              '🍳 Recetas',
+    recipeDailyBadge:        'Recomendación del día',
+    recipeNewDaily:          '🎲 Nuevo plato del día',
+    recipeAllTag:            'Todas',
+    recipeMinutes:           'min',
+    recipeServings:          'raciones',
+    recipeIngredientsTitle:  'Ingredientes',
+    recipeStepsTitle:        'Preparación',
+    recipeBack:              '← Atrás',
+    recipeEmpty:             'No se encontraron recetas.',
+    recipeLoadError:         'No se pudieron cargar las recetas.',
 
     // Alimentar gatos
     catFeedTab:          '🐱 Alimentar gatos',

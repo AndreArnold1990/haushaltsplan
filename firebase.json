@@ -10,6 +10,7 @@
       ".firebaserc",
       "**/.*",
       "serve.ps1",
+      "scripts/**",
       "tests/**",
       "node_modules/**"
     ],

@@ -7,6 +7,7 @@
 import { t, getUiLocale }  from './i18n.js';
 import { appData, saveData } from './store.js';
 import { toast }             from './utils.js';
+import { onRecipesTabOpen }  from './recipes.js';
 
 // ── Kurs-Cache ────────────────────────────────────────────────────────────────
 
@@ -23,8 +24,9 @@ export function openSecretMenu() {
   const activeTab = document.querySelector('.secret-tab.active');
   const activeKey = activeTab?.dataset.secretTab ?? 'currency';
   if (activeKey === 'currency' && !_mxnPerEur) _loadRate();
-  if (activeKey === 'cats') renderCatFeeding();
-  if (activeKey === 'ocr')  _onOcrTabOpen();
+  if (activeKey === 'cats')    renderCatFeeding();
+  if (activeKey === 'ocr')     _onOcrTabOpen();
+  if (activeKey === 'recipes') onRecipesTabOpen();
 }
 
 /** Schließt das Geheimmenü. */
@@ -58,6 +60,7 @@ export function initTools() {
       if (target === 'cats')                    renderCatFeeding();
       if (target === 'currency' && !_mxnPerEur) _loadRate();
       if (target === 'ocr')                     _onOcrTabOpen();
+      if (target === 'recipes')                 onRecipesTabOpen();
     });
   });
 
