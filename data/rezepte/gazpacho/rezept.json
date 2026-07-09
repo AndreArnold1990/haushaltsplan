@@ -1,0 +1,43 @@
+{
+  "id": "gazpacho",
+  "title": { "de": "Gazpacho", "es": "Gazpacho" },
+  "emoji": "🍅",
+  "servings": 4,
+  "timeMinutes": 20,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "suppe", "es": "sopa" },
+    { "de": "spanisch", "es": "español" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "kg",                          "name": { "de": "reife Tomaten", "es": "tomates maduros" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Gurke", "es": "pepino" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "grüne Paprika", "es": "pimiento verde" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Weißbrot (altbacken)", "es": "pan blanco (del día anterior)" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "milder Essig", "es": "vinagre suave" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz", "es": "sal" } }
+  ],
+  "steps": {
+    "de": [
+      "Gemüse sehr gründlich waschen. Tomaten grob würfeln, Gurke schälen, Paprika entkernen.",
+      "Brot in etwas Wasser einweichen.",
+      "Alles zusammen mit Knoblauch, Öl, Essig und Salz sehr fein pürieren.",
+      "Nach Belieben durch ein Sieb streichen.",
+      "Mindestens 2 Stunden kalt stellen und eiskalt servieren."
+    ],
+    "es": [
+      "Lavar muy bien las verduras. Trocear los tomates, pelar el pepino, despepitar el pimiento.",
+      "Remojar el pan en un poco de agua.",
+      "Triturar todo muy fino junto con el ajo, el aceite, el vinagre y la sal.",
+      "Pasar por un colador si se quiere más fino.",
+      "Enfriar al menos 2 horas y servir bien frío."
+    ]
+  },
+  "notes": {
+    "de": "Rohes Gemüse ist okay, wenn es gründlich gewaschen ist — hier besonders sorgfältig sein.",
+    "es": "La verdura cruda no es problema si está bien lavada — aquí hay que ser especialmente cuidadoso."
+  }
+}

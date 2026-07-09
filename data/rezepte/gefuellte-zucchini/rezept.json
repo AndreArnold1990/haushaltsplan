@@ -1,0 +1,41 @@
+{
+  "id": "gefuellte-zucchini",
+  "title": { "de": "Gefüllte Zucchini mit Hackfleisch", "es": "Calabacines rellenos de carne picada" },
+  "emoji": "🧆",
+  "servings": 2,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "große Zucchini", "es": "calabacines grandes" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Rinderhackfleisch", "es": "carne picada de ternera" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "gehackte Tomaten (400 g)", "es": "tomate triturado (400 g)" } },
+    { "amount": 80,   "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Oregano", "es": "sal, pimienta, orégano" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 190 °C vorheizen. Zucchini waschen, längs halbieren und aushöhlen, Fruchtfleisch hacken.",
+      "Hack mit gewürfelter Zwiebel im Öl vollständig durchbraten.",
+      "Zucchini-Fruchtfleisch und Tomaten zugeben, 5 Minuten einkochen, kräftig würzen.",
+      "Zucchinihälften füllen, in eine Auflaufform setzen und mit Käse bestreuen.",
+      "25 Minuten backen, bis die Zucchini weich und der Käse goldbraun ist."
+    ],
+    "es": [
+      "Precalentar el horno a 190 °C. Lavar los calabacines, partirlos a lo largo y vaciarlos, picar la pulpa.",
+      "Dorar la carne con la cebolla picada en el aceite hasta que esté completamente hecha.",
+      "Añadir la pulpa y el tomate, reducir 5 minutos, sazonar bien.",
+      "Rellenar las mitades, colocarlas en una fuente y cubrir con el queso.",
+      "Hornear 25 minutos hasta que el calabacín esté tierno y el queso dorado."
+    ]
+  },
+  "notes": {
+    "de": "Hack vor dem Füllen komplett durchbraten, Käse pasteurisiert wählen.",
+    "es": "Hacer completamente la carne antes de rellenar, elegir queso pasteurizado."
+  }
+}

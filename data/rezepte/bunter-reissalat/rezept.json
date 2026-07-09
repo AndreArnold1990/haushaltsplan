@@ -1,0 +1,43 @@
+{
+  "id": "bunter-reissalat",
+  "title": { "de": "Bunter Reissalat", "es": "Ensalada de arroz" },
+  "emoji": "🍚",
+  "servings": 4,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" }
+  ],
+  "ingredients": [
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Reis", "es": "arroz" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Mais (285 g)", "es": "maíz (285 g)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika (rot)", "es": "pimiento rojo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Gurke", "es": "pepino" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Erbsen (TK, aufgetaut)", "es": "guisantes (congelados, descongelados)" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Zitronensaft", "es": "zumo de limón" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie", "es": "sal, pimienta, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Reis kochen und vollständig abkühlen lassen.",
+      "Gemüse gründlich waschen und klein schneiden, Mais abtropfen lassen. Erbsen kurz in kochendem Wasser blanchieren.",
+      "Öl, Zitronensaft, Salz und Pfeffer zu einem Dressing verrühren.",
+      "Alle Zutaten mischen und 30 Minuten durchziehen lassen.",
+      "Mit gehackter Petersilie bestreuen."
+    ],
+    "es": [
+      "Cocer el arroz y dejarlo enfriar por completo.",
+      "Lavar bien las verduras y trocearlas, escurrir el maíz. Escaldar los guisantes brevemente en agua hirviendo.",
+      "Mezclar el aceite, el zumo de limón, sal y pimienta para el aliño.",
+      "Mezclar todos los ingredientes y dejar reposar 30 minutos.",
+      "Espolvorear con perejil picado."
+    ]
+  },
+  "notes": {
+    "de": "Gut vorzubereiten für Picknick oder Grillabend. Gekühlt aufbewahren und am selben Tag essen.",
+    "es": "Ideal para preparar antes de un picnic o barbacoa. Guardar en frío y comer el mismo día."
+  }
+}

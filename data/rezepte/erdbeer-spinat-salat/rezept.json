@@ -1,0 +1,43 @@
+{
+  "id": "erdbeer-spinat-salat",
+  "title": { "de": "Erdbeer-Spinat-Salat mit Walnüssen", "es": "Ensalada de espinacas y fresas con nueces" },
+  "emoji": "🍓",
+  "servings": 2,
+  "timeMinutes": 15,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 150,  "unit": "g",                           "name": { "de": "junger Spinat", "es": "espinacas baby" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Erdbeeren", "es": "fresas" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Walnüsse", "es": "nueces" } },
+    { "amount": 75,   "unit": "g",                           "name": { "de": "Feta (pasteurisiert)", "es": "queso feta (pasteurizado)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "heller Balsamico", "es": "vinagre balsámico blanco" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Honig", "es": "miel" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Spinat und Erdbeeren sehr gründlich waschen und trocken tupfen.",
+      "Erdbeeren in Scheiben schneiden, Walnüsse in einer Pfanne ohne Fett kurz anrösten.",
+      "Öl, Balsamico, Honig, Salz und Pfeffer zu einem Dressing verrühren.",
+      "Spinat mit den Erdbeeren anrichten, Nüsse und zerbröselten Feta darüberstreuen.",
+      "Mit dem Dressing beträufeln und sofort servieren."
+    ],
+    "es": [
+      "Lavar muy bien las espinacas y las fresas y secarlas.",
+      "Cortar las fresas en láminas, tostar las nueces brevemente en una sartén sin grasa.",
+      "Mezclar el aceite, el vinagre, la miel, sal y pimienta para el aliño.",
+      "Disponer las espinacas con las fresas, esparcir las nueces y el feta desmenuzado.",
+      "Rociar con el aliño y servir enseguida."
+    ]
+  },
+  "notes": {
+    "de": "Blattspinat und Beeren besonders gründlich waschen. Honig ist in der Schwangerschaft unbedenklich.",
+    "es": "Lavar con especial cuidado las espinacas y las fresas. La miel no supone riesgo en el embarazo."
+  }
+}

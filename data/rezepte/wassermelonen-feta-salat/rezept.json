@@ -1,0 +1,42 @@
+{
+  "id": "wassermelonen-feta-salat",
+  "title": { "de": "Wassermelonen-Feta-Salat", "es": "Ensalada de sandía y feta" },
+  "emoji": "🍉",
+  "servings": 2,
+  "timeMinutes": 15,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 600,  "unit": "g",                           "name": { "de": "Wassermelone", "es": "sandía" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Feta (pasteurisiert)", "es": "queso feta (pasteurizado)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "kleine rote Zwiebel", "es": "cebolla roja pequeña" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "frische Minze", "es": "menta fresca" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Limette (Saft)", "es": "lima (zumo)" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Pfeffer", "es": "pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Wassermelone in mundgerechte Würfel schneiden.",
+      "Zwiebel in sehr feine Ringe schneiden, Minze waschen und grob zupfen.",
+      "Alles auf einer Platte anrichten und den Feta darüberbröseln.",
+      "Mit Olivenöl und Limettensaft beträufeln, mit Pfeffer abschmecken.",
+      "Gut gekühlt servieren."
+    ],
+    "es": [
+      "Cortar la sandía en dados.",
+      "Cortar la cebolla en aros muy finos, lavar la menta y trocearla.",
+      "Disponer todo en una fuente y desmenuzar el feta por encima.",
+      "Rociar con el aceite y el zumo de lima, sazonar con pimienta.",
+      "Servir bien frío."
+    ]
+  },
+  "notes": {
+    "de": "Feta aus pasteurisierter Milch verwenden. Erfrischender geht Sommer kaum.",
+    "es": "Usar feta de leche pasteurizada. Difícil encontrar algo más refrescante en verano."
+  }
+}

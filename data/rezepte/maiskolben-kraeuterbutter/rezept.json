@@ -1,0 +1,37 @@
+{
+  "id": "maiskolben-kraeuterbutter",
+  "title": { "de": "Gegrillte Maiskolben mit Kräuterbutter", "es": "Mazorcas a la parrilla con mantequilla de hierbas" },
+  "emoji": "🌽",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "grillen", "es": "parrilla" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "frische Maiskolben", "es": "mazorcas de maíz frescas" } },
+    { "amount": 80,   "unit": "g",                           "name": { "de": "weiche Butter", "es": "mantequilla blanda" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "gemischte Kräuter (Petersilie, Schnittlauch)", "es": "hierbas variadas (perejil, cebollino)" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Maiskolben in Salzwasser 10 Minuten vorkochen.",
+      "Kräuter waschen, fein hacken und mit Butter, gepresstem Knoblauch, Salz und Pfeffer verrühren.",
+      "Kolben auf dem Grill oder in der Grillpfanne rundum 8–10 Minuten grillen, bis sie Röststellen haben.",
+      "Heiß mit der Kräuterbutter bestreichen und servieren."
+    ],
+    "es": [
+      "Precocer las mazorcas en agua con sal 10 minutos.",
+      "Lavar y picar las hierbas y mezclarlas con la mantequilla, el ajo prensado, sal y pimienta.",
+      "Asar las mazorcas en la parrilla o sartén-grill 8–10 minutos, girándolas, hasta que estén doradas.",
+      "Untar con la mantequilla de hierbas y servir calientes."
+    ]
+  },
+  "notes": {
+    "de": "Die Kräuterbutter passt auch zu gegrilltem Gemüse oder Ofenkartoffeln.",
+    "es": "La mantequilla de hierbas también va genial con verduras a la parrilla o patatas asadas."
+  }
+}

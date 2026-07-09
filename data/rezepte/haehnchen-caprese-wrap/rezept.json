@@ -1,0 +1,42 @@
+{
+  "id": "haehnchen-caprese-wrap",
+  "title": { "de": "Hähnchen-Caprese-Wraps", "es": "Wraps de pollo caprese" },
+  "emoji": "🌯",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 4,    "unit": "",                            "name": { "de": "Weizen-Tortillas", "es": "tortillas de trigo" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Hähnchenbrustfilet", "es": "pechuga de pollo" } },
+    { "amount": 125,  "unit": "g",                           "name": { "de": "Mozzarella (pasteurisiert)", "es": "mozzarella (pasteurizada)" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Tomaten", "es": "tomates" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Rucola oder Kopfsalat", "es": "rúcula o lechuga" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Basilikum", "es": "albahaca" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Hähnchen in Streifen schneiden, salzen, pfeffern und im heißen Öl vollständig durchbraten.",
+      "Salat und Tomaten gründlich waschen, Tomaten und Mozzarella in Scheiben schneiden.",
+      "Tortillas kurz in der Pfanne erwärmen.",
+      "Mit Salat, Hähnchen, Tomate, Mozzarella und Basilikum belegen.",
+      "Fest einrollen, halbieren und lauwarm servieren."
+    ],
+    "es": [
+      "Cortar el pollo en tiras, salpimentar y hacerlo por completo en el aceite caliente.",
+      "Lavar bien la lechuga y los tomates, cortar los tomates y la mozzarella en rodajas.",
+      "Calentar brevemente las tortillas en la sartén.",
+      "Rellenar con lechuga, pollo, tomate, mozzarella y albahaca.",
+      "Enrollar bien, cortar por la mitad y servir templado."
+    ]
+  },
+  "notes": {
+    "de": "Salat selbst waschen statt fertige Tütenmischung — und Mozzarella pasteurisiert wählen.",
+    "es": "Lavar la lechuga en casa en vez de usar bolsas preparadas — y elegir mozzarella pasteurizada."
+  }
+}

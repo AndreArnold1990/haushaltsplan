@@ -1,0 +1,44 @@
+{
+  "id": "sommer-frittata",
+  "title": { "de": "Ofen-Frittata mit Sommergemüse", "es": "Frittata al horno con verduras de verano" },
+  "emoji": "🍳",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 6,    "unit": "",                            "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 100,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 80,   "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Basilikum", "es": "sal, pimienta, albahaca" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 180 °C vorheizen. Gemüse waschen und klein schneiden.",
+      "Zucchini und Paprika in einer ofenfesten Pfanne im Öl 5 Minuten anbraten.",
+      "Eier mit Milch, Salz und Pfeffer verquirlen, Käse unterrühren.",
+      "Eiermasse über das Gemüse gießen, halbierte Tomaten daraufsetzen.",
+      "20–25 Minuten backen, bis die Frittata komplett gestockt ist — die Mitte darf nicht mehr flüssig sein.",
+      "Mit Basilikum servieren, warm oder lauwarm."
+    ],
+    "es": [
+      "Precalentar el horno a 180 °C. Lavar y trocear las verduras.",
+      "Saltear el calabacín y el pimiento 5 minutos en una sartén apta para horno.",
+      "Batir los huevos con la leche, sal y pimienta, incorporar el queso.",
+      "Verter la mezcla sobre las verduras, colocar encima los tomates partidos.",
+      "Hornear 20–25 minutos hasta que la frittata cuaje por completo — el centro no debe quedar líquido.",
+      "Servir con albahaca, caliente o templada."
+    ]
+  },
+  "notes": {
+    "de": "Wichtig: vollständig stocken lassen, damit das Ei sicher durchgegart ist.",
+    "es": "Importante: dejar que cuaje del todo para que el huevo esté bien cocinado."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "zucchini-zitronen-pasta",
+  "title": { "de": "Zucchini-Zitronen-Pasta", "es": "Pasta con calabacín y limón" },
+  "emoji": "🍋",
+  "servings": 2,
+  "timeMinutes": 20,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" },
+    { "de": "pasta", "es": "pasta" }
+  ],
+  "ingredients": [
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Penne oder Spaghetti", "es": "penne o espaguetis" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacines" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Bio-Zitrone (Saft und Schale)", "es": "limón ecológico (zumo y ralladura)" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Parmesan (pasteurisiert)", "es": "parmesano (pasteurizado)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Basilikum", "es": "sal, pimienta, albahaca" } }
+  ],
+  "steps": {
+    "de": [
+      "Nudeln al dente kochen, eine Tasse Nudelwasser aufheben.",
+      "Zucchini waschen und grob raspeln oder in feine Stifte schneiden.",
+      "Knoblauch im Öl anschwitzen, Zucchini zugeben und 4–5 Minuten braten.",
+      "Nudeln, Zitronensaft und -schale untermischen, mit Nudelwasser cremig rühren.",
+      "Parmesan unterheben, mit Salz, Pfeffer und Basilikum abschmecken."
+    ],
+    "es": [
+      "Cocer la pasta al dente, reservar una taza del agua de cocción.",
+      "Lavar los calabacines y rallarlos gruesos o cortarlos en bastones finos.",
+      "Sofreír el ajo en el aceite, añadir el calabacín y saltear 4–5 minutos.",
+      "Incorporar la pasta, el zumo y la ralladura de limón, ligar con el agua de cocción.",
+      "Añadir el parmesano y sazonar con sal, pimienta y albahaca."
+    ]
+  },
+  "notes": {
+    "de": "Leicht und frisch — an heißen Tagen lauwarm fast am besten. Parmesan pasteurisiert wählen.",
+    "es": "Ligera y fresca — en días calurosos casi mejor templada. Elegir parmesano pasteurizado."
+  }
+}

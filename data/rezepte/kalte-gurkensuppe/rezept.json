@@ -1,0 +1,41 @@
+{
+  "id": "kalte-gurkensuppe",
+  "title": { "de": "Kalte Gurken-Joghurt-Suppe", "es": "Sopa fría de pepino y yogur" },
+  "emoji": "🥒",
+  "servings": 2,
+  "timeMinutes": 15,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "suppe", "es": "sopa" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "",                            "name": { "de": "große Salatgurke", "es": "pepino grande" } },
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Joghurt (pasteurisiert)", "es": "yogur (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Dill oder Minze", "es": "eneldo o menta" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Gurke gründlich waschen, ein Viertel für die Einlage fein würfeln.",
+      "Rest grob schneiden und mit Joghurt, Knoblauch, Öl und Kräutern fein pürieren.",
+      "Mit Salz und Pfeffer abschmecken.",
+      "Mindestens 1 Stunde kalt stellen.",
+      "Mit den Gurkenwürfeln und einem Schuss Öl servieren."
+    ],
+    "es": [
+      "Lavar bien el pepino, picar una cuarta parte en daditos para decorar.",
+      "Trocear el resto y triturarlo fino con el yogur, el ajo, el aceite y las hierbas.",
+      "Sazonar con sal y pimienta.",
+      "Enfriar al menos 1 hora.",
+      "Servir con los daditos de pepino y un chorrito de aceite."
+    ]
+  },
+  "notes": {
+    "de": "Joghurt ist pasteurisiert — unbedenklich. An heißen Tagen ein perfektes leichtes Abendessen.",
+    "es": "El yogur es pasteurizado — sin problema. Una cena ligera perfecta para días de calor."
+  }
+}

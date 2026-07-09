@@ -1,0 +1,44 @@
+{
+  "id": "ratatouille",
+  "title": { "de": "Ratatouille", "es": "Ratatouille" },
+  "emoji": "🍆",
+  "servings": 4,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "eintopf", "es": "guiso" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "",                            "name": { "de": "Aubergine", "es": "berenjena" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacines" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Paprika", "es": "pimientos" } },
+    { "amount": 4,    "unit": "",                            "name": { "de": "reife Tomaten", "es": "tomates maduros" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 3,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Thymian, Rosmarin", "es": "sal, pimienta, tomillo, romero" } }
+  ],
+  "steps": {
+    "de": [
+      "Alles Gemüse gründlich waschen und in grobe Würfel schneiden.",
+      "Zwiebel und Knoblauch im Öl anschwitzen.",
+      "Aubergine und Paprika zugeben, 5 Minuten anbraten.",
+      "Zucchini und Tomaten zugeben, Kräuter einstreuen.",
+      "Zugedeckt 25–30 Minuten schmoren, gelegentlich umrühren, abschmecken.",
+      "Mit Baguette oder Reis servieren — schmeckt auch lauwarm."
+    ],
+    "es": [
+      "Lavar bien todas las verduras y cortarlas en dados grandes.",
+      "Sofreír la cebolla y el ajo en el aceite.",
+      "Añadir la berenjena y los pimientos, rehogar 5 minutos.",
+      "Añadir los calabacines y los tomates, incorporar las hierbas.",
+      "Guisar tapado 25–30 minutos removiendo de vez en cuando, rectificar de sal.",
+      "Servir con pan o arroz — también está rico templado."
+    ]
+  },
+  "notes": {
+    "de": "Reste schmecken am nächsten Tag noch besser — auch kalt als Antipasti.",
+    "es": "Las sobras saben aún mejor al día siguiente — también frías como antipasto."
+  }
+}

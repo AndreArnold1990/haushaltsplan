@@ -1,0 +1,43 @@
+{
+  "id": "haehnchenspiesse-tzatziki",
+  "title": { "de": "Hähnchenspieße mit Tzatziki", "es": "Brochetas de pollo con tzatziki" },
+  "emoji": "🍢",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "grillen", "es": "parrilla" }
+  ],
+  "ingredients": [
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Hähnchenbrustfilet", "es": "pechuga de pollo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver", "es": "pimentón" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "griechischer Joghurt (pasteurisiert)", "es": "yogur griego (pasteurizado)" } },
+    { "amount": 0.5,  "unit": "",                            "name": { "de": "Gurke", "es": "pepino" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Fladenbrot dazu", "es": "sal, pimienta, pan de pita para acompañar" } }
+  ],
+  "steps": {
+    "de": [
+      "Hähnchen würfeln und mit Öl, Paprikapulver, Salz und Pfeffer 15 Minuten marinieren.",
+      "Für das Tzatziki Gurke raspeln und kräftig ausdrücken, mit Joghurt, gepresstem Knoblauch und Salz verrühren.",
+      "Hähnchen abwechselnd mit Zucchini- und Paprikastücken auf Spieße stecken.",
+      "Auf dem Grill oder in der Grillpfanne 12–15 Minuten rundum grillen, bis das Fleisch komplett durchgegart ist.",
+      "Mit Tzatziki und Fladenbrot servieren."
+    ],
+    "es": [
+      "Cortar el pollo en dados y marinarlo 15 minutos con el aceite, el pimentón, sal y pimienta.",
+      "Para el tzatziki, rallar el pepino y escurrirlo bien, mezclar con el yogur, el ajo prensado y sal.",
+      "Ensartar el pollo en brochetas alternando con trozos de calabacín y pimiento.",
+      "Asar en la parrilla o sartén-grill 12–15 minutos por todos los lados, hasta que la carne esté completamente hecha.",
+      "Servir con el tzatziki y el pan de pita."
+    ]
+  },
+  "notes": {
+    "de": "Am Spieß gart Fleisch ungleichmäßig — dickstes Stück aufschneiden und prüfen: nichts darf rosa sein.",
+    "es": "En brocheta la carne se hace de forma desigual — cortar el trozo más grueso y comprobar: nada rosado."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "griechischer-nudelsalat",
+  "title": { "de": "Griechischer Nudelsalat", "es": "Ensalada de pasta a la griega" },
+  "emoji": "🫒",
+  "servings": 4,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" },
+    { "de": "pasta", "es": "pasta" }
+  ],
+  "ingredients": [
+    { "amount": 300,  "unit": "g",                           "name": { "de": "kurze Nudeln (z.B. Fusilli)", "es": "pasta corta (p. ej. fusilli)" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Gurke", "es": "pepino" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "schwarze Oliven (entsteint)", "es": "aceitunas negras (sin hueso)" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Feta (pasteurisiert)", "es": "queso feta (pasteurizado)" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Zitronensaft", "es": "zumo de limón" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "getrockneter Oregano", "es": "orégano seco" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Nudeln al dente kochen, abgießen und abkühlen lassen.",
+      "Tomaten halbieren, Gurke würfeln, alles gründlich waschen.",
+      "Öl, Zitronensaft, Oregano, Salz und Pfeffer zu einem Dressing verrühren.",
+      "Nudeln, Gemüse und Oliven mit dem Dressing mischen.",
+      "Feta darüberbröseln und mindestens 30 Minuten durchziehen lassen."
+    ],
+    "es": [
+      "Cocer la pasta al dente, escurrir y dejar enfriar.",
+      "Partir los tomates por la mitad, trocear el pepino, lavar todo bien.",
+      "Mezclar el aceite, el zumo de limón, el orégano, sal y pimienta para el aliño.",
+      "Mezclar la pasta, las verduras y las aceitunas con el aliño.",
+      "Desmenuzar el feta por encima y dejar reposar al menos 30 minutos."
+    ]
+  },
+  "notes": {
+    "de": "Perfekt zum Vorbereiten — hält sich abgedeckt einen Tag im Kühlschrank. Feta pasteurisiert wählen.",
+    "es": "Perfecta para preparar con antelación — aguanta un día tapada en la nevera. Elegir feta pasteurizado."
+  }
+}

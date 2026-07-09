@@ -1,0 +1,36 @@
+{
+  "id": "erdbeer-nicecream",
+  "title": { "de": "Erdbeer-Bananen-Nicecream", "es": "Nicecream de fresa y plátano" },
+  "emoji": "🍦",
+  "servings": 2,
+  "timeMinutes": 10,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "süß", "es": "dulce" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 3,    "unit": "",                            "name": { "de": "reife Bananen (gefroren, in Scheiben)", "es": "plátanos maduros (congelados, en rodajas)" } },
+    { "amount": 200,  "unit": "g",                           "name": { "de": "Erdbeeren (gefroren)", "es": "fresas (congeladas)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Joghurt oder Milch (pasteurisiert)", "es": "yogur o leche (pasteurizados)" } },
+    { "amount": null, "unit": "",                            "name": { "de": "frische Erdbeeren zum Servieren", "es": "fresas frescas para servir" } }
+  ],
+  "steps": {
+    "de": [
+      "Gefrorene Bananen und Erdbeeren in einen starken Mixer geben.",
+      "Joghurt zugeben und mixen, dabei immer wieder mit einem Löffel nachschieben, bis eine cremige Eismasse entsteht.",
+      "Sofort servieren (weich) oder 30 Minuten anfrieren lassen (fester).",
+      "Mit frischen, gut gewaschenen Erdbeeren anrichten."
+    ],
+    "es": [
+      "Poner los plátanos y las fresas congelados en una batidora potente.",
+      "Añadir el yogur y triturar, empujando con una cuchara de vez en cuando, hasta obtener una crema helada.",
+      "Servir enseguida (blanda) o congelar 30 minutos (más firme).",
+      "Decorar con fresas frescas bien lavadas."
+    ]
+  },
+  "notes": {
+    "de": "Eis ohne rohes Ei und ohne Softeis-Maschine — genau richtig in der Schwangerschaft. Bananen vorher reif einfrieren.",
+    "es": "Helado sin huevo crudo y sin máquina de helado soft — perfecto durante el embarazo. Congelar los plátanos maduros con antelación."
+  }
+}

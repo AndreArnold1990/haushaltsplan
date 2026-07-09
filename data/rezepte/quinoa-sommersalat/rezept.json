@@ -1,0 +1,42 @@
+{
+  "id": "quinoa-sommersalat",
+  "title": { "de": "Quinoa-Sommersalat mit Gurke und Minze", "es": "Ensalada veraniega de quinoa con pepino y menta" },
+  "emoji": "🌿",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" }
+  ],
+  "ingredients": [
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Quinoa", "es": "quinoa" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Gurke", "es": "pepino" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "frische Minze", "es": "menta fresca" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Petersilie", "es": "perejil" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zitrone (Saft)", "es": "limón (zumo)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Quinoa gründlich abspülen und nach Packungsanweisung kochen, abkühlen lassen.",
+      "Gurke und Tomaten gründlich waschen und klein schneiden.",
+      "Kräuter waschen und fein hacken.",
+      "Alles mit Zitronensaft, Öl, Salz und Pfeffer mischen.",
+      "Kurz durchziehen lassen und gekühlt servieren."
+    ],
+    "es": [
+      "Enjuagar bien la quinoa y cocerla según las instrucciones, dejar enfriar.",
+      "Lavar bien el pepino y los tomates y trocearlos.",
+      "Lavar y picar finamente las hierbas.",
+      "Mezclar todo con el zumo de limón, el aceite, sal y pimienta.",
+      "Dejar reposar un poco y servir frío."
+    ]
+  },
+  "notes": {
+    "de": "Quinoa liefert komplettes Eiweiß und Eisen. Ohne rohe Sprossen zubereiten.",
+    "es": "La quinoa aporta proteína completa y hierro. Preparar sin brotes crudos."
+  }
+}

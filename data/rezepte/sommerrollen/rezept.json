@@ -1,0 +1,44 @@
+{
+  "id": "sommerrollen",
+  "title": { "de": "Gemüse-Sommerrollen mit Erdnussdip", "es": "Rollitos de verano de verduras con salsa de cacahuete" },
+  "emoji": "🥬",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" }
+  ],
+  "ingredients": [
+    { "amount": 8,    "unit": { "de": "Blätter", "es": "láminas" }, "name": { "de": "Reispapier", "es": "papel de arroz" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Reisnudeln", "es": "fideos de arroz" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Karotte", "es": "zanahoria" } },
+    { "amount": 0.5,  "unit": "",                            "name": { "de": "Gurke", "es": "pepino" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika (rot)", "es": "pimiento rojo" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Minze und Koriander", "es": "menta y cilantro" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Erdnussbutter", "es": "crema de cacahuete" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Sojasauce", "es": "salsa de soja" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Limettensaft", "es": "zumo de lima" } }
+  ],
+  "steps": {
+    "de": [
+      "Reisnudeln nach Packungsanweisung zubereiten und abkühlen lassen.",
+      "Gemüse gründlich waschen und in feine Stifte schneiden, Kräuter zupfen.",
+      "Für den Dip Erdnussbutter, Sojasauce, Limettensaft und 2–3 EL warmes Wasser glatt rühren.",
+      "Reispapier einzeln kurz in warmes Wasser tauchen und auf ein feuchtes Brett legen.",
+      "Nudeln, Gemüse und Kräuter mittig platzieren, Seiten einschlagen und fest aufrollen.",
+      "Mit dem Erdnussdip servieren."
+    ],
+    "es": [
+      "Preparar los fideos de arroz según el paquete y dejarlos enfriar.",
+      "Lavar bien las verduras y cortarlas en bastones finos, deshojar las hierbas.",
+      "Para la salsa, mezclar la crema de cacahuete, la salsa de soja, el zumo de lima y 2–3 cucharadas de agua templada.",
+      "Mojar el papel de arroz brevemente en agua templada, de uno en uno, y ponerlo sobre una tabla húmeda.",
+      "Colocar fideos, verduras y hierbas en el centro, doblar los lados y enrollar bien.",
+      "Servir con la salsa de cacahuete."
+    ]
+  },
+  "notes": {
+    "de": "Bewusst ohne rohe Sprossen (in der Schwangerschaft tabu). Gemüse sehr gründlich waschen.",
+    "es": "A propósito sin brotes crudos (prohibidos en el embarazo). Lavar muy bien las verduras."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "bohnen-kartoffel-salat",
+  "title": { "de": "Grüner-Bohnen-Kartoffel-Salat", "es": "Ensalada de judías verdes y patata" },
+  "emoji": "🫛",
+  "servings": 4,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" }
+  ],
+  "ingredients": [
+    { "amount": 600,  "unit": "g",                           "name": { "de": "festkochende Kartoffeln", "es": "patatas para cocer" } },
+    { "amount": 400,  "unit": "g",                           "name": { "de": "grüne Bohnen", "es": "judías verdes" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "rote Zwiebel", "es": "cebolla roja" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "milder Essig", "es": "vinagre suave" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Senf", "es": "mostaza" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie", "es": "sal, pimienta, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Kartoffeln als Pellkartoffeln kochen, pellen und in Scheiben schneiden.",
+      "Bohnen waschen, putzen und 8–10 Minuten bissfest kochen — grüne Bohnen nie roh essen.",
+      "Zwiebel in feine Ringe schneiden, Tomaten halbieren.",
+      "Öl, Essig, Senf, Salz und Pfeffer zu einem Dressing verrühren.",
+      "Alles lauwarm mischen und 20 Minuten durchziehen lassen, mit Petersilie servieren."
+    ],
+    "es": [
+      "Cocer las patatas con piel, pelarlas y cortarlas en rodajas.",
+      "Lavar y limpiar las judías y cocerlas 8–10 minutos — las judías verdes nunca se comen crudas.",
+      "Cortar la cebolla en aros finos, partir los tomates por la mitad.",
+      "Mezclar el aceite, el vinagre, la mostaza, sal y pimienta para el aliño.",
+      "Mezclar todo templado y dejar reposar 20 minutos, servir con perejil."
+    ]
+  },
+  "notes": {
+    "de": "Ohne Speck und ohne Mayo — Essig-Öl-Dressing, damit alles schwangerschaftstauglich bleibt.",
+    "es": "Sin panceta y sin mayonesa — aliño de aceite y vinagre para que todo sea apto para el embarazo."
+  }
+}

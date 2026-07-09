@@ -1,0 +1,42 @@
+{
+  "id": "tomate-mozzarella-pfirsich",
+  "title": { "de": "Tomate-Mozzarella mit Pfirsich", "es": "Tomate y mozzarella con melocotón" },
+  "emoji": "🍑",
+  "servings": 2,
+  "timeMinutes": 15,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "salat", "es": "ensalada" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 3,    "unit": "",                            "name": { "de": "reife Tomaten", "es": "tomates maduros" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "reife Pfirsiche", "es": "melocotones maduros" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Mozzarella (pasteurisiert)", "es": "mozzarella (pasteurizada)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "heller Balsamico", "es": "vinagre balsámico blanco" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Basilikum", "es": "albahaca" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Tomaten und Pfirsiche gründlich waschen und in Spalten schneiden.",
+      "Mozzarella in Scheiben schneiden.",
+      "Abwechselnd auf einer Platte anrichten.",
+      "Mit Öl und Balsamico beträufeln, salzen und pfeffern.",
+      "Mit frischem Basilikum bestreuen und sofort servieren."
+    ],
+    "es": [
+      "Lavar bien los tomates y los melocotones y cortarlos en gajos.",
+      "Cortar la mozzarella en rodajas.",
+      "Disponer todo alternado en una fuente.",
+      "Rociar con el aceite y el vinagre, salpimentar.",
+      "Espolvorear con albahaca fresca y servir enseguida."
+    ]
+  },
+  "notes": {
+    "de": "Mozzarella aus pasteurisierter Milch (Supermarkt-Standard). Der Pfirsich macht den Klassiker sommerlich.",
+    "es": "Mozzarella de leche pasteurizada (lo habitual en el súper). El melocotón hace veraniego el clásico."
+  }
+}

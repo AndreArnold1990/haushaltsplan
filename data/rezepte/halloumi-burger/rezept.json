@@ -1,0 +1,43 @@
+{
+  "id": "halloumi-burger",
+  "title": { "de": "Halloumi-Burger", "es": "Hamburguesa de halloumi" },
+  "emoji": "🍔",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "grillen", "es": "parrilla" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "Burger-Brötchen", "es": "panes de hamburguesa" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Halloumi (pasteurisiert)", "es": "halloumi (pasteurizado)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Tomate", "es": "tomate" } },
+    { "amount": 0.5,  "unit": "",                            "name": { "de": "rote Zwiebel", "es": "cebolla roja" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Salatblätter", "es": "hojas de lechuga" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Joghurt (pasteurisiert)", "es": "yogur (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Honig und etwas Senf", "es": "miel y un poco de mostaza" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } }
+  ],
+  "steps": {
+    "de": [
+      "Salat und Tomate gründlich waschen, Tomate und Zwiebel in Ringe schneiden.",
+      "Joghurt mit Honig und Senf zu einer Sauce verrühren.",
+      "Halloumi in dicke Scheiben schneiden und im Öl oder auf dem Grill 2–3 Minuten pro Seite goldbraun braten.",
+      "Brötchen aufschneiden und kurz rösten.",
+      "Mit Sauce, Salat, Halloumi, Tomate und Zwiebel belegen und servieren."
+    ],
+    "es": [
+      "Lavar bien la lechuga y el tomate, cortar el tomate y la cebolla en aros.",
+      "Mezclar el yogur con la miel y la mostaza para la salsa.",
+      "Cortar el halloumi en lonchas gruesas y dorarlo en el aceite o la parrilla 2–3 minutos por lado.",
+      "Abrir los panes y tostarlos brevemente.",
+      "Montar con la salsa, la lechuga, el halloumi, el tomate y la cebolla y servir."
+    ]
+  },
+  "notes": {
+    "de": "Joghurt-Honig-Sauce statt Mayo (kein rohes Ei). Halloumi pasteurisiert wählen.",
+    "es": "Salsa de yogur y miel en vez de mayonesa (sin huevo crudo). Elegir halloumi pasteurizado."
+  }
+}

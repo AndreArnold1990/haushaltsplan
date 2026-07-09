@@ -1,0 +1,40 @@
+{
+  "id": "bruschetta",
+  "title": { "de": "Bruschetta mit Tomaten", "es": "Bruschetta de tomate" },
+  "emoji": "🍞",
+  "servings": 2,
+  "timeMinutes": 20,
+  "tags": [
+    { "de": "sommer", "es": "verano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "",                            "name": { "de": "Ciabatta oder Baguette", "es": "chapata o baguette" } },
+    { "amount": 4,    "unit": "",                            "name": { "de": "reife Tomaten", "es": "tomates maduros" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Basilikum", "es": "albahaca" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Tomaten gründlich waschen, entkernen und fein würfeln.",
+      "Mit gehacktem Basilikum, 2 EL Öl, Salz und Pfeffer mischen, 10 Minuten ziehen lassen.",
+      "Brot in Scheiben schneiden und im Ofen oder Toaster goldbraun rösten.",
+      "Warme Scheiben mit der halbierten Knoblauchzehe einreiben und mit restlichem Öl beträufeln.",
+      "Tomatenwürfel daraufgeben und sofort servieren."
+    ],
+    "es": [
+      "Lavar bien los tomates, despepitarlos y picarlos en daditos.",
+      "Mezclar con la albahaca picada, 2 cucharadas de aceite, sal y pimienta, dejar reposar 10 minutos.",
+      "Cortar el pan en rebanadas y tostarlas en el horno o la tostadora.",
+      "Frotar las rebanadas calientes con el ajo partido y rociar con el resto del aceite.",
+      "Repartir el tomate por encima y servir enseguida."
+    ]
+  },
+  "notes": {
+    "de": "Tomaten gründlich waschen. Als Vorspeise oder mit Salat als leichtes Abendessen.",
+    "es": "Lavar bien los tomates. Como entrante o con ensalada como cena ligera."
+  }
+}
