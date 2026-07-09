@@ -10,6 +10,7 @@
  * @property {number}   amount      - Betrag in Euro
  * @property {string}   description - Freitext-Beschreibung
  * @property {string}   startDate   - ISO-Datum des ersten Vorkommens (YYYY-MM-DD)
+ * @property {string}   [endDate]   - Optionales ISO-Datum des letzten Vorkommens (YYYY-MM-DD)
  * @property {'monthly'|'quarterly'|'biannual'} interval - Wiederholungsrate
  * @property {string}   splitType   - Wie transactions.splitType
  * @property {string}   [paidBySub] - UID des Zahlers (für geteilte Ausgaben)
@@ -50,6 +51,9 @@ export function applyRecurringRules() {
       const mk = `${y}-${m}`;
       const d  = String(start.getDate()).padStart(2, '0');
 
+      // Enddatum erreicht → keine weiteren Vorkommen generieren
+      if (rule.endDate && `${mk}-${d}` > rule.endDate) break;
+
       const exists = appData.transactions.some(
         tx => tx.recurringRuleId === rule.id && tx.date.startsWith(mk),
       );
@@ -85,6 +89,7 @@ export function addRecurringRule() {
   const raw       = document.getElementById('recAmount').value;
   const desc      = document.getElementById('recDescription').value.trim();
   const startDate = document.getElementById('recStartDate').value;
+  const endDate   = document.getElementById('recEndDate').value;
   const interval  = document.getElementById('recInterval').value;
   const splitVal  = document.getElementById('recSplitType').value;
   const amount    = parseFloat(raw);
@@ -92,6 +97,7 @@ export function addRecurringRule() {
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
   if (!raw || amount <= 0 || isNaN(amount)) { toast(t('toastInvalidAmount'));  return; }
   if (!startDate)                           { toast(t('toastSelectDate'));      return; }
+  if (endDate && endDate < startDate)       { toast(t('toastEndBeforeStart')); return; }
 
   if (!appData.recurringRules) appData.recurringRules = [];
 
@@ -115,6 +121,7 @@ export function addRecurringRule() {
     createdBy:   currentUser?.sub ? { sub: currentUser.sub } : undefined,
   };
   if (paidBySub) rule.paidBySub = paidBySub;
+  if (endDate)   rule.endDate   = endDate;
 
   appData.recurringRules.push(rule);
   applyRecurringRules();
@@ -123,6 +130,7 @@ export function addRecurringRule() {
 
   document.getElementById('recAmount').value      = '';
   document.getElementById('recDescription').value = '';
+  document.getElementById('recEndDate').value     = '';
   toast(t('toastRecurringAdded'));
 }
 
@@ -167,6 +175,7 @@ export function openEditRecurringModal(id) {
 
   document.getElementById('editRecAmount').value      = rule.amount;
   document.getElementById('editRecStartDate').value   = rule.startDate;
+  document.getElementById('editRecEndDate').value     = rule.endDate || '';
   document.getElementById('editRecInterval').value    = rule.interval;
   document.getElementById('editRecDescription').value = rule.description !== '-' ? rule.description : '';
 
@@ -196,6 +205,7 @@ export function saveEditRecurringRule() {
   const raw       = document.getElementById('editRecAmount').value;
   const splitVal  = document.getElementById('editRecSplitType').value;
   const startDate = document.getElementById('editRecStartDate').value;
+  const endDate   = document.getElementById('editRecEndDate').value;
   const interval  = document.getElementById('editRecInterval').value;
   const desc      = document.getElementById('editRecDescription').value.trim();
   const amount    = parseFloat(raw);
@@ -203,6 +213,7 @@ export function saveEditRecurringRule() {
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
   if (!raw || amount <= 0 || isNaN(amount)) { toast(t('toastInvalidAmount'));  return; }
   if (!startDate)                           { toast(t('toastSelectDate'));      return; }
+  if (endDate && endDate < startDate)       { toast(t('toastEndBeforeStart')); return; }
 
   let splitType = 'personal';
   let paidBySub = null;
@@ -222,11 +233,13 @@ export function saveEditRecurringRule() {
     amount:      Math.round(amount * 100) / 100,
     description: desc || '-',
     startDate,
+    endDate:     endDate || undefined,
     interval,
     splitType,
     paidBySub:   paidBySub || undefined,
   };
   if (!paidBySub) delete updatedRule.paidBySub;
+  if (!endDate)   delete updatedRule.endDate;
   appData.recurringRules[idx] = updatedRule;
 
   // Alle bisher generierten Transaktionen für diese Regel löschen und neu erzeugen
@@ -305,7 +318,7 @@ export function renderRecurringRules() {
         </span>
         <span class="recurring-amount">${fmt(rule.amount)}</span>
         <span class="recurring-desc">${escHtml(rule.description)}</span>
-        <span class="recurring-meta">&#x21BB; ${intLabel[rule.interval] ?? rule.interval} &middot; ${t('recurringFrom')} ${fmtDate(rule.startDate)}</span>
+        <span class="recurring-meta">&#x21BB; ${intLabel[rule.interval] ?? rule.interval} &middot; ${t('recurringFrom')} ${fmtDate(rule.startDate)}${rule.endDate ? ` &middot; ${t('recurringUntil')} ${fmtDate(rule.endDate)}` : ''}</span>
       </div>
       <div class="recurring-actions">
         <button class="btn-edit-rec" data-rec-edit-id="${rule.id}" title="${t('btnSave')}">&#9999;</button>

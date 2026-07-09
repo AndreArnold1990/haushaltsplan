@@ -211,6 +211,10 @@
             </select>
           </div>
           <div class="form-group">
+            <label data-i18n="labelEndDate">Enddatum (optional)</label>
+            <input type="date" id="recEndDate">
+          </div>
+          <div class="form-group">
             <label data-i18n="labelDescription">Beschreibung</label>
             <input type="text" id="recDescription" data-i18n-ph="descPlaceholder" placeholder="z.B. Miete" maxlength="80">
           </div>
@@ -351,6 +355,7 @@
         <input type="text" id="editTxDescription" data-i18n-ph="descPlaceholder" placeholder="z.B. Gehalt April" maxlength="80">
       </div>
     </div>
+    <p id="editTxRecurringHint" class="recurring-hint is-hidden" data-i18n="editTxRecurringHint">&#x21BB; Diese Transaktion stammt aus einer wiederkehrenden Regel. Änderungen bitte unter Einstellungen &rarr; Wiederkehrend vornehmen.</p>
     <div class="modal-actions">
       <button class="btn btn-primary"   id="btnSaveEditTx"   data-i18n="btnSave">&#10003; Speichern</button>
       <button class="btn btn-danger"    id="btnDeleteEditTx" data-i18n="btnDelete">&#128465; L&#246;schen</button>
@@ -441,6 +446,10 @@
           <option value="quarterly" data-i18n="intervalQuarterly">Viertelj&#228;hrlich</option>
           <option value="biannual"  data-i18n="intervalBiannual">Halbj&#228;hrlich</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label data-i18n="labelEndDate">Enddatum (optional)</label>
+        <input type="date" id="editRecEndDate">
       </div>
       <div class="form-group">
         <label data-i18n="labelDescription">Beschreibung</label>

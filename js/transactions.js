@@ -358,6 +358,14 @@ export function openEditTxModal(id) {
   const isOwn = !sub || !tx.createdBy || tx.createdBy.sub === sub;
   document.getElementById('btnDeleteEditTx').style.display = isOwn ? '' : 'none';
 
+  // Regel-Transaktionen sind nicht einzeln bearbeitbar/löschbar –
+  // Änderungen laufen über die wiederkehrende Regel (sonst regeneriert
+  // applyRecurringRules() die Transaktion sofort wieder).
+  const isRecurring = !!tx.recurringRuleId;
+  document.getElementById('btnSaveEditTx').disabled   = isRecurring;
+  document.getElementById('btnDeleteEditTx').disabled = isRecurring;
+  document.getElementById('editTxRecurringHint').classList.toggle('is-hidden', !isRecurring);
+
   document.getElementById('editTxModal').classList.add('is-open');
 }
 

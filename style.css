@@ -268,6 +268,10 @@ main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .btn-move      { background: var(--primary-light); color: var(--primary); }
 .btn-move:hover    { background: var(--primary); color: white; }
 .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.78rem; border-radius: 6px; }
+.btn:disabled  { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+/* Hinweis im Edit-Modal für Regel-Transaktionen */
+.recurring-hint { font-size: 0.8rem; color: var(--text-secondary); background: var(--primary-light); border-radius: 8px; padding: 0.6rem 0.8rem; margin: 0.8rem 0 0; }
 
 /* ── Tabelle ────────────────────────────────────────────────── */
 .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
