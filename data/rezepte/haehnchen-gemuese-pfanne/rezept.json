@@ -1,0 +1,44 @@
+{
+  "id": "haehnchen-gemuese-pfanne",
+  "title": { "de": "Hähnchen-Gemüse-Pfanne mit Reis", "es": "Salteado de pollo y verduras con arroz" },
+  "emoji": "🍗",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Hähnchenbrustfilet", "es": "pechuga de pollo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika (rot)", "es": "pimiento rojo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Karotte", "es": "zanahoria" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Reis", "es": "arroz" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Sojasauce", "es": "salsa de soja" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Honig", "es": "miel" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Reis nach Packungsanweisung kochen.",
+      "Hähnchen in Streifen schneiden, Gemüse waschen und in mundgerechte Stücke schneiden.",
+      "Hähnchen im heißen Öl rundum kräftig anbraten, bis es innen vollständig weiß und durchgegart ist.",
+      "Gemüse zugeben und 5–7 Minuten mitbraten, es soll noch Biss haben.",
+      "Sojasauce und Honig einrühren, kurz einkochen lassen.",
+      "Abschmecken und mit dem Reis servieren."
+    ],
+    "es": [
+      "Cocer el arroz según las instrucciones del paquete.",
+      "Cortar el pollo en tiras, lavar las verduras y cortarlas en trozos.",
+      "Dorar bien el pollo en el aceite caliente hasta que esté completamente hecho por dentro.",
+      "Añadir las verduras y saltear 5–7 minutos, deben quedar al dente.",
+      "Incorporar la salsa de soja y la miel, dejar reducir brevemente.",
+      "Rectificar de sal y servir con el arroz."
+    ]
+  },
+  "notes": {
+    "de": "Wichtig: Hähnchen vollständig durchgaren — innen darf nichts mehr rosa sein.",
+    "es": "Importante: el pollo debe estar completamente hecho — nada rosado por dentro."
+  }
+}

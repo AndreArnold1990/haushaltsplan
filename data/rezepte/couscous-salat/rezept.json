@@ -1,0 +1,41 @@
+{
+  "id": "couscous-salat",
+  "title": { "de": "Couscous-Salat mit gebratenem Gemüse", "es": "Ensalada de cuscús con verduras salteadas" },
+  "emoji": "🥗",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Couscous", "es": "cuscús" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Feta (pasteurisiert)", "es": "queso feta (pasteurizado)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zitrone (Saft)", "es": "limón (zumo)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Minze oder Petersilie", "es": "sal, pimienta, menta o perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Couscous mit kochendem Wasser übergießen, salzen und 10 Minuten quellen lassen.",
+      "Gemüse waschen und würfeln. Zucchini und Paprika in 1 EL Öl kräftig anbraten.",
+      "Couscous mit einer Gabel auflockern.",
+      "Gebratenes Gemüse, halbierte Tomaten, Zitronensaft und restliches Öl untermischen.",
+      "Mit Salz, Pfeffer und Kräutern abschmecken, Feta darüberbröseln."
+    ],
+    "es": [
+      "Cubrir el cuscús con agua hirviendo, salar y dejar reposar 10 minutos.",
+      "Lavar y trocear las verduras. Saltear el calabacín y el pimiento en 1 cucharada de aceite.",
+      "Soltar el cuscús con un tenedor.",
+      "Mezclar con las verduras salteadas, los tomates partidos, el zumo de limón y el resto del aceite.",
+      "Sazonar con sal, pimienta y hierbas, desmenuzar el feta por encima."
+    ]
+  },
+  "notes": {
+    "de": "Feta aus pasteurisierter Milch wählen. Schmeckt warm und kalt — gut fürs Büro.",
+    "es": "Elegir feta de leche pasteurizada. Rico caliente y frío — perfecto para llevar."
+  }
+}

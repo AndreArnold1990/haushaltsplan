@@ -1,0 +1,41 @@
+{
+  "id": "ofengemuese-halloumi",
+  "title": { "de": "Ofengemüse mit Halloumi", "es": "Verduras al horno con halloumi" },
+  "emoji": "🧀",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Halloumi (pasteurisiert)", "es": "halloumi (pasteurizado)" } },
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika (rot)", "es": "pimiento rojo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "rote Zwiebel", "es": "cebolla roja" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver", "es": "pimentón" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Rosmarin", "es": "sal, pimienta, romero" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 200 °C Ober-/Unterhitze vorheizen.",
+      "Gemüse waschen und in mundgerechte Stücke schneiden, Kartoffeln in Spalten.",
+      "Alles mit Öl, Paprikapulver, Salz, Pfeffer und Rosmarin mischen und auf einem Blech verteilen.",
+      "25 Minuten backen.",
+      "Halloumi in Scheiben schneiden, auf das Gemüse legen und weitere 10 Minuten backen, bis er goldbraun ist."
+    ],
+    "es": [
+      "Precalentar el horno a 200 °C.",
+      "Lavar las verduras y cortarlas en trozos, las patatas en gajos.",
+      "Mezclar todo con el aceite, el pimentón, sal, pimienta y romero y repartir en una bandeja.",
+      "Hornear 25 minutos.",
+      "Cortar el halloumi en lonchas, colocarlo sobre las verduras y hornear 10 minutos más hasta que esté dorado."
+    ]
+  },
+  "notes": {
+    "de": "Halloumi ist fast immer pasteurisiert — zur Sicherheit auf die Packung schauen.",
+    "es": "El halloumi casi siempre es pasteurizado — comprobar el envase por seguridad."
+  }
+}

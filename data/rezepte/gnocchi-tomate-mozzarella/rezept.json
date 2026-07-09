@@ -1,0 +1,40 @@
+{
+  "id": "gnocchi-tomate-mozzarella",
+  "title": { "de": "Gnocchi-Pfanne mit Tomaten und Mozzarella", "es": "Gnocchi salteados con tomate y mozzarella" },
+  "emoji": "🍅",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" },
+    { "de": "pasta", "es": "pasta" }
+  ],
+  "ingredients": [
+    { "amount": 500,  "unit": "g",                           "name": { "de": "Gnocchi (Kühlregal)", "es": "gnocchi (refrigerados)" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Kirschtomaten", "es": "tomates cherry" } },
+    { "amount": 125,  "unit": "g",                           "name": { "de": "Mozzarella (pasteurisiert)", "es": "mozzarella (pasteurizada)" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Basilikum", "es": "sal, pimienta, albahaca" } }
+  ],
+  "steps": {
+    "de": [
+      "Gnocchi im heißen Öl 8–10 Minuten goldbraun braten (nicht kochen).",
+      "Halbierte Kirschtomaten und gehackten Knoblauch zugeben und 3 Minuten mitbraten.",
+      "Mit Salz und Pfeffer würzen, Pfanne vom Herd nehmen.",
+      "Mozzarella in Stücken unterheben, kurz schmelzen lassen.",
+      "Mit frischem Basilikum servieren."
+    ],
+    "es": [
+      "Dorar los gnocchi en el aceite caliente 8–10 minutos (sin hervirlos).",
+      "Añadir los tomates cherry partidos por la mitad y el ajo picado, saltear 3 minutos.",
+      "Salpimentar y retirar la sartén del fuego.",
+      "Incorporar la mozzarella en trozos y dejar que se funda ligeramente.",
+      "Servir con albahaca fresca."
+    ]
+  },
+  "notes": {
+    "de": "Mozzarella aus pasteurisierter Milch wählen (Standard im Supermarkt, Packung prüfen).",
+    "es": "Elegir mozzarella de leche pasteurizada (lo habitual en el súper, comprobar el envase)."
+  }
+}

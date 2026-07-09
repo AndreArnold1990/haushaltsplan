@@ -1,0 +1,42 @@
+{
+  "id": "tomatensuppe-rote-linsen",
+  "title": { "de": "Tomatensuppe mit roten Linsen", "es": "Sopa de tomate con lentejas rojas" },
+  "emoji": "🍅",
+  "servings": 4,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "suppe", "es": "sopa" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 150,  "unit": "g",                           "name": { "de": "rote Linsen", "es": "lentejas rojas" } },
+    { "amount": 2,    "unit": { "de": "Dosen", "es": "latas" }, "name": { "de": "gehackte Tomaten (à 400 g)", "es": "tomate triturado (400 g cada una)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 700,  "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "getrockneter Oregano", "es": "orégano seco" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, evtl. ein Löffel Schmand", "es": "sal, pimienta, opcional una cucharada de crema agria" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel und Knoblauch fein hacken und im Öl glasig dünsten.",
+      "Linsen, Tomaten, Brühe und Oregano zugeben und aufkochen.",
+      "15 Minuten köcheln, bis die Linsen zerfallen.",
+      "Fein pürieren und mit Salz und Pfeffer abschmecken.",
+      "Nach Belieben mit einem Löffel Schmand (pasteurisiert) servieren."
+    ],
+    "es": [
+      "Picar finamente la cebolla y el ajo y sofreírlos en el aceite.",
+      "Añadir las lentejas, el tomate, el caldo y el orégano y llevar a ebullición.",
+      "Cocer 15 minutos hasta que las lentejas se deshagan.",
+      "Triturar fino y sazonar con sal y pimienta.",
+      "Servir al gusto con una cucharada de crema agria (pasteurizada)."
+    ]
+  },
+  "notes": {
+    "de": "Die Linsen machen die Suppe sättigend und liefern Eisen und Eiweiß.",
+    "es": "Las lentejas hacen la sopa saciante y aportan hierro y proteínas."
+  }
+}

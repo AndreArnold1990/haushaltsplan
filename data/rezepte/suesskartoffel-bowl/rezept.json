@@ -1,0 +1,42 @@
+{
+  "id": "suesskartoffel-bowl",
+  "title": { "de": "Süßkartoffel-Bowl mit Kichererbsen", "es": "Bowl de boniato con garbanzos" },
+  "emoji": "🍠",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "bowl", "es": "bowl" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "Süßkartoffeln", "es": "boniatos" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Kichererbsen (400 g)", "es": "garbanzos (400 g)" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Couscous", "es": "cuscús" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Avocado", "es": "aguacate" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Joghurt (pasteurisiert)", "es": "yogur (pasteurizado)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zitrone (Saft)", "es": "limón (zumo)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver", "es": "pimentón" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 200 °C vorheizen. Süßkartoffeln schälen und würfeln.",
+      "Süßkartoffeln und abgespülte Kichererbsen mit Öl, Paprikapulver, Salz und Pfeffer mischen und 25 Minuten rösten.",
+      "Couscous mit kochendem Wasser übergießen und 10 Minuten quellen lassen.",
+      "Joghurt mit Zitronensaft, Salz und Pfeffer zu einem Dressing verrühren.",
+      "Alles in Schüsseln anrichten, Avocado in Scheiben darauflegen und mit dem Dressing beträufeln."
+    ],
+    "es": [
+      "Precalentar el horno a 200 °C. Pelar los boniatos y cortarlos en dados.",
+      "Mezclar los boniatos y los garbanzos escurridos con aceite, pimentón, sal y pimienta y asar 25 minutos.",
+      "Cubrir el cuscús con agua hirviendo y dejar reposar 10 minutos.",
+      "Mezclar el yogur con el zumo de limón, sal y pimienta para el aliño.",
+      "Montar los bowls, colocar el aguacate en láminas encima y rociar con el aliño."
+    ]
+  },
+  "notes": {
+    "de": "Joghurt-Dressing statt Mayo — ohne rohes Ei. Alles gut waschen.",
+    "es": "Aliño de yogur en vez de mayonesa — sin huevo crudo. Lavar todo bien."
+  }
+}

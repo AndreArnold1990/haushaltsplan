@@ -1,0 +1,43 @@
+{
+  "id": "kuerbissuppe",
+  "title": { "de": "Kürbissuppe mit Ingwer", "es": "Crema de calabaza con jengibre" },
+  "emoji": "🎃",
+  "servings": 4,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "suppe", "es": "sopa" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "",                              "name": { "de": "Hokkaido-Kürbis (ca. 1 kg)", "es": "calabaza Hokkaido (aprox. 1 kg)" } },
+    { "amount": 1,    "unit": "",                              "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1,    "unit": { "de": "Stück", "es": "trozo" }, "name": { "de": "Ingwer (ca. 2 cm)", "es": "jengibre (aprox. 2 cm)" } },
+    { "amount": 800,  "unit": "ml",                            "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 100,  "unit": "ml",                            "name": { "de": "Kokosmilch", "es": "leche de coco" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },    "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                              "name": { "de": "Salz, Pfeffer, Muskat", "es": "sal, pimienta, nuez moscada" } },
+    { "amount": null, "unit": "",                              "name": { "de": "Kürbiskerne zum Bestreuen", "es": "pipas de calabaza para decorar" } }
+  ],
+  "steps": {
+    "de": [
+      "Kürbis gründlich waschen, entkernen und mit Schale in Würfel schneiden.",
+      "Zwiebel und Ingwer fein hacken und im Öl glasig dünsten.",
+      "Kürbiswürfel zugeben, kurz anbraten und mit der Brühe aufgießen.",
+      "Zugedeckt 20 Minuten weich kochen.",
+      "Kokosmilch zugeben und fein pürieren.",
+      "Mit Salz, Pfeffer und Muskat abschmecken, mit Kürbiskernen servieren."
+    ],
+    "es": [
+      "Lavar bien la calabaza, quitar las semillas y cortarla en dados con piel.",
+      "Picar finamente la cebolla y el jengibre y sofreírlos en el aceite.",
+      "Añadir la calabaza, rehogar brevemente y verter el caldo.",
+      "Cocer tapado 20 minutos hasta que esté blanda.",
+      "Añadir la leche de coco y triturar hasta obtener una crema fina.",
+      "Sazonar con sal, pimienta y nuez moscada, servir con las pipas."
+    ]
+  },
+  "notes": {
+    "de": "Gemüse gründlich waschen. Die Suppe lässt sich gut einfrieren.",
+    "es": "Lavar bien las verduras. La crema se puede congelar sin problema."
+  }
+}

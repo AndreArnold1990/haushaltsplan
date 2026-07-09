@@ -1,0 +1,42 @@
+{
+  "id": "ofenschnitzel-kartoffelsalat",
+  "title": { "de": "Ofenschnitzel mit Joghurt-Kartoffelsalat", "es": "Escalope al horno con ensalada de patata al yogur" },
+  "emoji": "🥩",
+  "servings": 2,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "Hähnchen- oder Putenschnitzel", "es": "filetes de pollo o pavo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Ei", "es": "huevo" } },
+    { "amount": 80,   "unit": "g",                           "name": { "de": "Paniermehl", "es": "pan rallado" } },
+    { "amount": 40,   "unit": "g",                           "name": { "de": "Mehl", "es": "harina" } },
+    { "amount": 600,  "unit": "g",                           "name": { "de": "festkochende Kartoffeln", "es": "patatas para cocer" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Joghurt (pasteurisiert)", "es": "yogur (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Senf", "es": "mostaza" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "kleine Zwiebel", "es": "cebolla pequeña" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Schnittlauch, etwas Öl", "es": "sal, pimienta, cebollino, un poco de aceite" } }
+  ],
+  "steps": {
+    "de": [
+      "Kartoffeln als Pellkartoffeln kochen, pellen und in Scheiben schneiden.",
+      "Joghurt, Senf, fein gewürfelte Zwiebel, Salz und Pfeffer verrühren und unter die lauwarmen Kartoffeln heben. Mit Schnittlauch bestreuen.",
+      "Ofen auf 200 °C vorheizen. Schnitzel salzen und pfeffern.",
+      "Nacheinander in Mehl, verquirltem Ei und Paniermehl wenden.",
+      "Auf ein Blech mit Backpapier legen, mit etwas Öl beträufeln und 20–25 Minuten backen, einmal wenden — bis sie goldbraun und komplett durchgegart sind."
+    ],
+    "es": [
+      "Cocer las patatas con piel, pelarlas y cortarlas en rodajas.",
+      "Mezclar el yogur, la mostaza, la cebolla picada fina, sal y pimienta e incorporar a las patatas templadas. Espolvorear con cebollino.",
+      "Precalentar el horno a 200 °C. Salpimentar los filetes.",
+      "Pasarlos por harina, huevo batido y pan rallado, en ese orden.",
+      "Colocarlos en una bandeja con papel de horno, rociar con un poco de aceite y hornear 20–25 minutos, dándoles la vuelta una vez — hasta que estén dorados y completamente hechos."
+    ]
+  },
+  "notes": {
+    "de": "Kartoffelsalat mit Joghurt statt Mayonnaise (kein rohes Ei). Das Panier-Ei wird im Ofen vollständig durcherhitzt.",
+    "es": "Ensalada con yogur en vez de mayonesa (sin huevo crudo). El huevo del rebozado se cocina por completo en el horno."
+  }
+}

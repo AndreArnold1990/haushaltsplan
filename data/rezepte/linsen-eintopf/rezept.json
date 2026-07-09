@@ -1,0 +1,42 @@
+{
+  "id": "linsen-eintopf",
+  "title": { "de": "Linseneintopf mit Kartoffeln", "es": "Guiso de lentejas con patatas" },
+  "emoji": "🥘",
+  "servings": 4,
+  "timeMinutes": 45,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "eintopf", "es": "guiso" }
+  ],
+  "ingredients": [
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Tellerlinsen", "es": "lentejas pardinas" } },
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Karotten", "es": "zanahorias" } },
+    { "amount": 1,    "unit": { "de": "Stange", "es": "rama" }, "name": { "de": "Lauch", "es": "puerro" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1200, "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Essig (mild)", "es": "vinagre suave" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Majoran, Lorbeerblatt", "es": "sal, pimienta, mejorana, hoja de laurel" } }
+  ],
+  "steps": {
+    "de": [
+      "Gemüse waschen. Zwiebel würfeln, Karotten und Kartoffeln schälen und würfeln, Lauch in Ringe schneiden.",
+      "Zwiebel im Öl glasig dünsten, restliches Gemüse kurz mitbraten.",
+      "Linsen, Brühe und Lorbeerblatt zugeben und aufkochen.",
+      "Zugedeckt 30 Minuten köcheln, bis Linsen und Kartoffeln weich sind.",
+      "Lorbeerblatt entfernen, mit Salz, Pfeffer, Majoran und einem Schuss Essig abschmecken."
+    ],
+    "es": [
+      "Lavar las verduras. Picar la cebolla, pelar y trocear las zanahorias y las patatas, cortar el puerro en aros.",
+      "Sofreír la cebolla en el aceite, añadir el resto de verduras y rehogar brevemente.",
+      "Añadir las lentejas, el caldo y el laurel y llevar a ebullición.",
+      "Cocer tapado 30 minutos hasta que las lentejas y las patatas estén tiernas.",
+      "Retirar el laurel y sazonar con sal, pimienta, mejorana y un chorrito de vinagre."
+    ]
+  },
+  "notes": {
+    "de": "Klassiker mit viel Eisen und Eiweiß — Vitamin C (der Essig oder etwas Paprika) hilft bei der Eisenaufnahme.",
+    "es": "Un clásico rico en hierro y proteínas — la vitamina C (el vinagre o algo de pimiento) ayuda a absorber el hierro."
+  }
+}

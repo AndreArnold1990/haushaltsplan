@@ -1,0 +1,40 @@
+{
+  "id": "zucchini-puffer",
+  "title": { "de": "Zucchini-Puffer mit Quark-Dip", "es": "Tortitas de calabacín con dip de quark" },
+  "emoji": "🥒",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacines" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 80,   "unit": "g",                           "name": { "de": "Mehl", "es": "harina" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Quark (pasteurisiert)", "es": "quark (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl zum Braten", "es": "aceite para freír" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Schnittlauch", "es": "sal, pimienta, cebollino" } }
+  ],
+  "steps": {
+    "de": [
+      "Zucchini waschen, grob raspeln, salzen und 10 Minuten ziehen lassen. Kräftig ausdrücken.",
+      "Mit Eiern und Mehl zu einem Teig mischen, mit Salz und Pfeffer würzen.",
+      "Quark mit gepresstem Knoblauch, Schnittlauch, Salz und Pfeffer verrühren.",
+      "Aus dem Teig kleine Puffer im heißen Öl von beiden Seiten goldbraun und durchgebacken braten (ca. 3–4 Minuten pro Seite).",
+      "Heiß mit dem Dip servieren."
+    ],
+    "es": [
+      "Lavar y rallar los calabacines, salarlos y dejar reposar 10 minutos. Escurrir bien apretando.",
+      "Mezclar con los huevos y la harina hasta obtener una masa, salpimentar.",
+      "Mezclar el quark con el ajo prensado, el cebollino, sal y pimienta.",
+      "Freír pequeñas tortitas en el aceite caliente hasta que estén doradas y bien hechas por dentro (3–4 minutos por lado).",
+      "Servir calientes con el dip."
+    ]
+  },
+  "notes": {
+    "de": "Puffer gut durchbraten, damit das Ei vollständig gart. Quark ist in Deutschland praktisch immer pasteurisiert.",
+    "es": "Freír bien las tortitas para que el huevo se cocine del todo. El quark casi siempre es pasteurizado."
+  }
+}

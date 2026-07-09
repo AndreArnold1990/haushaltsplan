@@ -1,0 +1,46 @@
+{
+  "id": "spaghetti-bolognese",
+  "title": { "de": "Spaghetti Bolognese", "es": "Espaguetis a la boloñesa" },
+  "emoji": "🍝",
+  "servings": 4,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "pasta", "es": "pasta" }
+  ],
+  "ingredients": [
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Rinderhackfleisch", "es": "carne picada de ternera" } },
+    { "amount": 500,  "unit": "g",                           "name": { "de": "Spaghetti", "es": "espaguetis" } },
+    { "amount": 2,    "unit": { "de": "Dosen", "es": "latas" }, "name": { "de": "gehackte Tomaten (à 400 g)", "es": "tomate triturado (400 g cada una)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Karotte", "es": "zanahoria" } },
+    { "amount": 1,    "unit": { "de": "Stange", "es": "rama" }, "name": { "de": "Staudensellerie", "es": "apio" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Tomatenmark", "es": "concentrado de tomate" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Oregano", "es": "sal, pimienta, orégano" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Parmesan (pasteurisiert)", "es": "parmesano (pasteurizado)" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel, Karotte, Sellerie und Knoblauch fein würfeln.",
+      "Hackfleisch im heißen Öl krümelig und vollständig durchbraten.",
+      "Gemüsewürfel zugeben und 5 Minuten mitbraten.",
+      "Tomatenmark einrühren, dann Tomaten zugeben.",
+      "Mindestens 30 Minuten offen köcheln lassen, mit Salz, Pfeffer und Oregano abschmecken.",
+      "Spaghetti al dente kochen und mit der Sauce und Parmesan servieren."
+    ],
+    "es": [
+      "Picar finamente la cebolla, la zanahoria, el apio y el ajo.",
+      "Dorar la carne picada en el aceite caliente hasta que esté suelta y completamente hecha.",
+      "Añadir las verduras picadas y rehogar 5 minutos.",
+      "Incorporar el concentrado de tomate y después el tomate triturado.",
+      "Cocer a fuego lento al menos 30 minutos, sazonar con sal, pimienta y orégano.",
+      "Cocer los espaguetis al dente y servir con la salsa y el parmesano."
+    ]
+  },
+  "notes": {
+    "de": "Ohne Wein gekocht. Hack vollständig durchbraten; Parmesan aus pasteurisierter Milch wählen.",
+    "es": "Sin vino. Hacer bien la carne picada; elegir parmesano de leche pasteurizada."
+  }
+}

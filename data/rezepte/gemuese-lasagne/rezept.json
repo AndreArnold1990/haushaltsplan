@@ -1,0 +1,46 @@
+{
+  "id": "gemuese-lasagne",
+  "title": { "de": "Gemüse-Lasagne", "es": "Lasaña de verduras" },
+  "emoji": "🥬",
+  "servings": 4,
+  "timeMinutes": 70,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" },
+    { "de": "pasta", "es": "pasta" }
+  ],
+  "ingredients": [
+    { "amount": 12,   "unit": { "de": "Platten", "es": "placas" }, "name": { "de": "Lasagneplatten", "es": "placas de lasaña" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Aubergine", "es": "berenjena" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 2,    "unit": { "de": "Dosen", "es": "latas" }, "name": { "de": "gehackte Tomaten (à 400 g)", "es": "tomate triturado (400 g cada una)" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Mehl", "es": "harina" } },
+    { "amount": 600,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat, Oregano", "es": "sal, pimienta, nuez moscada, orégano" } }
+  ],
+  "steps": {
+    "de": [
+      "Gemüse waschen, klein würfeln und in etwas Öl 8 Minuten anbraten. Tomaten zugeben, salzen und 10 Minuten köcheln.",
+      "Für die Béchamel Butter schmelzen, Mehl einrühren und nach und nach die Milch zugießen, dabei rühren. 5 Minuten köcheln, mit Salz und Muskat würzen.",
+      "Abwechselnd Gemüsesauce, Lasagneplatten und Béchamel in eine Auflaufform schichten, mit Béchamel abschließen.",
+      "Mit Käse bestreuen.",
+      "Bei 180 °C Ober-/Unterhitze ca. 35 Minuten goldbraun backen.",
+      "10 Minuten ruhen lassen, dann schneiden."
+    ],
+    "es": [
+      "Lavar las verduras, cortarlas en dados y saltearlas 8 minutos en un poco de aceite. Añadir el tomate, salar y cocer 10 minutos.",
+      "Para la bechamel, derretir la mantequilla, incorporar la harina y añadir la leche poco a poco sin dejar de remover. Cocer 5 minutos, sazonar con sal y nuez moscada.",
+      "En una fuente, alternar capas de salsa de verduras, placas de lasaña y bechamel, terminando con bechamel.",
+      "Cubrir con el queso rallado.",
+      "Hornear a 180 °C unos 35 minutos hasta que esté dorada.",
+      "Dejar reposar 10 minutos antes de cortar."
+    ]
+  },
+  "notes": {
+    "de": "Käse aus pasteurisierter Milch verwenden. Reste halten sich 2 Tage im Kühlschrank.",
+    "es": "Usar queso de leche pasteurizada. Las sobras aguantan 2 días en la nevera."
+  }
+}

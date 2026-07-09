@@ -1,0 +1,45 @@
+{
+  "id": "chili-con-carne",
+  "title": { "de": "Mildes Chili con Carne", "es": "Chili con carne suave" },
+  "emoji": "🌶️",
+  "servings": 4,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "eintopf", "es": "guiso" }
+  ],
+  "ingredients": [
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Rinderhackfleisch", "es": "carne picada de ternera" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Kidneybohnen (400 g)", "es": "alubias rojas (400 g)" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Mais (285 g)", "es": "maíz (285 g)" } },
+    { "amount": 2,    "unit": { "de": "Dosen", "es": "latas" }, "name": { "de": "gehackte Tomaten (à 400 g)", "es": "tomate triturado (400 g cada una)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver (edelsüß)", "es": "pimentón dulce" } },
+    { "amount": 0.5,  "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer, Reis oder Brot dazu", "es": "sal y pimienta, arroz o pan para acompañar" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel und Knoblauch fein hacken.",
+      "Hack im heißen Öl krümelig und vollständig durchbraten.",
+      "Zwiebel und Knoblauch zugeben und 3 Minuten mitbraten, Gewürze kurz mitrösten.",
+      "Tomaten zugeben und 20 Minuten köcheln lassen.",
+      "Abgespülte Bohnen und Mais zugeben, weitere 10 Minuten köcheln.",
+      "Abschmecken und mit Reis oder Brot servieren."
+    ],
+    "es": [
+      "Picar finamente la cebolla y el ajo.",
+      "Dorar la carne picada en el aceite caliente hasta que esté suelta y completamente hecha.",
+      "Añadir la cebolla y el ajo, rehogar 3 minutos y tostar brevemente las especias.",
+      "Añadir el tomate y cocer a fuego lento 20 minutos.",
+      "Incorporar las alubias y el maíz escurridos, cocer 10 minutos más.",
+      "Rectificar de sal y servir con arroz o pan."
+    ]
+  },
+  "notes": {
+    "de": "Bewusst mild gewürzt — wer mag, schärft am Tisch nach. Hack vollständig durchbraten.",
+    "es": "Aliñado suave a propósito — quien quiera, que añada picante en la mesa. Hacer bien la carne."
+  }
+}

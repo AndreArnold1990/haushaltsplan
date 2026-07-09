@@ -1,0 +1,41 @@
+{
+  "id": "kartoffel-gemuese-auflauf",
+  "title": { "de": "Bunter Kartoffel-Gemüse-Auflauf", "es": "Gratinado de patata y verduras" },
+  "emoji": "🥔",
+  "servings": 4,
+  "timeMinutes": 60,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 800,  "unit": "g",                           "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Karotten", "es": "zanahorias" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 250,  "unit": "ml",                          "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 150,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 120,  "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat, Thymian", "es": "sal, pimienta, nuez moscada, tomillo" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 190 °C vorheizen. Kartoffeln und Karotten schälen und in dünne Scheiben schneiden.",
+      "Zucchini und Paprika waschen und klein schneiden.",
+      "Gemüse gemischt in eine gefettete Auflaufform schichten.",
+      "Sahne und Milch verrühren, kräftig würzen und über das Gemüse gießen.",
+      "Mit Käse bestreuen und 40–45 Minuten backen, bis die Kartoffeln weich sind."
+    ],
+    "es": [
+      "Precalentar el horno a 190 °C. Pelar las patatas y las zanahorias y cortarlas en láminas finas.",
+      "Lavar y trocear el calabacín y el pimiento.",
+      "Disponer las verduras mezcladas en una fuente engrasada.",
+      "Mezclar la nata y la leche, sazonar bien y verter sobre las verduras.",
+      "Cubrir con el queso y hornear 40–45 minutos hasta que las patatas estén tiernas."
+    ]
+  },
+  "notes": {
+    "de": "Ein Blech, wenig Abwasch. Käse aus pasteurisierter Milch verwenden.",
+    "es": "Una sola fuente, poco que fregar. Usar queso de leche pasteurizada."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "kichererbsen-spinat-pfanne",
+  "title": { "de": "Kichererbsen-Spinat-Pfanne", "es": "Garbanzos salteados con espinacas" },
+  "emoji": "🥫",
+  "servings": 2,
+  "timeMinutes": 20,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Kichererbsen (400 g)", "es": "garbanzos (400 g)" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "frischer Spinat", "es": "espinacas frescas" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "gehackte Tomaten (400 g)", "es": "tomate triturado (400 g)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer, Brot dazu", "es": "sal y pimienta, pan para acompañar" } }
+  ],
+  "steps": {
+    "de": [
+      "Spinat gründlich waschen. Zwiebel und Knoblauch fein hacken.",
+      "Zwiebel und Knoblauch im Öl glasig dünsten, Kreuzkümmel kurz mitrösten.",
+      "Abgespülte Kichererbsen und Tomaten zugeben, 8 Minuten köcheln.",
+      "Spinat portionsweise unterrühren und zusammenfallen lassen.",
+      "Mit Salz und Pfeffer abschmecken, mit Brot servieren."
+    ],
+    "es": [
+      "Lavar bien las espinacas. Picar finamente la cebolla y el ajo.",
+      "Sofreír la cebolla y el ajo en el aceite, tostar brevemente el comino.",
+      "Añadir los garbanzos escurridos y el tomate, cocer 8 minutos.",
+      "Incorporar las espinacas por tandas y dejar que se reduzcan.",
+      "Sazonar con sal y pimienta, servir con pan."
+    ]
+  },
+  "notes": {
+    "de": "Spinat gründlich waschen. Viel Folsäure und Eisen — ideal in der Schwangerschaft.",
+    "es": "Lavar bien las espinacas. Mucho ácido fólico y hierro — ideal en el embarazo."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "haehnchen-curry",
+  "title": { "de": "Hähnchen-Curry mit Kokosmilch", "es": "Curry de pollo con leche de coco" },
+  "emoji": "🍛",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Hähnchenbrustfilet", "es": "pechuga de pollo" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Kokosmilch (400 ml)", "es": "leche de coco (400 ml)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Currypulver (mild)", "es": "curry en polvo (suave)" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Basmatireis", "es": "arroz basmati" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Reis nach Packungsanweisung kochen.",
+      "Hähnchen würfeln, Zwiebel und Paprika klein schneiden.",
+      "Hähnchen im heißen Öl vollständig durchbraten, herausnehmen.",
+      "Zwiebel und Paprika in derselben Pfanne anbraten, Currypulver kurz mitrösten.",
+      "Kokosmilch zugießen, Hähnchen zurückgeben und 10 Minuten köcheln lassen.",
+      "Abschmecken und mit Reis servieren."
+    ],
+    "es": [
+      "Cocer el arroz según las instrucciones del paquete.",
+      "Cortar el pollo en dados, picar la cebolla y el pimiento.",
+      "Dorar el pollo en el aceite caliente hasta que esté completamente hecho, retirar.",
+      "Sofreír la cebolla y el pimiento en la misma sartén, tostar brevemente el curry.",
+      "Verter la leche de coco, devolver el pollo y cocer 10 minutos.",
+      "Rectificar de sal y servir con el arroz."
+    ]
+  },
+  "notes": {
+    "de": "Mildes Curry verwenden, wenn scharfes Essen gerade unangenehm ist. Hähnchen vollständig durchgaren.",
+    "es": "Usar curry suave si el picante sienta mal ahora. El pollo debe estar completamente hecho."
+  }
+}

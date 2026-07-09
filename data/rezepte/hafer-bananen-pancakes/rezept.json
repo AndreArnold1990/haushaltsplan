@@ -1,0 +1,38 @@
+{
+  "id": "hafer-bananen-pancakes",
+  "title": { "de": "Hafer-Bananen-Pancakes", "es": "Tortitas de avena y plátano" },
+  "emoji": "🥞",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "süß", "es": "dulce" },
+    { "de": "frühstück", "es": "desayuno" }
+  ],
+  "ingredients": [
+    { "amount": 2,    "unit": "",                            "name": { "de": "reife Bananen", "es": "plátanos maduros" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "zarte Haferflocken", "es": "copos de avena finos" } },
+    { "amount": 100,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Backpulver", "es": "levadura en polvo" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl zum Braten", "es": "aceite para freír" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Zimt, frisches Obst dazu", "es": "canela, fruta fresca para acompañar" } }
+  ],
+  "steps": {
+    "de": [
+      "Bananen mit einer Gabel fein zerdrücken.",
+      "Mit Eiern, Haferflocken, Milch, Backpulver und Zimt zu einem Teig verrühren, 5 Minuten quellen lassen.",
+      "Kleine Pancakes im heißen Öl bei mittlerer Hitze 2–3 Minuten pro Seite backen, bis sie durchgegart sind.",
+      "Mit frischem, gut gewaschenem Obst servieren."
+    ],
+    "es": [
+      "Aplastar bien los plátanos con un tenedor.",
+      "Mezclar con los huevos, la avena, la leche, la levadura y la canela, dejar reposar 5 minutos.",
+      "Hacer tortitas pequeñas en el aceite caliente a fuego medio, 2–3 minutos por lado, hasta que estén bien hechas.",
+      "Servir con fruta fresca bien lavada."
+    ]
+  },
+  "notes": {
+    "de": "Pancakes vollständig durchbacken (kein flüssiger Kern), dann ist das Ei sicher gegart.",
+    "es": "Hacer las tortitas por completo (sin centro líquido) para que el huevo quede bien cocinado."
+  }
+}

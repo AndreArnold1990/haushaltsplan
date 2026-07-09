@@ -1,0 +1,43 @@
+{
+  "id": "gefuellte-paprika",
+  "title": { "de": "Gefüllte Paprika mit Hackfleisch und Reis", "es": "Pimientos rellenos de carne picada y arroz" },
+  "emoji": "🫑",
+  "servings": 4,
+  "timeMinutes": 60,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 4,    "unit": "",                            "name": { "de": "große Paprika", "es": "pimientos grandes" } },
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Rinderhackfleisch", "es": "carne picada de ternera" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Reis (roh)", "es": "arroz (crudo)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 500,  "unit": "ml",                          "name": { "de": "passierte Tomaten", "es": "tomate tamizado" } },
+    { "amount": 200,  "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver", "es": "pimentón" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Reis halbgar kochen (ca. 8 Minuten). Ofen auf 180 °C vorheizen.",
+      "Paprika waschen, Deckel abschneiden und entkernen.",
+      "Hack mit gewürfelter Zwiebel kräftig und vollständig durchbraten, würzen und mit dem Reis mischen.",
+      "Paprika füllen, in eine Auflaufform setzen und passierte Tomaten mit Brühe angießen.",
+      "Zugedeckt 35–40 Minuten backen, bis die Paprika weich sind.",
+      "Mit der Tomatensauce servieren."
+    ],
+    "es": [
+      "Cocer el arroz a medias (unos 8 minutos). Precalentar el horno a 180 °C.",
+      "Lavar los pimientos, cortar la tapa y quitar las semillas.",
+      "Dorar bien la carne con la cebolla picada hasta que esté completamente hecha, sazonar y mezclar con el arroz.",
+      "Rellenar los pimientos, colocarlos en una fuente y verter el tomate con el caldo.",
+      "Hornear tapado 35–40 minutos hasta que los pimientos estén tiernos.",
+      "Servir con la salsa de tomate."
+    ]
+  },
+  "notes": {
+    "de": "Hack vor dem Füllen komplett durchbraten — so ist es sicher durchgegart.",
+    "es": "Hacer completamente la carne antes de rellenar — así queda bien cocinada y segura."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "putengeschnetzeltes",
+  "title": { "de": "Putengeschnetzeltes mit Champignons", "es": "Tiras de pavo con champiñones" },
+  "emoji": "🍄",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Putenbrust", "es": "pechuga de pavo" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Champignons", "es": "champiñones" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 200,  "unit": "ml",                          "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 100,  "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 250,  "unit": "g",                           "name": { "de": "Bandnudeln", "es": "tallarines" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie", "es": "sal, pimienta, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Nudeln al dente kochen.",
+      "Pute in Streifen schneiden, Champignons in Scheiben, Zwiebel fein würfeln.",
+      "Pute im heißen Öl vollständig durchbraten, herausnehmen.",
+      "Zwiebel und Champignons in derselben Pfanne goldbraun braten.",
+      "Mit Brühe und Sahne aufgießen, 5 Minuten einkochen, Pute zurückgeben.",
+      "Abschmecken, mit Petersilie bestreuen und mit den Nudeln servieren."
+    ],
+    "es": [
+      "Cocer la pasta al dente.",
+      "Cortar el pavo en tiras, los champiñones en láminas y picar la cebolla.",
+      "Dorar el pavo en el aceite caliente hasta que esté completamente hecho, retirar.",
+      "Dorar la cebolla y los champiñones en la misma sartén.",
+      "Verter el caldo y la nata, reducir 5 minutos y devolver el pavo.",
+      "Rectificar de sal, espolvorear con perejil y servir con la pasta."
+    ]
+  },
+  "notes": {
+    "de": "Klassisch mit Weißwein — hier bewusst mit Brühe statt Alkohol.",
+    "es": "El clásico lleva vino blanco — aquí a propósito con caldo, sin alcohol."
+  }
+}

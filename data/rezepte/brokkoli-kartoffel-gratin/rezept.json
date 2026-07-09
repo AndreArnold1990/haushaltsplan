@@ -1,0 +1,40 @@
+{
+  "id": "brokkoli-kartoffel-gratin",
+  "title": { "de": "Brokkoli-Kartoffel-Gratin", "es": "Gratinado de brócoli y patata" },
+  "emoji": "🥦",
+  "servings": 4,
+  "timeMinutes": 55,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 800,  "unit": "g",                           "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 500,  "unit": "g",                           "name": { "de": "Brokkoli", "es": "brócoli" } },
+    { "amount": 200,  "unit": "ml",                          "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 200,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "Zehe", "es": "diente" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat", "es": "sal, pimienta, nuez moscada" } }
+  ],
+  "steps": {
+    "de": [
+      "Kartoffeln schälen, in dünne Scheiben schneiden und 8 Minuten vorkochen.",
+      "Brokkoli waschen, in Röschen teilen und 3 Minuten blanchieren.",
+      "Auflaufform mit der Knoblauchzehe ausreiben, Kartoffeln und Brokkoli einschichten.",
+      "Sahne und Milch verrühren, kräftig mit Salz, Pfeffer und Muskat würzen und angießen.",
+      "Mit Käse bestreuen und bei 190 °C ca. 30 Minuten goldbraun backen."
+    ],
+    "es": [
+      "Pelar las patatas, cortarlas en láminas finas y precocerlas 8 minutos.",
+      "Lavar el brócoli, separarlo en ramilletes y escaldarlo 3 minutos.",
+      "Frotar la fuente con el diente de ajo y disponer las patatas y el brócoli en capas.",
+      "Mezclar la nata y la leche, sazonar bien con sal, pimienta y nuez moscada y verter.",
+      "Cubrir con el queso y hornear a 190 °C unos 30 minutos hasta que esté dorado."
+    ]
+  },
+  "notes": {
+    "de": "Käse aus pasteurisierter Milch verwenden. Brokkoli liefert Folsäure und Kalzium.",
+    "es": "Usar queso de leche pasteurizada. El brócoli aporta ácido fólico y calcio."
+  }
+}
