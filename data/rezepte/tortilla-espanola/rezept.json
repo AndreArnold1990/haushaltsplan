@@ -2,6 +2,8 @@
   "id": "tortilla-espanola",
   "title": "Tortilla Española",
   "emoji": "🥔",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Tortilla de patatas con cebolla.jpg, Mentxuwiki, CC BY-SA 4.0",
   "servings": 4,
   "timeMinutes": 45,
   "tags": [

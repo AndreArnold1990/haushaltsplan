@@ -2,6 +2,8 @@
   "id": "pasta-al-limone",
   "title": "Pasta al Limone",
   "emoji": "🍋",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Lemon Spaghetti (14179778117).jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 20,
   "tags": [

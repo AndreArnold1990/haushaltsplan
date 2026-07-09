@@ -2,6 +2,8 @@
   "id": "linsencurry",
   "title": { "de": "Rotes Linsencurry", "es": "Curry de lentejas rojas" },
   "emoji": "🍛",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Red lentil curry soup.jpg, CC BY-SA 3.0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [
