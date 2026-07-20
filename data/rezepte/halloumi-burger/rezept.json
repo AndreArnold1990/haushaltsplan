@@ -2,6 +2,8 @@
   "id": "halloumi-burger",
   "title": { "de": "Halloumi-Burger", "es": "Hamburguesa de halloumi" },
   "emoji": "🍔",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Fancy Veggie Burger and Fries - Joe's Burger House 2024-07-07.jpg, CC0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

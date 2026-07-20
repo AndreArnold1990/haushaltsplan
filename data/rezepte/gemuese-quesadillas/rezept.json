@@ -2,6 +2,8 @@
   "id": "gemuese-quesadillas",
   "title": { "de": "Gemüse-Quesadillas", "es": "Quesadillas de verduras" },
   "emoji": "🫓",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: At Long Island 2023 267.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

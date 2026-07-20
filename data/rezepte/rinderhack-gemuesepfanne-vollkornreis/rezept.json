@@ -2,6 +2,8 @@
   "id": "rinderhack-gemuesepfanne-vollkornreis",
   "title": { "de": "Rinderhack-Gemüsepfanne mit Vollkornreis", "es": "Salteado de carne picada con verduras y arroz integral" },
   "emoji": "🥘",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Ground beef and salsa on mixed vegetables and wild rice, with garlic olive oil and black pepper - Massachusetts.jpg, CC0",
   "servings": 2,
   "timeMinutes": 40,
   "tags": [

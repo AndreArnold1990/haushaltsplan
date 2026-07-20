@@ -2,6 +2,8 @@
   "id": "haehnchen-gemuese-pfanne",
   "title": { "de": "Hähnchen-Gemüse-Pfanne mit Reis", "es": "Salteado de pollo y verduras con arroz" },
   "emoji": "🍗",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Kai phat khing.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [

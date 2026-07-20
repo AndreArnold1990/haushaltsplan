@@ -2,6 +2,8 @@
   "id": "haehnchen-curry",
   "title": { "de": "Hähnchen-Curry mit Kokosmilch", "es": "Curry de pollo con leche de coco" },
   "emoji": "🍛",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Aappam with chicken curry with coconut milk.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

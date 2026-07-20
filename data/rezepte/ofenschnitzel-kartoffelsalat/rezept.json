@@ -2,6 +2,8 @@
   "id": "ofenschnitzel-kartoffelsalat",
   "title": { "de": "Ofenschnitzel mit Joghurt-Kartoffelsalat", "es": "Escalope al horno con ensalada de patata al yogur" },
   "emoji": "🥩",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Schnitzel mit Kartoffelsalat SJ Eda 20240907 134026.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 50,
   "tags": [

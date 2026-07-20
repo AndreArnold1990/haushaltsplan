@@ -2,6 +2,8 @@
   "id": "asiatische-tofu-gemuesepfanne",
   "title": { "de": "Asiatische Tofu-Gemüsepfanne mit Sesam", "es": "Salteado asiático de tofu y verduras con sésamo" },
   "emoji": "🥢",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Black pepper tofu fried udon - Stir Fry by CK.jpg, CC0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

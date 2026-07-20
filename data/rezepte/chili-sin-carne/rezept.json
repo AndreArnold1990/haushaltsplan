@@ -2,6 +2,8 @@
   "id": "chili-sin-carne",
   "title": { "de": "Chili sin Carne mit Kidneybohnen", "es": "Chili sin carne con alubias rojas" },
   "emoji": "🌶️",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Chilli sine carne Zur Tanne Harsdorf.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

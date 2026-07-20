@@ -2,6 +2,8 @@
   "id": "maiskolben-kraeuterbutter",
   "title": { "de": "Gegrillte Maiskolben mit Kräuterbutter", "es": "Mazorcas a la parrilla con mantequilla de hierbas" },
   "emoji": "🌽",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Grilled Corn (Unsplash).jpg, CC0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [

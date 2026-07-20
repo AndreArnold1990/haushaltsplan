@@ -2,6 +2,8 @@
   "id": "chili-con-carne",
   "title": { "de": "Mildes Chili con Carne", "es": "Chili con carne suave" },
   "emoji": "🌶️",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Chili con carne 50 A.jpg, CC0",
   "servings": 4,
   "timeMinutes": 50,
   "tags": [

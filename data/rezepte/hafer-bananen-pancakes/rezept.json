@@ -2,6 +2,8 @@
   "id": "hafer-bananen-pancakes",
   "title": { "de": "Hafer-Bananen-Pancakes", "es": "Tortitas de avena y plátano" },
   "emoji": "🥞",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Banana Pancakes Pk021.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

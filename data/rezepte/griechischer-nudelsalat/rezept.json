@@ -2,6 +2,8 @@
   "id": "griechischer-nudelsalat",
   "title": { "de": "Griechischer Nudelsalat", "es": "Ensalada de pasta a la griega" },
   "emoji": "🫒",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Nudelsalat Feta-Kidneybohnen-Gurke-Zwiebel.jpg, CC BY-SA 3.0 de",
   "servings": 4,
   "timeMinutes": 25,
   "tags": [

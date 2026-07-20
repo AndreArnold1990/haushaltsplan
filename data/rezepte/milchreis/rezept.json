@@ -2,6 +2,8 @@
   "id": "milchreis",
   "title": { "de": "Milchreis mit Zimt und Apfelkompott", "es": "Arroz con leche, canela y compota de manzana" },
   "emoji": "🍚",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: 02023 1271 Rice puddings.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 40,
   "tags": [

@@ -2,6 +2,8 @@
   "id": "gemuese-flammkuchen",
   "title": { "de": "Flammkuchen mit Lauch und Schinken", "es": "Tarta flambeada con puerro y jamón cocido" },
   "emoji": "🍕",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Tarte flambée alsacienne 514471722.jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

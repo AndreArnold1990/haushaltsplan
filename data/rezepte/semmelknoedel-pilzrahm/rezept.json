@@ -2,6 +2,8 @@
   "id": "semmelknoedel-pilzrahm",
   "title": { "de": "Semmelknödel mit Pilzrahmsauce", "es": "Albóndigas de pan con salsa cremosa de setas" },
   "emoji": "🥟",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Kalbsbeuschel mit Semmelknödel.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 45,
   "tags": [

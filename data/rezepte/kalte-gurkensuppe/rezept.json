@@ -2,6 +2,8 @@
   "id": "kalte-gurkensuppe",
   "title": { "de": "Kalte Gurken-Joghurt-Suppe", "es": "Sopa fría de pepino y yogur" },
   "emoji": "🥒",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: TaratorBg.jpg, CC BY-SA 3.0",
   "servings": 2,
   "timeMinutes": 15,
   "tags": [

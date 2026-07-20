@@ -2,6 +2,8 @@
   "id": "kartoffel-gemuese-auflauf",
   "title": { "de": "Bunter Kartoffel-Gemüse-Auflauf", "es": "Gratinado de patata y verduras" },
   "emoji": "🥔",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Jachtschotel.jpg, CC BY 3.0",
   "servings": 4,
   "timeMinutes": 60,
   "tags": [

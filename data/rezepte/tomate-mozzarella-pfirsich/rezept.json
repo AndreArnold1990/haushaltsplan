@@ -2,6 +2,8 @@
   "id": "tomate-mozzarella-pfirsich",
   "title": { "de": "Tomate-Mozzarella mit Pfirsich", "es": "Tomate y mozzarella con melocotón" },
   "emoji": "🍑",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Mozzarella and tomato salad.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 15,
   "tags": [

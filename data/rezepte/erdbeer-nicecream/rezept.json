@@ -2,6 +2,8 @@
   "id": "erdbeer-nicecream",
   "title": { "de": "Erdbeer-Bananen-Nicecream", "es": "Nicecream de fresa y plátano" },
   "emoji": "🍦",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Vegan ice cream, banana nice cream.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 10,
   "tags": [

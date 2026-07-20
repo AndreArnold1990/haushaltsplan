@@ -2,6 +2,8 @@
   "id": "kaesespaetzle",
   "title": { "de": "Käsespätzle mit Röstzwiebeln", "es": "Spätzle con queso y cebolla frita" },
   "emoji": "🧀",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: 2015 0718 Käsespätzle Sölden.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

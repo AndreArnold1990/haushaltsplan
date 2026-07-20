@@ -2,6 +2,8 @@
   "id": "erdbeer-spinat-salat",
   "title": { "de": "Erdbeer-Spinat-Salat mit Walnüssen", "es": "Ensalada de espinacas y fresas con nueces" },
   "emoji": "🍓",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Strawberry Spinach Salad (5000511898).jpg, CC BY-SA 2.0",
   "servings": 2,
   "timeMinutes": 15,
   "tags": [

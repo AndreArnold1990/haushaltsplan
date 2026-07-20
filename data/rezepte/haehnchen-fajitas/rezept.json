@@ -2,6 +2,8 @@
   "id": "haehnchen-fajitas",
   "title": { "de": "Hähnchen-Fajitas", "es": "Fajitas de pollo" },
   "emoji": "🌮",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Chicken fajitas - La Hacienda - Sarah Stierch.jpg, CC BY 4.0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [

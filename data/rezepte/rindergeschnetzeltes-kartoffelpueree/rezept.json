@@ -2,6 +2,8 @@
   "id": "rindergeschnetzeltes-kartoffelpueree",
   "title": { "de": "Rindergeschnetzeltes mit Champignons und Kartoffelpüree", "es": "Salteado de ternera con champiñones y puré de patatas" },
   "emoji": "🥔",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Zürcher Geschnetzeltes at Zur rote Buech.jpg, CC BY-SA 3.0",
   "servings": 2,
   "timeMinutes": 40,
   "tags": [

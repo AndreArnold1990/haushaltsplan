@@ -2,6 +2,8 @@
   "id": "spaghetti-bolognese",
   "title": { "de": "Spaghetti Bolognese", "es": "Espaguetis a la boloñesa" },
   "emoji": "🍝",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Spaghetti Bolognese - Figaros, Brighton 2023-10-06.jpg, CC0",
   "servings": 4,
   "timeMinutes": 50,
   "tags": [

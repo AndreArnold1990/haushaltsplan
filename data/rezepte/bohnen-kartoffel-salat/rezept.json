@@ -2,6 +2,8 @@
   "id": "bohnen-kartoffel-salat",
   "title": { "de": "Grüner-Bohnen-Kartoffel-Salat", "es": "Ensalada de judías verdes y patata" },
   "emoji": "🫛",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Fried potato salad.jpg, CC BY-SA 4.0",
   "servings": 4,
   "timeMinutes": 35,
   "tags": [

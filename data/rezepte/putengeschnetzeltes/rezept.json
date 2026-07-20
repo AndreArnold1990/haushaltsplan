@@ -2,6 +2,8 @@
   "id": "putengeschnetzeltes",
   "title": { "de": "Putengeschnetzeltes mit Champignons", "es": "Tiras de pavo con champiñones" },
   "emoji": "🍄",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Zürcher Geschnetzeltes mit Spätzle.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [

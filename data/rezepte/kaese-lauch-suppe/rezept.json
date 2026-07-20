@@ -2,6 +2,8 @@
   "id": "kaese-lauch-suppe",
   "title": { "de": "Käse-Lauch-Suppe mit Vollkornbrot", "es": "Sopa de queso y puerro con pan integral" },
   "emoji": "🍲",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Creamy leek soup (4236997969).jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

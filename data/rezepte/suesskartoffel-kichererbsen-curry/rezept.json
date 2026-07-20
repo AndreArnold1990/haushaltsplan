@@ -2,6 +2,8 @@
   "id": "suesskartoffel-kichererbsen-curry",
   "title": { "de": "Süßkartoffel-Kichererbsen-Curry", "es": "Curry de boniato y garbanzos" },
   "emoji": "🍠",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Sweet Potato Curry.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

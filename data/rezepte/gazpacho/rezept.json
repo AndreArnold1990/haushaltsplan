@@ -2,6 +2,8 @@
   "id": "gazpacho",
   "title": { "de": "Gazpacho", "es": "Gazpacho" },
   "emoji": "🍅",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Gazpacho Cazuela Barro.jpg, CC BY-SA 2.0",
   "servings": 4,
   "timeMinutes": 20,
   "tags": [

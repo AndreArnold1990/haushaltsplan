@@ -2,6 +2,8 @@
   "id": "ratatouille",
   "title": { "de": "Ratatouille", "es": "Ratatouille" },
   "emoji": "🍆",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Ratatouille.jpg, CC BY 2.0",
   "servings": 4,
   "timeMinutes": 50,
   "tags": [

@@ -2,6 +2,8 @@
   "id": "quinoa-sommersalat",
   "title": { "de": "Quinoa-Sommersalat mit Gurke und Minze", "es": "Ensalada veraniega de quinoa con pepino y menta" },
   "emoji": "🌿",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Healthy quinoa salad with dried fruit.jpg, CC BY 4.0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

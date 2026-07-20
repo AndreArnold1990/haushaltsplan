@@ -2,6 +2,8 @@
   "id": "brokkoli-kartoffel-gratin",
   "title": { "de": "Brokkoli-Kartoffel-Gratin", "es": "Gratinado de brócoli y patata" },
   "emoji": "🥦",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Potato gratin with shrimp and broccoli (379175770).jpg, CC BY-SA 2.0",
   "servings": 4,
   "timeMinutes": 55,
   "tags": [

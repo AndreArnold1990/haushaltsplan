@@ -2,6 +2,8 @@
   "id": "pilz-risotto",
   "title": { "de": "Pilz-Risotto", "es": "Risotto de setas" },
   "emoji": "🍄",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Mushroom Risotto (4789415965).jpg, CC BY-SA 2.0",
   "servings": 2,
   "timeMinutes": 45,
   "tags": [

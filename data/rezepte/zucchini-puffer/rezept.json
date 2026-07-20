@@ -2,6 +2,8 @@
   "id": "zucchini-puffer",
   "title": { "de": "Zucchini-Puffer mit Quark-Dip", "es": "Tortitas de calabacín con dip de quark" },
   "emoji": "🥒",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Zucchini & feta fritters (7804257920).jpg, CC BY-SA 2.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

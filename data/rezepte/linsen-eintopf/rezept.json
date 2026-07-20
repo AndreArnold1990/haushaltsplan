@@ -2,6 +2,8 @@
   "id": "linsen-eintopf",
   "title": { "de": "Linseneintopf mit Kartoffeln", "es": "Guiso de lentejas con patatas" },
   "emoji": "🥘",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Linseneintopf mit Blutwurst 1.JPG, CC0",
   "servings": 4,
   "timeMinutes": 45,
   "tags": [

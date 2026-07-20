@@ -2,6 +2,8 @@
   "id": "kartoffelsuppe",
   "title": { "de": "Kartoffelsuppe mit Würstchen", "es": "Sopa de patata con salchichas" },
   "emoji": "🥣",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Soup of the day (carrot and potato) - Vios 2024-01-09.jpg, CC0",
   "servings": 4,
   "timeMinutes": 40,
   "tags": [

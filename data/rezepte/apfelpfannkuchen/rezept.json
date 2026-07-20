@@ -2,6 +2,8 @@
   "id": "apfelpfannkuchen",
   "title": { "de": "Apfelpfannkuchen", "es": "Tortitas de manzana" },
   "emoji": "🥞",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Apfelpfannkuchen (1).jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [

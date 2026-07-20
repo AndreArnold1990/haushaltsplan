@@ -2,6 +2,8 @@
   "id": "kuerbis-risotto",
   "title": { "de": "Kürbis-Risotto", "es": "Risotto de calabaza" },
   "emoji": "🎃",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Chicken and Pumpkin Risotto- Air, David Jones, Chadstone (1238453950).jpg, CC BY-SA 2.0",
   "servings": 2,
   "timeMinutes": 45,
   "tags": [

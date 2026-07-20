@@ -2,6 +2,8 @@
   "id": "wassermelonen-feta-salat",
   "title": { "de": "Wassermelonen-Feta-Salat", "es": "Ensalada de sandía y feta" },
   "emoji": "🍉",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Watermelon & Feta Salad.jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 15,
   "tags": [

@@ -2,6 +2,8 @@
   "id": "linsen-spinat-eintopf",
   "title": { "de": "Linsen-Spinat-Eintopf mit Vollkornbrot", "es": "Guiso de lentejas y espinacas con pan integral" },
   "emoji": "🍲",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Вариво од црвена леќа.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

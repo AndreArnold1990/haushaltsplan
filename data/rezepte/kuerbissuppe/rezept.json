@@ -2,6 +2,8 @@
   "id": "kuerbissuppe",
   "title": { "de": "Kürbissuppe mit Ingwer", "es": "Crema de calabaza con jengibre" },
   "emoji": "🎃",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Pumpkin soup with groundnuts and nutritious spices served in a clay pot.jpg, CC BY-SA 4.0",
   "servings": 4,
   "timeMinutes": 35,
   "tags": [

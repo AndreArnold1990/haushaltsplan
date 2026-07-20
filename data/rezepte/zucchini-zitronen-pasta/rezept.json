@@ -2,6 +2,8 @@
   "id": "zucchini-zitronen-pasta",
   "title": { "de": "Zucchini-Zitronen-Pasta", "es": "Pasta con calabacín y limón" },
   "emoji": "🍋",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Zucchini oil pasta.jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 20,
   "tags": [

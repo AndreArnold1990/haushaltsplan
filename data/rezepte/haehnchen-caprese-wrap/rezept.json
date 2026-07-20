@@ -2,6 +2,8 @@
   "id": "haehnchen-caprese-wrap",
   "title": { "de": "Hähnchen-Caprese-Wraps", "es": "Wraps de pollo caprese" },
   "emoji": "🌯",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Smoked chicken and avocado wrap.jpg, CC BY-SA 3.0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

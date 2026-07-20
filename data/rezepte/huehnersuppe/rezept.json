@@ -2,6 +2,8 @@
   "id": "huehnersuppe",
   "title": { "de": "Hühnersuppe mit Nudeln", "es": "Sopa de pollo con fideos" },
   "emoji": "🍲",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Chicken with Noodles Soup - Noodles Soup 2023-10-24.jpg, CC0",
   "servings": 4,
   "timeMinutes": 60,
   "tags": [

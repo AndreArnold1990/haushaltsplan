@@ -2,6 +2,8 @@
   "id": "spinat-feta-quiche",
   "title": { "de": "Spinat-Feta-Quiche mit Vollkornteig", "es": "Quiche de espinacas y feta con masa integral" },
   "emoji": "🥧",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Spinach quiche (4333163002).jpg, CC BY 2.0",
   "servings": 4,
   "timeMinutes": 60,
   "tags": [

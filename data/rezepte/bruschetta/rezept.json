@@ -2,6 +2,8 @@
   "id": "bruschetta",
   "title": { "de": "Bruschetta mit Tomaten", "es": "Bruschetta de tomate" },
   "emoji": "🍞",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Bruschetta Tomate 2007 by-RaBoe 03.jpg, CC BY-SA 2.5",
   "servings": 2,
   "timeMinutes": 20,
   "tags": [

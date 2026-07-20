@@ -2,6 +2,8 @@
   "id": "ofen-falafel",
   "title": { "de": "Ofen-Falafel mit Joghurt-Dip", "es": "Falafel al horno con dip de yogur" },
   "emoji": "🧆",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Meatballs and falafel balls on a plate.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 45,
   "tags": [

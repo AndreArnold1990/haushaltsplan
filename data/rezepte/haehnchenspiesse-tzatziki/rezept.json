@@ -2,6 +2,8 @@
   "id": "haehnchenspiesse-tzatziki",
   "title": { "de": "Hähnchenspieße mit Tzatziki", "es": "Brochetas de pollo con tzatziki" },
   "emoji": "🍢",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Quebec style souvlaki pita.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

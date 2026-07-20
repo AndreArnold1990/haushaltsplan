@@ -2,6 +2,8 @@
   "id": "sommerrollen",
   "title": { "de": "Gemüse-Sommerrollen mit Erdnussdip", "es": "Rollitos de verano de verduras con salsa de cacahuete" },
   "emoji": "🥬",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Gỏi cuốn at a Vietnamese-style restaurant in Beijing (20180103175625).jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 40,
   "tags": [

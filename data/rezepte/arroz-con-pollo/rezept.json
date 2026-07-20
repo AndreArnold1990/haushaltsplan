@@ -2,6 +2,8 @@
   "id": "arroz-con-pollo",
   "title": { "de": "Arroz con Pollo", "es": "Arroz con pollo" },
   "emoji": "🍗",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Arroz-con-Pollo.jpg, CC BY-SA 2.5",
   "servings": 4,
   "timeMinutes": 50,
   "tags": [

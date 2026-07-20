@@ -2,6 +2,8 @@
   "id": "bunter-reissalat",
   "title": { "de": "Bunter Reissalat", "es": "Ensalada de arroz" },
   "emoji": "🍚",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Insalata di riso.jpg, CC BY-SA 4.0",
   "servings": 4,
   "timeMinutes": 30,
   "tags": [

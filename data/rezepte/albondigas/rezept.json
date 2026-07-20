@@ -2,6 +2,8 @@
   "id": "albondigas",
   "title": { "de": "Albóndigas in Tomatensauce", "es": "Albóndigas en salsa de tomate" },
   "emoji": "🥘",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Albondigas en Chipotle.jpg, CC BY 2.0",
   "servings": 4,
   "timeMinutes": 45,
   "tags": [

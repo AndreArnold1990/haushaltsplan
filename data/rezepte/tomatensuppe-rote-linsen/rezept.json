@@ -2,6 +2,8 @@
   "id": "tomatensuppe-rote-linsen",
   "title": { "de": "Tomatensuppe mit roten Linsen", "es": "Sopa de tomate con lentejas rojas" },
   "emoji": "🍅",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Red lentil curry soup.jpg, CC BY 4.0",
   "servings": 4,
   "timeMinutes": 30,
   "tags": [

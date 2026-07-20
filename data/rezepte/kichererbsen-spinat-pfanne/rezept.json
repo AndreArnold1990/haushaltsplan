@@ -2,6 +2,8 @@
   "id": "kichererbsen-spinat-pfanne",
   "title": { "de": "Kichererbsen-Spinat-Pfanne", "es": "Garbanzos salteados con espinacas" },
   "emoji": "🥫",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Spinach-Chickpea Curry (3117324894).jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 20,
   "tags": [

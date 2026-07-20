@@ -2,6 +2,8 @@
   "id": "gefuellte-zucchini",
   "title": { "de": "Gefüllte Zucchini mit Hackfleisch", "es": "Calabacines rellenos de carne picada" },
   "emoji": "🧆",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Gefüllte Zucchini 1.jpg, CC BY-SA 4.0",
   "servings": 2,
   "timeMinutes": 50,
   "tags": [

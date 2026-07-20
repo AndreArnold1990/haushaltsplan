@@ -2,6 +2,8 @@
   "id": "apfel-porridge",
   "title": { "de": "Apfel-Zimt-Porridge", "es": "Porridge de manzana y canela" },
   "emoji": "🍎",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Porridge with almonds, apple and salted caramel.jpg, CC BY-SA 2.0",
   "servings": 2,
   "timeMinutes": 15,
   "tags": [

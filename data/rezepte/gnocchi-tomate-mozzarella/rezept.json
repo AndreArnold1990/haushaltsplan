@@ -2,6 +2,8 @@
   "id": "gnocchi-tomate-mozzarella",
   "title": { "de": "Gnocchi-Pfanne mit Tomaten und Mozzarella", "es": "Gnocchi salteados con tomate y mozzarella" },
   "emoji": "🍅",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Gnocchi alla sorrentina.jpg, CC BY 3.0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

@@ -2,6 +2,8 @@
   "id": "gefuellte-paprika",
   "title": { "de": "Gefüllte Paprika mit Hackfleisch und Reis", "es": "Pimientos rellenos de carne picada y arroz" },
   "emoji": "🫑",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Stuffed red peppers, dark rye bread, Rostov-on-Don, Russia.jpg, CC BY 4.0",
   "servings": 4,
   "timeMinutes": 60,
   "tags": [

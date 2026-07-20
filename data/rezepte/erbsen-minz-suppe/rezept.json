@@ -2,6 +2,8 @@
   "id": "erbsen-minz-suppe",
   "title": { "de": "Erbsen-Minz-Suppe", "es": "Sopa de guisantes con menta" },
   "emoji": "🌱",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Courgette, Pea & Mint Soup - Brooklands Cafe 2026-05-15.jpg, CC0",
   "servings": 2,
   "timeMinutes": 20,
   "tags": [

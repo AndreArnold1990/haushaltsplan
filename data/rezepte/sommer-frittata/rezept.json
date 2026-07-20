@@ -2,6 +2,8 @@
   "id": "sommer-frittata",
   "title": { "de": "Ofen-Frittata mit Sommergemüse", "es": "Frittata al horno con verduras de verano" },
   "emoji": "🍳",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Frittata02.jpg, GFDL 1.2",
   "servings": 2,
   "timeMinutes": 40,
   "tags": [

@@ -2,6 +2,8 @@
   "id": "schwarze-bohnen-tacos",
   "title": { "de": "Tacos mit schwarzen Bohnen", "es": "Tacos de frijoles negros" },
   "emoji": "🌮",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Vegetables and Black Bean Tacos (7212559656).jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

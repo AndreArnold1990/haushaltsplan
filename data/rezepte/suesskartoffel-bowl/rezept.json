@@ -2,6 +2,8 @@
   "id": "suesskartoffel-bowl",
   "title": { "de": "Süßkartoffel-Bowl mit Kichererbsen", "es": "Bowl de boniato con garbanzos" },
   "emoji": "🍠",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Sweet potato fries bowl (44260849040).jpg, CC BY 2.0",
   "servings": 2,
   "timeMinutes": 40,
   "tags": [

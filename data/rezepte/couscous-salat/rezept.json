@@ -2,6 +2,8 @@
   "id": "couscous-salat",
   "title": { "de": "Couscous-Salat mit gebratenem Gemüse", "es": "Ensalada de cuscús con verduras salteadas" },
   "emoji": "🥗",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Tomato & Couscous Salad - The Canopy 2025-08-03.jpg, CC0",
   "servings": 2,
   "timeMinutes": 25,
   "tags": [

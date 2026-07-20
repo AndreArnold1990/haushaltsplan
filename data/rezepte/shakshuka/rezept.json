@@ -2,6 +2,8 @@
   "id": "shakshuka",
   "title": { "de": "Shakshuka (Eier komplett gestockt)", "es": "Shakshuka (huevos bien cuajados)" },
   "emoji": "🍳",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Shakshuka by Calliopejen1.jpg, CC BY-SA 3.0",
   "servings": 2,
   "timeMinutes": 30,
   "tags": [

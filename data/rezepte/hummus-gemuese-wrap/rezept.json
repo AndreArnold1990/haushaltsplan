@@ -2,6 +2,8 @@
   "id": "hummus-gemuese-wrap",
   "title": { "de": "Hummus-Wraps mit Ofengemüse", "es": "Wraps de hummus con verduras asadas" },
   "emoji": "🌯",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Falafel & Hummus Wrap - Lavash 2024-08-19.jpg, CC0",
   "servings": 2,
   "timeMinutes": 35,
   "tags": [

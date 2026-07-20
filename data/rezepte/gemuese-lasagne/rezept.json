@@ -2,6 +2,8 @@
   "id": "gemuese-lasagne",
   "title": { "de": "Gemüse-Lasagne", "es": "Lasaña de verduras" },
   "emoji": "🥬",
+  "image": "bild.jpg",
+  "imageCredit": "Wikimedia Commons: Meaty Lasagna 8of8 (8736299782).jpg, CC BY 2.0",
   "servings": 4,
   "timeMinutes": 70,
   "tags": [
