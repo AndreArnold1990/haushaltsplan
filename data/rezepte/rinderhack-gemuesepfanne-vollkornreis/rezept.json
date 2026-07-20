@@ -1,0 +1,42 @@
+{
+  "id": "rinderhack-gemuesepfanne-vollkornreis",
+  "title": { "de": "Rinderhack-Gemüsepfanne mit Vollkornreis", "es": "Salteado de carne picada con verduras y arroz integral" },
+  "emoji": "🥘",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "hauptgericht", "es": "plato principal" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "eisenreich", "es": "rico en hierro" }
+  ],
+  "ingredients": [
+    { "amount": 300, "unit": "g", "name": { "de": "Rinderhackfleisch", "es": "carne picada de res" } },
+    { "amount": 250, "unit": "g", "name": { "de": "Brokkoli", "es": "brócoli" } },
+    { "amount": 1, "unit": "", "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 1, "unit": "", "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 150, "unit": "g", "name": { "de": "Vollkornreis", "es": "arroz integral" } },
+    { "amount": 2, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 0.5, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Salz", "es": "sal" } },
+    { "amount": 0.25, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Pfeffer", "es": "pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Vollkornreis nach Packungsangabe in Salzwasser kochen.",
+      "Brokkoli, Paprika und Zwiebel klein schneiden.",
+      "Olivenöl in einer Pfanne erhitzen und das Rinderhackfleisch vollständig durchbraten (keine rosa Stellen mehr), dabei zerkleinern.",
+      "Zwiebel und Paprika zum Hack geben, 3 Minuten mitbraten, dann Brokkoli dazugeben und weitere 8 Minuten garen, bis er weich ist.",
+      "Mit Salz und Pfeffer abschmecken und mit dem Reis servieren."
+    ],
+    "es": [
+      "Cocer el arroz integral en agua con sal según las instrucciones del paquete.",
+      "Cortar el brócoli, el pimiento y la cebolla en trozos pequeños.",
+      "Calentar el aceite de oliva en una sartén y freír la carne picada hasta que esté completamente hecha (sin partes rosadas), desmenuzándola.",
+      "Añadir la cebolla y el pimiento a la carne, sofreír 3 minutos, luego añadir el brócoli y cocinar 8 minutos más hasta que esté tierno.",
+      "Sazonar con sal y pimienta y servir con el arroz."
+    ]
+  },
+  "notes": {
+    "de": "Für mehr Eisenaufnahme dazu ein Glas Orangensaft trinken (Vitamin C verbessert die Eisenaufnahme).",
+    "es": "Para mejorar la absorción de hierro, acompañar con un vaso de zumo de naranja (la vitamina C favorece la absorción del hierro)."
+  }
+}

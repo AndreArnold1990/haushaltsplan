@@ -1,0 +1,43 @@
+{
+  "id": "rindergeschnetzeltes-kartoffelpueree",
+  "title": { "de": "Rindergeschnetzeltes mit Champignons und Kartoffelpüree", "es": "Salteado de ternera con champiñones y puré de patatas" },
+  "emoji": "🥔",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "hauptgericht", "es": "plato principal" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "eisenreich", "es": "rico en hierro" }
+  ],
+  "ingredients": [
+    { "amount": 300, "unit": "g", "name": { "de": "Rindergeschnetzeltes", "es": "ternera en tiras" } },
+    { "amount": 250, "unit": "g", "name": { "de": "Champignons", "es": "champiñones" } },
+    { "amount": 1, "unit": "", "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 600, "unit": "g", "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 100, "unit": "ml", "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 20, "unit": "g", "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": 2, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 100, "unit": "ml", "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 0.5, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Salz", "es": "sal" } }
+  ],
+  "steps": {
+    "de": [
+      "Kartoffeln schälen, würfeln und in Salzwasser weich kochen.",
+      "Zwiebel und Champignons in Scheiben schneiden.",
+      "Olivenöl erhitzen, Rindergeschnetzeltes darin scharf anbraten, bis vollständig durchgegart, herausnehmen.",
+      "Zwiebel und Champignons in derselben Pfanne 5 Minuten braten, Fleisch zurückgeben, Sahne einrühren und kurz köcheln.",
+      "Kartoffeln abgießen, mit Milch und Butter zu Püree stampfen, mit Salz abschmecken und zusammen servieren."
+    ],
+    "es": [
+      "Pelar y cortar las patatas en dados y cocerlas en agua con sal hasta que estén tiernas.",
+      "Cortar la cebolla y los champiñones en láminas.",
+      "Calentar el aceite de oliva y freír la ternera a fuego fuerte hasta que esté completamente hecha, retirar.",
+      "Freír la cebolla y los champiñones en la misma sartén durante 5 minutos, volver a añadir la carne, incorporar la nata y dejar hervir brevemente.",
+      "Escurrir las patatas, triturarlas con la leche y la mantequilla hasta obtener un puré, sazonar con sal y servir junto con la carne."
+    ]
+  },
+  "notes": {
+    "de": "Für eine leichtere Variante die Sahne durch mehr Milch ersetzen.",
+    "es": "Para una versión más ligera, sustituir la nata por más leche."
+  }
+}

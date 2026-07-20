@@ -1,0 +1,42 @@
+{
+  "id": "pellkartoffeln-quark",
+  "title": { "de": "Pellkartoffeln mit Kräuterquark", "es": "Patatas cocidas con quark a las hierbas" },
+  "emoji": "🥔",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "deutsch", "es": "alemán" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 800,  "unit": "g",                           "name": { "de": "kleine festkochende Kartoffeln", "es": "patatas pequeñas para cocer" } },
+    { "amount": 500,  "unit": "g",                           "name": { "de": "Quark (pasteurisiert)", "es": "quark (pasteurizado)" } },
+    { "amount": 100,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 1,    "unit": { "de": "Bund", "es": "manojo" }, "name": { "de": "Schnittlauch", "es": "cebollino" } },
+    { "amount": 1,    "unit": { "de": "Bund", "es": "manojo" }, "name": { "de": "Petersilie", "es": "perejil" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "kleine Zwiebel", "es": "cebolla pequeña" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Leinöl oder Olivenöl", "es": "aceite de linaza o de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Kartoffeln gründlich waschen und mit Schale in Salzwasser 20–25 Minuten gar kochen.",
+      "Kräuter waschen und fein hacken, Zwiebel sehr fein würfeln.",
+      "Quark mit Milch glatt rühren, Kräuter und Zwiebel unterheben.",
+      "Mit Salz, Pfeffer und dem Öl abschmecken.",
+      "Kartoffeln pellen und heiß mit dem Kräuterquark servieren."
+    ],
+    "es": [
+      "Lavar bien las patatas y cocerlas con piel en agua con sal 20–25 minutos.",
+      "Lavar y picar finamente las hierbas, picar la cebolla muy fina.",
+      "Mezclar el quark con la leche, incorporar las hierbas y la cebolla.",
+      "Sazonar con sal, pimienta y el aceite.",
+      "Pelar las patatas y servirlas calientes con el quark."
+    ]
+  },
+  "notes": {
+    "de": "Quark ist pasteurisiert und liefert viel Eiweiß und Kalzium — ehrliches, schnelles Abendessen.",
+    "es": "El quark es pasteurizado y aporta mucha proteína y calcio — una cena honesta y rápida."
+  }
+}

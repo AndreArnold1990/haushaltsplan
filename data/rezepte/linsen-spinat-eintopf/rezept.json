@@ -1,0 +1,42 @@
+{
+  "id": "linsen-spinat-eintopf",
+  "title": { "de": "Linsen-Spinat-Eintopf mit Vollkornbrot", "es": "Guiso de lentejas y espinacas con pan integral" },
+  "emoji": "🍲",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "eintopf", "es": "guiso" },
+    { "de": "eisenreich", "es": "rico en hierro" }
+  ],
+  "ingredients": [
+    { "amount": 200, "unit": "g", "name": { "de": "rote Linsen", "es": "lentejas rojas" } },
+    { "amount": 200, "unit": "g", "name": { "de": "Blattspinat, frisch oder tiefgekühlt", "es": "espinacas frescas o congeladas" } },
+    { "amount": 2, "unit": "", "name": { "de": "Karotten", "es": "zanahorias" } },
+    { "amount": 1, "unit": "", "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 600, "unit": "ml", "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 2, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 1, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 4, "unit": { "de": "Scheiben", "es": "rebanadas" }, "name": { "de": "Vollkornbrot", "es": "pan integral" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel fein würfeln, Karotten in kleine Stücke schneiden, Linsen in einem Sieb abbrausen.",
+      "Olivenöl erhitzen, Zwiebel glasig dünsten, Kreuzkümmel kurz mitrösten.",
+      "Karotten, Linsen und Gemüsebrühe dazugeben, aufkochen und zugedeckt weich köcheln lassen.",
+      "Spinat unterheben und 3 Minuten mitgaren, bis er zusammenfällt.",
+      "Mit Salz und Pfeffer abschmecken, mit Vollkornbrot servieren."
+    ],
+    "es": [
+      "Picar finamente la cebolla, cortar las zanahorias en trozos pequeños, enjuagar las lentejas en un colador.",
+      "Calentar el aceite de oliva, sofreír la cebolla hasta que esté transparente, tostar brevemente el comino.",
+      "Añadir las zanahorias, las lentejas y el caldo de verduras, llevar a ebullición y cocinar a fuego lento y tapado hasta que estén tiernas.",
+      "Incorporar las espinacas y cocinar 3 minutos más hasta que se reduzcan.",
+      "Sazonar con sal y pimienta, servir con pan integral."
+    ]
+  },
+  "notes": {
+    "de": "Lässt sich gut portionsweise einfrieren.",
+    "es": "Se puede congelar bien en porciones."
+  }
+}

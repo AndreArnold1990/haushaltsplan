@@ -1,0 +1,42 @@
+{
+  "id": "shakshuka",
+  "title": { "de": "Shakshuka (Eier komplett gestockt)", "es": "Shakshuka (huevos bien cuajados)" },
+  "emoji": "🍳",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 4,    "unit": "",                            "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 2,    "unit": { "de": "Dosen", "es": "latas" }, "name": { "de": "gehackte Tomaten (à 400 g)", "es": "tomate triturado (400 g cada una)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika (rot)", "es": "pimiento rojo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver", "es": "pimentón" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie, Fladenbrot", "es": "sal, pimienta, perejil, pan de pita" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel, Knoblauch und Paprika klein schneiden und im Öl 5 Minuten anbraten.",
+      "Gewürze kurz mitrösten, Tomaten zugeben und 10 Minuten einkochen, salzen und pfeffern.",
+      "Mit einem Löffel 4 Mulden formen und je ein Ei hineinschlagen.",
+      "Zugedeckt bei mittlerer Hitze garen, bis Eiweiß UND Eigelb komplett fest sind (ca. 8–10 Minuten).",
+      "Mit Petersilie bestreuen und mit Fladenbrot servieren."
+    ],
+    "es": [
+      "Picar la cebolla, el ajo y el pimiento y sofreírlos 5 minutos en el aceite.",
+      "Tostar brevemente las especias, añadir el tomate y reducir 10 minutos, salpimentar.",
+      "Formar 4 huecos con una cuchara y cascar un huevo en cada uno.",
+      "Cocinar tapado a fuego medio hasta que la clara Y la yema estén completamente cuajadas (8–10 minutos).",
+      "Espolvorear con perejil y servir con pan de pita."
+    ]
+  },
+  "notes": {
+    "de": "Der einzige Unterschied zum Original: Das Eigelb bleibt nicht flüssig, sondern stockt komplett — in der Schwangerschaft Pflicht.",
+    "es": "La única diferencia con el original: la yema no queda líquida sino completamente cuajada — obligatorio en el embarazo."
+  }
+}

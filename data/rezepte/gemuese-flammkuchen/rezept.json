@@ -1,0 +1,39 @@
+{
+  "id": "gemuese-flammkuchen",
+  "title": { "de": "Flammkuchen mit Lauch und Schinken", "es": "Tarta flambeada con puerro y jamón cocido" },
+  "emoji": "🍕",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "ofengericht", "es": "al horno" },
+    { "de": "deutsch", "es": "alemán" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "",                            "name": { "de": "Flammkuchen- oder Pizzateig (Kühlregal)", "es": "masa de tarta flambeada o pizza (refrigerada)" } },
+    { "amount": 200,  "unit": "g",                           "name": { "de": "Schmand oder Crème fraîche (pasteurisiert)", "es": "crema agria o crème fraîche (pasteurizada)" } },
+    { "amount": 1,    "unit": { "de": "Stange", "es": "rama" }, "name": { "de": "Lauch", "es": "puerro" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Kochschinken (kein roher Schinken)", "es": "jamón cocido (no jamón curado)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "rote Zwiebel", "es": "cebolla roja" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat", "es": "sal, pimienta, nuez moscada" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 220 °C vorheizen (am besten mit Blech darin).",
+      "Lauch in feine Ringe schneiden und 2 Minuten in Butter andünsten, Zwiebel in Ringe schneiden.",
+      "Teig ausrollen, mit Schmand bestreichen und mit Salz, Pfeffer und Muskat würzen.",
+      "Mit Lauch, Zwiebel und Kochschinken-Streifen belegen.",
+      "12–15 Minuten knusprig backen, bis der Rand goldbraun ist und der Belag heiß durchgebacken."
+    ],
+    "es": [
+      "Precalentar el horno a 220 °C (mejor con la bandeja dentro).",
+      "Cortar el puerro en aros finos y rehogarlo 2 minutos en mantequilla, cortar la cebolla en aros.",
+      "Estirar la masa, untar con la crema agria y sazonar con sal, pimienta y nuez moscada.",
+      "Cubrir con el puerro, la cebolla y tiras de jamón cocido.",
+      "Hornear 12–15 minutos hasta que el borde esté dorado y la cobertura bien caliente."
+    ]
+  },
+  "notes": {
+    "de": "Bewusst Kochschinken statt Speck oder rohem Schinken — der wird im Ofen zudem komplett durcherhitzt.",
+    "es": "A propósito jamón cocido en vez de panceta o jamón curado — además se calienta por completo en el horno."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "hummus-gemuese-wrap",
+  "title": { "de": "Hummus-Wraps mit Ofengemüse", "es": "Wraps de hummus con verduras asadas" },
+  "emoji": "🌯",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" }
+  ],
+  "ingredients": [
+    { "amount": 4,    "unit": "",                            "name": { "de": "Weizen-Tortillas", "es": "tortillas de trigo" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Kichererbsen (400 g)", "es": "garbanzos (400 g)" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Tahin (Sesammus)", "es": "tahini (crema de sésamo)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zitrone (Saft)", "es": "limón (zumo)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zucchini", "es": "calabacín" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Karotte", "es": "zanahoria" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Kreuzkümmel, Paprikapulver", "es": "sal, pimienta, comino, pimentón" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 200 °C vorheizen. Gemüse waschen, in Streifen schneiden, mit 2 EL Öl und Paprikapulver mischen und 20 Minuten rösten.",
+      "Für den Hummus Kichererbsen mit Tahin, Zitronensaft, 2 EL Öl, Kreuzkümmel, Salz und etwas Wasser cremig pürieren.",
+      "Tortillas kurz erwärmen.",
+      "Mit Hummus bestreichen, Ofengemüse daraufgeben und fest einrollen."
+    ],
+    "es": [
+      "Precalentar el horno a 200 °C. Lavar las verduras, cortarlas en tiras, mezclarlas con 2 cucharadas de aceite y el pimentón y asarlas 20 minutos.",
+      "Para el hummus, triturar los garbanzos con el tahini, el zumo de limón, 2 cucharadas de aceite, el comino, sal y un poco de agua.",
+      "Calentar brevemente las tortillas.",
+      "Untar con el hummus, repartir las verduras asadas y enrollar bien."
+    ]
+  },
+  "notes": {
+    "de": "Selbst gemachter Hummus statt offener Theken-Ware — frisch zubereitet ist er unbedenklich.",
+    "es": "Hummus casero en vez del de mostrador — recién hecho no supone riesgo."
+  }
+}

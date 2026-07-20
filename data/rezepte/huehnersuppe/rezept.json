@@ -1,0 +1,43 @@
+{
+  "id": "huehnersuppe",
+  "title": { "de": "Hühnersuppe mit Nudeln", "es": "Sopa de pollo con fideos" },
+  "emoji": "🍲",
+  "servings": 4,
+  "timeMinutes": 60,
+  "tags": [
+    { "de": "fleisch", "es": "carne" },
+    { "de": "suppe", "es": "sopa" }
+  ],
+  "ingredients": [
+    { "amount": 500,  "unit": "g",                           "name": { "de": "Hähnchenschenkel", "es": "muslos de pollo" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Karotten", "es": "zanahorias" } },
+    { "amount": 1,    "unit": { "de": "Stange", "es": "rama" }, "name": { "de": "Lauch", "es": "puerro" } },
+    { "amount": 1,    "unit": { "de": "Stück", "es": "trozo" }, "name": { "de": "Knollensellerie (ca. 150 g)", "es": "apionabo (aprox. 150 g)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Suppennudeln", "es": "fideos para sopa" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Lorbeerblatt", "es": "hoja de laurel" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie", "es": "sal, pimienta, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Hähnchen mit halbierter Zwiebel, Lorbeer und 1,5 l Wasser aufkochen, Schaum abschöpfen.",
+      "45 Minuten sanft köcheln lassen.",
+      "Fleisch herausnehmen, Brühe durchseihen und zurück in den Topf geben.",
+      "Gewürfeltes Gemüse in der Brühe 10 Minuten kochen, Nudeln die letzten 5 Minuten mitkochen.",
+      "Fleisch von Haut und Knochen lösen, klein zupfen und zurückgeben — es ist durch die lange Kochzeit sicher durchgegart.",
+      "Mit Salz, Pfeffer und Petersilie abschmecken."
+    ],
+    "es": [
+      "Poner el pollo con la cebolla partida, el laurel y 1,5 l de agua a hervir, retirar la espuma.",
+      "Cocer a fuego suave 45 minutos.",
+      "Sacar la carne, colar el caldo y devolverlo a la olla.",
+      "Cocer las verduras troceadas en el caldo 10 minutos, añadir los fideos los últimos 5 minutos.",
+      "Separar la carne de piel y huesos, desmenuzarla y devolverla — tras la cocción larga está completamente hecha.",
+      "Sazonar con sal, pimienta y perejil."
+    ]
+  },
+  "notes": {
+    "de": "Der Klassiker, wenn es einem nicht gut geht — und die lange Kochzeit macht alles sicher durchgegart.",
+    "es": "El clásico para cuando uno no se encuentra bien — y la cocción larga lo deja todo bien cocinado."
+  }
+}

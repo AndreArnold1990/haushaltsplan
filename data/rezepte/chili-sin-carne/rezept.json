@@ -1,0 +1,44 @@
+{
+  "id": "chili-sin-carne",
+  "title": { "de": "Chili sin Carne mit Kidneybohnen", "es": "Chili sin carne con alubias rojas" },
+  "emoji": "🌶️",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegan", "es": "vegano" },
+    { "de": "eintopf", "es": "guiso" },
+    { "de": "eisenreich", "es": "rico en hierro" }
+  ],
+  "ingredients": [
+    { "amount": 400, "unit": "g", "name": { "de": "Kidneybohnen aus der Dose, abgetropft", "es": "alubias rojas en conserva, escurridas" } },
+    { "amount": 200, "unit": "g", "name": { "de": "Mais aus der Dose, abgetropft", "es": "maíz en conserva, escurrido" } },
+    { "amount": 400, "unit": "g", "name": { "de": "gehackte Tomaten aus der Dose", "es": "tomate triturado en conserva" } },
+    { "amount": 1, "unit": "", "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 1, "unit": "", "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2, "unit": "", "name": { "de": "Knoblauchzehen", "es": "dientes de ajo" } },
+    { "amount": 1, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Chilipulver, mild", "es": "chile en polvo suave" } },
+    { "amount": 1, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 2, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": 0.5, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Salz", "es": "sal" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel, Knoblauch und Paprika fein würfeln.",
+      "Olivenöl erhitzen, Zwiebel und Knoblauch glasig dünsten, Paprika dazugeben und 3 Minuten mitbraten.",
+      "Chilipulver und Kreuzkümmel kurz mitrösten, dann Tomaten, Kidneybohnen und Mais dazugeben.",
+      "Zugedeckt bei mittlerer Hitze köcheln lassen, damit sich die Aromen verbinden.",
+      "Mit Salz abschmecken und servieren, z. B. mit Vollkornbrot oder Reis."
+    ],
+    "es": [
+      "Picar finamente la cebolla, el ajo y el pimiento.",
+      "Calentar el aceite de oliva, sofreír la cebolla y el ajo hasta que estén transparentes, añadir el pimiento y sofreír 3 minutos más.",
+      "Tostar brevemente el chile en polvo y el comino, luego añadir el tomate triturado, las alubias y el maíz.",
+      "Cocinar a fuego medio y tapado para que se mezclen los sabores.",
+      "Sazonar con sal y servir, por ejemplo con pan integral o arroz."
+    ]
+  },
+  "notes": {
+    "de": "Schmeckt am nächsten Tag aufgewärmt noch besser.",
+    "es": "Sabe aún mejor recalentado al día siguiente."
+  }
+}

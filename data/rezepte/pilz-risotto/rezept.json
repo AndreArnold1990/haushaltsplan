@@ -1,0 +1,40 @@
+{
+  "id": "pilz-risotto",
+  "title": { "de": "Pilz-Risotto", "es": "Risotto de setas" },
+  "emoji": "🍄",
+  "servings": 2,
+  "timeMinutes": 45,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" }
+  ],
+  "ingredients": [
+    { "amount": 200,  "unit": "g",                           "name": { "de": "Risottoreis", "es": "arroz para risotto" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Champignons (gekauft, nicht selbst gesammelt)", "es": "champiñones (comprados, no silvestres)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 900,  "unit": "ml",                          "name": { "de": "Gemüsebrühe (heiß)", "es": "caldo de verduras (caliente)" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Parmesan (pasteurisiert)", "es": "parmesano (pasteurizado)" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie", "es": "sal, pimienta, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Champignons putzen, in Scheiben schneiden und in 1 EL Öl kräftig anbraten, herausnehmen.",
+      "Zwiebel im restlichen Öl glasig dünsten, Reis zugeben und glasig rühren.",
+      "Heiße Brühe kellenweise zugeben und unter Rühren einkochen lassen, ca. 20–25 Minuten.",
+      "Pilze zurückgeben, Butter und Parmesan unterrühren.",
+      "Mit Salz und Pfeffer abschmecken, mit Petersilie servieren."
+    ],
+    "es": [
+      "Limpiar los champiñones, cortarlos en láminas y dorarlos bien en 1 cucharada de aceite, retirar.",
+      "Sofreír la cebolla en el resto del aceite, añadir el arroz y remover hasta que esté translúcido.",
+      "Ir añadiendo el caldo caliente cazo a cazo sin dejar de remover, unos 20–25 minutos.",
+      "Devolver las setas, incorporar la mantequilla y el parmesano.",
+      "Salpimentar y servir con perejil."
+    ]
+  },
+  "notes": {
+    "de": "Zuchtpilze aus dem Handel und gut durchgebraten — selbst gesammelte Wildpilze in der Schwangerschaft lieber meiden. Ohne Wein.",
+    "es": "Setas de cultivo bien salteadas — mejor evitar setas silvestres recolectadas durante el embarazo. Sin vino."
+  }
+}

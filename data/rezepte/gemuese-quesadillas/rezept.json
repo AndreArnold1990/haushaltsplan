@@ -1,0 +1,42 @@
+{
+  "id": "gemuese-quesadillas",
+  "title": { "de": "Gemüse-Quesadillas", "es": "Quesadillas de verduras" },
+  "emoji": "🫓",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 4,    "unit": "",                            "name": { "de": "Weizen- oder Mais-Tortillas", "es": "tortillas de trigo o maíz" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "kleine Zucchini", "es": "calabacín pequeño" } },
+    { "amount": 0.5,  "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Mais (140 g)", "es": "maíz (140 g)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Frühlingszwiebel", "es": "cebolleta" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Kreuzkümmel", "es": "sal, pimienta, comino" } }
+  ],
+  "steps": {
+    "de": [
+      "Gemüse waschen und fein würfeln, Frühlingszwiebel in Ringe schneiden.",
+      "Paprika und Zucchini im Öl 5 Minuten anbraten, Mais zugeben und mit Salz, Pfeffer und Kreuzkümmel würzen.",
+      "Eine Tortilla in die Pfanne legen, mit Käse, Gemüse und wieder Käse belegen, zweite Tortilla daraufsetzen.",
+      "Bei mittlerer Hitze 2–3 Minuten pro Seite goldbraun braten, bis der Käse geschmolzen ist.",
+      "In Vierteln servieren — dazu passt milde Salsa oder Joghurt-Dip."
+    ],
+    "es": [
+      "Lavar y picar las verduras, cortar la cebolleta en aros.",
+      "Saltear el pimiento y el calabacín 5 minutos en el aceite, añadir el maíz y sazonar con sal, pimienta y comino.",
+      "Poner una tortilla en la sartén, cubrir con queso, verduras y más queso, tapar con la otra tortilla.",
+      "Dorar a fuego medio 2–3 minutos por lado hasta que el queso se funda.",
+      "Servir en cuartos — acompañar con salsa suave o dip de yogur."
+    ]
+  },
+  "notes": {
+    "de": "Käse pasteurisiert wählen. Statt fertiger Guacamole lieber Avocado frisch zerdrücken.",
+    "es": "Elegir queso pasteurizado. Mejor aplastar aguacate fresco que usar guacamole preparado."
+  }
+}

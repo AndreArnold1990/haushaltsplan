@@ -1,0 +1,44 @@
+{
+  "id": "albondigas",
+  "title": { "de": "Albóndigas in Tomatensauce", "es": "Albóndigas en salsa de tomate" },
+  "emoji": "🥘",
+  "servings": 4,
+  "timeMinutes": 45,
+  "tags": [
+    { "de": "spanisch", "es": "español" },
+    { "de": "fleisch", "es": "carne" }
+  ],
+  "ingredients": [
+    { "amount": 500,  "unit": "g",                           "name": { "de": "gemischtes Hackfleisch", "es": "carne picada mixta" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Ei", "es": "huevo" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Paniermehl", "es": "pan rallado" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 2,    "unit": { "de": "Dosen", "es": "latas" }, "name": { "de": "gehackte Tomaten (à 400 g)", "es": "tomate triturado (400 g cada una)" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver (edelsüß)", "es": "pimentón dulce" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Petersilie, Brot oder Reis dazu", "es": "sal, pimienta, perejil, pan o arroz para acompañar" } }
+  ],
+  "steps": {
+    "de": [
+      "Hack mit Ei, Paniermehl, der Hälfte der fein gehackten Zwiebel, 1 Knoblauchzehe, Salz und Pfeffer verkneten.",
+      "Kleine Bällchen formen und im heißen Öl rundum anbraten, herausnehmen.",
+      "Restliche Zwiebel und Knoblauch im Topf anschwitzen, Paprikapulver kurz mitrösten.",
+      "Tomaten zugeben, aufkochen und salzen.",
+      "Bällchen in die Sauce legen und zugedeckt 20 Minuten schmoren, bis sie komplett durchgegart sind.",
+      "Mit Petersilie bestreuen und mit Brot oder Reis servieren."
+    ],
+    "es": [
+      "Amasar la carne con el huevo, el pan rallado, media cebolla picada fina, 1 diente de ajo, sal y pimienta.",
+      "Formar albóndigas pequeñas y dorarlas en el aceite caliente, retirar.",
+      "Sofreír el resto de la cebolla y el ajo, tostar brevemente el pimentón.",
+      "Añadir el tomate, llevar a ebullición y salar.",
+      "Poner las albóndigas en la salsa y guisar tapado 20 minutos hasta que estén completamente hechas.",
+      "Espolvorear con perejil y servir con pan o arroz."
+    ]
+  },
+  "notes": {
+    "de": "Das Ei in der Masse gart in der Sauce vollständig durch. Ohne Wein — schmeckt trotzdem wie in der Tapas-Bar.",
+    "es": "El huevo de la masa se cocina por completo en la salsa. Sin vino — y aun así sabe a bar de tapas."
+  }
+}

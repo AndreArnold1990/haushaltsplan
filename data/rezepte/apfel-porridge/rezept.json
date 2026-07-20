@@ -1,0 +1,38 @@
+{
+  "id": "apfel-porridge",
+  "title": { "de": "Apfel-Zimt-Porridge", "es": "Porridge de manzana y canela" },
+  "emoji": "🍎",
+  "servings": 2,
+  "timeMinutes": 15,
+  "tags": [
+    { "de": "frühstück", "es": "desayuno" },
+    { "de": "süß", "es": "dulce" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Haferflocken", "es": "copos de avena" } },
+    { "amount": 400,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Apfel", "es": "manzana" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Zimt", "es": "canela" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Honig", "es": "miel" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "gehackte Nüsse", "es": "frutos secos picados" } }
+  ],
+  "steps": {
+    "de": [
+      "Apfel waschen und grob raspeln.",
+      "Haferflocken mit Milch aufkochen und 5 Minuten sanft köcheln, dabei rühren.",
+      "Geraspelten Apfel und Zimt einrühren, 2 Minuten mitköcheln.",
+      "Mit Honig süßen und mit Nüssen bestreut servieren."
+    ],
+    "es": [
+      "Lavar la manzana y rallarla gruesa.",
+      "Hervir los copos de avena con la leche y cocer 5 minutos a fuego suave, removiendo.",
+      "Incorporar la manzana rallada y la canela, cocer 2 minutos más.",
+      "Endulzar con la miel y servir con los frutos secos por encima."
+    ]
+  },
+  "notes": {
+    "de": "Warmes Frühstück mit Ballaststoffen — hilft vielen auch gegen morgendliche Übelkeit.",
+    "es": "Desayuno caliente con fibra — a muchas también les alivia las náuseas matutinas."
+  }
+}

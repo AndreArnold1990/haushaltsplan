@@ -1,0 +1,43 @@
+{
+  "id": "suesskartoffel-kichererbsen-curry",
+  "title": { "de": "Süßkartoffel-Kichererbsen-Curry", "es": "Curry de boniato y garbanzos" },
+  "emoji": "🍠",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegan", "es": "vegano" },
+    { "de": "curry", "es": "curry" },
+    { "de": "eisenreich", "es": "rico en hierro" }
+  ],
+  "ingredients": [
+    { "amount": 500, "unit": "g", "name": { "de": "Süßkartoffeln", "es": "boniato" } },
+    { "amount": 400, "unit": "g", "name": { "de": "Kichererbsen aus der Dose, abgetropft", "es": "garbanzos en conserva, escurridos" } },
+    { "amount": 200, "unit": "g", "name": { "de": "Blattspinat, frisch oder tiefgekühlt", "es": "espinacas frescas o congeladas" } },
+    { "amount": 1, "unit": "", "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2, "unit": "", "name": { "de": "Knoblauchzehen", "es": "dientes de ajo" } },
+    { "amount": 2, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Currypulver", "es": "curry en polvo" } },
+    { "amount": 400, "unit": "ml", "name": { "de": "Kokosmilch", "es": "leche de coco" } },
+    { "amount": 2, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Pflanzenöl", "es": "aceite vegetal" } },
+    { "amount": 0.5, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Salz", "es": "sal" } }
+  ],
+  "steps": {
+    "de": [
+      "Süßkartoffeln schälen und würfeln, Zwiebel und Knoblauch fein hacken.",
+      "Pflanzenöl erhitzen, Zwiebel und Knoblauch glasig dünsten, Currypulver kurz mitrösten.",
+      "Süßkartoffeln und Kokosmilch dazugeben, aufkochen und zugedeckt weich köcheln.",
+      "Kichererbsen und Spinat unterrühren und weitere 5 Minuten garen, bis der Spinat zusammengefallen ist.",
+      "Mit Salz abschmecken und servieren, z. B. mit Reis oder Fladenbrot."
+    ],
+    "es": [
+      "Pelar y cortar el boniato en dados, picar finamente la cebolla y el ajo.",
+      "Calentar el aceite vegetal, sofreír la cebolla y el ajo hasta que estén transparentes, tostar brevemente el curry en polvo.",
+      "Añadir el boniato y la leche de coco, llevar a ebullición y cocinar a fuego lento y tapado hasta que esté tierno.",
+      "Incorporar los garbanzos y las espinacas y cocinar 5 minutos más hasta que las espinacas se reduzcan.",
+      "Sazonar con sal y servir, por ejemplo con arroz o pan de pita."
+    ]
+  },
+  "notes": {
+    "de": "Vollständig vegan und gut vorzukochen.",
+    "es": "Totalmente vegano y se puede preparar con antelación."
+  }
+}

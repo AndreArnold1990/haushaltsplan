@@ -1,0 +1,43 @@
+{
+  "id": "haehnchen-fajitas",
+  "title": { "de": "Hähnchen-Fajitas", "es": "Fajitas de pollo" },
+  "emoji": "🌮",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Hähnchenbrustfilet", "es": "pechuga de pollo" } },
+    { "amount": 4,    "unit": "",                            "name": { "de": "Weizen-Tortillas", "es": "tortillas de trigo" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Paprika (rot und grün)", "es": "pimientos (rojo y verde)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver", "es": "pimentón" } },
+    { "amount": 0.5,  "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Limette", "es": "lima" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Joghurt-Dip (pasteurisiert)", "es": "sal, pimienta, dip de yogur (pasteurizado)" } }
+  ],
+  "steps": {
+    "de": [
+      "Hähnchen in Streifen schneiden und mit Paprikapulver, Kreuzkümmel, Salz und Pfeffer würzen.",
+      "Paprika und Zwiebel in Streifen schneiden.",
+      "Hähnchen im heißen Öl vollständig durchbraten, herausnehmen.",
+      "Gemüse in derselben Pfanne 5 Minuten kräftig anbraten, Hähnchen zurückgeben und mit Limettensaft ablöschen.",
+      "Tortillas erwärmen, füllen und mit Joghurt-Dip servieren."
+    ],
+    "es": [
+      "Cortar el pollo en tiras y sazonar con pimentón, comino, sal y pimienta.",
+      "Cortar los pimientos y la cebolla en tiras.",
+      "Hacer el pollo por completo en el aceite caliente, retirar.",
+      "Saltear las verduras 5 minutos en la misma sartén, devolver el pollo y añadir el zumo de lima.",
+      "Calentar las tortillas, rellenar y servir con el dip de yogur."
+    ]
+  },
+  "notes": {
+    "de": "Hähnchen vollständig durchgaren. Dip aus Joghurt statt Crema/Mayo — ohne rohes Ei.",
+    "es": "Hacer el pollo por completo. Dip de yogur en vez de crema/mayonesa — sin huevo crudo."
+  }
+}

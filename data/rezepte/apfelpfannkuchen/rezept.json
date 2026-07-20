@@ -1,0 +1,41 @@
+{
+  "id": "apfelpfannkuchen",
+  "title": { "de": "Apfelpfannkuchen", "es": "Tortitas de manzana" },
+  "emoji": "🥞",
+  "servings": 2,
+  "timeMinutes": 30,
+  "tags": [
+    { "de": "süß", "es": "dulce" },
+    { "de": "vegetarisch", "es": "vegetariano" }
+  ],
+  "ingredients": [
+    { "amount": 200,  "unit": "g",                           "name": { "de": "Mehl", "es": "harina" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 300,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Äpfel", "es": "manzanas" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Zucker", "es": "azúcar" } },
+    { "amount": 1,    "unit": { "de": "Prise", "es": "pizca" }, "name": { "de": "Salz", "es": "sal" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter zum Braten", "es": "mantequilla para freír" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Zimt und Zucker zum Bestreuen", "es": "canela y azúcar para espolvorear" } }
+  ],
+  "steps": {
+    "de": [
+      "Mehl, Eier, Milch, Zucker und Salz zu einem glatten Teig verrühren, 10 Minuten ruhen lassen.",
+      "Äpfel schälen, entkernen und in dünne Scheiben schneiden.",
+      "Etwas Butter in der Pfanne erhitzen, eine Kelle Teig hineingeben und Apfelscheiben darauf verteilen.",
+      "Bei mittlerer Hitze 2–3 Minuten pro Seite goldbraun und vollständig durchbacken.",
+      "Mit Zimt und Zucker bestreut servieren."
+    ],
+    "es": [
+      "Mezclar la harina, los huevos, la leche, el azúcar y la sal hasta obtener una masa lisa, dejar reposar 10 minutos.",
+      "Pelar las manzanas, quitar el corazón y cortarlas en láminas finas.",
+      "Calentar un poco de mantequilla en la sartén, verter un cucharón de masa y repartir las láminas de manzana encima.",
+      "Dorar a fuego medio 2–3 minutos por lado hasta que estén completamente hechas.",
+      "Servir espolvoreadas con canela y azúcar."
+    ]
+  },
+  "notes": {
+    "de": "Pfannkuchen komplett durchbacken, kein flüssiger Teigkern — dann ist das Ei sicher.",
+    "es": "Hacer las tortitas por completo, sin centro líquido — así el huevo es seguro."
+  }
+}

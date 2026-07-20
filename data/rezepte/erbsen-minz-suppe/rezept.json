@@ -1,0 +1,41 @@
+{
+  "id": "erbsen-minz-suppe",
+  "title": { "de": "Erbsen-Minz-Suppe", "es": "Sopa de guisantes con menta" },
+  "emoji": "🌱",
+  "servings": 2,
+  "timeMinutes": 20,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "suppe", "es": "sopa" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 450,  "unit": "g",                           "name": { "de": "Erbsen (TK)", "es": "guisantes (congelados)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 700,  "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "frische Minze", "es": "menta fresca" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Joghurt (pasteurisiert)", "es": "yogur (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebel fein hacken und in der Butter glasig dünsten.",
+      "Erbsen und Brühe zugeben und 8 Minuten kochen.",
+      "Gewaschene Minzblätter zugeben und fein pürieren.",
+      "Mit Salz und Pfeffer abschmecken.",
+      "Mit einem Klecks Joghurt servieren."
+    ],
+    "es": [
+      "Picar la cebolla y sofreírla en la mantequilla.",
+      "Añadir los guisantes y el caldo y cocer 8 minutos.",
+      "Añadir las hojas de menta lavadas y triturar fino.",
+      "Sazonar con sal y pimienta.",
+      "Servir con una cucharada de yogur."
+    ]
+  },
+  "notes": {
+    "de": "TK-Erbsen sind nährstoffreich und immer vorrätig — schnelles Feierabendessen mit viel Folsäure.",
+    "es": "Los guisantes congelados son nutritivos y siempre están a mano — cena rápida con mucho ácido fólico."
+  }
+}

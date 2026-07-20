@@ -1,0 +1,45 @@
+{
+  "id": "asiatische-tofu-gemuesepfanne",
+  "title": { "de": "Asiatische Tofu-Gemüsepfanne mit Sesam", "es": "Salteado asiático de tofu y verduras con sésamo" },
+  "emoji": "🥢",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegan", "es": "vegano" },
+    { "de": "asiatisch", "es": "asiático" },
+    { "de": "kalziumreich", "es": "rico en calcio" }
+  ],
+  "ingredients": [
+    { "amount": 300, "unit": "g", "name": { "de": "fester Tofu", "es": "tofu firme" } },
+    { "amount": 200, "unit": "g", "name": { "de": "Brokkoli", "es": "brócoli" } },
+    { "amount": 2, "unit": "", "name": { "de": "Karotten", "es": "zanahorias" } },
+    { "amount": 1, "unit": "", "name": { "de": "Paprika", "es": "pimiento" } },
+    { "amount": 3, "unit": "", "name": { "de": "Frühlingszwiebeln", "es": "cebolletas" } },
+    { "amount": 2, "unit": "", "name": { "de": "Knoblauchzehen", "es": "dientes de ajo" } },
+    { "amount": 1, "unit": "", "name": { "de": "Ingwer, daumengroß", "es": "jengibre, del tamaño de un pulgar" } },
+    { "amount": 3, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Sojasauce", "es": "salsa de soja" } },
+    { "amount": 2, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Sesamöl", "es": "aceite de sésamo" } },
+    { "amount": 1, "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Sesam", "es": "sésamo" } },
+    { "amount": 150, "unit": "g", "name": { "de": "Reis, ungekocht", "es": "arroz sin cocer" } }
+  ],
+  "steps": {
+    "de": [
+      "Reis nach Packungsangabe kochen.",
+      "Tofu würfeln und trocken tupfen, Gemüse in mundgerechte Stücke schneiden, Knoblauch und Ingwer fein hacken.",
+      "Sesamöl in einer Pfanne oder im Wok erhitzen, Tofu darin knusprig braten, herausnehmen.",
+      "Knoblauch und Ingwer kurz anbraten, Brokkoli, Karotten und Paprika dazugeben und 6-7 Minuten braten, bis sie bissfest sind.",
+      "Tofu zurückgeben, mit Sojasauce ablöschen, Frühlingszwiebeln und Sesam darüberstreuen und mit Reis servieren."
+    ],
+    "es": [
+      "Cocer el arroz según las instrucciones del paquete.",
+      "Cortar el tofu en dados y secarlo con papel de cocina, cortar las verduras en trozos pequeños, picar finamente el ajo y el jengibre.",
+      "Calentar el aceite de sésamo en una sartén o wok y freír el tofu hasta que esté crujiente, retirar.",
+      "Sofreír brevemente el ajo y el jengibre, añadir el brócoli, las zanahorias y el pimiento, y saltear 6-7 minutos hasta que estén al dente.",
+      "Volver a añadir el tofu, incorporar la salsa de soja, espolvorear con las cebolletas y el sésamo, y servir con arroz."
+    ]
+  },
+  "notes": {
+    "de": "Vollständig pflanzlich, liefert dennoch Kalzium durch Tofu und Sesam.",
+    "es": "Totalmente vegetal, aporta calcio gracias al tofu y al sésamo."
+  }
+}

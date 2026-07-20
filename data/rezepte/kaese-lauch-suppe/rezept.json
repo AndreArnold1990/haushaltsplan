@@ -1,0 +1,42 @@
+{
+  "id": "kaese-lauch-suppe",
+  "title": { "de": "Käse-Lauch-Suppe mit Vollkornbrot", "es": "Sopa de queso y puerro con pan integral" },
+  "emoji": "🍲",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "suppe", "es": "sopa" },
+    { "de": "kalziumreich", "es": "rico en calcio" }
+  ],
+  "ingredients": [
+    { "amount": 500, "unit": "g", "name": { "de": "Lauch/Porree", "es": "puerro" } },
+    { "amount": 400, "unit": "g", "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 700, "unit": "ml", "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 150, "unit": "g", "name": { "de": "geriebener Gouda oder Emmentaler", "es": "queso gouda o emmental rallado" } },
+    { "amount": 100, "unit": "ml", "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 20, "unit": "g", "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": 0.5, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Salz", "es": "sal" } },
+    { "amount": 4, "unit": { "de": "Scheiben", "es": "rebanadas" }, "name": { "de": "Vollkornbrot", "es": "pan integral" } }
+  ],
+  "steps": {
+    "de": [
+      "Lauch putzen und in Ringe schneiden, Kartoffeln schälen und würfeln.",
+      "Butter in einem Topf schmelzen, Lauch darin 5 Minuten dünsten.",
+      "Kartoffeln und Gemüsebrühe dazugeben, aufkochen und zugedeckt weich köcheln.",
+      "Käse und Sahne einrühren, bis der Käse geschmolzen ist, mit Salz abschmecken.",
+      "Mit dem Vollkornbrot servieren."
+    ],
+    "es": [
+      "Limpiar el puerro y cortarlo en aros, pelar y cortar las patatas en dados.",
+      "Derretir la mantequilla en una olla y rehogar el puerro durante 5 minutos.",
+      "Añadir las patatas y el caldo de verduras, llevar a ebullición y cocinar a fuego lento y tapado hasta que estén tiernas.",
+      "Incorporar el queso y la nata, removiendo hasta que el queso se derrita, sazonar con sal.",
+      "Servir con el pan integral."
+    ]
+  },
+  "notes": {
+    "de": "Für eine cremigere Konsistenz die Suppe kurz pürieren.",
+    "es": "Para una textura más cremosa, triturar brevemente la sopa."
+  }
+}

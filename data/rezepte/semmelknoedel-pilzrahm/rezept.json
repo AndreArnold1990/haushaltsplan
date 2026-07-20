@@ -1,0 +1,42 @@
+{
+  "id": "semmelknoedel-pilzrahm",
+  "title": { "de": "Semmelknödel mit Pilzrahmsauce", "es": "Albóndigas de pan con salsa cremosa de setas" },
+  "emoji": "🥟",
+  "servings": 2,
+  "timeMinutes": 45,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "deutsch", "es": "alemán" }
+  ],
+  "ingredients": [
+    { "amount": 250,  "unit": "g",                           "name": { "de": "altbackene Brötchen (gewürfelt)", "es": "panecillos del día anterior (en dados)" } },
+    { "amount": 200,  "unit": "ml",                          "name": { "de": "warme Milch", "es": "leche templada" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Eier", "es": "huevos" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Champignons", "es": "champiñones" } },
+    { "amount": 200,  "unit": "ml",                          "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 100,  "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat, Petersilie", "es": "sal, pimienta, nuez moscada, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Brötchenwürfel mit warmer Milch übergießen und 15 Minuten ziehen lassen.",
+      "Halbe Zwiebel fein würfeln, in etwas Butter dünsten und mit Eiern, Salz, Pfeffer und Muskat zur Brötchenmasse geben, gut verkneten.",
+      "Mit nassen Händen Knödel formen und in siedendem Salzwasser 15 Minuten gar ziehen lassen (nicht kochen).",
+      "Für die Sauce Pilze und restliche Zwiebel in Butter anbraten, mit Brühe und Sahne 5 Minuten einkochen, abschmecken.",
+      "Knödel mit der Pilzrahmsauce und Petersilie servieren."
+    ],
+    "es": [
+      "Cubrir los dados de pan con la leche templada y dejar reposar 15 minutos.",
+      "Picar media cebolla, rehogarla en un poco de mantequilla y añadirla a la masa con los huevos, sal, pimienta y nuez moscada, amasar bien.",
+      "Formar bolas con las manos mojadas y cocerlas a fuego suave en agua con sal 15 minutos (sin que hierva fuerte).",
+      "Para la salsa, dorar los champiñones con el resto de la cebolla en mantequilla, reducir 5 minutos con el caldo y la nata, sazonar.",
+      "Servir las albóndigas de pan con la salsa y el perejil."
+    ]
+  },
+  "notes": {
+    "de": "Die Eier garen im Knödel vollständig durch. Ohne Wein in der Sauce.",
+    "es": "Los huevos se cocinan por completo dentro de las bolas. Salsa sin vino."
+  }
+}

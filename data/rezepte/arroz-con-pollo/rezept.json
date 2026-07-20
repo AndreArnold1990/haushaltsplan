@@ -1,0 +1,45 @@
+{
+  "id": "arroz-con-pollo",
+  "title": { "de": "Arroz con Pollo", "es": "Arroz con pollo" },
+  "emoji": "🍗",
+  "servings": 4,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "spanisch", "es": "español" },
+    { "de": "fleisch", "es": "carne" }
+  ],
+  "ingredients": [
+    { "amount": 500,  "unit": "g",                           "name": { "de": "Hähnchenschenkel oder -brust", "es": "muslos o pechuga de pollo" } },
+    { "amount": 300,  "unit": "g",                           "name": { "de": "Rundkornreis", "es": "arroz redondo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Paprika (rot)", "es": "pimiento rojo" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "Erbsen (TK)", "es": "guisantes (congelados)" } },
+    { "amount": 800,  "unit": "ml",                          "name": { "de": "Hühner- oder Gemüsebrühe", "es": "caldo de pollo o verduras" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Paprikapulver, etwas Safran oder Kurkuma", "es": "pimentón, un poco de azafrán o cúrcuma" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz und Pfeffer", "es": "sal y pimienta" } }
+  ],
+  "steps": {
+    "de": [
+      "Hähnchen salzen, pfeffern und im heißen Öl rundum kräftig anbraten, herausnehmen.",
+      "Zwiebel, Knoblauch und Paprika im selben Topf 5 Minuten anbraten.",
+      "Reis und Gewürze einrühren, kurz mitbraten.",
+      "Brühe angießen, Hähnchen zurücklegen und offen 20 Minuten sanft köcheln, nicht rühren.",
+      "Erbsen zugeben und weitere 5–10 Minuten garen, bis der Reis die Flüssigkeit aufgenommen hat und das Fleisch komplett durchgegart ist.",
+      "Kurz ruhen lassen und servieren."
+    ],
+    "es": [
+      "Salpimentar el pollo y dorarlo bien por todos los lados en el aceite caliente, retirar.",
+      "Sofreír la cebolla, el ajo y el pimiento 5 minutos en la misma olla.",
+      "Incorporar el arroz y las especias, rehogar brevemente.",
+      "Verter el caldo, devolver el pollo y cocer destapado 20 minutos a fuego suave, sin remover.",
+      "Añadir los guisantes y cocer 5–10 minutos más hasta que el arroz absorba el líquido y la carne esté completamente hecha.",
+      "Dejar reposar un momento y servir."
+    ]
+  },
+  "notes": {
+    "de": "Ohne Wein gekocht. Beim Schenkel prüfen: am Knochen darf nichts mehr rosa sein.",
+    "es": "Sin vino. Con muslos, comprobar: junto al hueso no debe quedar nada rosado."
+  }
+}

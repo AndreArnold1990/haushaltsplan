@@ -1,0 +1,44 @@
+{
+  "id": "kartoffelsuppe",
+  "title": { "de": "Kartoffelsuppe mit Würstchen", "es": "Sopa de patata con salchichas" },
+  "emoji": "🥣",
+  "servings": 4,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "suppe", "es": "sopa" },
+    { "de": "deutsch", "es": "alemán" },
+    { "de": "fleisch", "es": "carne" }
+  ],
+  "ingredients": [
+    { "amount": 800,  "unit": "g",                           "name": { "de": "Kartoffeln", "es": "patatas" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Karotten", "es": "zanahorias" } },
+    { "amount": 1,    "unit": { "de": "Stange", "es": "rama" }, "name": { "de": "Lauch", "es": "puerro" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 1200, "unit": "ml",                          "name": { "de": "Gemüsebrühe", "es": "caldo de verduras" } },
+    { "amount": 4,    "unit": "",                            "name": { "de": "Wiener Würstchen", "es": "salchichas tipo viena" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat, Majoran, Petersilie", "es": "sal, pimienta, nuez moscada, mejorana, perejil" } }
+  ],
+  "steps": {
+    "de": [
+      "Gemüse schälen bzw. putzen und würfeln, Lauch in Ringe schneiden.",
+      "Zwiebel in der Butter glasig dünsten, restliches Gemüse kurz mitbraten.",
+      "Brühe angießen und 20 Minuten weich kochen.",
+      "Die Hälfte der Suppe pürieren und zurückgießen — so wird sie sämig.",
+      "Würstchen in Scheiben schneiden und in der Suppe 5 Minuten richtig heiß kochen.",
+      "Mit Salz, Pfeffer, Muskat und Majoran abschmecken, mit Petersilie servieren."
+    ],
+    "es": [
+      "Pelar y limpiar las verduras y trocearlas, cortar el puerro en aros.",
+      "Sofreír la cebolla en la mantequilla, rehogar brevemente el resto de verduras.",
+      "Verter el caldo y cocer 20 minutos hasta que esté todo tierno.",
+      "Triturar la mitad de la sopa y devolverla a la olla — así queda cremosa.",
+      "Cortar las salchichas en rodajas y cocerlas en la sopa 5 minutos hasta que estén bien calientes.",
+      "Sazonar con sal, pimienta, nuez moscada y mejorana, servir con perejil."
+    ]
+  },
+  "notes": {
+    "de": "Würstchen nie lauwarm aus der Packung — in der Suppe richtig durcherhitzen (Listerienschutz).",
+    "es": "Las salchichas nunca templadas directamente del envase — calentarlas bien en la sopa (protección frente a listeria)."
+  }
+}

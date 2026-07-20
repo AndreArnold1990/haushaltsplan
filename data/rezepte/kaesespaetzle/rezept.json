@@ -1,0 +1,39 @@
+{
+  "id": "kaesespaetzle",
+  "title": { "de": "Käsespätzle mit Röstzwiebeln", "es": "Spätzle con queso y cebolla frita" },
+  "emoji": "🧀",
+  "servings": 2,
+  "timeMinutes": 35,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "deutsch", "es": "alemán" }
+  ],
+  "ingredients": [
+    { "amount": 400,  "unit": "g",                           "name": { "de": "frische Spätzle (Kühlregal)", "es": "spätzle frescos (refrigerados)" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "geriebener Bergkäse (pasteurisiert)", "es": "queso de montaña rallado (pasteurizado)" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Zwiebeln", "es": "cebollas" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Schnittlauch", "es": "sal, pimienta, cebollino" } }
+  ],
+  "steps": {
+    "de": [
+      "Zwiebeln in Ringe schneiden und in Öl und der Hälfte der Butter langsam goldbraun rösten.",
+      "Spätzle in der restlichen Butter in einer großen Pfanne anbraten.",
+      "Käse portionsweise unterheben, bis er schmilzt und Fäden zieht.",
+      "Mit Salz und Pfeffer abschmecken.",
+      "Mit Röstzwiebeln und Schnittlauch servieren."
+    ],
+    "es": [
+      "Cortar las cebollas en aros y dorarlas lentamente en el aceite con la mitad de la mantequilla.",
+      "Saltear los spätzle en el resto de la mantequilla en una sartén grande.",
+      "Incorporar el queso por tandas hasta que se funda y haga hilos.",
+      "Sazonar con sal y pimienta.",
+      "Servir con la cebolla frita y el cebollino."
+    ]
+  },
+  "notes": {
+    "de": "Wichtig: Bergkäse aus pasteurisierter Milch wählen — viele klassische Bergkäse sind Rohmilch! Packung prüfen.",
+    "es": "Importante: elegir queso de leche pasteurizada — ¡muchos quesos de montaña clásicos son de leche cruda! Comprobar el envase."
+  }
+}

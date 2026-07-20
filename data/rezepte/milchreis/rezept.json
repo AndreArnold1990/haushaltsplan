@@ -1,0 +1,38 @@
+{
+  "id": "milchreis",
+  "title": { "de": "Milchreis mit Zimt und Apfelkompott", "es": "Arroz con leche, canela y compota de manzana" },
+  "emoji": "🍚",
+  "servings": 2,
+  "timeMinutes": 40,
+  "tags": [
+    { "de": "süß", "es": "dulce" },
+    { "de": "vegetarisch", "es": "vegetariano" }
+  ],
+  "ingredients": [
+    { "amount": 125,  "unit": "g",                           "name": { "de": "Milchreis (Rundkornreis)", "es": "arroz redondo" } },
+    { "amount": 500,  "unit": "ml",                          "name": { "de": "Milch", "es": "leche" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Zucker", "es": "azúcar" } },
+    { "amount": 1,    "unit": { "de": "Prise", "es": "pizca" }, "name": { "de": "Salz", "es": "sal" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Äpfel", "es": "manzanas" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Zimt", "es": "canela" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Zitronensaft", "es": "zumo de limón" } }
+  ],
+  "steps": {
+    "de": [
+      "Milch mit Zucker und Salz aufkochen, Reis einrühren.",
+      "Bei kleinster Hitze 30 Minuten sanft quellen lassen, dabei öfter umrühren.",
+      "Äpfel schälen, würfeln und mit Zitronensaft, 2 EL Wasser und der Hälfte des Zimts 8 Minuten weich dünsten.",
+      "Milchreis in Schalen füllen, Kompott daraufgeben und mit restlichem Zimt bestreuen."
+    ],
+    "es": [
+      "Hervir la leche con el azúcar y la sal, incorporar el arroz.",
+      "Cocer a fuego mínimo 30 minutos removiendo a menudo.",
+      "Pelar y trocear las manzanas y cocerlas 8 minutos con el zumo de limón, 2 cucharadas de agua y la mitad de la canela.",
+      "Servir el arroz con leche en cuencos con la compota por encima y el resto de la canela."
+    ]
+  },
+  "notes": {
+    "de": "Milch ist pasteurisiert, alles durcherhitzt — Wohlfühlessen ohne Bedenken. Schmeckt warm und kalt.",
+    "es": "La leche es pasteurizada y todo va bien cocinado — comida reconfortante sin preocupaciones. Rico caliente y frío."
+  }
+}

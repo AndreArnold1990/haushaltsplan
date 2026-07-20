@@ -1,0 +1,42 @@
+{
+  "id": "ofen-falafel",
+  "title": { "de": "Ofen-Falafel mit Joghurt-Dip", "es": "Falafel al horno con dip de yogur" },
+  "emoji": "🧆",
+  "servings": 2,
+  "timeMinutes": 45,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "Kichererbsen (400 g), gut abgetropft", "es": "garbanzos (400 g), bien escurridos" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "kleine Zwiebel", "es": "cebolla pequeña" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 4,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Mehl oder Kichererbsenmehl", "es": "harina o harina de garbanzo" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": 1,    "unit": { "de": "Handvoll", "es": "puñado" }, "name": { "de": "Petersilie", "es": "perejil" } },
+    { "amount": 150,  "unit": "g",                           "name": { "de": "Joghurt (pasteurisiert)", "es": "yogur (pasteurizado)" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Zitrone, Fladenbrot und Salat dazu", "es": "sal, pimienta, limón, pan de pita y ensalada para acompañar" } }
+  ],
+  "steps": {
+    "de": [
+      "Ofen auf 200 °C vorheizen.",
+      "Kichererbsen mit Zwiebel, Knoblauch, Petersilie, Kreuzkümmel, Salz und Pfeffer grob pürieren.",
+      "Mehl untermischen, bis die Masse formbar ist, und kleine Bällchen formen.",
+      "Auf ein Blech setzen, mit Öl bepinseln und 25–30 Minuten backen, nach der Hälfte wenden.",
+      "Joghurt mit Zitronensaft und Salz verrühren und als Dip dazu servieren."
+    ],
+    "es": [
+      "Precalentar el horno a 200 °C.",
+      "Triturar los garbanzos gruesos con la cebolla, el ajo, el perejil, el comino, sal y pimienta.",
+      "Incorporar la harina hasta que la masa se pueda moldear y formar bolitas.",
+      "Colocarlas en una bandeja, pincelarlas con aceite y hornear 25–30 minutos, girándolas a la mitad.",
+      "Mezclar el yogur con zumo de limón y sal y servir como dip."
+    ]
+  },
+  "notes": {
+    "de": "Aus dem Ofen statt frittiert — leichter und ohne Spritzfett. Viel pflanzliches Eiweiß und Folsäure.",
+    "es": "Al horno en vez de fritos — más ligeros y sin salpicaduras. Mucha proteína vegetal y ácido fólico."
+  }
+}

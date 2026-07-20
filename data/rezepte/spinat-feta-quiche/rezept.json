@@ -1,0 +1,43 @@
+{
+  "id": "spinat-feta-quiche",
+  "title": { "de": "Spinat-Feta-Quiche mit Vollkornteig", "es": "Quiche de espinacas y feta con masa integral" },
+  "emoji": "🥧",
+  "servings": 4,
+  "timeMinutes": 60,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "ofengericht", "es": "al horno" },
+    { "de": "kalziumreich", "es": "rico en calcio" }
+  ],
+  "ingredients": [
+    { "amount": 200, "unit": "g", "name": { "de": "Vollkornmehl", "es": "harina integral" } },
+    { "amount": 100, "unit": "g", "name": { "de": "kalte Butter", "es": "mantequilla fría" } },
+    { "amount": 1, "unit": "", "name": { "de": "Ei, für den Teig", "es": "huevo, para la masa" } },
+    { "amount": 200, "unit": "g", "name": { "de": "Blattspinat, frisch oder tiefgekühlt", "es": "espinacas frescas o congeladas" } },
+    { "amount": 150, "unit": "g", "name": { "de": "Feta, pasteurisiert", "es": "queso feta pasteurizado" } },
+    { "amount": 3, "unit": "", "name": { "de": "Eier, für den Guss", "es": "huevos, para el relleno" } },
+    { "amount": 200, "unit": "ml", "name": { "de": "Sahne", "es": "nata" } },
+    { "amount": 0.25, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Muskatnuss, gerieben", "es": "nuez moscada rallada" } },
+    { "amount": 0.5, "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Salz", "es": "sal" } }
+  ],
+  "steps": {
+    "de": [
+      "Vollkornmehl, Butter und das Ei mit einer Prise Salz zu einem glatten Teig verkneten, 20 Minuten kalt stellen.",
+      "Backofen auf 180°C vorheizen. Teig ausrollen und eine gefettete Quicheform damit auslegen.",
+      "Spinat auftauen bzw. kurz blanchieren und ausdrücken, auf dem Teig verteilen und Feta darüberbröckeln.",
+      "Eier, Sahne, Muskatnuss und Salz verquirlen und über die Füllung gießen.",
+      "Im Ofen backen, bis der Guss vollständig fest und golden ist."
+    ],
+    "es": [
+      "Amasar la harina integral, la mantequilla y el huevo con una pizca de sal hasta obtener una masa lisa, refrigerar 20 minutos.",
+      "Precalentar el horno a 180°C. Estirar la masa y forrar con ella un molde de quiche engrasado.",
+      "Descongelar o escaldar brevemente las espinacas y escurrirlas, distribuirlas sobre la masa y desmenuzar el feta por encima.",
+      "Batir los huevos, la nata, la nuez moscada y la sal, y verter sobre el relleno.",
+      "Hornear hasta que el relleno esté completamente cuajado y dorado."
+    ]
+  },
+  "notes": {
+    "de": "Nur pasteurisierten Feta verwenden; der Eier-Guss muss beim Backen vollständig fest werden, nicht mehr wackeln.",
+    "es": "Usar solo feta pasteurizado; el relleno de huevo debe quedar totalmente cuajado al hornear, sin partes líquidas."
+  }
+}

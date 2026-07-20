@@ -1,0 +1,43 @@
+{
+  "id": "schwarze-bohnen-tacos",
+  "title": { "de": "Tacos mit schwarzen Bohnen", "es": "Tacos de frijoles negros" },
+  "emoji": "🌮",
+  "servings": 2,
+  "timeMinutes": 25,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "vegetarisch", "es": "vegetariano" },
+    { "de": "schnell", "es": "rápido" }
+  ],
+  "ingredients": [
+    { "amount": 6,    "unit": "",                            "name": { "de": "kleine Mais-Tortillas", "es": "tortillas de maíz pequeñas" } },
+    { "amount": 1,    "unit": { "de": "Dose", "es": "lata" }, "name": { "de": "schwarze Bohnen (400 g)", "es": "frijoles negros (400 g)" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Avocado", "es": "aguacate" } },
+    { "amount": 2,    "unit": "",                            "name": { "de": "Tomaten", "es": "tomates" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "kleine rote Zwiebel", "es": "cebolla roja pequeña" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Limette", "es": "lima" } },
+    { "amount": 100,  "unit": "g",                           "name": { "de": "geriebener Käse (pasteurisiert)", "es": "queso rallado (pasteurizado)" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Kreuzkümmel", "es": "comino" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Koriander", "es": "sal, pimienta, cilantro" } }
+  ],
+  "steps": {
+    "de": [
+      "Bohnen abspülen und mit Kreuzkümmel, Salz und einem Schuss Wasser in einem Topf erhitzen, grob zerdrücken.",
+      "Tomaten und Zwiebel gründlich waschen bzw. schälen und fein würfeln, mit Limettensaft und Salz zu einer schnellen Salsa mischen.",
+      "Avocado zerdrücken und mit Salz und etwas Limettensaft würzen.",
+      "Tortillas in der Pfanne erwärmen.",
+      "Mit Bohnenmus, Salsa, Avocado und Käse füllen, mit Koriander bestreuen."
+    ],
+    "es": [
+      "Enjuagar los frijoles y calentarlos en un cazo con el comino, sal y un chorrito de agua, aplastarlos un poco.",
+      "Lavar y picar finamente los tomates y la cebolla, mezclar con zumo de lima y sal para una salsa rápida.",
+      "Aplastar el aguacate y sazonar con sal y un poco de lima.",
+      "Calentar las tortillas en la sartén.",
+      "Rellenar con los frijoles, la salsa, el aguacate y el queso, espolvorear con cilantro."
+    ]
+  },
+  "notes": {
+    "de": "Alles frisch zubereitet statt Fertig-Salsa. Käse pasteurisiert wählen, Gemüse gründlich waschen.",
+    "es": "Todo recién hecho en vez de salsa envasada. Queso pasteurizado y verduras bien lavadas."
+  }
+}

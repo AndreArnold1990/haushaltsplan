@@ -1,0 +1,40 @@
+{
+  "id": "kuerbis-risotto",
+  "title": { "de": "Kürbis-Risotto", "es": "Risotto de calabaza" },
+  "emoji": "🎃",
+  "servings": 2,
+  "timeMinutes": 45,
+  "tags": [
+    { "de": "vegetarisch", "es": "vegetariano" }
+  ],
+  "ingredients": [
+    { "amount": 200,  "unit": "g",                           "name": { "de": "Risottoreis", "es": "arroz para risotto" } },
+    { "amount": 400,  "unit": "g",                           "name": { "de": "Hokkaido-Kürbis", "es": "calabaza Hokkaido" } },
+    { "amount": 1,    "unit": "",                            "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 900,  "unit": "ml",                          "name": { "de": "Gemüsebrühe (heiß)", "es": "caldo de verduras (caliente)" } },
+    { "amount": 50,   "unit": "g",                           "name": { "de": "Parmesan (pasteurisiert)", "es": "parmesano (pasteurizado)" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Butter", "es": "mantequilla" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." },  "name": { "de": "Olivenöl", "es": "aceite de oliva" } },
+    { "amount": null, "unit": "",                            "name": { "de": "Salz, Pfeffer, Muskat", "es": "sal, pimienta, nuez moscada" } }
+  ],
+  "steps": {
+    "de": [
+      "Kürbis waschen, entkernen und klein würfeln, Zwiebel fein hacken.",
+      "Zwiebel im Öl glasig dünsten, Kürbis 5 Minuten mitbraten.",
+      "Reis zugeben und glasig rühren.",
+      "Heiße Brühe kellenweise zugeben und unter Rühren einkochen lassen — insgesamt ca. 20–25 Minuten, bis der Reis cremig und bissfest ist.",
+      "Butter und Parmesan unterrühren, mit Salz, Pfeffer und Muskat abschmecken."
+    ],
+    "es": [
+      "Lavar la calabaza, quitar las semillas y cortarla en dados, picar la cebolla.",
+      "Sofreír la cebolla en el aceite, rehogar la calabaza 5 minutos.",
+      "Añadir el arroz y remover hasta que esté translúcido.",
+      "Ir añadiendo el caldo caliente cazo a cazo sin dejar de remover — unos 20–25 minutos, hasta que el arroz esté cremoso y al dente.",
+      "Incorporar la mantequilla y el parmesano, sazonar con sal, pimienta y nuez moscada."
+    ]
+  },
+  "notes": {
+    "de": "Klassisch löscht man mit Weißwein ab — hier komplett ohne, die Brühe macht das cremig genug.",
+    "es": "El clásico lleva vino blanco — aquí va totalmente sin alcohol, el caldo lo deja igual de cremoso."
+  }
+}
