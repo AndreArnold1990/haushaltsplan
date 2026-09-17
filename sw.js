@@ -1,6 +1,6 @@
 // Service Worker – Haushaltsplan
 // Cache-Version: v24
-const CACHE = 'haushaltsplan-v90';
+const CACHE = 'haushaltsplan-v91';
 
 const PRECACHE = [
   './index.html',
@@ -26,8 +26,13 @@ const PRECACHE = [
 
 self.addEventListener('install', e => {
   self.skipWaiting();
+  // cache: 'reload' umgeht den HTTP-Cache des Browsers – sonst kann der
+  // Precache bei schnell aufeinanderfolgenden Deploys veraltete Dateien
+  // übernehmen (neues HTML + altes JS = kaputte App).
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(PRECACHE).catch(() => {}))
+    caches.open(CACHE).then(c =>
+      c.addAll(PRECACHE.map(u => new Request(u, { cache: 'reload' }))).catch(() => {})
+    )
   );
 });
 
