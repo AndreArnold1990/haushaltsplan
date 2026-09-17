@@ -84,10 +84,13 @@ export function initStocks() {
     ?.addEventListener('click', _toggleInfo);
 }
 
-/** Beim Öffnen des Tabs: rendern + veraltete Ticker aktualisieren. */
+/**
+ * Beim Öffnen des Tabs: nur rendern.
+ * Bewusst KEIN automatischer Datenabruf – Daten werden ausschließlich
+ * auf Nutzeraktion geholt (Ticker hinzufügen oder ↻ pro Zeile).
+ */
 export function onStocksTabOpen() {
   renderStocks();
-  _refreshStale();
 }
 
 /**
@@ -131,7 +134,6 @@ function _saveApiKey() {
   if (details) { details.open = false; details.dataset.touched = '1'; }
 
   toast(t('stocksToastKeySaved'));
-  _refreshStale();
 }
 
 // ── Watchlist ─────────────────────────────────────────────────────────────────
@@ -161,19 +163,6 @@ function _removeTicker(ticker) {
   saveData();
   renderStocks();
   toast(t('stocksToastRemoved'));
-}
-
-/** Holt alle Ticker neu, deren Cache älter als {@link CACHE_TTL_MS} ist. */
-function _refreshStale() {
-  const s = _store();
-  if (!s.apiKey) return;
-  const now = Date.now();
-  for (const ticker of s.watchlist) {
-    const cached = s.cache[ticker];
-    if (!cached || now - (cached.fetchedAt ?? 0) > CACHE_TTL_MS) {
-      _fetchTicker(ticker, false);
-    }
-  }
 }
 
 // ── Datenpipeline (FMP) ───────────────────────────────────────────────────────
