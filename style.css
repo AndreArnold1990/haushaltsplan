@@ -1261,7 +1261,7 @@ nav button        { min-height: 44px; }
 }
 .stocks-total { font-weight: 800; }
 .stocks-score-good { color: #34d399; }
-.stocks-score-mid  { color: #fbbf24; }
+.stocks-score-mid  { color: #e2e8f0; }
 .stocks-score-bad  { color: #f87171; }
 .stocks-loading {
   color: #475569;
