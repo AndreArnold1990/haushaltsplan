@@ -79,6 +79,9 @@ export function initStocks() {
 
   document.getElementById('stocksTickerInput')
     ?.addEventListener('keydown', e => { if (e.key === 'Enter') _addTicker(); });
+
+  document.getElementById('btnStocksInfo')
+    ?.addEventListener('click', _toggleInfo);
 }
 
 /** Beim Öffnen des Tabs: rendern + veraltete Ticker aktualisieren. */
@@ -389,6 +392,54 @@ function _computeScores(values) {
   return scores;
 }
 
+// ── Infobox: Berechnung der KPIs ──────────────────────────────────────────────
+
+/** Blendet die Infobox ein/aus; Inhalt wird beim ersten Öffnen erzeugt. */
+function _toggleInfo() {
+  const box = document.getElementById('stocksInfo');
+  if (!box) return;
+  if (box.classList.contains('is-hidden')) {
+    box.innerHTML = _buildInfoHtml(); // bei jedem Öffnen neu (Sprachwechsel)
+    box.classList.remove('is-hidden');
+  } else {
+    box.classList.add('is-hidden');
+  }
+}
+
+/** Formatiert eine Skalengrenze passend zum KPI-Format. */
+function _fmtBound(v, format) {
+  return format === 'pct' ? `${Math.round(v * 100)} %` : String(v);
+}
+
+/** Erzeugt den Infobox-Inhalt aus KPI_DEFS – bleibt so automatisch synchron. */
+function _buildInfoHtml() {
+  const catTitles = {
+    valuation:     t('stocksColValuation'),
+    profitability: t('stocksColProfitability'),
+    stability:     t('stocksColStability'),
+    growth:        t('stocksColGrowth'),
+  };
+
+  const sections = Object.entries(KPI_DEFS).map(([cat, defs]) => {
+    const rows = defs.map(([key, i18nKey, format, worst, best]) => {
+      const scale = (worst === null)
+        ? t('kpiScaleIdeal')  // Sonderfall Current Ratio
+        : t('kpiScaleRange', _fmtBound(best, format), _fmtBound(worst, format));
+      return `<li>
+        <strong>${t(i18nKey)}</strong> – ${t('kpiInfo_' + key)}<br>
+        <span class="stocks-info-scale">${scale}</span>
+      </li>`;
+    }).join('');
+    return `<div class="stocks-info-cat">${catTitles[cat]} · ${t('stocksInfoWeight', WEIGHTS[cat])}</div>
+      <ul class="stocks-info-list">${rows}</ul>`;
+  }).join('');
+
+  return `
+    <div class="stocks-info-title">${t('stocksInfoTitle')}</div>
+    <p class="stocks-info-intro">${t('stocksInfoIntro')}</p>
+    ${sections}`;
+}
+
 // ── Rendering ─────────────────────────────────────────────────────────────────
 
 /** CSS-Klasse für die Score-Färbung. */
@@ -505,9 +556,14 @@ function _renderDetail() {
     const rows = defs.map(([key, i18nKey, format, worst, best]) => {
       const v     = c.kpis?.[key] ?? null;
       const score = _scoreKpi(key, v, worst, best);
+      // Wertfarbe nach Einzelscore: grün = gut, rot = schlecht, weiß dazwischen
+      const valClass = score === null ? ''
+        : score >= 67 ? 'stocks-score-good'
+        : score < 34  ? 'stocks-score-bad'
+        : 'stocks-val-mid';
       return `<tr>
         <td>${t(i18nKey)}</td>
-        <td class="stocks-kpi-val">${_fmtKpi(v, format)}</td>
+        <td class="stocks-kpi-val ${valClass}">${_fmtKpi(v, format)}</td>
         ${_scoreCell(score)}
       </tr>`;
     }).join('');

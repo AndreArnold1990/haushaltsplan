@@ -584,7 +584,11 @@
         <input type="text" id="stocksTickerInput" maxlength="10"
                data-i18n-ph="stocksAddPlaceholder" placeholder="Ticker, z.B. AAPL">
         <button class="btn btn-primary" id="btnAddStock" data-i18n="stocksAdd">+ Hinzuf&#252;gen</button>
+        <button class="stocks-info-btn" id="btnStocksInfo" title="Info">i</button>
       </div>
+
+      <!-- Infobox: Berechnung der KPIs -->
+      <div class="stocks-info is-hidden" id="stocksInfo"></div>
 
       <!-- Vergleichstabelle -->
       <div class="cats-table-wrap" id="stocksTable"></div>

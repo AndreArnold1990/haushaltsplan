@@ -1294,3 +1294,73 @@ nav button        { min-height: 44px; }
   color: #94a3b8;
 }
 .stocks-error { color: #f87171; font-style: normal; }
+
+/* Wertfarbe "dazwischen" (weiß) */
+.stocks-val-mid { color: #e2e8f0; }
+
+/* Info-Button (blau, rund) */
+.stocks-info-btn {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #3b82f6;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  font-weight: 800;
+  font-style: italic;
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.stocks-info-btn:hover  { background: rgba(59, 130, 246, 0.3); }
+.stocks-info-btn:active { transform: scale(0.95); }
+
+/* Infobox */
+.stocks-info {
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.08);
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.stocks-info-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #60a5fa;
+  margin-bottom: 0.4rem;
+}
+.stocks-info-intro {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0 0 0.6rem;
+  line-height: 1.5;
+}
+.stocks-info-cat {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #60a5fa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0.7rem 0 0.3rem;
+}
+.stocks-info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.stocks-info-list li {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+  line-height: 1.45;
+}
+.stocks-info-list li:last-child { border-bottom: none; }
+.stocks-info-list strong { color: #e2e8f0; }
+.stocks-info-scale {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+}
