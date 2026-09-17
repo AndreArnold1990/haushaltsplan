@@ -1373,3 +1373,21 @@ nav button        { min-height: 44px; }
 .cats-table td.stocks-score-mid,
 .cats-table td.stocks-val-mid    { color: #e2e8f0; }
 .cats-table td.stocks-score-bad  { color: #f87171; }
+
+/* "Alle aktualisieren"-Button */
+.stocks-refresh-all {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background: none;
+  border: 1px dashed #334155;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.stocks-refresh-all:hover  { color: #94a3b8; border-color: #475569; }
+.stocks-refresh-all:active { transform: scale(0.99); }

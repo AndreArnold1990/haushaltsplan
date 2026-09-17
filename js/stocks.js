@@ -82,6 +82,9 @@ export function initStocks() {
 
   document.getElementById('btnStocksInfo')
     ?.addEventListener('click', _toggleInfo);
+
+  document.getElementById('btnRefreshAllStocks')
+    ?.addEventListener('click', _refreshAll);
 }
 
 /**
@@ -153,6 +156,14 @@ function _addTicker() {
 
   _renderTable();
   _fetchTicker(ticker, true);
+}
+
+/** Manuell ausgelöst: holt alle Watchlist-Ticker frisch (4 Calls pro Ticker). */
+function _refreshAll() {
+  const s = _store();
+  if (!s.apiKey)            { toast(t('stocksErrNoKey')); return; }
+  if (!s.watchlist.length)  { toast(t('stocksEmpty'));    return; }
+  s.watchlist.forEach(ticker => _fetchTicker(ticker, true));
 }
 
 function _removeTicker(ticker) {
