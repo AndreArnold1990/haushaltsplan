@@ -23,7 +23,7 @@ import { toast }             from './utils.js';
 
 // ── Konstanten ────────────────────────────────────────────────────────────────
 
-const FMP_BASE = 'https://financialmodelingprep.com/stable';
+const FMP_BASE = 'https://financialmodelingprep.com';
 
 /** Cache-Lebensdauer: 20 h → höchstens 1 Aktualisierung pro Tag und Ticker. */
 const CACHE_TTL_MS = 20 * 60 * 60 * 1000;
@@ -193,19 +193,33 @@ async function _fetchTicker(ticker, force) {
   _loading.add(ticker);
   _renderTable();
 
-  try {
-    const [profile, ratios, metrics, growth] = await Promise.all([
-      _fmp('profile',          { symbol: ticker }),
-      _fmp('ratios-ttm',       { symbol: ticker }),
-      _fmp('key-metrics-ttm',  { symbol: ticker }),
-      _fmp('financial-growth', { symbol: ticker, period: 'annual', limit: 5 }),
-    ]);
+  // Jeder Endpoint einzeln (allSettled): Teilausfälle (z.B. Endpoint nicht im
+  // Free-Tier) kosten nur die betroffene Kategorie, nicht die ganze Aktie.
+  const results = await Promise.allSettled([
+    _fmp(`stable/profile?symbol=${ticker}`,
+         `api/v3/profile/${ticker}`),
+    _fmp(`stable/ratios-ttm?symbol=${ticker}`,
+         `api/v3/ratios-ttm/${ticker}`),
+    _fmp(`stable/key-metrics-ttm?symbol=${ticker}`,
+         `api/v3/key-metrics-ttm/${ticker}`),
+    _fmp(`stable/financial-growth?symbol=${ticker}&period=annual&limit=5`,
+         `api/v3/financial-growth/${ticker}?period=annual&limit=5`),
+  ]);
 
-    const kpis  = _normalize(profile?.[0], ratios?.[0], metrics?.[0], growth);
-    if (!kpis.name && kpis.pe === null && kpis.roe === null) {
-      throw new Error('Keine Daten für Ticker erhalten');
-    }
+  const [profile, ratios, metrics, growth] =
+    results.map(r => (r.status === 'fulfilled' ? r.value : null));
+  const failures = results.filter(r => r.status === 'rejected').map(r => r.reason);
+  failures.forEach(err => console.error(`[Stocks] ${ticker}:`, err));
 
+  const kpis = _normalize(profile?.[0], ratios?.[0], metrics?.[0], growth);
+  const hasAnyValue = Object.values(kpis.values).some(v => v !== null);
+
+  if (!hasAnyValue) {
+    // Kompletter Fehlschlag → Fehler in der Zeile anzeigen (kein TTL-Cache)
+    s.cache[ticker] = { error: _errorLabel(failures[0]) };
+    saveData();
+    toast(t('stocksErrLoad', ticker));
+  } else {
     s.cache[ticker] = {
       fetchedAt: Date.now(),
       name:      kpis.name,
@@ -216,24 +230,58 @@ async function _fetchTicker(ticker, force) {
       scores:    _computeScores(kpis.values),
     };
     saveData();
+  }
+
+  _loading.delete(ticker);
+  renderStocks();
+}
+
+/**
+ * Ein FMP-Call mit Fallback: erst der neue /stable/-Endpoint, bei einem
+ * Fehler der Legacy-Endpoint /api/v3/ (ältere Keys/Pläne decken teils nur
+ * die eine oder die andere API ab).
+ */
+async function _fmp(stablePath, v3Path) {
+  try {
+    return await _fmpGet(stablePath);
   } catch (err) {
-    console.error(`[Stocks] Fehler bei ${ticker}:`, err);
-    toast(t('stocksErrLoad', ticker));
-  } finally {
-    _loading.delete(ticker);
-    renderStocks();
+    try {
+      return await _fmpGet(v3Path);
+    } catch (err2) {
+      // Aussagekräftigeren Fehler weiterreichen (Status vor Netzwerkfehler)
+      throw (err2.status ?? 0) >= (err.status ?? 0) ? err2 : err;
+    }
   }
 }
 
-/** Ein FMP-Call. Wirft bei HTTP-Fehlern. */
-async function _fmp(path, params) {
-  const url = new URL(`${FMP_BASE}/${path}`);
-  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  url.searchParams.set('apikey', _store().apiKey);
+/** GET gegen FMP; wirft mit err.status bei HTTP- oder API-Fehlern. */
+async function _fmpGet(path) {
+  const sep = path.includes('?') ? '&' : '?';
+  const res = await fetch(`${FMP_BASE}/${path}${sep}apikey=${encodeURIComponent(_store().apiKey)}`);
+  if (!res.ok) {
+    const err = new Error(`FMP /${path.split('?')[0]}: HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
+  const json = await res.json();
+  // FMP liefert Fehler teils als 200 mit {"Error Message": "..."}
+  if (json && !Array.isArray(json) && json['Error Message']) {
+    const err = new Error(json['Error Message']);
+    err.status = 401;
+    throw err;
+  }
+  return json;
+}
 
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`FMP /${path}: HTTP ${res.status}`);
-  return res.json();
+/** Menschlich lesbare Fehlerbeschreibung für die Tabellenzeile. */
+function _errorLabel(err) {
+  const status = err?.status ?? 0;
+  if (status === 401 || status === 403) return t('stocksErrAuth');
+  if (status === 402)                   return t('stocksErrPlan');
+  if (status === 429)                   return t('stocksErrLimit');
+  if (status === 404)                   return t('stocksErrNotFound');
+  if (status > 0)                       return `HTTP ${status}`;
+  return t('stocksErrNet');
 }
 
 /**
@@ -374,9 +422,9 @@ function _renderTable() {
         <td colspan="5" class="stocks-loading">${t('stocksLoading')}</td>
         <td></td></tr>`;
     }
-    if (!c) {
+    if (!c || c.error) {
       return `<tr><td class="stocks-ticker">${ticker}</td>
-        <td colspan="5" class="stocks-loading">–</td>
+        <td colspan="5" class="stocks-loading stocks-error">${c?.error ?? '–'}</td>
         <td class="stocks-actions">
           <button class="cats-del-btn" data-stock-refresh="${ticker}" title="${t('stocksRefreshTooltip')}">&#8635;</button>
           <button class="cats-del-btn" data-stock-del="${ticker}" title="${t('stocksDelTooltip')}">&#128465;</button>
