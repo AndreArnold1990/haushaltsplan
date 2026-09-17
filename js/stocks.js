@@ -331,8 +331,9 @@ function _normalize(profile, ratios, metrics, growth) {
                  ?? _pick(ratios,  'enterpriseValueMultipleTTM'),
       fcfYield:     _pick(metrics, 'freeCashFlowYieldTTM'),
       peg,
-      // Rentabilität
-      roe:          _pick(ratios,  'returnOnEquityTTM'),
+      // Rentabilität (ROE liegt je nach FMP-API in ratios ODER key-metrics)
+      roe:          _pick(ratios,  'returnOnEquityTTM')
+                 ?? _pick(metrics, 'returnOnEquityTTM', 'roeTTM'),
       roic:         _pick(metrics, 'returnOnInvestedCapitalTTM', 'roicTTM'),
       opMargin:     _pick(ratios,  'operatingProfitMarginTTM'),
       netMargin:    _pick(ratios,  'netProfitMarginTTM'),
