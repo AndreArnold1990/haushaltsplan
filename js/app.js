@@ -36,6 +36,7 @@ import { toast, translateText }                         from './utils.js';
 import * as Drive                                       from './drive.js';
 import * as Firebase                                    from './firebase.js';
 import { initTools, openSecretMenu, renderCatFeeding }  from './tools.js';
+import { renderStocks }                                 from './stocks.js';
 
 // ── Initialisierung ───────────────────────────────────────────────────────────
 
@@ -388,6 +389,7 @@ function _onDataLoaded(data) {
   _showSignInHint(false);
   _renderAll();
   renderCatFeeding(); // Durchschnitt im Geheimmenü aktuell halten
+  renderStocks();     // Aktien-Watchlist im Geheimmenü aktuell halten
 }
 
 /**

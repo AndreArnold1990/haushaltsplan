@@ -565,6 +565,33 @@
 
     <!-- Tool: Aktien -->
     <div class="secret-panel" id="secret-stocks">
+
+      <!-- FMP API-Key -->
+      <details class="stocks-key-details" id="stocksKeyDetails">
+        <summary data-i18n="stocksApiKeySummary">&#128273; FMP API-Key</summary>
+        <div class="stocks-key-row">
+          <input type="password" id="stocksApiKey" autocomplete="off"
+                 data-i18n-ph="stocksApiKeyPlaceholder" placeholder="API-Key eingeben">
+          <button class="btn btn-primary" id="btnSaveStocksKey" data-i18n="btnSave">&#10003; Speichern</button>
+        </div>
+        <p class="stocks-key-hint" data-i18n="stocksApiKeyHint">
+          Kostenlosen Key auf financialmodelingprep.com erstellen (Free-Tier: 250 Calls/Tag).
+        </p>
+      </details>
+
+      <!-- Ticker hinzufügen -->
+      <div class="stocks-add-row">
+        <input type="text" id="stocksTickerInput" maxlength="10"
+               data-i18n-ph="stocksAddPlaceholder" placeholder="Ticker, z.B. AAPL">
+        <button class="btn btn-primary" id="btnAddStock" data-i18n="stocksAdd">+ Hinzuf&#252;gen</button>
+      </div>
+
+      <!-- Vergleichstabelle -->
+      <div class="cats-table-wrap" id="stocksTable"></div>
+
+      <!-- Detail-Ansicht -->
+      <div id="stocksDetail"></div>
+
     </div>
 
   </div>

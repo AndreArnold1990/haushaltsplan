@@ -8,6 +8,7 @@ import { t, getUiLocale }  from './i18n.js';
 import { appData, saveData } from './store.js';
 import { toast }             from './utils.js';
 import { onRecipesTabOpen }  from './recipes.js';
+import { initStocks, onStocksTabOpen } from './stocks.js';
 
 // ── Kurs-Cache ────────────────────────────────────────────────────────────────
 
@@ -26,6 +27,7 @@ export function openSecretMenu() {
   if (activeKey === 'currency' && !_mxnPerEur) _loadRate();
   if (activeKey === 'cats')    renderCatFeeding();
   if (activeKey === 'recipes') onRecipesTabOpen();
+  if (activeKey === 'stocks')  onStocksTabOpen();
 }
 
 /** Schließt das Geheimmenü. */
@@ -59,11 +61,13 @@ export function initTools() {
       if (target === 'cats')                    renderCatFeeding();
       if (target === 'currency' && !_mxnPerEur) _loadRate();
       if (target === 'recipes')                 onRecipesTabOpen();
+      if (target === 'stocks')                  onStocksTabOpen();
     });
   });
 
-  // Katzen füttern initialisieren
+  // Katzen füttern + Aktien initialisieren
   _initCatFeeding();
+  initStocks();
 
   // Kurs aktualisieren
   document.getElementById('btnRefreshRate')

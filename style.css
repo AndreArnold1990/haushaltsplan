@@ -1193,3 +1193,103 @@ nav button        { min-height: 44px; }
   text-align: center;
   padding: 1.5rem 0.75rem;
 }
+
+/* ── Aktien ──────────────────────────────────────────────── */
+
+/* Panel scrollbar – Tabelle + Detail können lang werden */
+#secret-stocks {
+  overflow-y: auto;
+  max-height: min(72vh, 580px);
+}
+
+/* API-Key-Bereich */
+.stocks-key-details {
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  background: #0f172a;
+}
+.stocks-key-details summary {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.78rem;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.stocks-key-details summary:hover { color: #94a3b8; }
+.stocks-key-details summary::marker,
+.stocks-key-details summary::-webkit-details-marker { display: none; }
+.stocks-key-details[open] summary { border-bottom: 1px solid #1e293b; }
+.stocks-key-row {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0.25rem;
+}
+.stocks-key-row input { flex: 1; min-width: 0; }
+.stocks-key-hint {
+  padding: 0 0.75rem 0.75rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.72rem;
+  color: #475569;
+}
+
+/* Ticker hinzufügen */
+.stocks-add-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.stocks-add-row input {
+  flex: 1;
+  min-width: 0;
+  text-transform: uppercase;
+}
+
+/* Vergleichstabelle */
+.stocks-table .stocks-ticker {
+  font-weight: 700;
+  color: #e2e8f0;
+}
+.stocks-row { cursor: pointer; }
+.stocks-row:hover td { background: #1e293b; }
+.stocks-row.is-selected td { background: #1e293b; }
+.stocks-score {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.stocks-total { font-weight: 800; }
+.stocks-score-good { color: #34d399; }
+.stocks-score-mid  { color: #fbbf24; }
+.stocks-score-bad  { color: #f87171; }
+.stocks-loading {
+  color: #475569;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+.stocks-actions { white-space: nowrap; text-align: right; }
+
+/* Detail-Ansicht */
+.stocks-detail-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 1rem 0 0.25rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  background: #0f172a;
+}
+.stocks-detail-head strong { color: #e2e8f0; font-size: 0.9rem; }
+.stocks-detail-meta { font-size: 0.72rem; color: #475569; }
+.stocks-cat-score {
+  float: right;
+  font-variant-numeric: tabular-nums;
+}
+.stocks-kpi-table td { font-size: 0.8rem; }
+.stocks-kpi-val {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #94a3b8;
+}
