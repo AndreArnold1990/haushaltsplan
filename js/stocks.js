@@ -264,15 +264,22 @@ async function _fetchTicker(ticker, force) {
 
   const [profile, ratios, metrics, growth] =
     results.map(r => (r.status === 'fulfilled' ? r.value : null));
-  const failures = results.filter(r => r.status === 'rejected').map(r => r.reason);
-  failures.forEach(err => console.error(`[Stocks] ${ticker}:`, err));
+
+  // Diagnose pro Endpoint statt nur des ersten Fehlers: zeigt, ob z.B. nur
+  // financial-growth oder wirklich alle vier Calls für dieses Symbol scheitern.
+  const endpointLabels = ['profile', 'ratios', 'metrics', 'growth'];
+  const perEndpoint = results
+    .map((r, i) => (r.status === 'rejected' ? `${endpointLabels[i]}: ${_errorLabel(r.reason)}` : null))
+    .filter(Boolean);
+  results.filter(r => r.status === 'rejected')
+    .forEach(r => console.error(`[Stocks] ${ticker}:`, r.reason));
 
   const kpis = _normalize(profile?.[0], ratios?.[0], metrics?.[0], growth);
   const hasAnyValue = Object.values(kpis.values).some(v => v !== null);
 
   if (!hasAnyValue) {
     // Kompletter Fehlschlag → Fehler in der Zeile anzeigen (kein TTL-Cache)
-    s.cache[ticker] = { error: _errorLabel(failures[0]) };
+    s.cache[ticker] = { error: perEndpoint.join(' · ') || t('stocksErrNet') };
     saveData();
     toast(t('stocksErrLoad', ticker));
   } else {
