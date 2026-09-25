@@ -25,6 +25,15 @@ import { toast }             from './utils.js';
 
 const FMP_BASE = 'https://financialmodelingprep.com';
 
+/**
+ * Yahoo Finance (inoffiziell) – Fallback wenn FMP für ein Symbol komplett
+ * leer bleibt (z.B. Free-Tier-Beschränkung auf einzelne Symbole).
+ * ACHTUNG: undokumentiert, kein offizieller Support, kann jederzeit ohne
+ * Ankündigung brechen oder CORS blockieren – bewusst nur als Ergänzung,
+ * nicht als Ersatz für FMP. Erster Validierungs-Baustein, siehe Chat.
+ */
+const YAHOO_BASE = 'https://query1.finance.yahoo.com';
+
 /** Cache-Lebensdauer: 20 h → höchstens 1 Aktualisierung pro Tag und Ticker. */
 const CACHE_TTL_MS = 20 * 60 * 60 * 1000;
 
@@ -274,12 +283,27 @@ async function _fetchTicker(ticker, force) {
   results.filter(r => r.status === 'rejected')
     .forEach(r => console.error(`[Stocks] ${ticker}:`, r.reason));
 
-  const kpis = _normalize(profile?.[0], ratios?.[0], metrics?.[0], growth);
-  const hasAnyValue = Object.values(kpis.values).some(v => v !== null);
+  let kpis        = _normalize(profile?.[0], ratios?.[0], metrics?.[0], growth);
+  let hasAnyValue = Object.values(kpis.values).some(v => v !== null);
+  let source      = 'fmp';
+  let yahooNote   = '';
+
+  if (!hasAnyValue) {
+    // FMP komplett leer → Yahoo Finance probieren (inoffiziell, siehe YAHOO_BASE)
+    const y = await _fetchYahoo(ticker);
+    if (y.hasAnyValue) {
+      kpis = y.kpis;
+      hasAnyValue = true;
+      source = 'yahoo';
+    } else {
+      yahooNote = y.detail;
+    }
+  }
 
   if (!hasAnyValue) {
     // Kompletter Fehlschlag → Fehler in der Zeile anzeigen (kein TTL-Cache)
-    s.cache[ticker] = { error: perEndpoint.join(' · ') || t('stocksErrNet') };
+    const detail = perEndpoint.join(' · ') || t('stocksErrNet');
+    s.cache[ticker] = { error: `${detail} · Yahoo: ${yahooNote}` };
     saveData();
     toast(t('stocksErrLoad', ticker));
   } else {
@@ -289,6 +313,7 @@ async function _fetchTicker(ticker, force) {
       sector:    kpis.sector,
       price:     kpis.price,
       currency:  kpis.currency,
+      source,
       kpis:      kpis.values,
       scores:    _computeScores(kpis.values),
     };
@@ -421,6 +446,88 @@ function _normalize(profile, ratios, metrics, growth) {
       fcfGrowth:    _avgGrowth(growth, 'freeCashFlowGrowth'),
     },
   };
+}
+
+// ── Datenpipeline (Yahoo Finance, Fallback) ─────────────────────────────────────
+
+/**
+ * Holt Kennzahlen von Yahoos inoffizieller quoteSummary-API (ein einziger
+ * Call statt vier, da Yahoo alles über "modules" bündelt).
+ *
+ * Bewusste Lücken gegenüber FMP – Yahoo liefert in diesen Modulen kein ROIC,
+ * keine Zinsdeckung, keinen FCF-Yield und kein mehrjähriges Wachstum (nur
+ * den letzten Punktwert statt Ø 5 Jahre) → diese KPIs bleiben bei einer
+ * Yahoo-Aktie leer, der Score rechnet dann nur mit den verfügbaren Werten.
+ *
+ * Feldnamen/Skalierung (insbesondere debtToEquity) sind aus Erfahrungswerten
+ * übernommen und NICHT live gegen die echte API verifiziert (aus der
+ * Entwicklungsumgebung heraus nicht erreichbar) – genau deshalb zunächst
+ * als Fallback statt als Ersatz für FMP.
+ *
+ * @returns {Promise<{hasAnyValue: boolean, kpis: object|null, detail: string}>}
+ */
+async function _fetchYahoo(ticker) {
+  try {
+    const modules = 'defaultKeyStatistics,financialData,summaryDetail,price,assetProfile';
+    const res = await fetch(
+      `${YAHOO_BASE}/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}`
+    );
+    if (!res.ok) return { hasAnyValue: false, kpis: null, detail: `HTTP ${res.status}` };
+
+    const json  = await res.json();
+    const error = json?.quoteSummary?.error;
+    if (error) return { hasAnyValue: false, kpis: null, detail: error.description ?? error.code ?? 'Fehler' };
+
+    const result = json?.quoteSummary?.result?.[0];
+    if (!result) return { hasAnyValue: false, kpis: null, detail: 'kein Treffer' };
+
+    // Yahoo verpackt Zahlen als { raw, fmt } statt als reine Zahl
+    const raw = (obj, key) => {
+      const v = obj?.[key]?.raw;
+      return typeof v === 'number' && isFinite(v) ? v : null;
+    };
+
+    const stats = result.defaultKeyStatistics ?? {};
+    const fin   = result.financialData ?? {};
+    const summ  = result.summaryDetail ?? {};
+    const price = result.price ?? {};
+    const debtEquityRaw = raw(fin, 'debtToEquity');
+
+    const values = {
+      pe:           raw(stats, 'trailingPE') ?? raw(summ, 'trailingPE'),
+      pb:           raw(stats, 'priceToBook'),
+      evEbitda:     raw(stats, 'enterpriseToEbitda'),
+      fcfYield:     null,
+      peg:          raw(stats, 'pegRatio'),
+      roe:          raw(fin, 'returnOnEquity'),
+      roic:         null,
+      opMargin:     raw(fin, 'operatingMargins'),
+      netMargin:    raw(fin, 'profitMargins') ?? raw(stats, 'profitMargins'),
+      // Yahoo liefert debtToEquity üblicherweise als Prozentzahl (z.B. 150 = 1,5) → /100
+      debtEquity:   debtEquityRaw !== null ? debtEquityRaw / 100 : null,
+      interestCov:  null,
+      currentRatio: raw(fin, 'currentRatio'),
+      revGrowth:    raw(fin, 'revenueGrowth'),
+      epsGrowth:    raw(fin, 'earningsGrowth'), // Punktwert, kein Ø 5 Jahre wie bei FMP
+      fcfGrowth:    null,
+    };
+
+    const hasAnyValue = Object.values(values).some(v => v !== null);
+    return {
+      hasAnyValue,
+      kpis: {
+        name:     price.longName ?? price.shortName ?? null,
+        sector:   result.assetProfile?.sector ?? null,
+        price:    raw(price, 'regularMarketPrice'),
+        currency: price.currency ?? 'USD',
+        values,
+      },
+      detail: hasAnyValue ? '' : 'keine Kennzahlen in der Antwort',
+    };
+  } catch (e) {
+    // Häufigste Ursache: CORS-Block (wie bei OpenFIGI) oder Netzwerkfehler
+    return { hasAnyValue: false, kpis: null, detail: `Netzwerkfehler (${e.message})` };
+  }
 }
 
 // ── Scoring-Layer ─────────────────────────────────────────────────────────────
@@ -557,8 +664,10 @@ function _renderTable() {
         </td></tr>`;
     }
     const sc = c.scores ?? {};
+    const yahooBadge = c.source === 'yahoo'
+      ? `<span class="stocks-source-badge" title="${t('stocksSourceYahoo')}">Y</span>` : '';
     return `<tr class="stocks-row ${_detailTicker === ticker ? 'is-selected' : ''}" data-stock-detail="${ticker}">
-      <td class="stocks-ticker" title="${c.name ?? ''}">${ticker}</td>
+      <td class="stocks-ticker" title="${c.name ?? ''}">${ticker}${yahooBadge}</td>
       <td class="stocks-score stocks-total ${_scoreClass(sc.total)}">${sc.total ?? '–'}</td>
       ${_scoreCell(sc.valuation)}
       ${_scoreCell(sc.profitability)}
@@ -661,6 +770,7 @@ function _renderDetail() {
         ${c.sector ?? ''} · ${c.price != null ? `${c.price.toFixed(2)} ${c.currency}` : ''}
       </span>
       <span class="stocks-detail-meta">${t('stocksUpdatedAt', fetched)}</span>
+      ${c.source === 'yahoo' ? `<span class="stocks-detail-meta stocks-source-note">${t('stocksSourceYahoo')}</span>` : ''}
     </div>
     ${sections}`;
 }
