@@ -390,11 +390,17 @@ function _normalize(profile, quote, m) {
   const peg = _pick(m, 'pegTTM', 'pegAnnual')
     ?? ((pe !== null && pe > 0 && epsGrowth !== null && epsGrowth > 0) ? pe / (epsGrowth * 100) : null);
 
-  // FCF-Yield: direkt von Finnhub (Prozent-Konvention) oder aus FCF/Aktie ÷
-  // Kurs selbst berechnen (ergibt bereits einen Dezimalbruch, keine /100 nötig).
-  const fcfPerShare = _pick(m, 'freeCashFlowPerShareTTM', 'focfPerShareTTM');
+  // FCF-Yield: drei Versuche, da bei Finnhub live weder der direkte
+  // Prozent-Wert noch der FCF-je-Aktie-Wert unter den erwarteten Namen
+  // existierten (leer beim ersten Test). Dritter Versuch: Finnhub liefert
+  // vermutlich eher ein Kurs/FCF-Verhältnis (P/FCF) als eine fertige
+  // Rendite – daraus lässt sich die Rendite als Kehrwert (1 ÷ P/FCF)
+  // berechnen. Weiterhin unverifiziert, nächster Live-Test zeigt es.
+  const fcfPerShare = _pick(m, 'freeCashFlowPerShareTTM', 'focfPerShareTTM', 'currentFreeCashFlowPerShareTTM');
+  const priceToFcf  = _pick(m, 'pfcfShareTTM', 'pfcfShareAnnual', 'currentEv/freeCashFlowTTM');
   const price       = _pick(quote, 'c') ?? _pick(profile, 'price');
-  const fcfYield    = _pickPct(m, 'freeCashFlowYieldTTM')
+  const fcfYield    = _pickPct(m, 'freeCashFlowYieldTTM', 'fcfYieldTTM')
+    ?? ((priceToFcf !== null && priceToFcf > 0) ? 1 / priceToFcf : null)
     ?? ((fcfPerShare !== null && price) ? fcfPerShare / price : null);
 
   return {
