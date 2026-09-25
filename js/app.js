@@ -25,7 +25,7 @@ import { renderCategories, addCategory,
          openEditCatModal, saveEditCat, closeEditCatModal,
          deleteFromEditModal }                          from './categories.js';
 import { openAddTxModal, closeAddTxModal }               from './transactions.js';
-import { setAuthUI, setSyncUI, showTab }                from './ui.js';
+import { setAuthUI, setSyncUI }                         from './ui.js';
 import { applyRecurringRules, addRecurringRule, deleteRecurringRule,
          openEditRecurringModal, closeEditRecurringModal, saveEditRecurringRule,
          renderRecurringRules, populateRecurringCategorySelect,
@@ -35,8 +35,9 @@ import { t, setLanguage, setLangChangeCallback,
 import { toast, translateText }                         from './utils.js';
 import * as Drive                                       from './drive.js';
 import * as Firebase                                    from './firebase.js';
-import { initTools, openSecretMenu, renderCatFeeding }  from './tools.js';
-import { renderStocks }                                 from './stocks.js';
+import { initTools, onCurrencyScreenOpen, renderCatFeeding } from './tools.js';
+import { initStocks, onStocksTabOpen, renderStocks }    from './stocks.js';
+import { onRecipesTabOpen }                             from './recipes.js';
 
 // ── Initialisierung ───────────────────────────────────────────────────────────
 
@@ -63,6 +64,7 @@ import { renderStocks }                                 from './stocks.js';
 
   _initEventListeners();
   initTools();
+  initStocks();
 
   Firebase.init({
     firebaseConfig: config.firebaseConfig,
@@ -111,22 +113,24 @@ function _initEventListeners() {
     setLanguage(currentLang === 'de' ? 'es' : 'de')
   );
 
-  // Geheimmenü: Klick auf Logo-Button
-  document.getElementById('btnSecretMenu').addEventListener('click', () => {
-    const btn = document.getElementById('btnSecretMenu');
-    btn.classList.remove('secret-pulse');
-    void btn.offsetWidth;
-    btn.classList.add('secret-pulse');
-    btn.addEventListener('animationend', () => btn.classList.remove('secret-pulse'), { once: true });
-    openSecretMenu();
+  // ── Seitenmenü (Drawer) ───────────────────────────────────────────────────
+
+  document.getElementById('btnOpenDrawer').addEventListener('click', openDrawer);
+  document.getElementById('btnCloseDrawer').addEventListener('click', closeDrawer);
+  document.getElementById('drawerOverlay').addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDrawer();
   });
 
-  // ── Navigation ────────────────────────────────────────────────────────────
+  // ── Navigation (Dashboard/Transaktionen im Nav + alle Ziele im Drawer) ───
 
-  document.querySelectorAll('nav button[data-tab]').forEach(btn => {
-    btn.addEventListener('click', () =>
-      showTab(btn.dataset.tab, btn, { renderDashboard, renderTransactions, renderCategories, renderRecurringRules })
-    );
+  document.querySelectorAll('[data-screen]').forEach(btn => {
+    btn.addEventListener('click', () => showScreen(btn.dataset.screen));
+  });
+
+  // Zurück-Pfeile auf den Werkzeug- und Einstellungen-Seiten
+  document.querySelectorAll('.js-back-btn').forEach(btn => {
+    btn.addEventListener('click', () => showScreen('dashboard'));
   });
 
   // ── Einstellungen Sub-Tabs ────────────────────────────────────────────────
@@ -318,6 +322,55 @@ function _initEventListeners() {
     if (e.target.closest('.js-sign-in'))  { Firebase.signIn();  return; }
     if (e.target.closest('.js-sign-out')) { Firebase.signOut(); return; }
   });
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+
+/**
+ * Pro Screen: was beim Anzeigen (neu) gerendert bzw. geladen werden muss.
+ * 'dashboard' und 'transactions' bleiben zusätzlich in der Nav-Leiste aktiv
+ * markiert, alle anderen Screens sind ausschließlich über das Seitenmenü
+ * erreichbar.
+ */
+const SCREEN_HOOKS = {
+  dashboard:    renderDashboard,
+  transactions: renderTransactions,
+  settings:     renderCategories,
+  currency:     onCurrencyScreenOpen,
+  cats:         renderCatFeeding,
+  recipes:      onRecipesTabOpen,
+  stocks:       onStocksTabOpen,
+};
+
+/**
+ * Zeigt genau einen Screen (Dashboard, Transaktionen, Einstellungen oder
+ * eines der Werkzeuge) und versteckt alle anderen. Schließt nebenbei das
+ * Seitenmenü, falls es offen war.
+ * @param {keyof typeof SCREEN_HOOKS} name
+ */
+function showScreen(name) {
+  if (!SCREEN_HOOKS[name]) return;
+
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name)?.classList.add('active');
+
+  document.querySelectorAll('nav button[data-screen]').forEach(b =>
+    b.classList.toggle('active', b.dataset.screen === name)
+  );
+
+  closeDrawer();
+  SCREEN_HOOKS[name]();
+  window.scrollTo({ top: 0 });
+}
+
+function openDrawer() {
+  document.getElementById('appDrawer').classList.add('is-open');
+  document.getElementById('drawerOverlay').classList.add('is-open');
+}
+
+function closeDrawer() {
+  document.getElementById('appDrawer').classList.remove('is-open');
+  document.getElementById('drawerOverlay').classList.remove('is-open');
 }
 
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────

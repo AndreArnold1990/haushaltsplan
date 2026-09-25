@@ -44,21 +44,25 @@ header {
 }
 
 header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
-#btnSecretMenu {
+
+.header-left { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+
+.btn-drawer {
   background: rgba(255,255,255,0.15);
   border: 1.5px solid rgba(255,255,255,0.3);
   border-radius: 8px;
   color: white;
-  font-size: 1.2rem;
-  font-weight: 700;
-  white-space: nowrap;
+  font-size: 1.25rem;
+  line-height: 1;
   cursor: pointer;
-  padding: 0.3rem 0.75rem;
+  padding: 0.4rem 0.65rem;
   min-height: 44px;
+  min-width: 44px;
+  flex-shrink: 0;
   transition: background 0.15s, transform 0.1s;
 }
-#btnSecretMenu:hover  { background: rgba(255,255,255,0.28); transform: scale(1.04); }
-#btnSecretMenu:active { transform: scale(0.95); }
+.btn-drawer:hover  { background: rgba(255,255,255,0.28); }
+.btn-drawer:active { transform: scale(0.92); }
 
 .header-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 
@@ -899,49 +903,50 @@ nav button        { min-height: 44px; }
   .sync-indicator { display: none !important; } /* zu wenig Platz im Header */
 }
 
-/* ── Geheimmenü ─────────────────────────────────────────────── */
-.secret-overlay {
+/* ── Seitenmenü (Drawer) ────────────────────────────────────── */
+.drawer-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15,23,42,0.6);
-  backdrop-filter: blur(4px);
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  z-index: 600;
-  padding-top: 4rem;
+  background: rgba(15,23,42,0.5);
+  backdrop-filter: blur(2px);
+  z-index: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
-.secret-overlay.is-open { display: flex; }
+.drawer-overlay.is-open { opacity: 1; pointer-events: auto; }
 
-.secret-box {
+.app-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(300px, 82vw);
   background: #1e293b;
   color: #e2e8f0;
-  border-radius: var(--radius);
-  width: min(460px, 92vw);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-  border: 1px solid #334155;
-  overflow: hidden;
+  border-right: 1px solid #334155;
+  box-shadow: 8px 0 32px rgba(0,0,0,0.4);
+  z-index: 701;
   display: flex;
   flex-direction: column;
-  max-height: calc(100dvh - 6rem);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  overflow-y: auto;
 }
+.app-drawer.is-open { transform: translateX(0); }
 
-.secret-header {
+.drawer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: 1.1rem 1.25rem;
   background: #0f172a;
   border-bottom: 1px solid #334155;
+  flex-shrink: 0;
 }
-.secret-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: #94a3b8;
-  text-transform: uppercase;
-}
-.secret-close {
+.drawer-title { font-size: 1.05rem; font-weight: 700; }
+.drawer-close {
   background: none;
   border: none;
   color: #64748b;
@@ -952,37 +957,92 @@ nav button        { min-height: 44px; }
   border-radius: 4px;
   transition: color 0.15s;
 }
-.secret-close:hover { color: #e2e8f0; }
+.drawer-close:hover { color: #e2e8f0; }
 
-/* Tabs */
-.secret-tabs {
-  display: flex;
-  background: #0f172a;
-  border-bottom: 1px solid #334155;
-  padding: 0 1rem;
-  gap: 0.25rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+.drawer-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1rem 1.25rem 0.4rem;
 }
-.secret-tab { white-space: nowrap; flex-shrink: 0; }
-.secret-tab {
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  color: #64748b;
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 0.6rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-align: left;
+  padding: 0.8rem 1.25rem;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: background 0.15s;
+  min-height: 44px;
 }
-.secret-tab.active        { color: #818cf8; border-bottom-color: #818cf8; }
-.secret-tab:hover:not(.active) { color: #e2e8f0; }
+.drawer-item:hover  { background: rgba(255,255,255,0.06); }
+.drawer-item:active { background: rgba(255,255,255,0.1); }
+.drawer-item-icon { font-size: 1.15rem; flex-shrink: 0; width: 1.4em; text-align: center; }
 
-/* Panel – scrollt bei langem Inhalt (Header + Tabs bleiben stehen) */
-.secret-panel        { display: none; padding: 1.5rem 1.25rem; }
-.secret-panel.active { display: block; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.secret-header, .secret-tabs { flex-shrink: 0; }
+/* ── Werkzeug-Screens (Währung, Katzen füttern, Rezepte, Aktien) ── */
+/* Gleiche dunkle Optik wie zuvor im Geheimmenü, jetzt als feste Seite
+   statt als zentriertes Modal – daher volle Breite statt fester max-width. */
+.tool-screen {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-radius: var(--radius);
+  border: 1px solid #334155;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.tool-screen-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+}
+.tool-screen-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #e2e8f0;
+}
+.tool-screen-body { padding: 1.5rem 1.25rem; }
+
+/* Zurück-Pfeil – dunkle Variante (Werkzeug-Screens) und helle Variante
+   (Einstellungen-Screen) teilen sich Layout/Größe, nur die Farbe unterscheidet sich. */
+.screen-back-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.15s;
+}
+.tool-screen-header .screen-back-btn { color: #94a3b8; }
+.tool-screen-header .screen-back-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.06); }
+
+/* Einstellungen-Screen-Header (hell, passend zum restlichen App-Design) */
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.screen-header .screen-back-btn { color: var(--text-secondary); }
+.screen-header .screen-back-btn:hover { color: var(--primary); background: var(--primary-light); }
+.screen-header-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
 
 /* Kurs-Info-Zeile */
 .currency-rate-info {
@@ -1062,14 +1122,6 @@ nav button        { min-height: 44px; }
   padding: 0.15rem 0;
   line-height: 1;
 }
-
-/* Titel-Pulse bei Doppelklick */
-@keyframes secret-pulse {
-  0%   { opacity: 1; }
-  40%  { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-.secret-pulse { animation: secret-pulse 0.35s ease; }
 
 /* ── Katzen füttern ──────────────────────────────────────── */
 
@@ -1195,44 +1247,9 @@ nav button        { min-height: 44px; }
 }
 
 /* ── Aktien ──────────────────────────────────────────────── */
+/* Kein eigener Scroll-Container mehr nötig – die Aktien-Seite scrollt
+   jetzt wie jede andere Seite natürlich mit dem Hauptinhalt. */
 
-/* Panel scrollbar – Tabelle + Detail können lang werden */
-#secret-stocks {
-  overflow-y: auto;
-  max-height: min(72vh, 580px);
-}
-
-/* API-Key-Bereich */
-.stocks-key-details {
-  border: 1px solid #1e293b;
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
-  background: #0f172a;
-}
-.stocks-key-details summary {
-  padding: 0.6rem 0.75rem;
-  font-size: 0.78rem;
-  color: #475569;
-  cursor: pointer;
-  user-select: none;
-  list-style: none;
-}
-.stocks-key-details summary:hover { color: #94a3b8; }
-.stocks-key-details summary::marker,
-.stocks-key-details summary::-webkit-details-marker { display: none; }
-.stocks-key-details[open] summary { border-bottom: 1px solid #1e293b; }
-.stocks-key-row {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem 0.75rem 0.25rem;
-}
-.stocks-key-row input { flex: 1; min-width: 0; }
-.stocks-key-hint {
-  padding: 0 0.75rem 0.75rem;
-  margin: 0.4rem 0 0;
-  font-size: 0.72rem;
-  color: #475569;
-}
 
 /* Ticker hinzufügen */
 .stocks-add-row {

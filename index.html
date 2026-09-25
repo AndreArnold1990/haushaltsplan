@@ -34,7 +34,10 @@
 </div>
 
 <header>
-  <h1><button id="btnSecretMenu" data-i18n="appTitle">💸 Casaflow</button></h1>
+  <div class="header-left">
+    <button id="btnOpenDrawer" class="btn-drawer" title="Menü" aria-label="Menü">&#9776;</button>
+    <h1 data-i18n="appTitle">💸 Casaflow</h1>
+  </div>
   <div class="header-right">
     <div id="syncStatus" class="sync-indicator"></div>
     <button id="langToggle" class="btn-lang" title="Auf Español wechseln">&#127465;&#127466;</button>
@@ -44,20 +47,16 @@
 
 <nav>
   <div class="nav-group nav-group--left">
-    <button class="active" data-tab="dashboard">
+    <button class="active" data-screen="dashboard">
       <span class="nav-icon">&#128200;</span>
       <span class="nav-label" data-i18n="navDashboard">Dashboard</span>
-    </button>
-    <button data-tab="transactions">
-      <span class="nav-icon">&#128179;</span>
-      <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
     </button>
   </div>
   <button class="nav-add-btn" title="Neue Transaktion">&#43;</button>
   <div class="nav-group nav-group--right">
-    <button data-tab="settings">
-      <span class="nav-icon">&#9881;</span>
-      <span class="nav-label" data-i18n="navSettings">Einstellungen</span>
+    <button data-screen="transactions">
+      <span class="nav-icon">&#128179;</span>
+      <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
     </button>
   </div>
 </nav>
@@ -138,8 +137,12 @@
     </div>
   </div>
 
-  <!-- ══ KATEGORIEN ══ -->
+  <!-- ══ EINSTELLUNGEN ══ -->
   <div class="tab-panel" id="tab-settings">
+    <div class="screen-header">
+      <button class="screen-back-btn js-back-btn" title="Zurück" data-i18n-title="screenBackTitle">&#8592;</button>
+      <span class="screen-header-title" data-i18n="navSettings">Einstellungen</span>
+    </div>
     <div class="settings-subtabs">
       <button class="settings-subtab active" data-settings-tab="categories" data-i18n="subTabCategories">Kategorien</button>
       <button class="settings-subtab" data-settings-tab="recurring" data-i18n="subTabRecurring">Wiederkehrend</button>
@@ -245,6 +248,19 @@
         <button id="btnSaveApiKey" class="btn btn-primary btn-sm" data-i18n="btnSaveApiKey">&#10003; Speichern</button>
       </div>
 
+      <!-- Finnhub API-Key (Aktien-Werkzeug) -->
+      <div class="card mb-15">
+        <div class="section-title" data-i18n="stocksApiKeySummary">&#128273; Finnhub API-Key</div>
+        <p class="system-setting-desc" data-i18n="stocksApiKeyHint">
+          Kostenlosen Key auf finnhub.io erstellen (Free-Tier: 60 Calls/Minute).
+        </p>
+        <div class="form-group mt-10">
+          <input type="password" id="stocksApiKey" autocomplete="off"
+                 data-i18n-ph="stocksApiKeyPlaceholder" placeholder="API-Key eingeben">
+        </div>
+        <button class="btn btn-primary btn-sm" id="btnSaveStocksKey" data-i18n="btnSave">&#10003; Speichern</button>
+      </div>
+
       <div class="card">
         <div class="system-setting-row">
           <div class="system-setting-info">
@@ -275,7 +291,166 @@
     </div>
   </div>
 
+  <!-- ══ WERKZEUG: WÄHRUNG ══ -->
+  <div class="tab-panel" id="tab-currency">
+    <div class="tool-screen">
+      <div class="tool-screen-header">
+        <button class="screen-back-btn js-back-btn" title="Zurück" data-i18n-title="screenBackTitle">&#8592;</button>
+        <span class="tool-screen-title" data-i18n="secretCurrencyTab">&#128178; Währung</span>
+      </div>
+      <div class="tool-screen-body">
+        <div class="currency-rate-info" id="currencyRateInfo">
+          <span id="currencyRateText">Kurs wird geladen…</span>
+          <button class="btn-refresh-rate" id="btnRefreshRate" title="Kurs aktualisieren">&#8635;</button>
+        </div>
+
+        <div class="currency-converter">
+          <div class="currency-field">
+            <label data-i18n="currencyMxnLabel">Mexikanische Pesos (MXN)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-symbol">$</span>
+              <input type="number" id="inputMxn" placeholder="0.00" min="0" step="0.01">
+            </div>
+          </div>
+
+          <div class="currency-arrow">&#8597;</div>
+
+          <div class="currency-field">
+            <label data-i18n="currencyEurLabel">Euro (EUR)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-symbol">€</span>
+              <input type="number" id="inputEur" placeholder="0.00" min="0" step="0.01">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WERKZEUG: KATZEN FÜTTERN ══ -->
+  <div class="tab-panel" id="tab-cats">
+    <div class="tool-screen">
+      <div class="tool-screen-header">
+        <button class="screen-back-btn js-back-btn" title="Zurück" data-i18n-title="screenBackTitle">&#8592;</button>
+        <span class="tool-screen-title" data-i18n="catFeedTab">&#128049; Katzen f&#252;ttern</span>
+      </div>
+      <div class="tool-screen-body">
+        <!-- Datum (analog zu currency-rate-info) -->
+        <div class="currency-rate-info">
+          <span id="catFeedTodayText"></span>
+        </div>
+
+        <!-- Eingabe (analog zu currency-converter) -->
+        <div class="currency-converter">
+          <div class="currency-field">
+            <label>&#127825; Peach</label>
+            <div class="currency-input-wrap">
+              <span class="currency-symbol">g</span>
+              <input type="number" id="catFeedPeach" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+          <div class="currency-arrow">&#128062;</div>
+          <div class="currency-field">
+            <label>&#127992; Juna</label>
+            <div class="currency-input-wrap">
+              <span class="currency-symbol">g</span>
+              <input type="number" id="catFeedJuna" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+        </div>
+
+        <button class="cats-save-btn" id="btnSaveCatFeed" data-i18n="catFeedSave">&#10003; Eintragen</button>
+
+        <!-- Durchschnitt -->
+        <div class="cats-section" data-i18n="catFeedAvgTitle">&#8960; Durchschnitt</div>
+        <div class="cats-avg-row">
+          <div class="cats-avg-card">
+            <div class="cats-avg-name">&#127825; Peach</div>
+            <div class="cats-avg-val" id="avgPeach">&#8211; g</div>
+          </div>
+          <div class="cats-avg-card">
+            <div class="cats-avg-name">&#127992; Juna</div>
+            <div class="cats-avg-val" id="avgJuna">&#8211; g</div>
+          </div>
+        </div>
+
+        <!-- Verlaufstabelle -->
+        <div class="cats-table-wrap" id="catFeedTable"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WERKZEUG: REZEPTE ══ -->
+  <div class="tab-panel" id="tab-recipes">
+    <div class="tool-screen">
+      <div class="tool-screen-header">
+        <button class="screen-back-btn js-back-btn" title="Zurück" data-i18n-title="screenBackTitle">&#8592;</button>
+        <span class="tool-screen-title" data-i18n="recipesTab">&#127859; Rezepte</span>
+      </div>
+      <div class="tool-screen-body">
+        <div id="recipeListView">
+          <div id="recipeDaily"></div>
+          <div id="recipeChips" class="recipe-chips"></div>
+          <div id="recipeGrid" class="recipe-grid"></div>
+        </div>
+        <div id="recipeDetailView" class="is-hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WERKZEUG: AKTIEN ══ -->
+  <div class="tab-panel" id="tab-stocks">
+    <div class="tool-screen">
+      <div class="tool-screen-header">
+        <button class="screen-back-btn js-back-btn" title="Zurück" data-i18n-title="screenBackTitle">&#8592;</button>
+        <span class="tool-screen-title" data-i18n="stocksTab">&#128200; Aktien</span>
+      </div>
+      <div class="tool-screen-body">
+        <!-- Ticker hinzufügen -->
+        <div class="stocks-add-row">
+          <input type="text" id="stocksTickerInput" maxlength="60"
+                 data-i18n-ph="stocksAddPlaceholder" placeholder="Ticker oder ISIN">
+          <button class="btn btn-primary" id="btnAddStock" data-i18n="stocksAdd">+ Hinzuf&#252;gen</button>
+          <button class="stocks-info-btn" id="btnStocksInfo" title="Info">i</button>
+        </div>
+
+        <!-- Infobox: Berechnung der KPIs -->
+        <div class="stocks-info is-hidden" id="stocksInfo"></div>
+
+        <!-- Alle aktualisieren -->
+        <button class="stocks-refresh-all" id="btnRefreshAllStocks" data-i18n="stocksRefreshAll">&#8635; Alle aktualisieren</button>
+
+        <!-- Vergleichstabelle -->
+        <div class="cats-table-wrap" id="stocksTable"></div>
+
+        <!-- Detail-Ansicht -->
+        <div id="stocksDetail"></div>
+      </div>
+    </div>
+  </div>
+
 </main>
+
+<!-- ══ SEITENMENÜ (DRAWER) ══ -->
+<div id="drawerOverlay" class="drawer-overlay"></div>
+<div id="appDrawer" class="app-drawer" role="navigation" aria-label="Menü">
+  <div class="drawer-header">
+    <span class="drawer-title" data-i18n="appTitle">💸 Casaflow</span>
+    <button id="btnCloseDrawer" class="drawer-close" title="Schließen">&times;</button>
+  </div>
+
+  <div class="drawer-section-label" data-i18n="drawerToolsLabel">Werkzeuge</div>
+  <button class="drawer-item" data-screen="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
+  <button class="drawer-item" data-screen="cats" data-i18n="catFeedTab">&#128049; Katzen füttern</button>
+  <button class="drawer-item" data-screen="recipes" data-i18n="recipesTab">&#127859; Rezepte</button>
+  <button class="drawer-item" data-screen="stocks" data-i18n="stocksTab">&#128200; Aktien</button>
+
+  <div class="drawer-section-label" data-i18n="drawerSettingsLabel">Einstellungen</div>
+  <button class="drawer-item" data-screen="settings">
+    <span class="drawer-item-icon">&#9881;</span>
+    <span data-i18n="navSettings">Einstellungen</span>
+  </button>
+</div>
 
 <div id="toast"></div>
 
@@ -460,147 +635,6 @@
       <button class="btn btn-primary"   id="btnSaveEditRecurring" data-i18n="btnSave">&#10003; Speichern</button>
       <button class="btn btn-secondary" id="btnCancelEditRecurring" data-i18n="btnCancel">Abbrechen</button>
     </div>
-  </div>
-</div>
-
-<!-- ══ GEHEIMMENÜ ══ -->
-<div id="secretMenuModal" class="secret-overlay">
-  <div class="secret-box">
-    <div class="secret-header">
-      <span class="secret-title" data-i18n="secretToolsTitle">&#128295; Tools</span>
-      <button class="secret-close" id="btnCloseSecret">&times;</button>
-    </div>
-
-    <!-- Tab-Leiste -->
-    <div class="secret-tabs">
-      <button class="secret-tab active" data-secret-tab="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
-      <button class="secret-tab" data-secret-tab="cats" data-i18n="catFeedTab">&#128049; Katzen f&#252;ttern</button>
-      <button class="secret-tab" data-secret-tab="recipes" data-i18n="recipesTab">&#127859; Rezepte</button>
-      <button class="secret-tab" data-secret-tab="stocks" data-i18n="stocksTab">&#128200; Aktien</button>
-    </div>
-
-    <!-- Tool: Währungsrechner -->
-    <div class="secret-panel active" id="secret-currency">
-      <div class="currency-rate-info" id="currencyRateInfo">
-        <span id="currencyRateText">Kurs wird geladen…</span>
-        <button class="btn-refresh-rate" id="btnRefreshRate" title="Kurs aktualisieren">&#8635;</button>
-      </div>
-
-      <div class="currency-converter">
-        <div class="currency-field">
-          <label data-i18n="currencyMxnLabel">Mexikanische Pesos (MXN)</label>
-          <div class="currency-input-wrap">
-            <span class="currency-symbol">$</span>
-            <input type="number" id="inputMxn" placeholder="0.00" min="0" step="0.01">
-          </div>
-        </div>
-
-        <div class="currency-arrow">&#8597;</div>
-
-        <div class="currency-field">
-          <label data-i18n="currencyEurLabel">Euro (EUR)</label>
-          <div class="currency-input-wrap">
-            <span class="currency-symbol">€</span>
-            <input type="number" id="inputEur" placeholder="0.00" min="0" step="0.01">
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Tool: Katzen füttern -->
-    <div class="secret-panel" id="secret-cats">
-
-      <!-- Datum (analog zu currency-rate-info) -->
-      <div class="currency-rate-info">
-        <span id="catFeedTodayText"></span>
-      </div>
-
-      <!-- Eingabe (analog zu currency-converter) -->
-      <div class="currency-converter">
-        <div class="currency-field">
-          <label>&#127825; Peach</label>
-          <div class="currency-input-wrap">
-            <span class="currency-symbol">g</span>
-            <input type="number" id="catFeedPeach" placeholder="0" min="0" step="1">
-          </div>
-        </div>
-        <div class="currency-arrow">&#128062;</div>
-        <div class="currency-field">
-          <label>&#127992; Juna</label>
-          <div class="currency-input-wrap">
-            <span class="currency-symbol">g</span>
-            <input type="number" id="catFeedJuna" placeholder="0" min="0" step="1">
-          </div>
-        </div>
-      </div>
-
-      <button class="cats-save-btn" id="btnSaveCatFeed" data-i18n="catFeedSave">&#10003; Eintragen</button>
-
-      <!-- Durchschnitt -->
-      <div class="cats-section" data-i18n="catFeedAvgTitle">&#8960; Durchschnitt</div>
-      <div class="cats-avg-row">
-        <div class="cats-avg-card">
-          <div class="cats-avg-name">&#127825; Peach</div>
-          <div class="cats-avg-val" id="avgPeach">&#8211; g</div>
-        </div>
-        <div class="cats-avg-card">
-          <div class="cats-avg-name">&#127992; Juna</div>
-          <div class="cats-avg-val" id="avgJuna">&#8211; g</div>
-        </div>
-      </div>
-
-      <!-- Verlaufstabelle -->
-      <div class="cats-table-wrap" id="catFeedTable"></div>
-
-    </div>
-
-    <!-- Tool: Rezepte -->
-    <div class="secret-panel" id="secret-recipes">
-      <div id="recipeListView">
-        <div id="recipeDaily"></div>
-        <div id="recipeChips" class="recipe-chips"></div>
-        <div id="recipeGrid" class="recipe-grid"></div>
-      </div>
-      <div id="recipeDetailView" class="is-hidden"></div>
-    </div>
-
-    <!-- Tool: Aktien -->
-    <div class="secret-panel" id="secret-stocks">
-
-      <!-- FMP API-Key -->
-      <details class="stocks-key-details" id="stocksKeyDetails">
-        <summary data-i18n="stocksApiKeySummary">&#128273; Finnhub API-Key</summary>
-        <div class="stocks-key-row">
-          <input type="password" id="stocksApiKey" autocomplete="off"
-                 data-i18n-ph="stocksApiKeyPlaceholder" placeholder="API-Key eingeben">
-          <button class="btn btn-primary" id="btnSaveStocksKey" data-i18n="btnSave">&#10003; Speichern</button>
-        </div>
-        <p class="stocks-key-hint" data-i18n="stocksApiKeyHint">
-          Kostenlosen Key auf finnhub.io erstellen (Free-Tier: 60 Calls/Minute).
-        </p>
-      </details>
-
-      <!-- Ticker hinzufügen -->
-      <div class="stocks-add-row">
-        <input type="text" id="stocksTickerInput" maxlength="60"
-               data-i18n-ph="stocksAddPlaceholder" placeholder="Ticker oder ISIN">
-        <button class="btn btn-primary" id="btnAddStock" data-i18n="stocksAdd">+ Hinzuf&#252;gen</button>
-        <button class="stocks-info-btn" id="btnStocksInfo" title="Info">i</button>
-      </div>
-
-      <!-- Infobox: Berechnung der KPIs -->
-      <div class="stocks-info is-hidden" id="stocksInfo"></div>
-
-      <!-- Alle aktualisieren -->
-      <button class="stocks-refresh-all" id="btnRefreshAllStocks" data-i18n="stocksRefreshAll">&#8635; Alle aktualisieren</button>
-
-      <!-- Vergleichstabelle -->
-      <div class="cats-table-wrap" id="stocksTable"></div>
-
-      <!-- Detail-Ansicht -->
-      <div id="stocksDetail"></div>
-
-    </div>
-
   </div>
 </div>
 

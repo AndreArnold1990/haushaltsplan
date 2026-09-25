@@ -76,21 +76,3 @@ export function setSyncUI(status) {
   el.className = `sync-indicator visible ${s.cls}`;
   el.innerHTML = s.html;
 }
-
-/**
- * Wechselt zwischen den drei Tab-Panels.
- *
- * @param {string}      name      - 'dashboard' | 'transactions' | 'categories'
- * @param {HTMLElement} btn       - Angeklickter Nav-Button
- * @param {Object}      renderFns - { renderDashboard, renderTransactions, renderCategories }
- */
-export function showTab(name, btn, renderFns) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  btn.classList.add('active');
-
-  if (name === 'dashboard')    renderFns.renderDashboard();
-  if (name === 'transactions') renderFns.renderTransactions();
-  if (name === 'settings')     renderFns.renderCategories();
-}

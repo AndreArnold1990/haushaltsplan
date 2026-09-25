@@ -1,14 +1,12 @@
 /**
  * @module tools
- * Geheimmenü – versteckte Hilfstools.
- * Öffnen: Doppelklick auf den App-Titel in der Header-Leiste.
+ * Währungsrechner + Katzen-füttern-Tracker.
+ * Beide sind eigene Seiten, erreichbar über das Seitenmenü (Werkzeuge).
  */
 
 import { t, getUiLocale }  from './i18n.js';
 import { appData, saveData } from './store.js';
 import { toast }             from './utils.js';
-import { onRecipesTabOpen }  from './recipes.js';
-import { initStocks, onStocksTabOpen } from './stocks.js';
 
 // ── Kurs-Cache ────────────────────────────────────────────────────────────────
 
@@ -19,57 +17,13 @@ let _rateDate  = null;
 
 // ── Öffentliche API ───────────────────────────────────────────────────────────
 
-/** Öffnet das Geheimmenü und aktiviert das zugehörige Tool. */
-export function openSecretMenu() {
-  document.getElementById('secretMenuModal').classList.add('is-open');
-  const activeTab = document.querySelector('.secret-tab.active');
-  const activeKey = activeTab?.dataset.secretTab ?? 'currency';
-  if (activeKey === 'currency' && !_mxnPerEur) _loadRate();
-  if (activeKey === 'cats')    renderCatFeeding();
-  if (activeKey === 'recipes') onRecipesTabOpen();
-  if (activeKey === 'stocks')  onStocksTabOpen();
-}
-
-/** Schließt das Geheimmenü. */
-export function closeSecretMenu() {
-  document.getElementById('secretMenuModal').classList.remove('is-open');
-}
-
 /**
- * Initialisiert alle Event-Listener des Geheimmenüs.
+ * Registriert die Event-Listener für Währungsrechner und Katzen-Tracker.
  * Wird einmalig beim App-Start aufgerufen.
  */
 export function initTools() {
-  // Schließen
-  document.getElementById('btnCloseSecret')
-    .addEventListener('click', closeSecretMenu);
-
-  // Klick auf Overlay schließt
-  document.getElementById('secretMenuModal')
-    .addEventListener('click', e => {
-      if (e.target === e.currentTarget) closeSecretMenu();
-    });
-
-  // Sub-Tab-Wechsel
-  document.querySelectorAll('.secret-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.secret-tab, .secret-panel')
-        .forEach(el => el.classList.remove('active'));
-      btn.classList.add('active');
-      const target = btn.dataset.secretTab;
-      document.getElementById(`secret-${target}`)?.classList.add('active');
-      if (target === 'cats')                    renderCatFeeding();
-      if (target === 'currency' && !_mxnPerEur) _loadRate();
-      if (target === 'recipes')                 onRecipesTabOpen();
-      if (target === 'stocks')                  onStocksTabOpen();
-    });
-  });
-
-  // Katzen füttern + Aktien initialisieren
   _initCatFeeding();
-  initStocks();
 
-  // Kurs aktualisieren
   document.getElementById('btnRefreshRate')
     .addEventListener('click', _loadRate);
 
@@ -78,6 +32,11 @@ export function initTools() {
     .addEventListener('input', _onMxnInput);
   document.getElementById('inputEur')
     .addEventListener('input', _onEurInput);
+}
+
+/** Beim Öffnen der Währungs-Seite: Kurs laden, falls noch nicht geschehen. */
+export function onCurrencyScreenOpen() {
+  if (!_mxnPerEur) _loadRate();
 }
 
 // ── Intern ────────────────────────────────────────────────────────────────────
