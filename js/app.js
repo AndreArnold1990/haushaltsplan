@@ -342,6 +342,9 @@ const SCREEN_HOOKS = {
   stocks:       onStocksTabOpen,
 };
 
+/** Werkzeug-Screens füllen die ganze Fläche randlos statt als Karte auf hellem Grund. */
+const FULL_BLEED_SCREENS = ['currency', 'cats', 'recipes', 'stocks'];
+
 /**
  * Zeigt genau einen Screen (Dashboard, Transaktionen, Einstellungen oder
  * eines der Werkzeuge) und versteckt alle anderen. Schließt nebenbei das
@@ -357,6 +360,8 @@ function showScreen(name) {
   document.querySelectorAll('nav button[data-screen]').forEach(b =>
     b.classList.toggle('active', b.dataset.screen === name)
   );
+
+  document.querySelector('main').classList.toggle('full-bleed', FULL_BLEED_SCREENS.includes(name));
 
   closeDrawer();
   SCREEN_HOOKS[name]();

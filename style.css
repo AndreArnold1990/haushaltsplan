@@ -175,6 +175,10 @@ nav button:hover:not(.active) { color: var(--primary); background: var(--primary
 
 /* ── Main ───────────────────────────────────────────────────── */
 main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+/* Werkzeug-Screens (Währung, Katzen füttern, Rezepte, Aktien): randlos statt
+   als Karte auf hellem Grund - eine durchgehende Fläche direkt unter der Nav. */
+main.full-bleed { max-width: none; padding: 0; }
 .tab-panel        { display: none; }
 .tab-panel.active { display: block; }
 
@@ -845,6 +849,13 @@ nav button        { min-height: 44px; }
     padding-bottom: calc(60px + env(safe-area-inset-bottom) + 0.75rem);
   }
 
+  /* Werkzeug-Screens: randlos bis an den Header, aber unten weiterhin Platz
+     für die fixierte Nav reservieren (sonst verschwindet der Inhalt darunter). */
+  main.full-bleed {
+    padding: 0 0 calc(60px + env(safe-area-inset-bottom)) 0;
+  }
+  .tool-screen { min-height: calc(100dvh - 53px); }
+
   /* Settings-Subtabs auf Mobile: nur unter Header (nav ist unten),
      horizontal scrollbar statt die Seite aufzudrücken */
   .settings-subtabs {
@@ -994,10 +1005,11 @@ nav button        { min-height: 44px; }
 .tool-screen {
   background: #1e293b;
   color: #e2e8f0;
-  border-radius: var(--radius);
-  border: 1px solid #334155;
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  /* Randlose, durchgehende Fläche statt schwebender Karte: füllt mindestens
+     den Platz zwischen Header (≈53px) und unterer Nav (60px, hier noch im
+     normalen Fluss) aus, wächst bei längerem Inhalt aber normal mit.
+     Mobile-Override (Nav wird fixed) siehe Media-Query weiter unten. */
+  min-height: calc(100dvh - 113px);
 }
 .tool-screen-header {
   display: flex;
