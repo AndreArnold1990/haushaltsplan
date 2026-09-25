@@ -37,11 +37,16 @@
 
 import { t }                 from './i18n.js';
 import { appData, saveData } from './store.js';
-import { toast }             from './utils.js';
+import { toast, escHtml }    from './utils.js';
 
 // ── Konstanten ────────────────────────────────────────────────────────────────
 
 const FINNHUB_BASE = 'https://finnhub.io/api/v1';
+
+/** Erlaubtes Ticker-Format. Gilt für Nutzereingaben UND für von Finnhub
+ *  aufgelöste Symbole (ISIN-Suche) – Finnhubs Antwort ist externe Eingabe
+ *  und wird nie ungeprüft in die Watchlist übernommen. */
+const TICKER_RE = /^[A-Z0-9.\-]{1,12}$/;
 
 /** Cache-Lebensdauer: 20 h → höchstens 1 Aktualisierung pro Tag und Ticker. */
 const CACHE_TTL_MS = 20 * 60 * 60 * 1000;
@@ -173,12 +178,12 @@ async function _addTicker() {
   // zusammen mit der WKN ("ISIN: US8716071076", "US8716071076 | WKN 883703").
   // Passt die Rohtext-Eingabe nicht direkt, aber eine ISIN steckt darin,
   // wird sie extrahiert statt die Eingabe pauschal abzulehnen.
-  if (!/^[A-Z0-9.\-]{1,12}$/.test(raw)) {
+  if (!TICKER_RE.test(raw)) {
     const embedded = raw.match(/\b[A-Z]{2}[A-Z0-9]{9}[0-9]\b/);
     if (embedded) raw = embedded[0];
   }
 
-  if (!raw || !/^[A-Z0-9.\-]{1,12}$/.test(raw)) { toast(t('stocksErrTicker')); return; }
+  if (!raw || !TICKER_RE.test(raw)) { toast(t('stocksErrTicker')); return; }
 
   const s = _store();
   if (!s.apiKey) { toast(t('stocksErrNoKey')); return; }
@@ -226,7 +231,10 @@ const _looksLikeIsin = v => /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(v);
 async function _resolveIsinToTicker(isin) {
   try {
     const r = await _finnhubGet(`search?q=${isin}`);
-    const hit = r?.result?.find(x => x.symbol && !x.symbol.includes('.'));
+    // Finnhubs Antwort ist externe Eingabe, kein interner Wert – nie ungeprüft
+    // übernehmen, selbst wenn ein Treffer vorliegt (schützt vor injizierten
+    // Symbolen bei kompromittierter/manipulierter API-Antwort).
+    const hit = r?.result?.find(x => x.symbol && TICKER_RE.test(x.symbol) && !x.symbol.includes('.'));
     if (hit) return { ticker: hit.symbol, detail: '' };
     return { ticker: null, detail: 'Finnhub: kein Treffer' };
   } catch (e) {
@@ -554,30 +562,34 @@ function _renderTable() {
 
   const rows = s.watchlist.map(ticker => {
     const c = s.cache[ticker];
+    const safeTicker = escHtml(ticker);
     if (_loading.has(ticker)) {
-      return `<tr><td class="stocks-ticker">${ticker}</td>
+      return `<tr><td class="stocks-ticker">${safeTicker}</td>
         <td colspan="5" class="stocks-loading">${t('stocksLoading')}</td>
         <td></td></tr>`;
     }
     if (!c || c.error) {
-      return `<tr><td class="stocks-ticker">${ticker}</td>
-        <td colspan="5" class="stocks-loading stocks-error">${c?.error ?? '–'}</td>
+      // c.error kann Finnhubs eigenen, unveränderten Fehlertext enthalten
+      // (siehe _errorLabel) → wie jeder Fremddaten-Text escapen.
+      return `<tr><td class="stocks-ticker">${safeTicker}</td>
+        <td colspan="5" class="stocks-loading stocks-error">${escHtml(c?.error ?? '–')}</td>
         <td class="stocks-actions">
-          <button class="cats-del-btn" data-stock-refresh="${ticker}" title="${t('stocksRefreshTooltip')}">&#8635;</button>
-          <button class="cats-del-btn" data-stock-del="${ticker}" title="${t('stocksDelTooltip')}">&#128465;</button>
+          <button class="cats-del-btn" data-stock-refresh="${safeTicker}" title="${t('stocksRefreshTooltip')}">&#8635;</button>
+          <button class="cats-del-btn" data-stock-del="${safeTicker}" title="${t('stocksDelTooltip')}">&#128465;</button>
         </td></tr>`;
     }
     const sc = c.scores ?? {};
-    return `<tr class="stocks-row ${_detailTicker === ticker ? 'is-selected' : ''}" data-stock-detail="${ticker}">
-      <td class="stocks-ticker" title="${c.name ?? ''}">${ticker}</td>
+    // c.name kommt von Finnhub (Firmenname) → wie jeder Fremddaten-Text escapen.
+    return `<tr class="stocks-row ${_detailTicker === ticker ? 'is-selected' : ''}" data-stock-detail="${safeTicker}">
+      <td class="stocks-ticker" title="${escHtml(c.name ?? '')}">${safeTicker}</td>
       <td class="stocks-score stocks-total ${_scoreClass(sc.total)}">${sc.total ?? '–'}</td>
       ${_scoreCell(sc.valuation)}
       ${_scoreCell(sc.profitability)}
       ${_scoreCell(sc.stability)}
       ${_scoreCell(sc.growth)}
       <td class="stocks-actions">
-        <button class="cats-del-btn" data-stock-refresh="${ticker}" title="${t('stocksRefreshTooltip')}">&#8635;</button>
-        <button class="cats-del-btn" data-stock-del="${ticker}" title="${t('stocksDelTooltip')}">&#128465;</button>
+        <button class="cats-del-btn" data-stock-refresh="${safeTicker}" title="${t('stocksRefreshTooltip')}">&#8635;</button>
+        <button class="cats-del-btn" data-stock-del="${safeTicker}" title="${t('stocksDelTooltip')}">&#128465;</button>
       </td></tr>`;
   }).join('');
 
@@ -665,11 +677,12 @@ function _renderDetail() {
     ? new Date(c.fetchedAt).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })
     : '–';
 
+  // c.name/c.sector kommen von Finnhub → wie jeder Fremddaten-Text escapen.
   container.innerHTML = `
     <div class="stocks-detail-head">
-      <strong>${c.name ?? _detailTicker}</strong>
+      <strong>${escHtml(c.name ?? _detailTicker)}</strong>
       <span class="stocks-detail-meta">
-        ${c.sector ?? ''} · ${c.price != null ? `${c.price.toFixed(2)} ${c.currency}` : ''}
+        ${escHtml(c.sector ?? '')} · ${c.price != null ? `${c.price.toFixed(2)} ${escHtml(c.currency ?? '')}` : ''}
       </span>
       <span class="stocks-detail-meta">${t('stocksUpdatedAt', fetched)}</span>
     </div>
