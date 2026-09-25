@@ -141,14 +141,24 @@ function _saveApiKey() {
 
 // ── Watchlist ─────────────────────────────────────────────────────────────────
 
-function _addTicker() {
-  const input  = document.getElementById('stocksTickerInput');
-  const ticker = input.value.trim().toUpperCase();
-  if (!ticker || !/^[A-Z0-9.\-]{1,10}$/.test(ticker)) { toast(t('stocksErrTicker')); return; }
+/** Eingabe akzeptiert Ticker, WKN oder ISIN; WKN/ISIN werden zum Ticker aufgelöst. */
+async function _addTicker() {
+  const input = document.getElementById('stocksTickerInput');
+  const raw   = input.value.trim().toUpperCase();
+  if (!raw || !/^[A-Z0-9.\-]{1,12}$/.test(raw)) { toast(t('stocksErrTicker')); return; }
 
   const s = _store();
+  if (!s.apiKey) { toast(t('stocksErrNoKey')); return; }
+
+  let ticker = raw;
+  if (_looksLikeIsin(raw) || _looksLikeWkn(raw)) {
+    toast(t('stocksResolving', raw));
+    ticker = await _resolveToTicker(raw);
+    if (!ticker) { toast(t('stocksErrResolve', raw)); return; }
+    if (ticker !== raw) toast(`${raw} → ${ticker}`);
+  }
+
   if (s.watchlist.includes(ticker)) { toast(t('stocksToastExists')); return; }
-  if (!s.apiKey)                    { toast(t('stocksErrNoKey'));    return; }
 
   s.watchlist.push(ticker);
   saveData();
@@ -156,6 +166,49 @@ function _addTicker() {
 
   _renderTable();
   _fetchTicker(ticker, true);
+}
+
+/** ISIN: 2 Länderbuchstaben + 9 Zeichen + Prüfziffer (z.B. US0378331005). */
+const _looksLikeIsin = v => /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(v);
+
+/** WKN: genau 6 Zeichen mit mindestens einer Ziffer (z.B. 865985, A1JWVX).
+ *  Reine 6-Buchstaben-Eingaben werden als Ticker behandelt. */
+const _looksLikeWkn = v => /^[A-Z0-9]{6}$/.test(v) && /\d/.test(v);
+
+/**
+ * Löst WKN/ISIN zum (US-)Ticker auf.
+ * ISIN: zuerst FMP search-isin (gleicher Dienst, zählt aufs Call-Budget),
+ * dann OpenFIGI. WKN: OpenFIGI mit idType ID_WERTPAPIER (kostenlos, ohne Key).
+ * Bevorzugt US-Listings, da der FMP-Free-Tier primär US-Aktien abdeckt.
+ *
+ * @returns {Promise<string|null>} Ticker in FMP-Schreibweise oder null
+ */
+async function _resolveToTicker(id) {
+  if (_looksLikeIsin(id)) {
+    try {
+      const r = await _fmpGet(`stable/search-isin?isin=${id}`);
+      if (r?.[0]?.symbol) return r[0].symbol;
+    } catch { /* weiter mit OpenFIGI */ }
+  }
+
+  const idType = _looksLikeIsin(id) ? 'ID_ISIN' : 'ID_WERTPAPIER';
+  // 1. Versuch: nur US-Börsen; 2. Versuch: weltweit, erstes Listing
+  for (const job of [{ idType, idValue: id, exchCode: 'US' }, { idType, idValue: id }]) {
+    try {
+      const res = await fetch('https://api.openfigi.com/v3/mapping', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify([job]),
+      });
+      if (!res.ok) continue;
+      const data   = await res.json();
+      const ticker = data?.[0]?.data?.find(d => d.ticker)?.ticker;
+      if (ticker) return ticker.replace(/\//g, '-'); // FIGI "BRK/B" → FMP "BRK-B"
+    } catch (e) {
+      console.error('[Stocks] OpenFIGI:', e);
+    }
+  }
+  return null;
 }
 
 /** Manuell ausgelöst: holt alle Watchlist-Ticker frisch (4 Calls pro Ticker). */
