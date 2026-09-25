@@ -364,20 +364,37 @@ function _pick(obj, ...keys) {
   return null;
 }
 
+/**
+ * Wie {@link _pick}, aber für Finnhubs Prozent-Kennzahlen: Finnhub liefert
+ * ROE, Margen und Wachstumsraten als ganze Zahlen (19.5 = 19,5 %), während
+ * KPI_DEFS und die restliche Anzeige (_fmtKpi) mit Dezimalbrüchen rechnen
+ * (0.195 = 19,5 %) – dieselbe Konvention wie zuvor bei FMP. Ohne diese
+ * Division schießt jeder reale Wert weit über die Skalen-Obergrenze hinaus
+ * und landet unabhängig vom Unternehmen bei Score 100 (live beobachtet:
+ * MSFT/TSLA/SNPS zeigten trotz sehr unterschiedlicher Fundamentaldaten
+ * fast identisch hohe Rentabilitäts-/Wachstums-Scores).
+ */
+function _pickPct(obj, ...keys) {
+  const v = _pick(obj, ...keys);
+  return v !== null ? v / 100 : null;
+}
+
 /** Normalisiert Finnhubs 3 Antworten in das eigene KPI-Schema. */
 function _normalize(profile, quote, m) {
   const pe        = _pick(m, 'peTTM', 'peExclExtraTTM', 'peBasicExclExtraTTM', 'peAnnual');
-  const epsGrowth = _pick(m, 'epsGrowth5Y', 'epsGrowthTTMYoy', 'epsGrowthQuarterlyYoy');
+  const epsGrowth = _pickPct(m, 'epsGrowth5Y', 'epsGrowthTTMYoy', 'epsGrowthQuarterlyYoy');
 
   // PEG: von Finnhub übernehmen falls vorhanden, sonst selbst berechnen
   // (KGV / EPS-Wachstumsrate in %, nur bei positivem Wachstum sinnvoll).
+  // PEG selbst ist keine Prozentzahl → _pick, nicht _pickPct.
   const peg = _pick(m, 'pegTTM', 'pegAnnual')
     ?? ((pe !== null && pe > 0 && epsGrowth !== null && epsGrowth > 0) ? pe / (epsGrowth * 100) : null);
 
-  // FCF-Yield: falls nicht direkt vorhanden, aus FCF/Aktie ÷ Kurs berechnen.
+  // FCF-Yield: direkt von Finnhub (Prozent-Konvention) oder aus FCF/Aktie ÷
+  // Kurs selbst berechnen (ergibt bereits einen Dezimalbruch, keine /100 nötig).
   const fcfPerShare = _pick(m, 'freeCashFlowPerShareTTM', 'focfPerShareTTM');
   const price       = _pick(quote, 'c') ?? _pick(profile, 'price');
-  const fcfYield    = _pick(m, 'freeCashFlowYieldTTM')
+  const fcfYield    = _pickPct(m, 'freeCashFlowYieldTTM')
     ?? ((fcfPerShare !== null && price) ? fcfPerShare / price : null);
 
   return {
@@ -386,25 +403,26 @@ function _normalize(profile, quote, m) {
     price,
     currency: profile?.currency ?? 'USD',
     values: {
-      // Bewertung
+      // Bewertung (reine Multiplikatoren, keine Prozentzahlen → _pick)
       pe,
       pb:           _pick(m, 'pbQuarterly', 'pbAnnual', 'ptbvQuarterly'),
       evEbitda:     _pick(m, 'evEbitdaTTM', 'enterpriseValueOverEBITDATTM', 'currentEv/freeCashFlowTTM'),
       fcfYield,
       peg,
-      // Rentabilität
-      roe:          _pick(m, 'roeTTM', 'roeRfy', 'roeAnnual'),
-      roic:         _pick(m, 'roicTTM', 'roiTTM', 'roicAnnual'),
-      opMargin:     _pick(m, 'operatingMarginTTM', 'operatingMarginAnnual'),
-      netMargin:    _pick(m, 'netProfitMarginTTM', 'netMarginTTM', 'netProfitMarginAnnual'),
-      // Stabilität
+      // Rentabilität (Prozentzahlen → _pickPct)
+      roe:          _pickPct(m, 'roeTTM', 'roeRfy', 'roeAnnual'),
+      roic:         _pickPct(m, 'roicTTM', 'roiTTM', 'roicAnnual'),
+      opMargin:     _pickPct(m, 'operatingMarginTTM', 'operatingMarginAnnual'),
+      netMargin:    _pickPct(m, 'netProfitMarginTTM', 'netMarginTTM', 'netProfitMarginAnnual'),
+      // Stabilität (Debt/Equity und Current Ratio sind Verhältniszahlen,
+      // keine Prozentzahlen → _pick)
       debtEquity:   _pick(m, 'totalDebt/totalEquityAnnual', 'totalDebt/totalEquityQuarterly', 'longTermDebt/equityAnnual'),
       interestCov:  _pick(m, 'netInterestCoverageTTM', 'interestCoverageTTM'),
       currentRatio: _pick(m, 'currentRatioAnnual', 'currentRatioQuarterly'),
-      // Wachstum
-      revGrowth:    _pick(m, 'revenueGrowth5Y', 'revenueGrowthTTMYoy', 'revenueGrowthQuarterlyYoy'),
+      // Wachstum (Prozentzahlen → _pickPct)
+      revGrowth:    _pickPct(m, 'revenueGrowth5Y', 'revenueGrowthTTMYoy', 'revenueGrowthQuarterlyYoy'),
       epsGrowth,
-      fcfGrowth:    _pick(m, 'focfCagr5Y', 'freeCashFlowGrowth5Y'),
+      fcfGrowth:    _pickPct(m, 'focfCagr5Y', 'freeCashFlowGrowth5Y'),
     },
   };
 }
