@@ -46,6 +46,8 @@ let _user   = null;
 let _fbUser = null;
 /** @type {ReturnType<typeof setTimeout>|null} Debounce-Timer für Schreibvorgänge */
 let _timer  = null;
+/** @type {object|null} Zuletzt geplante, noch nicht geschriebene Daten (für {@link flushPendingSave}) */
+let _pendingData = null;
 /** @type {Function|null} Firestore onSnapshot Unsubscribe-Funktion */
 let _unsub  = null;
 /** @type {object} Initialisierungsoptionen */
@@ -156,8 +158,29 @@ export async function signOut() {
  * @param {object} data - Aktueller AppData-Zustand
  */
 export function scheduleSave(data) {
+  _pendingData = data;
   clearTimeout(_timer);
-  _timer = setTimeout(() => _saveToFirestore(data), _opts.debounceMs ?? 1500);
+  _timer = setTimeout(() => { _pendingData = null; _saveToFirestore(data); }, _opts.debounceMs ?? 1500);
+}
+
+/**
+ * Schreibt einen noch wartenden, debounced Speichervorgang sofort (ohne die
+ * restliche Wartezeit).
+ *
+ * Ohne diesen Flush ging eine Änderung (z.B. Ticker aus der Aktien-Watchlist
+ * löschen) verloren, wenn der Tab/die App genau innerhalb des Debounce-
+ * Fensters (1,5s) geschlossen oder neu geladen wurde: der setTimeout wurde
+ * mit der Seite verworfen, bevor er feuerte, Firestore bekam die Änderung
+ * nie – beim nächsten Laden war der alte Stand wieder da. Wird von app.js
+ * bei 'visibilitychange' (Tab in den Hintergrund) und 'pagehide' (Tab/App
+ * wird geschlossen) aufgerufen.
+ */
+export function flushPendingSave() {
+  if (_pendingData === null) return;
+  clearTimeout(_timer);
+  const data  = _pendingData;
+  _pendingData = null;
+  _saveToFirestore(data);
 }
 
 /**

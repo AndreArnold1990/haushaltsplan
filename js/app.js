@@ -76,6 +76,14 @@ import { onRecipesTabOpen }                             from './recipes.js';
     onFileNotFound: _onFileNotFound,
   });
 
+  // Wartenden, debounced Speichervorgang sofort schreiben, bevor die Seite
+  // verschwindet – sonst geht eine Änderung verloren, wenn Tab/App genau
+  // innerhalb des Debounce-Fensters (1,5s) geschlossen oder neu geladen wird.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') Firebase.flushPendingSave();
+  });
+  window.addEventListener('pagehide', () => Firebase.flushPendingSave());
+
   if ('serviceWorker' in navigator) {
     let _reloading = false;
 
