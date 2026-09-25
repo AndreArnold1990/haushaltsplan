@@ -153,8 +153,15 @@ async function _addTicker() {
   let ticker = raw;
   if (_looksLikeIsin(raw) || _looksLikeWkn(raw)) {
     toast(t('stocksResolving', raw));
-    ticker = await _resolveToTicker(raw);
-    if (!ticker) { toast(t('stocksErrResolve', raw)); return; }
+    const result = await _resolveToTicker(raw);
+    if (!result.ticker) {
+      // Diagnose statt pauschaler Meldung, z.B. "OpenFIGI: kein Treffer"
+      // oder "OpenFIGI: HTTP 400" statt eines Blackbox-Fehlschlags.
+      console.error('[Stocks] Auflösung fehlgeschlagen:', raw, result.detail);
+      toast(`${t('stocksErrResolve', raw)}${result.detail ? ' – ' + result.detail : ''}`, 6000);
+      return;
+    }
+    ticker = result.ticker;
     if (ticker !== raw) toast(`${raw} → ${ticker}`);
   }
 
@@ -181,17 +188,28 @@ const _looksLikeWkn = v => /^[A-Z0-9]{6}$/.test(v) && /\d/.test(v);
  * dann OpenFIGI. WKN: OpenFIGI mit idType ID_WERTPAPIER (kostenlos, ohne Key).
  * Bevorzugt US-Listings, da der FMP-Free-Tier primär US-Aktien abdeckt.
  *
- * @returns {Promise<string|null>} Ticker in FMP-Schreibweise oder null
+ * Sammelt bei jedem Fehlschlag eine kurze Diagnose (HTTP-Status, "kein
+ * Treffer" vs. Netzwerkfehler/CORS) statt den Grund zu verschlucken –
+ * externe APIs lassen sich aus der Entwicklungsumgebung heraus nicht
+ * live testen, daher muss der Fehler im Feld selbst sichtbar werden.
+ *
+ * @returns {Promise<{ticker: string|null, detail: string}>}
  */
 async function _resolveToTicker(id) {
-  if (_looksLikeIsin(id)) {
+  const isIsin = _looksLikeIsin(id);
+  const notes  = [];
+
+  if (isIsin) {
     try {
       const r = await _fmpGet(`stable/search-isin?isin=${id}`);
-      if (r?.[0]?.symbol) return r[0].symbol;
-    } catch { /* weiter mit OpenFIGI */ }
+      if (r?.[0]?.symbol) return { ticker: r[0].symbol, detail: '' };
+      notes.push('FMP: kein Treffer');
+    } catch (e) {
+      notes.push(`FMP: ${e.status ? `HTTP ${e.status}` : e.message}`);
+    }
   }
 
-  const idType = _looksLikeIsin(id) ? 'ID_ISIN' : 'ID_WERTPAPIER';
+  const idType = isIsin ? 'ID_ISIN' : 'ID_WERTPAPIER';
   // 1. Versuch: nur US-Börsen; 2. Versuch: weltweit, erstes Listing
   for (const job of [{ idType, idValue: id, exchCode: 'US' }, { idType, idValue: id }]) {
     try {
@@ -200,15 +218,17 @@ async function _resolveToTicker(id) {
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify([job]),
       });
-      if (!res.ok) continue;
-      const data   = await res.json();
-      const ticker = data?.[0]?.data?.find(d => d.ticker)?.ticker;
-      if (ticker) return ticker.replace(/\//g, '-'); // FIGI "BRK/B" → FMP "BRK-B"
+      if (!res.ok) { notes.push(`OpenFIGI: HTTP ${res.status}`); continue; }
+      const entry  = (await res.json())?.[0];
+      const ticker = entry?.data?.find(d => d.ticker)?.ticker;
+      if (ticker) return { ticker: ticker.replace(/\//g, '-'), detail: '' }; // FIGI "BRK/B" → FMP "BRK-B"
+      notes.push(`OpenFIGI: ${entry?.warning ?? entry?.error ?? 'kein Treffer'}`);
     } catch (e) {
-      console.error('[Stocks] OpenFIGI:', e);
+      // Häufigste Ursache für "Failed to fetch" hier: CORS-Block durch OpenFIGI
+      notes.push(`OpenFIGI: Netzwerkfehler (${e.message})`);
     }
   }
-  return null;
+  return { ticker: null, detail: notes.join(' · ') };
 }
 
 /** Manuell ausgelöst: holt alle Watchlist-Ticker frisch (4 Calls pro Ticker). */

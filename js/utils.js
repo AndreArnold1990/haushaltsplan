@@ -214,11 +214,13 @@ export function escHtml(s) {
  * Zeigt eine kurze Toast-Benachrichtigung am unteren Bildschirmrand an.
  *
  * @param {string} msg
+ * @param {number} [durationMs=2600]
  */
-export function toast(msg) {
+export function toast(msg, durationMs = 2600) {
   const el = document.getElementById('toast');
   if (!el) return;
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2600);
+  clearTimeout(el._toastTimer);
+  el._toastTimer = setTimeout(() => el.classList.remove('show'), durationMs);
 }
