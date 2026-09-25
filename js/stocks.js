@@ -1,15 +1,33 @@
 /**
  * @module stocks
  * Aktien-Vergleich: Watchlist mit KPI-Scoring nach Value-Investing-Kriterien
- * (Buffett/Graham/Lynch). Rohdaten kommen von Financial Modeling Prep (FMP).
+ * (Buffett/Graham/Lynch). Rohdaten kommen von Finnhub (finnhub.io).
+ *
+ * ## Wechsel von FMP zu Finnhub
+ * FMPs Free-Tier hat die Kennzahlen-Endpunkte für manche Symbole (z.B.
+ * Synopsys/SNPS) komplett mit 401/403 gesperrt, obwohl derselbe Key für
+ * andere Symbole (z.B. AAPL) funktionierte – eine Symbol-Beschränkung des
+ * Plans, kein Bug in dieser App. Ein kurzer Test mit Yahoo Finance als
+ * Fallback scheiterte an CORS (anonyme Browser-Anfragen werden blockiert).
+ * Finnhub bietet ein großzügigeres Free-Tier-Limit (60 Calls/Minute statt
+ * FMPs 250/Tag), ist offiziell für Client-Zugriffe dokumentiert und deckt
+ * laut Dokumentation die breite Masse US-gelisteter Aktien ab.
+ *
+ * ACHTUNG: Finnhubs genaue Feldnamen in /stock/metric sind aus Erfahrungs-
+ * werten übernommen, NICHT live gegen die echte API verifiziert (aus der
+ * Entwicklungsumgebung heraus nicht erreichbar – gleiche Sandbox-Firewall,
+ * die schon FMP/OpenFIGI/Yahoo blockiert hat). Einzelne KPIs können beim
+ * ersten echten Test leer bleiben, falls der tatsächliche Feldname abweicht
+ * – der Score rechnet dann einfach nur mit den verfügbaren Werten weiter.
  *
  * ## Architektur
- * - Datenpipeline: FMP-Rohdaten → {@link _normalize} in ein eigenes Schema
- *   (FMP-Feldnamen sind je nach Endpoint uneinheitlich → Fallback-Ketten).
+ * - Datenpipeline: Finnhub-Rohdaten → {@link _normalize} in ein eigenes
+ *   Schema (Feldnamen-Fallback-Ketten wie zuvor bei FMP).
  * - Scoring-Layer: pro Kategorie ein normalisierter Score 0–100 statt
  *   Rohzahlen ({@link _computeScores}); Gewichtung in {@link WEIGHTS}.
- * - Caching: Fundamentaldaten ändern sich quartalsweise → Daten werden max.
- *   1× täglich geholt (Free-Tier: 250 Calls/Tag, 4 Calls pro Ticker).
+ * - Caching: Fundamentaldaten ändern sich quartalsweise → Daten werden nur
+ *   auf Nutzeraktion geholt (Ticker hinzufügen, ↻ pro Zeile, "Alle
+ *   aktualisieren"), nie automatisch.
  * - Persistenz: alles unter appData.stocks → synct via Firestore wie der
  *   Rest der App (Watchlist ist damit für beide Partner identisch).
  *
@@ -23,16 +41,7 @@ import { toast }             from './utils.js';
 
 // ── Konstanten ────────────────────────────────────────────────────────────────
 
-const FMP_BASE = 'https://financialmodelingprep.com';
-
-/**
- * Yahoo Finance (inoffiziell) – Fallback wenn FMP für ein Symbol komplett
- * leer bleibt (z.B. Free-Tier-Beschränkung auf einzelne Symbole).
- * ACHTUNG: undokumentiert, kein offizieller Support, kann jederzeit ohne
- * Ankündigung brechen oder CORS blockieren – bewusst nur als Ergänzung,
- * nicht als Ersatz für FMP. Erster Validierungs-Baustein, siehe Chat.
- */
-const YAHOO_BASE = 'https://query1.finance.yahoo.com';
+const FINNHUB_BASE = 'https://finnhub.io/api/v1';
 
 /** Cache-Lebensdauer: 20 h → höchstens 1 Aktualisierung pro Tag und Ticker. */
 const CACHE_TTL_MS = 20 * 60 * 60 * 1000;
@@ -151,13 +160,10 @@ function _saveApiKey() {
 // ── Watchlist ─────────────────────────────────────────────────────────────────
 
 /**
- * Eingabe akzeptiert Ticker oder ISIN; ISIN wird zum Ticker aufgelöst.
- *
- * WKN wird bewusst NICHT unterstützt: die einzige kostenlose WKN-Auflösung
- * (OpenFIGI) blockt anonyme Browser-Anfragen per CORS ("Failed to fetch",
- * live verifiziert) - ohne eigenes Backend lässt sich das nicht umgehen.
- * ISIN dagegen läuft direkt über FMP selbst (search-isin), das ist
- * nachweislich CORS-freundlich, da die App FMP ohnehin für alle Daten nutzt.
+ * Eingabe akzeptiert Ticker oder ISIN; ISIN wird über Finnhubs Suche zum
+ * Ticker aufgelöst. WKN wird bewusst NICHT unterstützt: die einzige
+ * kostenlose WKN-Auflösung (OpenFIGI) blockt anonyme Browser-Anfragen per
+ * CORS – ohne eigenes Backend lässt sich das nicht umgehen.
  */
 async function _addTicker() {
   const input = document.getElementById('stocksTickerInput');
@@ -182,8 +188,6 @@ async function _addTicker() {
     toast(t('stocksResolving', raw));
     const result = await _resolveIsinToTicker(raw);
     if (!result.ticker) {
-      // Diagnose statt pauschaler Meldung, z.B. der O-Ton von FMP bei
-      // Tageslimit/Plan-Einschränkung statt eines Blackbox-Fehlschlags.
       console.error('[Stocks] ISIN-Auflösung fehlgeschlagen:', raw, result.detail);
       toast(`${t('stocksErrResolve', raw)}${result.detail ? ' – ' + result.detail : ''}`, 6000);
       return;
@@ -192,7 +196,14 @@ async function _addTicker() {
     if (ticker !== raw) toast(`${raw} → ${ticker}`);
   }
 
-  if (s.watchlist.includes(ticker)) { toast(t('stocksToastExists')); return; }
+  if (s.watchlist.includes(ticker)) {
+    // Erneutes Eintragen ist eine bewusste Aktion → als "jetzt aktualisieren"
+    // verstehen, statt nur "bereits vorhanden" zu melden und nichts zu tun.
+    toast(t('stocksToastExists'));
+    input.value = '';
+    _fetchTicker(ticker, true);
+    return;
+  }
 
   s.watchlist.push(ticker);
   saveData();
@@ -206,21 +217,24 @@ async function _addTicker() {
 const _looksLikeIsin = v => /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(v);
 
 /**
- * Löst eine ISIN über FMP /stable/search-isin zum Ticker auf.
+ * Löst eine ISIN über Finnhubs Symbol-Suche (/search?q=) zum Ticker auf.
+ * UNVERIFIZIERT, ob Finnhubs Suche direkt nach ISIN sucht (aus der
+ * Entwicklungsumgebung heraus nicht testbar) – erster Praxistest steht aus.
  *
  * @returns {Promise<{ticker: string|null, detail: string}>}
  */
 async function _resolveIsinToTicker(isin) {
   try {
-    const r = await _fmpGet(`stable/search-isin?isin=${isin}`);
-    if (r?.[0]?.symbol) return { ticker: r[0].symbol, detail: '' };
-    return { ticker: null, detail: 'FMP: kein Treffer' };
+    const r = await _finnhubGet(`search?q=${isin}`);
+    const hit = r?.result?.find(x => x.symbol && !x.symbol.includes('.'));
+    if (hit) return { ticker: hit.symbol, detail: '' };
+    return { ticker: null, detail: 'Finnhub: kein Treffer' };
   } catch (e) {
-    return { ticker: null, detail: `FMP: ${_errorLabel(e)}` };
+    return { ticker: null, detail: `Finnhub: ${_errorLabel(e)}` };
   }
 }
 
-/** Manuell ausgelöst: holt alle Watchlist-Ticker frisch (4 Calls pro Ticker). */
+/** Manuell ausgelöst: holt alle Watchlist-Ticker frisch. */
 function _refreshAll() {
   const s = _store();
   if (!s.apiKey)            { toast(t('stocksErrNoKey')); return; }
@@ -238,11 +252,13 @@ function _removeTicker(ticker) {
   toast(t('stocksToastRemoved'));
 }
 
-// ── Datenpipeline (FMP) ───────────────────────────────────────────────────────
+// ── Datenpipeline (Finnhub) ───────────────────────────────────────────────────
 
 /**
- * Holt Profil, TTM-Ratios, TTM-Key-Metrics und Wachstumsdaten (4 Calls),
- * normalisiert sie, berechnet Scores und schreibt das Ergebnis in den Cache.
+ * Holt Profil, aktuellen Kurs und alle Kennzahlen (3 Calls statt vormals 4
+ * bei FMP – Finnhub bündelt die meisten Ratios/Wachstumsraten in einem
+ * einzigen "metric=all"-Call), normalisiert sie, berechnet Scores und
+ * schreibt das Ergebnis in den Cache.
  *
  * @param {string}  ticker
  * @param {boolean} force - true: Cache-Alter ignorieren (manueller Refresh)
@@ -258,52 +274,31 @@ async function _fetchTicker(ticker, force) {
   _loading.add(ticker);
   _renderTable();
 
-  // Jeder Endpoint einzeln (allSettled): Teilausfälle (z.B. Endpoint nicht im
-  // Free-Tier) kosten nur die betroffene Kategorie, nicht die ganze Aktie.
+  // Jeder Endpoint einzeln (allSettled): Teilausfälle kosten nur die
+  // betroffene Kategorie, nicht die ganze Aktie.
   const results = await Promise.allSettled([
-    _fmp(`stable/profile?symbol=${ticker}`,
-         `api/v3/profile/${ticker}`),
-    _fmp(`stable/ratios-ttm?symbol=${ticker}`,
-         `api/v3/ratios-ttm/${ticker}`),
-    _fmp(`stable/key-metrics-ttm?symbol=${ticker}`,
-         `api/v3/key-metrics-ttm/${ticker}`),
-    _fmp(`stable/financial-growth?symbol=${ticker}&period=annual&limit=5`,
-         `api/v3/financial-growth/${ticker}?period=annual&limit=5`),
+    _finnhubGet(`stock/profile2?symbol=${ticker}`),
+    _finnhubGet(`quote?symbol=${ticker}`),
+    _finnhubGet(`stock/metric?symbol=${ticker}&metric=all`),
   ]);
 
-  const [profile, ratios, metrics, growth] =
+  const [profile, quote, metricResp] =
     results.map(r => (r.status === 'fulfilled' ? r.value : null));
 
-  // Diagnose pro Endpoint statt nur des ersten Fehlers: zeigt, ob z.B. nur
-  // financial-growth oder wirklich alle vier Calls für dieses Symbol scheitern.
-  const endpointLabels = ['profile', 'ratios', 'metrics', 'growth'];
+  // Diagnose pro Endpoint statt nur des ersten Fehlers.
+  const endpointLabels = ['profile', 'quote', 'metric'];
   const perEndpoint = results
     .map((r, i) => (r.status === 'rejected' ? `${endpointLabels[i]}: ${_errorLabel(r.reason)}` : null))
     .filter(Boolean);
   results.filter(r => r.status === 'rejected')
     .forEach(r => console.error(`[Stocks] ${ticker}:`, r.reason));
 
-  let kpis        = _normalize(profile?.[0], ratios?.[0], metrics?.[0], growth);
-  let hasAnyValue = Object.values(kpis.values).some(v => v !== null);
-  let source      = 'fmp';
-  let yahooNote   = '';
-
-  if (!hasAnyValue) {
-    // FMP komplett leer → Yahoo Finance probieren (inoffiziell, siehe YAHOO_BASE)
-    const y = await _fetchYahoo(ticker);
-    if (y.hasAnyValue) {
-      kpis = y.kpis;
-      hasAnyValue = true;
-      source = 'yahoo';
-    } else {
-      yahooNote = y.detail;
-    }
-  }
+  const kpis        = _normalize(profile, quote, metricResp?.metric);
+  const hasAnyValue = Object.values(kpis.values).some(v => v !== null);
 
   if (!hasAnyValue) {
     // Kompletter Fehlschlag → Fehler in der Zeile anzeigen (kein TTL-Cache)
-    const detail = perEndpoint.join(' · ') || t('stocksErrNet');
-    s.cache[ticker] = { error: `${detail} · Yahoo: ${yahooNote}` };
+    s.cache[ticker] = { error: perEndpoint.join(' · ') || t('stocksErrNet') };
     saveData();
     toast(t('stocksErrLoad', ticker));
   } else {
@@ -313,7 +308,6 @@ async function _fetchTicker(ticker, force) {
       sector:    kpis.sector,
       price:     kpis.price,
       currency:  kpis.currency,
-      source,
       kpis:      kpis.values,
       scores:    _computeScores(kpis.values),
     };
@@ -325,50 +319,21 @@ async function _fetchTicker(ticker, force) {
 }
 
 /**
- * Ein FMP-Call mit Fallback: erst der neue /stable/-Endpoint, bei einem
- * Fehler der Legacy-Endpoint /api/v3/ (ältere Keys/Pläne decken teils nur
- * die eine oder die andere API ab).
+ * GET gegen Finnhub; wirft mit err.status bei HTTP-Fehlern bzw.
+ * err.finnhubMessage, falls die Antwort ein {"error": "..."} enthält.
  */
-async function _fmp(stablePath, v3Path) {
-  try {
-    return await _fmpGet(stablePath);
-  } catch (err) {
-    try {
-      return await _fmpGet(v3Path);
-    } catch (err2) {
-      // Aussagekräftigsten Fehler weiterreichen: FMPs eigener Text schlägt
-      // einen reinen Status, sonst gewinnt der höhere Status.
-      throw _moreInformative(err, err2);
-    }
-  }
-}
-
-/** Wählt den aussagekräftigeren von zwei Fehlern (für Diagnose-Ausgaben). */
-function _moreInformative(a, b) {
-  const score = e => e?.fmpMessage ? 1000 : (e?.status ?? 0);
-  return score(b) >= score(a) ? b : a;
-}
-
-/**
- * GET gegen FMP; wirft mit err.status bei HTTP-Fehlern.
- * FMP meldet Tageslimit, Plan-Einschränkung UND ungültigen Key alle
- * gleichermaßen als HTTP 200 mit {"Error Message": "..."} im Body - diese
- * Fälle sind am Status nicht unterscheidbar. Der O-Ton landet in
- * err.fmpMessage, damit {@link _errorLabel} ihn unverfälscht zeigen kann,
- * statt ihn (wie zuvor) pauschal als "Key ungültig" zu deuten.
- */
-async function _fmpGet(path) {
+async function _finnhubGet(path) {
   const sep = path.includes('?') ? '&' : '?';
-  const res = await fetch(`${FMP_BASE}/${path}${sep}apikey=${encodeURIComponent(_store().apiKey)}`);
+  const res = await fetch(`${FINNHUB_BASE}/${path}${sep}token=${encodeURIComponent(_store().apiKey)}`);
   if (!res.ok) {
-    const err = new Error(`FMP /${path.split('?')[0]}: HTTP ${res.status}`);
+    const err = new Error(`Finnhub /${path.split('?')[0]}: HTTP ${res.status}`);
     err.status = res.status;
     throw err;
   }
   const json = await res.json();
-  if (json && !Array.isArray(json) && json['Error Message']) {
-    const err = new Error(json['Error Message']);
-    err.fmpMessage = json['Error Message'];
+  if (json && typeof json.error === 'string') {
+    const err = new Error(json.error);
+    err.finnhubMessage = json.error;
     throw err;
   }
   return json;
@@ -376,7 +341,7 @@ async function _fmpGet(path) {
 
 /** Menschlich lesbare Fehlerbeschreibung für die Tabellenzeile. */
 function _errorLabel(err) {
-  if (err?.fmpMessage) return err.fmpMessage; // FMPs eigener Text, unverfälscht
+  if (err?.finnhubMessage) return err.finnhubMessage; // Finnhubs eigener Text, unverfälscht
   const status = err?.status ?? 0;
   if (status === 401 || status === 403) return t('stocksErrAuth');
   if (status === 402)                   return t('stocksErrPlan');
@@ -388,7 +353,8 @@ function _errorLabel(err) {
 
 /**
  * Erster endlicher Zahlenwert aus einer Liste möglicher Feldnamen.
- * FMP benennt Felder je nach Endpoint/Version unterschiedlich.
+ * Finnhub benennt Kennzahlen mit Suffixen (TTM/Annual/Quarterly/5Y) leicht
+ * uneinheitlich – nicht jedes Feld existiert für jedes Symbol.
  */
 function _pick(obj, ...keys) {
   for (const k of keys) {
@@ -398,136 +364,49 @@ function _pick(obj, ...keys) {
   return null;
 }
 
-/** Durchschnitt eines Feldes über die Wachstums-Jahresliste (Fallback-Namen). */
-function _avgGrowth(rows, ...keys) {
-  const vals = (rows ?? [])
-    .map(r => _pick(r, ...keys))
-    .filter(v => v !== null);
-  if (!vals.length) return null;
-  return vals.reduce((a, b) => a + b, 0) / vals.length;
-}
+/** Normalisiert Finnhubs 3 Antworten in das eigene KPI-Schema. */
+function _normalize(profile, quote, m) {
+  const pe        = _pick(m, 'peTTM', 'peExclExtraTTM', 'peBasicExclExtraTTM', 'peAnnual');
+  const epsGrowth = _pick(m, 'epsGrowth5Y', 'epsGrowthTTMYoy', 'epsGrowthQuarterlyYoy');
 
-/** Normalisiert die 4 FMP-Antworten in das eigene KPI-Schema. */
-function _normalize(profile, ratios, metrics, growth) {
-  const pe        = _pick(ratios,  'priceToEarningsRatioTTM', 'priceEarningsRatioTTM', 'peRatioTTM');
-  const epsGrowth = _avgGrowth(growth, 'epsgrowth', 'epsGrowth', 'netIncomeGrowth');
+  // PEG: von Finnhub übernehmen falls vorhanden, sonst selbst berechnen
+  // (KGV / EPS-Wachstumsrate in %, nur bei positivem Wachstum sinnvoll).
+  const peg = _pick(m, 'pegTTM', 'pegAnnual')
+    ?? ((pe !== null && pe > 0 && epsGrowth !== null && epsGrowth > 0) ? pe / (epsGrowth * 100) : null);
 
-  // PEG selbst berechnen: KGV / EPS-Wachstumsrate in % (nur bei positivem Wachstum sinnvoll)
-  const peg = (pe !== null && pe > 0 && epsGrowth !== null && epsGrowth > 0)
-    ? pe / (epsGrowth * 100)
-    : null;
+  // FCF-Yield: falls nicht direkt vorhanden, aus FCF/Aktie ÷ Kurs berechnen.
+  const fcfPerShare = _pick(m, 'freeCashFlowPerShareTTM', 'focfPerShareTTM');
+  const price       = _pick(quote, 'c') ?? _pick(profile, 'price');
+  const fcfYield    = _pick(m, 'freeCashFlowYieldTTM')
+    ?? ((fcfPerShare !== null && price) ? fcfPerShare / price : null);
 
   return {
-    name:     profile?.companyName ?? profile?.name ?? null,
-    sector:   profile?.sector ?? null,
-    price:    _pick(profile, 'price'),
+    name:     profile?.name ?? null,
+    sector:   profile?.finnhubIndustry ?? null,
+    price,
     currency: profile?.currency ?? 'USD',
     values: {
       // Bewertung
       pe,
-      pb:           _pick(ratios,  'priceToBookRatioTTM', 'ptbRatioTTM', 'priceBookValueRatioTTM'),
-      evEbitda:     _pick(metrics, 'evToEBITDATTM', 'enterpriseValueOverEBITDATTM')
-                 ?? _pick(ratios,  'enterpriseValueMultipleTTM'),
-      fcfYield:     _pick(metrics, 'freeCashFlowYieldTTM'),
+      pb:           _pick(m, 'pbQuarterly', 'pbAnnual', 'ptbvQuarterly'),
+      evEbitda:     _pick(m, 'evEbitdaTTM', 'enterpriseValueOverEBITDATTM', 'currentEv/freeCashFlowTTM'),
+      fcfYield,
       peg,
-      // Rentabilität (ROE liegt je nach FMP-API in ratios ODER key-metrics)
-      roe:          _pick(ratios,  'returnOnEquityTTM')
-                 ?? _pick(metrics, 'returnOnEquityTTM', 'roeTTM'),
-      roic:         _pick(metrics, 'returnOnInvestedCapitalTTM', 'roicTTM'),
-      opMargin:     _pick(ratios,  'operatingProfitMarginTTM'),
-      netMargin:    _pick(ratios,  'netProfitMarginTTM'),
+      // Rentabilität
+      roe:          _pick(m, 'roeTTM', 'roeRfy', 'roeAnnual'),
+      roic:         _pick(m, 'roicTTM', 'roiTTM', 'roicAnnual'),
+      opMargin:     _pick(m, 'operatingMarginTTM', 'operatingMarginAnnual'),
+      netMargin:    _pick(m, 'netProfitMarginTTM', 'netMarginTTM', 'netProfitMarginAnnual'),
       // Stabilität
-      debtEquity:   _pick(ratios,  'debtToEquityRatioTTM', 'debtEquityRatioTTM'),
-      interestCov:  _pick(ratios,  'interestCoverageRatioTTM', 'interestCoverageTTM'),
-      currentRatio: _pick(ratios,  'currentRatioTTM'),
-      // Wachstum (Ø der letzten bis zu 5 Jahre)
-      revGrowth:    _avgGrowth(growth, 'revenueGrowth'),
+      debtEquity:   _pick(m, 'totalDebt/totalEquityAnnual', 'totalDebt/totalEquityQuarterly', 'longTermDebt/equityAnnual'),
+      interestCov:  _pick(m, 'netInterestCoverageTTM', 'interestCoverageTTM'),
+      currentRatio: _pick(m, 'currentRatioAnnual', 'currentRatioQuarterly'),
+      // Wachstum
+      revGrowth:    _pick(m, 'revenueGrowth5Y', 'revenueGrowthTTMYoy', 'revenueGrowthQuarterlyYoy'),
       epsGrowth,
-      fcfGrowth:    _avgGrowth(growth, 'freeCashFlowGrowth'),
+      fcfGrowth:    _pick(m, 'focfCagr5Y', 'freeCashFlowGrowth5Y'),
     },
   };
-}
-
-// ── Datenpipeline (Yahoo Finance, Fallback) ─────────────────────────────────────
-
-/**
- * Holt Kennzahlen von Yahoos inoffizieller quoteSummary-API (ein einziger
- * Call statt vier, da Yahoo alles über "modules" bündelt).
- *
- * Bewusste Lücken gegenüber FMP – Yahoo liefert in diesen Modulen kein ROIC,
- * keine Zinsdeckung, keinen FCF-Yield und kein mehrjähriges Wachstum (nur
- * den letzten Punktwert statt Ø 5 Jahre) → diese KPIs bleiben bei einer
- * Yahoo-Aktie leer, der Score rechnet dann nur mit den verfügbaren Werten.
- *
- * Feldnamen/Skalierung (insbesondere debtToEquity) sind aus Erfahrungswerten
- * übernommen und NICHT live gegen die echte API verifiziert (aus der
- * Entwicklungsumgebung heraus nicht erreichbar) – genau deshalb zunächst
- * als Fallback statt als Ersatz für FMP.
- *
- * @returns {Promise<{hasAnyValue: boolean, kpis: object|null, detail: string}>}
- */
-async function _fetchYahoo(ticker) {
-  try {
-    const modules = 'defaultKeyStatistics,financialData,summaryDetail,price,assetProfile';
-    const res = await fetch(
-      `${YAHOO_BASE}/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}`
-    );
-    if (!res.ok) return { hasAnyValue: false, kpis: null, detail: `HTTP ${res.status}` };
-
-    const json  = await res.json();
-    const error = json?.quoteSummary?.error;
-    if (error) return { hasAnyValue: false, kpis: null, detail: error.description ?? error.code ?? 'Fehler' };
-
-    const result = json?.quoteSummary?.result?.[0];
-    if (!result) return { hasAnyValue: false, kpis: null, detail: 'kein Treffer' };
-
-    // Yahoo verpackt Zahlen als { raw, fmt } statt als reine Zahl
-    const raw = (obj, key) => {
-      const v = obj?.[key]?.raw;
-      return typeof v === 'number' && isFinite(v) ? v : null;
-    };
-
-    const stats = result.defaultKeyStatistics ?? {};
-    const fin   = result.financialData ?? {};
-    const summ  = result.summaryDetail ?? {};
-    const price = result.price ?? {};
-    const debtEquityRaw = raw(fin, 'debtToEquity');
-
-    const values = {
-      pe:           raw(stats, 'trailingPE') ?? raw(summ, 'trailingPE'),
-      pb:           raw(stats, 'priceToBook'),
-      evEbitda:     raw(stats, 'enterpriseToEbitda'),
-      fcfYield:     null,
-      peg:          raw(stats, 'pegRatio'),
-      roe:          raw(fin, 'returnOnEquity'),
-      roic:         null,
-      opMargin:     raw(fin, 'operatingMargins'),
-      netMargin:    raw(fin, 'profitMargins') ?? raw(stats, 'profitMargins'),
-      // Yahoo liefert debtToEquity üblicherweise als Prozentzahl (z.B. 150 = 1,5) → /100
-      debtEquity:   debtEquityRaw !== null ? debtEquityRaw / 100 : null,
-      interestCov:  null,
-      currentRatio: raw(fin, 'currentRatio'),
-      revGrowth:    raw(fin, 'revenueGrowth'),
-      epsGrowth:    raw(fin, 'earningsGrowth'), // Punktwert, kein Ø 5 Jahre wie bei FMP
-      fcfGrowth:    null,
-    };
-
-    const hasAnyValue = Object.values(values).some(v => v !== null);
-    return {
-      hasAnyValue,
-      kpis: {
-        name:     price.longName ?? price.shortName ?? null,
-        sector:   result.assetProfile?.sector ?? null,
-        price:    raw(price, 'regularMarketPrice'),
-        currency: price.currency ?? 'USD',
-        values,
-      },
-      detail: hasAnyValue ? '' : 'keine Kennzahlen in der Antwort',
-    };
-  } catch (e) {
-    // Häufigste Ursache: CORS-Block (wie bei OpenFIGI) oder Netzwerkfehler
-    return { hasAnyValue: false, kpis: null, detail: `Netzwerkfehler (${e.message})` };
-  }
 }
 
 // ── Scoring-Layer ─────────────────────────────────────────────────────────────
@@ -664,10 +543,8 @@ function _renderTable() {
         </td></tr>`;
     }
     const sc = c.scores ?? {};
-    const yahooBadge = c.source === 'yahoo'
-      ? `<span class="stocks-source-badge" title="${t('stocksSourceYahoo')}">Y</span>` : '';
     return `<tr class="stocks-row ${_detailTicker === ticker ? 'is-selected' : ''}" data-stock-detail="${ticker}">
-      <td class="stocks-ticker" title="${c.name ?? ''}">${ticker}${yahooBadge}</td>
+      <td class="stocks-ticker" title="${c.name ?? ''}">${ticker}</td>
       <td class="stocks-score stocks-total ${_scoreClass(sc.total)}">${sc.total ?? '–'}</td>
       ${_scoreCell(sc.valuation)}
       ${_scoreCell(sc.profitability)}
@@ -770,7 +647,6 @@ function _renderDetail() {
         ${c.sector ?? ''} · ${c.price != null ? `${c.price.toFixed(2)} ${c.currency}` : ''}
       </span>
       <span class="stocks-detail-meta">${t('stocksUpdatedAt', fetched)}</span>
-      ${c.source === 'yahoo' ? `<span class="stocks-detail-meta stocks-source-note">${t('stocksSourceYahoo')}</span>` : ''}
     </div>
     ${sections}`;
 }

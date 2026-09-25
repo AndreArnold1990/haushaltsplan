@@ -208,9 +208,9 @@ const translations = {
 
     // Aktien
     stocksTab:                    '📈 Aktien',
-    stocksApiKeySummary:          '🔑 FMP API-Key',
+    stocksApiKeySummary:          '🔑 Finnhub API-Key',
     stocksApiKeyPlaceholder:      'API-Key eingeben',
-    stocksApiKeyHint:             'Kostenlosen Key auf financialmodelingprep.com erstellen (Free-Tier: 250 Calls/Tag).',
+    stocksApiKeyHint:             'Kostenlosen Key auf finnhub.io erstellen (Free-Tier: 60 Calls/Minute).',
     stocksToastKeySaved:          'API-Key gespeichert ✓',
     stocksAddPlaceholder:         'Ticker oder ISIN',
     stocksResolving:              id => `${id} wird gesucht…`,
@@ -258,7 +258,6 @@ const translations = {
     kpiRevGrowth:                 'Umsatzwachstum (Ø 5J)',
     kpiEpsGrowth:                 'EPS-Wachstum (Ø 5J)',
     kpiFcfGrowth:                 'FCF-Wachstum (Ø 5J)',
-    stocksSourceYahoo:            'Quelle: Yahoo Finance (Fallback, inoffiziell, eingeschränkte Kennzahlen)',
     stocksInfoTitle:              'ℹ️ So werden die Scores berechnet',
     stocksInfoIntro:              'Jede Kennzahl wird linear auf 0–100 Punkte skaliert. Der Kategorie-Score ist der Durchschnitt der verfügbaren Kennzahlen, der Gesamtscore Σ die gewichtete Summe der Kategorien. Grün ≥ 67 · Rot < 34.',
     stocksInfoWeight:             w => `Gewichtung ${w} %`,
@@ -497,9 +496,9 @@ const translations = {
 
     // Acciones
     stocksTab:                    '📈 Acciones',
-    stocksApiKeySummary:          '🔑 Clave API de FMP',
+    stocksApiKeySummary:          '🔑 Clave API de Finnhub',
     stocksApiKeyPlaceholder:      'Introducir clave API',
-    stocksApiKeyHint:             'Crea una clave gratuita en financialmodelingprep.com (plan gratis: 250 llamadas/día).',
+    stocksApiKeyHint:             'Crea una clave gratuita en finnhub.io (plan gratis: 60 llamadas/minuto).',
     stocksToastKeySaved:          'Clave API guardada ✓',
     stocksAddPlaceholder:         'Ticker o ISIN',
     stocksResolving:              id => `Buscando ${id}…`,
@@ -547,7 +546,6 @@ const translations = {
     kpiRevGrowth:                 'Crec. de ingresos (Ø 5A)',
     kpiEpsGrowth:                 'Crec. de BPA (Ø 5A)',
     kpiFcfGrowth:                 'Crec. de FCF (Ø 5A)',
-    stocksSourceYahoo:            'Fuente: Yahoo Finance (alternativa, no oficial, datos limitados)',
     stocksInfoTitle:              'ℹ️ Así se calculan las puntuaciones',
     stocksInfoIntro:              'Cada indicador se escala linealmente a 0–100 puntos. La puntuación de categoría es la media de los indicadores disponibles; la total Σ, la suma ponderada de las categorías. Verde ≥ 67 · Rojo < 34.',
     stocksInfoWeight:             w => `Ponderación ${w} %`,

@@ -1391,17 +1391,3 @@ nav button        { min-height: 44px; }
 }
 .stocks-refresh-all:hover  { color: #94a3b8; border-color: #475569; }
 .stocks-refresh-all:active { transform: scale(0.99); }
-
-/* Yahoo-Fallback-Kennzeichnung */
-.stocks-source-badge {
-  display: inline-block;
-  margin-left: 0.35rem;
-  padding: 0 0.35rem;
-  border-radius: 4px;
-  background: rgba(148, 163, 184, 0.15);
-  color: #94a3b8;
-  font-size: 0.65rem;
-  font-weight: 800;
-  vertical-align: middle;
-}
-.stocks-source-note { color: #94a3b8; font-style: italic; }
