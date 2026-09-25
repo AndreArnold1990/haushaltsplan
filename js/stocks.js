@@ -512,7 +512,8 @@ function _buildInfoHtml() {
         : t('kpiScaleRange', _fmtBound(best, format), _fmtBound(worst, format));
       return `<li>
         <strong>${t(i18nKey)}</strong> – ${t('kpiInfo_' + key)}<br>
-        <span class="stocks-info-scale">${scale}</span>
+        <span class="stocks-info-scale">${scale}</span><br>
+        <span class="stocks-info-example">${t('kpiExample_' + key)}</span>
       </li>`;
     }).join('');
     return `<div class="stocks-info-cat">${catTitles[cat]} · ${t('stocksInfoWeight', WEIGHTS[cat])}</div>

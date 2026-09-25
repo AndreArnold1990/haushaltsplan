@@ -1391,3 +1391,13 @@ nav button        { min-height: 44px; }
 }
 .stocks-refresh-all:hover  { color: #94a3b8; border-color: #475569; }
 .stocks-refresh-all:active { transform: scale(0.99); }
+
+/* Alltagsbeispiel je Kennzahl in der Info-Box */
+.stocks-info-example {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: #64748b;
+  line-height: 1.5;
+}
