@@ -141,7 +141,15 @@ function _saveApiKey() {
 
 // ── Watchlist ─────────────────────────────────────────────────────────────────
 
-/** Eingabe akzeptiert Ticker, WKN oder ISIN; WKN/ISIN werden zum Ticker aufgelöst. */
+/**
+ * Eingabe akzeptiert Ticker oder ISIN; ISIN wird zum Ticker aufgelöst.
+ *
+ * WKN wird bewusst NICHT unterstützt: die einzige kostenlose WKN-Auflösung
+ * (OpenFIGI) blockt anonyme Browser-Anfragen per CORS ("Failed to fetch",
+ * live verifiziert) - ohne eigenes Backend lässt sich das nicht umgehen.
+ * ISIN dagegen läuft direkt über FMP selbst (search-isin), das ist
+ * nachweislich CORS-freundlich, da die App FMP ohnehin für alle Daten nutzt.
+ */
 async function _addTicker() {
   const input = document.getElementById('stocksTickerInput');
   const raw   = input.value.trim().toUpperCase();
@@ -151,13 +159,13 @@ async function _addTicker() {
   if (!s.apiKey) { toast(t('stocksErrNoKey')); return; }
 
   let ticker = raw;
-  if (_looksLikeIsin(raw) || _looksLikeWkn(raw)) {
+  if (_looksLikeIsin(raw)) {
     toast(t('stocksResolving', raw));
-    const result = await _resolveToTicker(raw);
+    const result = await _resolveIsinToTicker(raw);
     if (!result.ticker) {
-      // Diagnose statt pauschaler Meldung, z.B. "OpenFIGI: kein Treffer"
-      // oder "OpenFIGI: HTTP 400" statt eines Blackbox-Fehlschlags.
-      console.error('[Stocks] Auflösung fehlgeschlagen:', raw, result.detail);
+      // Diagnose statt pauschaler Meldung, z.B. der O-Ton von FMP bei
+      // Tageslimit/Plan-Einschränkung statt eines Blackbox-Fehlschlags.
+      console.error('[Stocks] ISIN-Auflösung fehlgeschlagen:', raw, result.detail);
       toast(`${t('stocksErrResolve', raw)}${result.detail ? ' – ' + result.detail : ''}`, 6000);
       return;
     }
@@ -178,57 +186,19 @@ async function _addTicker() {
 /** ISIN: 2 Länderbuchstaben + 9 Zeichen + Prüfziffer (z.B. US0378331005). */
 const _looksLikeIsin = v => /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(v);
 
-/** WKN: genau 6 Zeichen mit mindestens einer Ziffer (z.B. 865985, A1JWVX).
- *  Reine 6-Buchstaben-Eingaben werden als Ticker behandelt. */
-const _looksLikeWkn = v => /^[A-Z0-9]{6}$/.test(v) && /\d/.test(v);
-
 /**
- * Löst WKN/ISIN zum (US-)Ticker auf.
- * ISIN: zuerst FMP search-isin (gleicher Dienst, zählt aufs Call-Budget),
- * dann OpenFIGI. WKN: OpenFIGI mit idType ID_WERTPAPIER (kostenlos, ohne Key).
- * Bevorzugt US-Listings, da der FMP-Free-Tier primär US-Aktien abdeckt.
- *
- * Sammelt bei jedem Fehlschlag eine kurze Diagnose (HTTP-Status, "kein
- * Treffer" vs. Netzwerkfehler/CORS) statt den Grund zu verschlucken –
- * externe APIs lassen sich aus der Entwicklungsumgebung heraus nicht
- * live testen, daher muss der Fehler im Feld selbst sichtbar werden.
+ * Löst eine ISIN über FMP /stable/search-isin zum Ticker auf.
  *
  * @returns {Promise<{ticker: string|null, detail: string}>}
  */
-async function _resolveToTicker(id) {
-  const isIsin = _looksLikeIsin(id);
-  const notes  = [];
-
-  if (isIsin) {
-    try {
-      const r = await _fmpGet(`stable/search-isin?isin=${id}`);
-      if (r?.[0]?.symbol) return { ticker: r[0].symbol, detail: '' };
-      notes.push('FMP: kein Treffer');
-    } catch (e) {
-      notes.push(`FMP: ${e.status ? `HTTP ${e.status}` : e.message}`);
-    }
+async function _resolveIsinToTicker(isin) {
+  try {
+    const r = await _fmpGet(`stable/search-isin?isin=${isin}`);
+    if (r?.[0]?.symbol) return { ticker: r[0].symbol, detail: '' };
+    return { ticker: null, detail: 'FMP: kein Treffer' };
+  } catch (e) {
+    return { ticker: null, detail: `FMP: ${_errorLabel(e)}` };
   }
-
-  const idType = isIsin ? 'ID_ISIN' : 'ID_WERTPAPIER';
-  // 1. Versuch: nur US-Börsen; 2. Versuch: weltweit, erstes Listing
-  for (const job of [{ idType, idValue: id, exchCode: 'US' }, { idType, idValue: id }]) {
-    try {
-      const res = await fetch('https://api.openfigi.com/v3/mapping', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify([job]),
-      });
-      if (!res.ok) { notes.push(`OpenFIGI: HTTP ${res.status}`); continue; }
-      const entry  = (await res.json())?.[0];
-      const ticker = entry?.data?.find(d => d.ticker)?.ticker;
-      if (ticker) return { ticker: ticker.replace(/\//g, '-'), detail: '' }; // FIGI "BRK/B" → FMP "BRK-B"
-      notes.push(`OpenFIGI: ${entry?.warning ?? entry?.error ?? 'kein Treffer'}`);
-    } catch (e) {
-      // Häufigste Ursache für "Failed to fetch" hier: CORS-Block durch OpenFIGI
-      notes.push(`OpenFIGI: Netzwerkfehler (${e.message})`);
-    }
-  }
-  return { ticker: null, detail: notes.join(' · ') };
 }
 
 /** Manuell ausgelöst: holt alle Watchlist-Ticker frisch (4 Calls pro Ticker). */
@@ -324,13 +294,27 @@ async function _fmp(stablePath, v3Path) {
     try {
       return await _fmpGet(v3Path);
     } catch (err2) {
-      // Aussagekräftigeren Fehler weiterreichen (Status vor Netzwerkfehler)
-      throw (err2.status ?? 0) >= (err.status ?? 0) ? err2 : err;
+      // Aussagekräftigsten Fehler weiterreichen: FMPs eigener Text schlägt
+      // einen reinen Status, sonst gewinnt der höhere Status.
+      throw _moreInformative(err, err2);
     }
   }
 }
 
-/** GET gegen FMP; wirft mit err.status bei HTTP- oder API-Fehlern. */
+/** Wählt den aussagekräftigeren von zwei Fehlern (für Diagnose-Ausgaben). */
+function _moreInformative(a, b) {
+  const score = e => e?.fmpMessage ? 1000 : (e?.status ?? 0);
+  return score(b) >= score(a) ? b : a;
+}
+
+/**
+ * GET gegen FMP; wirft mit err.status bei HTTP-Fehlern.
+ * FMP meldet Tageslimit, Plan-Einschränkung UND ungültigen Key alle
+ * gleichermaßen als HTTP 200 mit {"Error Message": "..."} im Body - diese
+ * Fälle sind am Status nicht unterscheidbar. Der O-Ton landet in
+ * err.fmpMessage, damit {@link _errorLabel} ihn unverfälscht zeigen kann,
+ * statt ihn (wie zuvor) pauschal als "Key ungültig" zu deuten.
+ */
 async function _fmpGet(path) {
   const sep = path.includes('?') ? '&' : '?';
   const res = await fetch(`${FMP_BASE}/${path}${sep}apikey=${encodeURIComponent(_store().apiKey)}`);
@@ -340,10 +324,9 @@ async function _fmpGet(path) {
     throw err;
   }
   const json = await res.json();
-  // FMP liefert Fehler teils als 200 mit {"Error Message": "..."}
   if (json && !Array.isArray(json) && json['Error Message']) {
     const err = new Error(json['Error Message']);
-    err.status = 401;
+    err.fmpMessage = json['Error Message'];
     throw err;
   }
   return json;
@@ -351,6 +334,7 @@ async function _fmpGet(path) {
 
 /** Menschlich lesbare Fehlerbeschreibung für die Tabellenzeile. */
 function _errorLabel(err) {
+  if (err?.fmpMessage) return err.fmpMessage; // FMPs eigener Text, unverfälscht
   const status = err?.status ?? 0;
   if (status === 401 || status === 403) return t('stocksErrAuth');
   if (status === 402)                   return t('stocksErrPlan');
