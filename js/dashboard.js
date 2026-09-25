@@ -278,13 +278,13 @@ function _renderCategoryChart(txs) {
     type: 'doughnut',
     data: {
       labels,
-      datasets: [{ data: values, backgroundColor: colors, borderWidth: 3, borderColor: '#fff', hoverOffset: 8 }],
+      datasets: [{ data: values, backgroundColor: colors, borderWidth: 3, borderColor: '#1e293b', hoverOffset: 8 }],
     },
     options: {
       responsive: true, maintainAspectRatio: false, cutout: '60%',
       plugins: {
-        legend:  { position: 'bottom', labels: { font: { size: 11 }, padding: 10, usePointStyle: true } },
-        tooltip: { callbacks: { label: c => ` ${c.label}: ${fmt(c.raw)}` } },
+        legend:  { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, padding: 10, usePointStyle: true } },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#e2e8f0', bodyColor: '#e2e8f0', borderColor: '#334155', borderWidth: 1, callbacks: { label: c => ` ${c.label}: ${fmt(c.raw)}` } },
       },
     },
   });
@@ -317,19 +317,19 @@ function _renderHistoryChart() {
     data: {
       labels:   months.map(monthLabel),
       datasets: [
-        { label: t('datasetIncome'),  data: incData, backgroundColor: 'rgba(16,185,129,0.2)', borderColor: '#10b981', borderWidth: 2, borderRadius: 6, borderSkipped: false },
-        { label: t('datasetExpense'), data: expData, backgroundColor: 'rgba(239,68,68,0.2)',  borderColor: '#ef4444', borderWidth: 2, borderRadius: 6, borderSkipped: false },
+        { label: t('datasetIncome'),  data: incData, backgroundColor: 'rgba(52,211,153,0.25)', borderColor: '#34d399', borderWidth: 2, borderRadius: 6, borderSkipped: false },
+        { label: t('datasetExpense'), data: expData, backgroundColor: 'rgba(248,113,113,0.25)', borderColor: '#f87171', borderWidth: 2, borderRadius: 6, borderSkipped: false },
       ],
     },
     options: {
       responsive: true, maintainAspectRatio: false, interaction: { mode: 'index' },
       plugins: {
-        legend:  { position: 'top', labels: { font: { size: 12 }, usePointStyle: true } },
-        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${fmt(c.raw)}` } },
+        legend:  { position: 'top', labels: { color: '#94a3b8', font: { size: 12 }, usePointStyle: true } },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#e2e8f0', bodyColor: '#e2e8f0', borderColor: '#334155', borderWidth: 1, callbacks: { label: c => ` ${c.dataset.label}: ${fmt(c.raw)}` } },
       },
       scales: {
-        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => `€${v.toLocaleString('de-DE')}`, font: { size: 11 } } },
-        x: { grid: { display: false } },
+        y: { beginAtZero: true, grid: { color: 'rgba(148,163,184,0.12)' }, ticks: { color: '#94a3b8', callback: v => `€${v.toLocaleString('de-DE')}`, font: { size: 11 } } },
+        x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
       },
     },
   });

@@ -3,39 +3,58 @@
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  --primary:              #4f46e5;
-  --primary-dark:         #4338ca;
-  --primary-light:        #e0e7ff;
-  --primary-gradient-end: #7c3aed;
-  --income:        #10b981;
-  --income-light:  #d1fae5;
-  --expense:       #ef4444;
-  --expense-light: #fee2e2;
-  --bg:            #f1f5f9;
-  --card:          #ffffff;
-  --surface-subtle:#f8fafc;
-  --text:          var(--slate-900);
-  --text-secondary:var(--slate-500);
-  --border:        var(--slate-200);
-  --radius:        12px;
-  --shadow:        0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
-
-  /* Dunkles Werkzeug-Theme (Seitenmenü, Währung, Katzen füttern, Rezepte,
-     Aktien): EIN graublauer Grundton (Slate) in mehreren Helligkeitsstufen
-     treibt alle Flächen/Texte, dazu EIN Akzent statt vormals drei
-     unabhängiger Blau-/Indigotöne (Chips, Fokus-Rahmen, Info-Kasten). */
-  --slate-950: #0f172a;  /* dunkelster Grund: Kopfleisten, Eingabefelder */
-  --slate-900: #1e293b;  /* Grundfläche der Werkzeug-Screens/Karten */
+  /* EIN graublauer Grundton (Slate) für die gesamte App – nicht mehr nur für
+     die Werkzeug-Screens, sondern auch Header, Navigation, Dashboard,
+     Transaktionen und Einstellungen. */
+  --slate-950: #0f172a;  /* dunkelster Grund: Kopfleisten, Eingabefelder, Seiten-Hintergrund */
+  --slate-900: #1e293b;  /* Karten/Panels */
   --slate-700: #334155;  /* Rahmen/Trennlinien */
   --slate-600: #475569;  /* gedämpfter Text, Stufe 3 */
   --slate-500: #64748b;  /* gedämpfter Text, Stufe 2 / Icons */
   --slate-400: #94a3b8;  /* Sekundärtext auf dunklem Grund */
   --slate-300: #cbd5e1;  /* heller Fließtext auf dunklem Grund */
   --slate-200: #e2e8f0;  /* Primärtext auf dunklem Grund */
-  --accent:       #818cf8;
-  --accent-light: #a5b4fc;
-  --score-good:   #34d399;
-  --score-bad:    #f87171;
+
+  /* EIN Akzent für die gesamte App (ersetzt die vormals separaten Töne
+     --primary/--primary-gradient-end und den Werkzeug-Accent). */
+  --accent:        #818cf8;
+  --accent-dark:   #6366f1;
+  --accent-light:  #a5b4fc;
+  --accent-subtle: rgba(129,140,248,0.16);
+
+  /* Alias, damit bestehende Regeln (Buttons, Nav, Badges) denselben Akzent
+     ohne Umbenennung weiterverwenden. */
+  --primary:              var(--accent);
+  --primary-dark:         var(--accent-dark);
+  --primary-light:        var(--accent-subtle);
+  --primary-gradient-end: var(--accent-dark);
+
+  /* EIN Grün-/Rot-Paar für Einnahmen/Ausgaben UND Aktien-Score (vormals
+     zwei separate, leicht unterschiedliche Farbpaare). */
+  --positive:        #34d399;
+  --positive-subtle: rgba(52,211,153,0.16);
+  --negative:        #f87171;
+  --negative-subtle: rgba(248,113,113,0.16);
+  --income:        var(--positive);
+  --income-light:  var(--positive-subtle);
+  --expense:       var(--negative);
+  --expense-light: var(--negative-subtle);
+  --score-good:    var(--positive);
+  --score-bad:     var(--negative);
+
+  /* Flächen: dunkles Theme in der gesamten App */
+  --bg:             var(--slate-950);
+  --card:           var(--slate-900);
+  --surface-subtle: var(--slate-950);
+  --text:           var(--slate-200);
+  --text-secondary: var(--slate-400);
+  --border:         var(--slate-700);
+  --radius:         12px;
+  --shadow:         0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+
+  /* Google-Button bleibt bewusst hell (Branding-Vorgabe), unabhängig vom Theme */
+  --google-bg:       #ffffff;
+  --google-bg-hover: #f1f5f9;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,13 +71,13 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(135deg, var(--primary), var(--primary-gradient-end));
-  color: white;
+  background: var(--slate-950);
+  color: var(--slate-200);
   padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 12px rgba(79,70,229,0.35);
+  border-bottom: 1px solid var(--slate-700);
   gap: 1rem;
 }
 
@@ -109,7 +128,7 @@ header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.9rem;
-  background: white;
+  background: var(--google-bg);
   color: var(--slate-900);
   border: none;
   border-radius: 8px;
@@ -119,7 +138,7 @@ header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
   transition: all 0.15s;
   white-space: nowrap;
 }
-.btn-google:hover { background: var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.btn-google:hover { background: var(--google-bg-hover); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 .btn-google svg   { width: 16px; height: 16px; flex-shrink: 0; }
 
 /* ── User-Pill ──────────────────────────────────────────────── */
@@ -154,7 +173,7 @@ nav {
   position: sticky;
   top: 53px;   /* direkt unter dem Header (Header ≈ 53px) */
   z-index: 99;
-  background: var(--card);
+  background: var(--slate-950);
   border-bottom: 1px solid var(--border);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -280,18 +299,18 @@ main.full-bleed { max-width: none; padding: 0; }
 .form-group input,
 .form-group select { padding: 0.6rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.9rem; color: var(--text); background: var(--surface-subtle); transition: border-color 0.15s, background 0.15s; }
 .form-group input:focus,
-.form-group select:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+.form-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.25); }
 
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn           { padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 600; transition: all 0.15s; display: inline-flex; align-items: center; gap: 0.4rem; }
 .btn-primary   { background: var(--primary); color: white; }
-.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.35); }
 .btn-danger    { background: var(--expense-light); color: var(--expense); }
 .btn-danger:hover  { background: var(--expense); color: white; }
 .btn-edit      { background: var(--primary-light); color: var(--primary); }
 .btn-edit:hover    { background: var(--primary); color: white; }
 .btn-secondary { background: var(--border); color: var(--text-secondary); }
-.btn-secondary:hover { background: var(--slate-300); color: var(--text); }
+.btn-secondary:hover { background: var(--slate-600); color: var(--text); }
 .btn-move      { background: var(--primary-light); color: var(--primary); }
 .btn-move:hover    { background: var(--primary); color: white; }
 .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.78rem; border-radius: 6px; }
@@ -368,11 +387,11 @@ tr:hover td       { background: var(--surface-subtle); }
 .cat-section-title:not(:first-child) { margin-top: 1.5rem; }
 .category-list { display: flex; flex-direction: column; gap: 0.45rem; }
 .category-item { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; background: var(--surface-subtle); transition: background 0.15s; }
-.category-item:hover { background: var(--primary-light); border-color: #c7d2fe; }
+.category-item:hover { background: var(--primary-light); border-color: var(--accent); }
 .category-item-left      { display: flex; align-items: center; gap: 0.75rem; }
 .category-item--clickable { cursor: pointer; }
 .category-item-chevron   { color: var(--text-secondary); font-size: 1.2rem; line-height: 1; flex-shrink: 0; }
-.color-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+.color-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid rgba(255,255,255,0.15); flex-shrink: 0; }
 .cat-name  { font-weight: 500; font-size: 0.9rem; }
 .cat-usage { font-size: 0.78rem; color: var(--text-secondary); }
 
@@ -665,7 +684,7 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   line-height: 1;
   border-bottom: none !important;
   border-top: none !important;
-  box-shadow: 0 4px 14px rgba(79,70,229,0.45);
+  box-shadow: 0 4px 14px rgba(99,102,241,0.45);
   flex-shrink: 0;
   align-self: center;
   transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
@@ -686,12 +705,12 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(79,70,229,0.35);
+  box-shadow: 0 4px 14px rgba(99,102,241,0.4);
   transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
   letter-spacing: 0.01em;
 }
-.btn-add-tx:hover  { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(79,70,229,0.45); }
-.btn-add-tx:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
+.btn-add-tx:hover  { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(99,102,241,0.5); }
+.btn-add-tx:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(99,102,241,0.35); }
 
 /* ── Geteilte Transaktionen: Aufteilung-Label ───────────────── */
 .split-label {
@@ -1292,7 +1311,16 @@ nav button        { min-height: 44px; }
   flex: 1;
   min-width: 0;
   text-transform: uppercase;
+  background: var(--slate-950);
+  border: 1.5px solid var(--slate-700);
+  border-radius: 8px;
+  color: var(--slate-200);
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  transition: border-color 0.15s;
 }
+.stocks-add-row input::placeholder { color: var(--slate-600); }
+.stocks-add-row input:focus { outline: none; border-color: var(--accent); }
 
 /* Vergleichstabelle */
 .stocks-table .stocks-ticker {
@@ -1353,7 +1381,7 @@ nav button        { min-height: 44px; }
   height: 38px;
   border-radius: 50%;
   border: 1px solid var(--accent);
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(129,140,248,0.15);
   color: var(--accent-light);
   font-weight: 800;
   font-style: italic;
@@ -1362,14 +1390,14 @@ nav button        { min-height: 44px; }
   cursor: pointer;
   transition: background 0.15s;
 }
-.stocks-info-btn:hover  { background: rgba(59, 130, 246, 0.3); }
+.stocks-info-btn:hover  { background: rgba(129,140,248,0.3); }
 .stocks-info-btn:active { transform: scale(0.95); }
 
 /* Infobox */
 .stocks-info {
   border: 1px solid var(--accent);
   border-radius: 8px;
-  background: rgba(59, 130, 246, 0.08);
+  background: rgba(129,140,248,0.08);
   padding: 0.75rem;
   margin-bottom: 0.75rem;
 }
@@ -1402,7 +1430,7 @@ nav button        { min-height: 44px; }
   font-size: 0.75rem;
   color: var(--slate-400);
   padding: 0.3rem 0;
-  border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+  border-bottom: 1px solid rgba(129,140,248,0.12);
   line-height: 1.45;
 }
 .stocks-info-list li:last-child { border-bottom: none; }
