@@ -152,7 +152,17 @@ function _saveApiKey() {
  */
 async function _addTicker() {
   const input = document.getElementById('stocksTickerInput');
-  const raw   = input.value.trim().toUpperCase();
+  let raw = input.value.trim().toUpperCase();
+
+  // Copy-Paste-Härtung: Finanzseiten zeigen die ISIN oft mit Label oder
+  // zusammen mit der WKN ("ISIN: US8716071076", "US8716071076 | WKN 883703").
+  // Passt die Rohtext-Eingabe nicht direkt, aber eine ISIN steckt darin,
+  // wird sie extrahiert statt die Eingabe pauschal abzulehnen.
+  if (!/^[A-Z0-9.\-]{1,12}$/.test(raw)) {
+    const embedded = raw.match(/\b[A-Z]{2}[A-Z0-9]{9}[0-9]\b/);
+    if (embedded) raw = embedded[0];
+  }
+
   if (!raw || !/^[A-Z0-9.\-]{1,12}$/.test(raw)) { toast(t('stocksErrTicker')); return; }
 
   const s = _store();
