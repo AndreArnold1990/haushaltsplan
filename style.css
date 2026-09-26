@@ -1322,7 +1322,19 @@ nav button        { min-height: 44px; }
 .stocks-add-row input::placeholder { color: var(--slate-600); }
 .stocks-add-row input:focus { outline: none; border-color: var(--accent); }
 
-/* Vergleichstabelle */
+/* Vergleichstabelle: wächst mit der Seite statt intern zu scrollen (anders
+   als .cats-table-wrap bei "Katzen füttern", das bewusst auf 210px mit
+   eigenem Scrollbalken begrenzt ist) – die Aktien-Watchlist soll den
+   Bildschirm ausfüllen und bei mehr Tickern einfach weiter nach unten
+   wachsen, wie man es von anderen Listen-Seiten kennt. */
+.stocks-table-wrap {
+  border: 1px solid var(--slate-900);
+  border-radius: 8px;
+}
+/* Kein sticky Tabellenkopf ohne eigenen Scroll-Container – sonst klebt er
+   relativ zur Seite und würde unter dem App-Header hängen bleiben. */
+.stocks-table thead { position: static; }
+
 .stocks-table .stocks-ticker {
   font-weight: 700;
   color: var(--slate-200);
