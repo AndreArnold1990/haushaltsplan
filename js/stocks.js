@@ -136,7 +136,6 @@ export function renderStocks() {
   if (details && !details.dataset.touched) details.open = !s.apiKey;
 
   _renderTable();
-  _renderDetail();
 }
 
 // ── Persistenz-Helfer ─────────────────────────────────────────────────────────
@@ -617,10 +616,12 @@ function _renderTable() {
   const rows = _sortedTickers(s).map(ticker => {
     const c = s.cache[ticker];
     const safeTicker = escHtml(ticker);
+    const detailHtml = ticker === _detailTicker ? _detailRowHtml(ticker) : '';
+
     if (_loading.has(ticker)) {
       return `<tr><td class="stocks-ticker">${safeTicker}</td>
         <td colspan="5" class="stocks-loading">${t('stocksLoading')}</td>
-        <td></td></tr>`;
+        <td></td></tr>${detailHtml}`;
     }
     if (!c || c.error) {
       // c.error kann Finnhubs eigenen, unveränderten Fehlertext enthalten
@@ -644,7 +645,7 @@ function _renderTable() {
       <td class="stocks-actions">
         <button class="cats-del-btn" data-stock-refresh="${safeTicker}" title="${t('stocksRefreshTooltip')}">&#8635;</button>
         <button class="cats-del-btn" data-stock-del="${safeTicker}" title="${t('stocksDelTooltip')}">&#128465;</button>
-      </td></tr>`;
+      </td></tr>${detailHtml}`;
   }).join('');
 
   container.innerHTML = `
@@ -682,7 +683,6 @@ function _renderTable() {
     row.addEventListener('click', () => {
       _detailTicker = _detailTicker === row.dataset.stockDetail ? null : row.dataset.stockDetail;
       _renderTable();
-      _renderDetail();
     });
   });
 }
@@ -694,12 +694,15 @@ function _fmtKpi(v, format) {
   return v.toFixed(2);
 }
 
-function _renderDetail() {
-  const container = document.getElementById('stocksDetail');
-  if (!container) return;
-
-  const c = _detailTicker ? _store().cache[_detailTicker] : null;
-  if (!c) { container.innerHTML = ''; return; }
+/**
+ * Baut die aufklappbare Detail-Zeile direkt unter der angeklickten Aktie
+ * (statt einer separaten Ansicht unterhalb der ganzen Tabelle).
+ * @param {string} ticker
+ * @returns {string} `<tr>`-HTML, oder '' ohne (fehlerfreie) Cache-Daten.
+ */
+function _detailRowHtml(ticker) {
+  const c = _store().cache[ticker];
+  if (!c || c.error) return '';
 
   const catTitles = {
     valuation:     t('stocksColValuation'),
@@ -736,13 +739,14 @@ function _renderDetail() {
     : '–';
 
   // c.name/c.sector kommen von Finnhub → wie jeder Fremddaten-Text escapen.
-  container.innerHTML = `
+  return `<tr class="stocks-detail-row"><td colspan="7" class="stocks-detail-td">
     <div class="stocks-detail-head">
-      <strong>${escHtml(c.name ?? _detailTicker)}</strong>
+      <strong>${escHtml(c.name ?? ticker)}</strong>
       <span class="stocks-detail-meta">
         ${escHtml(c.sector ?? '')} · ${c.price != null ? `${c.price.toFixed(2)} ${escHtml(c.currency ?? '')}` : ''}
       </span>
       <span class="stocks-detail-meta">${t('stocksUpdatedAt', fetched)}</span>
     </div>
-    ${sections}`;
+    ${sections}
+  </td></tr>`;
 }

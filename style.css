@@ -1206,12 +1206,18 @@ input[type="color"] { font-size: 1rem; }
 }
 .stocks-actions { white-space: nowrap; text-align: right; }
 
-/* Detail-Ansicht */
+/* Detail-Zeile: klappt direkt unter der angeklickten Aktie auf (eigene
+   Tabellenzeile mit colspan), statt in einer Ansicht unterhalb der ganzen
+   Tabelle – daher eigenes Padding statt des generischen .cats-table td. */
+.cats-table td.stocks-detail-td {
+  padding: 0.9rem 1rem 1.1rem;
+  cursor: default;
+}
 .stocks-detail-head {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-  margin: 1rem 0 0.25rem;
+  margin: 0 0 0.25rem;
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--slate-900);
   border-radius: 8px;
