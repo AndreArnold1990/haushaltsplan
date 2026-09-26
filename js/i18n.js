@@ -25,7 +25,6 @@ const translations = {
     drawerToolsLabel:      'Werkzeuge',
     drawerSettingsLabel:   'Einstellungen',
     screenBackTitle:       'Zurück',
-    stocksGotoSettingsHint: 'Finnhub-Key in den Einstellungen konfigurieren.',
     subTabCategories:      'Kategorien',
     subTabRecurring:       'Wiederkehrend',
     subTabSystem:          'Systemeinstellungen',
@@ -109,13 +108,11 @@ const translations = {
 
     // Kategorien – Formular
     sectionNewCat:         '+ Neue Kategorie',
-    labelName:             'Name',
     labelNameDe:           'Name (Deutsch)',
     labelNameEs:           'Name (Español)',
     catNameDePlaceholder:  'z.B. Urlaub',
     catNameEsPlaceholder:  'p.ej. Vacaciones',
     labelColor:            'Farbe',
-    namePlaceholder:       'z.B. Urlaub',
     btnAddCat:             '✓ Kategorie hinzufügen',
 
     // Kategorien – Liste
@@ -123,7 +120,6 @@ const translations = {
     emptyCats:             'Keine Kategorien vorhanden.',
 
     // Kategorie bearbeiten
-    btnEdit:               '✏ Bearbeiten',
     modalEditTitle:        '✏ Kategorie bearbeiten',
     btnSave:               '✓ Speichern',
     toastCatUpdated:       name => `Kategorie "${name}" aktualisiert ✓`,
@@ -156,7 +152,6 @@ const translations = {
     toastTxsMoved:         'Transaktionen verschoben \u2713',
     toastTxsDeleted:       'Transaktionen gelöscht.',
     toastCatDeleted:       'Kategorie gelöscht.',
-    toastSignedOut:        'Abgemeldet. Deine Daten bleiben in der Cloud erhalten.',
 
     // Template-Strings (Funktionen)
     signInHintTitle:       'Bitte mit Google anmelden',
@@ -168,11 +163,7 @@ const translations = {
     confirmDeleteCat:      name  => `Kategorie "${name}" löschen?`,
     modalDesc:             (name, n) => `Die Kategorie "${name}" wird von ${n} Transaktion(en) verwendet. Was soll damit passieren?`,
     fileNotFoundMsg:       'Kein Haushalt in der Datenbank gefunden.\nNeuen Haushalt erstellen?',
-    ownExpenses:           '💰 Eigene Ausgaben',
     sharedExpenses:        '🤝 Gemeinsame Ausgaben',
-    labelSharedExpense:    'Ausgaben (Monat)',
-    sharedPerPerson:       n => `÷ ${n} Personen = je `,
-    toastNotYourTx:        'Nur eigene Transaktionen können gelöscht werden.',
     sectionTxList:         'Meine Transaktionen',
 
     // Geteilte Transaktionen
@@ -185,13 +176,11 @@ const translations = {
     partnerFallback:       'Partner',
     sectionSharedTxList:   '🤝 Gemeinsame Transaktionen',
     emptySharedTx:         'Keine gemeinsamen Transaktionen für diesen Monat.',
-    thPaidBy:              'Bezahlt von',
     splitLabelTotal:       'gesamt',
     splitLabelEach:        'p.P.',
     splitLabelFull:        'voller Betrag',
 
     // Geheimmenü / Tools
-    secretToolsTitle:      '🔧 Tools',
     secretCurrencyTab:     '💲 Währung',
     currencyMxnLabel:      'Mexikanische Pesos (MXN)',
     currencyEurLabel:      'Euro (EUR)',
@@ -334,7 +323,6 @@ const translations = {
     drawerToolsLabel:      'Herramientas',
     drawerSettingsLabel:   'Ajustes',
     screenBackTitle:       'Atrás',
-    stocksGotoSettingsHint: 'Configura la clave de Finnhub en los ajustes.',
     subTabCategories:      'Categorías',
     subTabRecurring:       'Recurrente',
     subTabSystem:          'Ajustes del sistema',
@@ -412,20 +400,17 @@ const translations = {
     toastBackupReminder:        '☁️ Copia semanal pendiente – toca Ajustes.',
 
     sectionNewCat:         '+ Nueva categoría',
-    labelName:             'Nombre',
     labelNameDe:           'Nombre (Deutsch)',
     labelNameEs:           'Nombre (Español)',
     catNameDePlaceholder:  'p.ej. Urlaub',
     catNameEsPlaceholder:  'p.ej. Vacaciones',
     labelColor:            'Color',
-    namePlaceholder:       'p.ej. Vacaciones',
     btnAddCat:             '✓ Añadir categoría',
 
     sectionExpenseCats:    'Categorías',
     emptyCats:             'No hay categorías.',
 
     // Editar categoría
-    btnEdit:               '✏ Editar',
     modalEditTitle:        '✏ Editar categoría',
     btnSave:               '✓ Guardar',
     toastCatUpdated:       name => `Categoría "${name}" actualizada ✓`,
@@ -454,7 +439,6 @@ const translations = {
     toastTxsMoved:         'Transacciones movidas \u2713',
     toastTxsDeleted:       'Transacciones eliminadas.',
     toastCatDeleted:       'Categoría eliminada.',
-    toastSignedOut:        'Sesión cerrada. Tus datos permanecen en la nube.',
 
     signInHintTitle:       'Inicia sesión con Google',
     signInHintSub:         'Tus datos se cargarán desde la nube.',
@@ -465,11 +449,7 @@ const translations = {
     confirmDeleteCat:      name  => `¿Eliminar la categoría "${name}"?`,
     modalDesc:             (name, n) => `La categoría "${name}" es usada por ${n} transacción/es. ¿Qué deseas hacer?`,
     fileNotFoundMsg:       'No se encontró el hogar en la base de datos.\n¿Crear un nuevo hogar?',
-    ownExpenses:           '💰 Mis gastos',
     sharedExpenses:        '🤝 Gastos compartidos',
-    labelSharedExpense:    'Gastos (Mes)',
-    sharedPerPerson:       n => `÷ ${n} personas = `,
-    toastNotYourTx:        'Solo puedes eliminar tus propias transacciones.',
     sectionTxList:         'Mis transacciones',
 
     // Transacciones compartidas
@@ -482,13 +462,11 @@ const translations = {
     partnerFallback:       'Pareja',
     sectionSharedTxList:   '🤝 Gastos compartidos',
     emptySharedTx:         'No hay gastos compartidos este mes.',
-    thPaidBy:              'Pagado por',
     splitLabelTotal:       'total',
     splitLabelEach:        'p.p.',
     splitLabelFull:        'importe completo',
 
     // Menú secreto / Herramientas
-    secretToolsTitle:      '🔧 Herramientas',
     secretCurrencyTab:     '💲 Moneda',
     currencyMxnLabel:      'Pesos mexicanos (MXN)',
     currencyEurLabel:      'Euro (EUR)',

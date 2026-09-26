@@ -19,7 +19,9 @@
 
 import { appData, currentUser, saveData } from './store.js';
 import { t }                               from './i18n.js';
-import { getCat, catName, fmt, fmtDate, safeColor, escHtml, toast } from './utils.js';
+import { getCat, catName, fmt, fmtDate, safeColor, escHtml, toast,
+         getOtherSub, getOtherPersonName, splitOptionsHtml,
+         decodeSplitVal, populateCategoryOptions } from './utils.js';
 
 // ── Öffentliche API ───────────────────────────────────────────────────────────
 
@@ -101,14 +103,7 @@ export function addRecurringRule() {
 
   if (!appData.recurringRules) appData.recurringRules = [];
 
-  let splitType = 'personal';
-  let paidBySub = null;
-  const otherSub = _getOtherSub();
-
-  if      (splitVal === 'equal_me')    { splitType = 'equal'; paidBySub = currentUser?.sub || null; }
-  else if (splitVal === 'full_me')     { splitType = 'full';  paidBySub = currentUser?.sub || null; }
-  else if (splitVal === 'equal_other') { splitType = 'equal'; paidBySub = otherSub; }
-  else if (splitVal === 'full_other')  { splitType = 'full';  paidBySub = otherSub; }
+  const { splitType, paidBySub } = decodeSplitVal(splitVal, currentUser?.sub || null, getOtherSub());
 
   const rule = {
     id:          'rec_' + Date.now(),
@@ -148,23 +143,16 @@ export function openEditRecurringModal(id) {
 
   // Kategorie-Dropdown befüllen (wie im Add-Formular)
   const catSel = document.getElementById('editRecCategory');
-  _fillCategorySelect(catSel);
+  populateCategoryOptions(catSel);
   catSel.value = rule.categoryId;
 
   // Split-Dropdown befüllen
-  const splitSel  = document.getElementById('editRecSplitType');
-  const otherName = escHtml(_getOtherFirstName());
-  splitSel.innerHTML = [
-    `<option value="personal">${t('splitPersonal')}</option>`,
-    `<option value="equal_me">${t('splitEqualMe')}</option>`,
-    `<option value="full_me">${t('splitFullMe')}</option>`,
-    `<option value="equal_other">${t('splitEqualOther', otherName)}</option>`,
-    `<option value="full_other">${t('splitFullOther', otherName)}</option>`,
-  ].join('');
+  const splitSel = document.getElementById('editRecSplitType');
+  splitSel.innerHTML = splitOptionsHtml(escHtml(getOtherPersonName()));
 
   // Gespeichertes splitType + paidBySub → UI-Wert umrechnen
   const sub = currentUser?.sub;
-  const otherSub = _getOtherSub();
+  const otherSub = getOtherSub();
   let splitVal = 'personal';
   if (rule.splitType === 'equal') {
     splitVal = rule.paidBySub === sub ? 'equal_me' : 'equal_other';
@@ -210,13 +198,7 @@ export function saveEditRecurringRule() {
   if (!startDate)                           { toast(t('toastSelectDate'));      return; }
   if (endDate && endDate < startDate)       { toast(t('toastEndBeforeStart')); return; }
 
-  let splitType = 'personal';
-  let paidBySub = null;
-  const otherSub = _getOtherSub();
-  if      (splitVal === 'equal_me')    { splitType = 'equal'; paidBySub = currentUser?.sub || null; }
-  else if (splitVal === 'full_me')     { splitType = 'full';  paidBySub = currentUser?.sub || null; }
-  else if (splitVal === 'equal_other') { splitType = 'equal'; paidBySub = otherSub; }
-  else if (splitVal === 'full_other')  { splitType = 'full';  paidBySub = otherSub; }
+  const { splitType, paidBySub } = decodeSplitVal(splitVal, currentUser?.sub || null, getOtherSub());
 
   const idx = (appData.recurringRules || []).findIndex(r => r.id === _editingRuleId);
   if (idx === -1) return;
@@ -265,7 +247,7 @@ export function deleteRecurringRule(id) {
 export function populateRecurringCategorySelect() {
   const sel = document.getElementById('recCategory');
   if (!sel) return;
-  _fillCategorySelect(sel);
+  populateCategoryOptions(sel);
 }
 
 /**
@@ -274,14 +256,7 @@ export function populateRecurringCategorySelect() {
 export function populateRecurringSplitSelect() {
   const sel = document.getElementById('recSplitType');
   if (!sel) return;
-  const otherName = escHtml(_getOtherFirstName());
-  sel.innerHTML = [
-    `<option value="personal">${t('splitPersonal')}</option>`,
-    `<option value="equal_me">${t('splitEqualMe')}</option>`,
-    `<option value="full_me">${t('splitFullMe')}</option>`,
-    `<option value="equal_other">${t('splitEqualOther', otherName)}</option>`,
-    `<option value="full_other">${t('splitFullOther', otherName)}</option>`,
-  ].join('');
+  sel.innerHTML = splitOptionsHtml(escHtml(getOtherPersonName()));
 }
 
 /**
@@ -322,26 +297,3 @@ export function renderRecurringRules() {
   }).join('');
 }
 
-// ── Intern ────────────────────────────────────────────────────────────────────
-
-function _getOtherSub() {
-  const sub   = currentUser?.sub;
-  const entry = Object.entries(appData.users || {}).find(([s]) => s !== sub);
-  return entry?.[0] || null;
-}
-
-function _getOtherFirstName() {
-  const other = _getOtherSub();
-  return (other && appData.users?.[other]?.firstName) || t('partnerFallback');
-}
-
-/**
- * Befüllt ein <select>-Element mit allen (Ausgaben-)Kategorien.
- * @param {HTMLSelectElement} sel
- */
-function _fillCategorySelect(sel) {
-  sel.innerHTML = '';
-  appData.categories
-    .filter(c => c.type !== 'income')
-    .forEach(c => sel.appendChild(new Option(catName(c), c.id)));
-}

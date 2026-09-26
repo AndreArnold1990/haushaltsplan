@@ -183,6 +183,62 @@ export function getOtherUser() {
   return entry ? { sub: entry[0], ...entry[1] } : null;
 }
 
+/**
+ * sub der anderen Person (nicht der aktuell eingeloggte). Da immer genau
+ * zwei Personen an der App arbeiten, ist das eindeutig.
+ * @returns {string|null}
+ */
+export function getOtherSub() {
+  return getOtherUser()?.sub || null;
+}
+
+/** Vorname der anderen Person, oder Fallback. */
+export function getOtherPersonName() {
+  return getPersonName(getOtherSub());
+}
+
+/**
+ * HTML-Optionen für das Aufteilungs-Dropdown ("Wie wird gezahlt?").
+ * @param {string} otherName - bereits escapter Name der anderen Person
+ * @returns {string}
+ */
+export function splitOptionsHtml(otherName) {
+  return [
+    `<option value="personal">${t('splitPersonal')}</option>`,
+    `<option value="equal_me">${t('splitEqualMe')}</option>`,
+    `<option value="full_me">${t('splitFullMe')}</option>`,
+    `<option value="equal_other">${t('splitEqualOther', otherName)}</option>`,
+    `<option value="full_other">${t('splitFullOther', otherName)}</option>`,
+  ].join('');
+}
+
+/**
+ * Übersetzt einen UI-Aufteilungswert (aus dem Split-Dropdown) in die
+ * intern gespeicherten Felder splitType + paidBySub.
+ * @param {string} splitVal - 'personal'|'equal_me'|'full_me'|'equal_other'|'full_other'
+ * @param {string|null} mySub
+ * @param {string|null} otherSub
+ * @returns {{ splitType: string, paidBySub: string|null }}
+ */
+export function decodeSplitVal(splitVal, mySub, otherSub) {
+  if (splitVal === 'equal_me')    return { splitType: 'equal', paidBySub: mySub };
+  if (splitVal === 'full_me')     return { splitType: 'full',  paidBySub: mySub };
+  if (splitVal === 'equal_other') return { splitType: 'equal', paidBySub: otherSub };
+  if (splitVal === 'full_other')  return { splitType: 'full',  paidBySub: otherSub };
+  return { splitType: 'personal', paidBySub: null };
+}
+
+/**
+ * Befüllt ein <select>-Element mit allen (Ausgaben-)Kategorien.
+ * @param {HTMLSelectElement} sel
+ */
+export function populateCategoryOptions(sel) {
+  sel.innerHTML = '';
+  appData.categories
+    .filter(c => c.type !== 'income')
+    .forEach(c => sel.appendChild(new Option(catName(c), c.id)));
+}
+
 // ── DOM-Hilfsmittel ───────────────────────────────────────────────────────────
 
 /**

@@ -8,7 +8,7 @@ import { config }                        from './config.js';
 import { appData, saveData, currentUser } from './store.js';
 import { t }                              from './i18n.js';
 import { fmt, getCurrentMonth, monthLabel, txsForMonth, isIncome, isPendingTx,
-         getCat, catName, getPersonName, getOtherUser, toast, safeColor, escHtml } from './utils.js';
+         getCat, catName, getOtherPersonName, toast, safeColor, escHtml } from './utils.js';
 
 /** @type {import('chart.js').Chart|null} */
 let chartCategory = null;
@@ -183,14 +183,6 @@ function _myShareTxs(txs) {
 }
 
 /**
- * Gibt den Vornamen der anderen Person zurück (aus appData.users).
- * @returns {string}
- */
-function _getOtherPersonName() {
-  return getOtherUser()?.firstName || t('partnerFallback');
-}
-
-/**
  * Rendert die "Gemeinsame Ausgaben"-Karte mit Netto-Bilanz.
  * @package
  */
@@ -219,7 +211,7 @@ function _renderSharedSummary() {
 
   if (balance > 0) {
     // Andere schulden mir
-    const otherName = escHtml(_getOtherPersonName());
+    const otherName = escHtml(getOtherPersonName());
     display.innerHTML = `
       <div class="balance-display balance-positive">
         <span class="balance-label">${t('balanceOwesMe', otherName, fmt(absBalance))}</span>

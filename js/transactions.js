@@ -15,7 +15,8 @@ import { appData, saveData, currentUser } from './store.js';
 import { t, getUiLocale }                 from './i18n.js';
 import { fmt, fmtDate, monthKey, getCurrentMonth, monthLabel,
          txsForMonth, getCat, catName, isIncome, isPendingTx, escHtml, toast, safeColor,
-         getPersonName, getOtherUser }    from './utils.js';
+         getPersonName, getOtherSub, getOtherPersonName, splitOptionsHtml,
+         decodeSplitVal, populateCategoryOptions }    from './utils.js';
 import { renderDashboard }                from './dashboard.js';
 
 // ── Interne Hilfsmittel ───────────────────────────────────────────────────────
@@ -37,31 +38,14 @@ function _sharedTxs() {
   );
 }
 
-/** sub der anderen Person (immer genau eine). */
-function _getOtherSub() {
-  return getOtherUser()?.sub || null;
-}
-
-/** Vorname der anderen Person, oder Fallback. */
-function _getOtherFirstName() {
-  return getOtherUser()?.firstName || t('partnerFallback');
-}
-
 /**
  * Befüllt das Split-Typ-Dropdown dynamisch mit dem Namen der anderen Person.
  * Muss bei jedem Öffnen des Modals aufgerufen werden, da der Name erst nach
  * dem ersten Login der anderen Person bekannt ist.
  */
 function _populateSplitSelect() {
-  const sel       = document.getElementById('txSplitType');
-  const otherName = escHtml(_getOtherFirstName());
-  sel.innerHTML = [
-    `<option value="personal">${t('splitPersonal')}</option>`,
-    `<option value="equal_me">${t('splitEqualMe')}</option>`,
-    `<option value="full_me">${t('splitFullMe')}</option>`,
-    `<option value="equal_other">${t('splitEqualOther', otherName)}</option>`,
-    `<option value="full_other">${t('splitFullOther', otherName)}</option>`,
-  ].join('');
+  const sel = document.getElementById('txSplitType');
+  sel.innerHTML = splitOptionsHtml(escHtml(getOtherPersonName()));
 }
 
 // ── Öffentliche API ───────────────────────────────────────────────────────────
@@ -90,11 +74,7 @@ export function renderTransactions() {
  * Befüllt das Kategorie-Dropdown im Add-Modal.
  */
 export function populateCategorySelect() {
-  const sel = document.getElementById('txCategory');
-  sel.innerHTML = '';
-  appData.categories
-    .filter(c => c.type !== 'income')
-    .forEach(c => sel.appendChild(new Option(catName(c), c.id)));
+  populateCategoryOptions(document.getElementById('txCategory'));
 }
 
 /**
@@ -276,26 +256,16 @@ export function openEditTxModal(id) {
 
   // Kategorie-Dropdown befüllen
   const catSel = document.getElementById('editTxCategory');
-  catSel.innerHTML = '';
-  appData.categories
-    .filter(c => c.type !== 'income')
-    .forEach(c => catSel.appendChild(new Option(catName(c), c.id)));
+  populateCategoryOptions(catSel);
   catSel.value = tx.categoryId;
 
   // Split-Dropdown befüllen
-  const splitSel  = document.getElementById('editTxSplitType');
-  const otherName = escHtml(_getOtherFirstName());
-  splitSel.innerHTML = [
-    `<option value="personal">${t('splitPersonal')}</option>`,
-    `<option value="equal_me">${t('splitEqualMe')}</option>`,
-    `<option value="full_me">${t('splitFullMe')}</option>`,
-    `<option value="equal_other">${t('splitEqualOther', otherName)}</option>`,
-    `<option value="full_other">${t('splitFullOther', otherName)}</option>`,
-  ].join('');
+  const splitSel = document.getElementById('editTxSplitType');
+  splitSel.innerHTML = splitOptionsHtml(escHtml(getOtherPersonName()));
 
   // Gespeichertes splitType → UI-Wert
   const sub      = currentUser?.sub;
-  const otherSub = _getOtherSub();
+  const otherSub = getOtherSub();
   const normType = tx.splitType === 'shared' ? 'equal' : (tx.splitType || 'personal');
   const paidBySub = tx.paidBySub || tx.createdBy?.sub;
   let splitVal = 'personal';
@@ -347,13 +317,7 @@ export function saveEditTx() {
   if (!raw || amount <= 0 || isNaN(amount)) { toast(t('toastInvalidAmount'));  return; }
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
 
-  let splitType = 'personal';
-  let paidBySub = null;
-
-  if      (splitVal === 'equal_me')    { splitType = 'equal'; paidBySub = currentUser?.sub || null; }
-  else if (splitVal === 'full_me')     { splitType = 'full';  paidBySub = currentUser?.sub || null; }
-  else if (splitVal === 'equal_other') { splitType = 'equal'; paidBySub = _getOtherSub(); }
-  else if (splitVal === 'full_other')  { splitType = 'full';  paidBySub = _getOtherSub(); }
+  const { splitType, paidBySub } = decodeSplitVal(splitVal, currentUser?.sub || null, getOtherSub());
 
   const idx = appData.transactions.findIndex(t => t.id === _editingTxId);
   if (idx === -1) return;
@@ -428,22 +392,7 @@ export function addTransaction() {
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
 
   // splitVal → internes splitType + paidBySub
-  let splitType = 'personal';
-  let paidBySub = null;
-
-  if (splitVal === 'equal_me') {
-    splitType = 'equal';
-    paidBySub = currentUser?.sub || null;
-  } else if (splitVal === 'full_me') {
-    splitType = 'full';
-    paidBySub = currentUser?.sub || null;
-  } else if (splitVal === 'equal_other') {
-    splitType = 'equal';
-    paidBySub = _getOtherSub();
-  } else if (splitVal === 'full_other') {
-    splitType = 'full';
-    paidBySub = _getOtherSub();
-  }
+  const { splitType, paidBySub } = decodeSplitVal(splitVal, currentUser?.sub || null, getOtherSub());
 
   const tx = {
     id:          'tx_' + Date.now(),
