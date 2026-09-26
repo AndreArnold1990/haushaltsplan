@@ -90,6 +90,11 @@ const _loading = new Set();
 /** Aktuell aufgeklappter Ticker in der Detail-Ansicht. */
 let _detailTicker = null;
 
+/** Aktive Sortierspalte der Vergleichstabelle (null = unsortiert, Einfüge-Reihenfolge). */
+let _sortCol = null;
+/** Sortierrichtung der aktiven Spalte. Erster Klick auf eine Spalte → 'desc'. */
+let _sortDir = 'desc';
+
 // ── Öffentliche API ───────────────────────────────────────────────────────────
 
 /** Registriert alle Event-Listener. Einmalig von initTools() aufgerufen. */
@@ -550,6 +555,55 @@ function _scoreCell(score) {
     : `<td class="stocks-score ${_scoreClass(score)}">${score}</td>`;
 }
 
+/**
+ * Sortierwert eines Tickers für eine Spalte. null für Zeilen ohne Score
+ * (noch ladend, fehlerhaft, oder KPI-Kategorie ohne verfügbare Werte) –
+ * die sortieren unabhängig von der Richtung immer ans Ende, statt bei
+ * "absteigend" verwirrend ganz oben zu landen.
+ *
+ * @param {ReturnType<typeof _store>} s
+ * @param {string} ticker
+ * @param {'ticker'|'total'|'valuation'|'profitability'|'stability'|'growth'} col
+ * @returns {string|number|null}
+ */
+function _sortValue(s, ticker, col) {
+  if (col === 'ticker') return ticker;
+  const c = s.cache[ticker];
+  if (!c || c.error) return null;
+  return c.scores?.[col] ?? null;
+}
+
+/** Watchlist-Reihenfolge für die Anzeige – Einfüge-Reihenfolge bleibt in
+ *  appData unangetastet, sortiert wird nur für die Darstellung. */
+function _sortedTickers(s) {
+  if (!_sortCol) return s.watchlist;
+  return [...s.watchlist].sort((a, b) => {
+    const va = _sortValue(s, a, _sortCol);
+    const vb = _sortValue(s, b, _sortCol);
+    if (va === null && vb === null) return 0;
+    if (va === null) return 1;
+    if (vb === null) return -1;
+    const cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
+    return _sortDir === 'desc' ? -cmp : cmp;
+  });
+}
+
+/** Klick auf einen Spaltentitel: 1. Klick auf eine (neue) Spalte → absteigend,
+ *  2. Klick auf dieselbe Spalte → aufsteigend, danach wieder absteigend usw. */
+function _onSortHeaderClick(col) {
+  _sortDir = (_sortCol === col && _sortDir === 'desc') ? 'asc' : 'desc';
+  _sortCol = col;
+  _renderTable();
+}
+
+/** Baut eine klickbare, sortierbare Spaltenüberschrift inkl. Richtungspfeil. */
+function _sortableTh(col, label, title) {
+  const isActive = _sortCol === col;
+  const arrow    = isActive ? (_sortDir === 'desc' ? ' ▼' : ' ▲') : '';
+  const titleAttr = title ? ` title="${escHtml(title)}"` : '';
+  return `<th class="stocks-th-sort${isActive ? ' is-active' : ''}" data-sort-col="${col}"${titleAttr}>${label}${arrow}</th>`;
+}
+
 function _renderTable() {
   const container = document.getElementById('stocksTable');
   if (!container) return;
@@ -560,7 +614,7 @@ function _renderTable() {
     return;
   }
 
-  const rows = s.watchlist.map(ticker => {
+  const rows = _sortedTickers(s).map(ticker => {
     const c = s.cache[ticker];
     const safeTicker = escHtml(ticker);
     if (_loading.has(ticker)) {
@@ -596,16 +650,20 @@ function _renderTable() {
   container.innerHTML = `
     <table class="cats-table stocks-table">
       <thead><tr>
-        <th>${t('stocksColTicker')}</th>
-        <th title="${t('stocksColTotal')}">&#931;</th>
-        <th title="${t('stocksColValuation')}">${t('stocksColValuationShort')}</th>
-        <th title="${t('stocksColProfitability')}">${t('stocksColProfitabilityShort')}</th>
-        <th title="${t('stocksColStability')}">${t('stocksColStabilityShort')}</th>
-        <th title="${t('stocksColGrowth')}">${t('stocksColGrowthShort')}</th>
+        ${_sortableTh('ticker', t('stocksColTicker'))}
+        ${_sortableTh('total', '&#931;', t('stocksColTotal'))}
+        ${_sortableTh('valuation', t('stocksColValuationShort'), t('stocksColValuation'))}
+        ${_sortableTh('profitability', t('stocksColProfitabilityShort'), t('stocksColProfitability'))}
+        ${_sortableTh('stability', t('stocksColStabilityShort'), t('stocksColStability'))}
+        ${_sortableTh('growth', t('stocksColGrowthShort'), t('stocksColGrowth'))}
         <th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
+
+  container.querySelectorAll('[data-sort-col]').forEach(th => {
+    th.addEventListener('click', () => _onSortHeaderClick(th.dataset.sortCol));
+  });
 
   // Aktionen (Refresh/Löschen) – vor Zeilen-Klick registrieren, stopPropagation
   container.querySelectorAll('[data-stock-refresh]').forEach(btn => {

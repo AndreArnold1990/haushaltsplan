@@ -1335,6 +1335,16 @@ nav button        { min-height: 44px; }
    relativ zur Seite und würde unter dem App-Header hängen bleiben. */
 .stocks-table thead { position: static; }
 
+/* Sortierbare Spaltenköpfe: 1. Klick absteigend, 2. Klick aufsteigend. */
+.stocks-th-sort {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.stocks-th-sort:hover  { color: var(--slate-300); }
+.stocks-th-sort.is-active { color: var(--accent-light); }
+
 .stocks-table .stocks-ticker {
   font-weight: 700;
   color: var(--slate-200);
