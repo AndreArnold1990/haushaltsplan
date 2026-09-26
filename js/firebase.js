@@ -92,7 +92,7 @@ export function init(options) {
   // Redirect-Ergebnis verarbeiten – nur als Fallback wenn Popup geblockt war.
   // Fehler hier still loggen, nie Error-State setzen (kein Redirect = kein Ergebnis = kein Fehler).
   getRedirectResult(_auth).then(result => {
-    if (result) console.log('[Auth] Redirect result OK:', result.user?.email);
+    if (result) console.log('[Auth] Redirect result OK');
   }).catch(e => {
     console.warn('[Auth] getRedirectResult (ignoriert):', e.code);
   });
