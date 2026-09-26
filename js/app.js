@@ -130,7 +130,7 @@ function _initEventListeners() {
     if (e.key === 'Escape') closeDrawer();
   });
 
-  // ── Navigation (Dashboard/Transaktionen im Nav + alle Ziele im Drawer) ───
+  // ── Navigation (alle Ziele ausschließlich über das Seitenmenü) ───────────
 
   document.querySelectorAll('[data-screen]').forEach(btn => {
     btn.addEventListener('click', () => showScreen(btn.dataset.screen));
@@ -243,8 +243,6 @@ function _initEventListeners() {
   document.getElementById('btnSaveEditRecurring').addEventListener('click',   saveEditRecurringRule);
   document.getElementById('btnCancelEditRecurring').addEventListener('click', closeEditRecurringModal);
 
-  document.querySelector('.nav-add-btn').addEventListener('click', openAddTxModal);
-
   // ── Transaktionen-Tab ─────────────────────────────────────────────────────
 
   document.querySelector('.btn-add-tx')?.addEventListener('click', openAddTxModal);
@@ -336,9 +334,7 @@ function _initEventListeners() {
 
 /**
  * Pro Screen: was beim Anzeigen (neu) gerendert bzw. geladen werden muss.
- * 'dashboard' und 'transactions' bleiben zusätzlich in der Nav-Leiste aktiv
- * markiert, alle anderen Screens sind ausschließlich über das Seitenmenü
- * erreichbar.
+ * Alle Screens sind ausschließlich über das Seitenmenü erreichbar.
  */
 const SCREEN_HOOKS = {
   dashboard:    renderDashboard,
@@ -354,7 +350,7 @@ const SCREEN_HOOKS = {
 const FULL_BLEED_SCREENS = ['currency', 'cats', 'recipes', 'stocks'];
 
 /**
- * Zeigt genau einen Screen (Dashboard, Transaktionen, Einstellungen oder
+ * Zeigt genau einen Screen (Dashboard, Haushaltsbuch, Einstellungen oder
  * eines der Werkzeuge) und versteckt alle anderen. Schließt nebenbei das
  * Seitenmenü, falls es offen war.
  * @param {keyof typeof SCREEN_HOOKS} name
@@ -365,7 +361,7 @@ function showScreen(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name)?.classList.add('active');
 
-  document.querySelectorAll('nav button[data-screen]').forEach(b =>
+  document.querySelectorAll('[data-screen]').forEach(b =>
     b.classList.toggle('active', b.dataset.screen === name)
   );
 

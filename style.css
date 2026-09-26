@@ -167,50 +167,6 @@ header h1 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
 #setupBanner a    { color: #92400e; font-weight: 700; }
 #setupBanner code { background: #fde68a; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.8rem; }
 
-/* ── Navigation ─────────────────────────────────────────────── */
-/* Einheitliches Design auf allen Größen: Icon über Label, feste Höhe */
-nav {
-  position: sticky;
-  top: 53px;   /* direkt unter dem Header (Header ≈ 53px) */
-  z-index: 99;
-  background: var(--slate-950);
-  border-bottom: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-rows: 60px;
-  align-items: stretch;
-  box-shadow: var(--shadow);
-}
-
-.nav-group {
-  display: flex;
-  align-items: stretch;
-}
-.nav-group--left  { justify-content: flex-end; }
-.nav-group--right { justify-content: flex-start; }
-.nav-group button { flex: 1; }
-
-nav button {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: var(--text-secondary);
-  border-bottom: 3px solid transparent;
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
-  font-weight: 500;
-}
-nav button.active             { color: var(--primary); border-bottom-color: var(--primary); }
-nav button:hover:not(.active) { color: var(--primary); background: var(--primary-light); }
-
-.nav-icon  { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
-.nav-label { font-size: 0.7rem; font-weight: 500; white-space: nowrap; }
-
 /* ── Main ───────────────────────────────────────────────────── */
 main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 
@@ -498,7 +454,7 @@ tr:hover td       { background: var(--surface-subtle); }
   gap: 0.5rem;
   margin-bottom: 1rem;
   position: sticky;
-  top: 113px; /* 53px header + 60px nav */
+  top: 53px; /* direkt unter dem Header (Header ≈ 53px, keine Nav mehr darunter) */
   z-index: 50;
   background: var(--bg);
   padding: 0.75rem 0 0.5rem;
@@ -671,27 +627,6 @@ input[type="color"] { padding: 3px; height: 38px; width: 100%; cursor: pointer; 
 .btn-lang:active { transform: scale(0.95); }
 
 
-/* ── Nav + Button ───────────────────────────────────────────── */
-.nav-add-btn {
-  background: var(--primary) !important;
-  color: white !important;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  min-width: 50px;
-  padding: 0;
-  font-size: 1.7rem;
-  line-height: 1;
-  border-bottom: none !important;
-  border-top: none !important;
-  box-shadow: 0 4px 14px rgba(99,102,241,0.45);
-  flex-shrink: 0;
-  align-self: center;
-  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
-}
-.nav-add-btn:hover { background: var(--primary-dark) !important; transform: scale(1.08); }
-.nav-add-btn:active { transform: scale(0.94); }
-
 /* ── "Neue Transaktion"-Button im Transaktionen-Tab ────────── */
 .btn-add-tx {
   display: block;
@@ -839,7 +774,6 @@ input[type="color"] { font-size: 1rem; }
 
 /* ── Touch-Ziele: Apple HIG empfiehlt min. 44×44 px ─────────── */
 .btn              { min-height: 44px; }
-nav button        { min-height: 44px; }
 .btn-google       { min-height: 44px; }
 .form-group input,
 .form-group select { min-height: 44px; }
@@ -864,38 +798,19 @@ nav button        { min-height: 44px; }
     padding-top:   max(0.75rem, env(safe-area-inset-top));
   }
 
-  /* Navigation: auf Mobile unten fixiert (sticky top überschreiben) */
-  nav {
-    position: fixed;
-    top: unset;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid var(--border);
-    border-bottom: none;
-    z-index: 200;
-    box-shadow: 0 -2px 16px rgba(0,0,0,0.1);
-  }
-  /* Aktiv-Indikator auf Mobile: oben statt unten */
-  nav button        { border-bottom: none; border-top: 3px solid transparent; }
-  nav button.active { border-bottom-color: transparent; border-top-color: var(--primary); }
-
-  /* Platz unten für fixierte Navigation + Safe Area */
+  /* Platz unten für die Safe Area (keine fixierte Nav mehr zu reservieren) */
   main {
     padding: 1rem 0.75rem;
-    padding-bottom: calc(60px + env(safe-area-inset-bottom) + 0.75rem);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
   }
 
-  /* Werkzeug-Screens: randlos bis an den Header, aber unten weiterhin Platz
-     für die fixierte Nav reservieren (sonst verschwindet der Inhalt darunter). */
+  /* Werkzeug-Screens: randlos bis an den Header und bis ganz unten. */
   main.full-bleed {
-    padding: 0 0 calc(60px + env(safe-area-inset-bottom)) 0;
+    padding: 0;
   }
-  .tool-screen { min-height: calc(100dvh - 53px); }
 
-  /* Settings-Subtabs auf Mobile: nur unter Header (nav ist unten),
-     horizontal scrollbar statt die Seite aufzudrücken */
+  /* Settings-Subtabs auf Mobile: horizontal scrollbar statt die Seite
+     aufzudrücken */
   .settings-subtabs {
     top: 53px;
     overflow-x: auto;
@@ -1024,17 +939,24 @@ nav button        { min-height: 44px; }
   width: 100%;
   background: none;
   border: none;
+  border-left: 3px solid transparent;
   color: var(--slate-200);
   font-size: 0.92rem;
   font-weight: 500;
   text-align: left;
-  padding: 0.8rem 1.25rem;
+  padding: 0.8rem 1.25rem 0.8rem calc(1.25rem - 3px);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
   min-height: 44px;
 }
 .drawer-item:hover  { background: rgba(255,255,255,0.06); }
 .drawer-item:active { background: rgba(255,255,255,0.1); }
+/* Aktueller Screen: Ersatz für die frühere Aktiv-Markierung der unteren Nav. */
+.drawer-item.active {
+  background: var(--accent-subtle);
+  color: var(--accent-light);
+  border-left-color: var(--accent);
+}
 .drawer-item-icon { font-size: 1.15rem; flex-shrink: 0; width: 1.4em; text-align: center; }
 
 /* ── Werkzeug-Screens (Währung, Katzen füttern, Rezepte, Aktien) ── */
@@ -1044,10 +966,9 @@ nav button        { min-height: 44px; }
   background: var(--slate-900);
   color: var(--slate-200);
   /* Randlose, durchgehende Fläche statt schwebender Karte: füllt mindestens
-     den Platz zwischen Header (≈53px) und unterer Nav (60px, hier noch im
-     normalen Fluss) aus, wächst bei längerem Inhalt aber normal mit.
-     Mobile-Override (Nav wird fixed) siehe Media-Query weiter unten. */
-  min-height: calc(100dvh - 113px);
+     den Platz unter dem Header (≈53px) aus, wächst bei längerem Inhalt aber
+     normal mit. */
+  min-height: calc(100dvh - 53px);
 }
 .tool-screen-header {
   display: flex;

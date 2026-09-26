@@ -45,22 +45,6 @@
   </div>
 </header>
 
-<nav>
-  <div class="nav-group nav-group--left">
-    <button class="active" data-screen="dashboard">
-      <span class="nav-icon">&#128200;</span>
-      <span class="nav-label" data-i18n="navDashboard">Dashboard</span>
-    </button>
-  </div>
-  <button class="nav-add-btn" title="Neue Transaktion">&#43;</button>
-  <div class="nav-group nav-group--right">
-    <button data-screen="transactions">
-      <span class="nav-icon">&#128179;</span>
-      <span class="nav-label" data-i18n="navTransactions">Transaktionen</span>
-    </button>
-  </div>
-</nav>
-
 <main>
 
   <!-- ══ DASHBOARD ══ -->
@@ -439,11 +423,14 @@
     <button id="btnCloseDrawer" class="drawer-close" title="Schließen">&times;</button>
   </div>
 
+  <button class="drawer-item active" data-screen="dashboard" data-i18n="navDashboard">&#127968; Dashboard</button>
+  <button class="drawer-item" data-screen="transactions" data-i18n="navTransactions">&#128179; Haushaltsbuch</button>
+
   <div class="drawer-section-label" data-i18n="drawerToolsLabel">Werkzeuge</div>
-  <button class="drawer-item" data-screen="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
-  <button class="drawer-item" data-screen="cats" data-i18n="catFeedTab">&#128049; Katzen füttern</button>
-  <button class="drawer-item" data-screen="recipes" data-i18n="recipesTab">&#127859; Rezepte</button>
   <button class="drawer-item" data-screen="stocks" data-i18n="stocksTab">&#128200; Aktien</button>
+  <button class="drawer-item" data-screen="cats" data-i18n="catFeedTab">&#128049; Katzen füttern</button>
+  <button class="drawer-item" data-screen="currency" data-i18n="secretCurrencyTab">&#128178; Währung</button>
+  <button class="drawer-item" data-screen="recipes" data-i18n="recipesTab">&#127859; Rezepte</button>
 
   <div class="drawer-section-label" data-i18n="drawerSettingsLabel">Einstellungen</div>
   <button class="drawer-item" data-screen="settings">

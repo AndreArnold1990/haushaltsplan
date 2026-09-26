@@ -19,8 +19,8 @@ const translations = {
     langToggleTitle:       'Auf Español wechseln',
 
     // Navigation
-    navDashboard:          'Dashboard',
-    navTransactions:       'Transaktionen',
+    navDashboard:          '🏠 Dashboard',
+    navTransactions:       '💳 Haushaltsbuch',
     navSettings:           'Einstellungen',
     drawerToolsLabel:      'Werkzeuge',
     drawerSettingsLabel:   'Einstellungen',
@@ -339,8 +339,8 @@ const translations = {
     appTitle:              '💸 Casaflow',
     langToggleTitle:       'Cambiar a Deutsch',
 
-    navDashboard:          'Panel',
-    navTransactions:       'Transacciones',
+    navDashboard:          '🏠 Panel',
+    navTransactions:       '💳 Cuentas del hogar',
     navSettings:           'Ajustes',
     drawerToolsLabel:      'Herramientas',
     drawerSettingsLabel:   'Ajustes',
