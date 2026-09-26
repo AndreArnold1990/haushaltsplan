@@ -179,11 +179,6 @@ export function openEditRecurringModal(id) {
   document.getElementById('editRecInterval').value    = rule.interval;
   document.getElementById('editRecDescription').value = rule.description !== '-' ? rule.description : '';
 
-  // Split-Sichtbarkeit initial setzen + bei Kategorie-Wechsel aktualisieren
-  _updateEditRecSplitVisibility();
-  catSel.removeEventListener('change', _updateEditRecSplitVisibility);
-  catSel.addEventListener('change', _updateEditRecSplitVisibility);
-
   document.getElementById('editRecurringModal').classList.add('is-open');
 }
 
@@ -271,7 +266,6 @@ export function populateRecurringCategorySelect() {
   const sel = document.getElementById('recCategory');
   if (!sel) return;
   _fillCategorySelect(sel);
-  _updateRecurringSplitVisibility();
 }
 
 /**
@@ -342,39 +336,12 @@ function _getOtherFirstName() {
 }
 
 /**
- * Befüllt ein <select>-Element mit allen Kategorien gruppiert nach Typ.
+ * Befüllt ein <select>-Element mit allen (Ausgaben-)Kategorien.
  * @param {HTMLSelectElement} sel
  */
 function _fillCategorySelect(sel) {
-  const inc = appData.categories.filter(c => c.type === 'income');
-  const exp = appData.categories.filter(c => c.type === 'expense');
   sel.innerHTML = '';
-  if (inc.length) {
-    const g = document.createElement('optgroup');
-    g.label = t('groupIncome');
-    inc.forEach(c => g.appendChild(new Option(catName(c), c.id)));
-    sel.appendChild(g);
-  }
-  if (exp.length) {
-    const g = document.createElement('optgroup');
-    g.label = t('groupExpense');
-    exp.forEach(c => g.appendChild(new Option(catName(c), c.id)));
-    sel.appendChild(g);
-  }
-}
-
-function _updateRecurringSplitVisibility() {
-  const catId = document.getElementById('recCategory')?.value;
-  const cat   = appData.categories.find(c => c.id === catId);
-  const group = document.getElementById('recSplitGroup');
-  if (!group) return;
-  group.classList.toggle('is-hidden', cat?.type === 'income');
-}
-
-function _updateEditRecSplitVisibility() {
-  const catId = document.getElementById('editRecCategory')?.value;
-  const cat   = appData.categories.find(c => c.id === catId);
-  const group = document.getElementById('editRecSplitGroup');
-  if (!group) return;
-  group.classList.toggle('is-hidden', cat?.type === 'income');
+  appData.categories
+    .filter(c => c.type !== 'income')
+    .forEach(c => sel.appendChild(new Option(catName(c), c.id)));
 }

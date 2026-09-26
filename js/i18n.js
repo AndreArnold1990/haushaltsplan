@@ -31,15 +31,12 @@ const translations = {
     subTabSystem:          'Systemeinstellungen',
 
     // Dashboard – Kacheln
-    labelIncome:           'Einnahmen (Monat)',
     labelExpense:          'Ausgaben (Monat)',
-    labelBalance:          'Saldo (Monat)',
 
     // Dashboard – Charts
     chartCategoryTitle:    '🌞 Ausgaben nach Kategorie',
     chartCategoryEmpty:    'Keine Ausgaben diesen Monat',
     chartHistoryTitle:     '📈 Verlauf letzte Monate',
-    datasetIncome:         'Einnahmen',
     datasetExpense:        'Ausgaben',
 
     // Transaktionen – Formular
@@ -56,10 +53,6 @@ const translations = {
     // Transaktionen – Liste
     btnDelete:             '🗑 Löschen',
     emptyTx:               'Keine Transaktionen für diesen Monat.',
-
-    // Optgroup-Labels im Kategorie-Dropdown
-    groupIncome:           '↑ Einnahmen',
-    groupExpense:          '↓ Ausgaben',
 
     // Wiederkehrende Ausgaben
     sectionRecurring:      '↻ Neue wiederkehrende Ausgabe',
@@ -121,16 +114,12 @@ const translations = {
     labelNameEs:           'Name (Español)',
     catNameDePlaceholder:  'z.B. Urlaub',
     catNameEsPlaceholder:  'p.ej. Vacaciones',
-    labelType:             'Typ',
     labelColor:            'Farbe',
     namePlaceholder:       'z.B. Urlaub',
-    typeIncome:            '↑ Einnahme',
-    typeExpense:           '↓ Ausgabe',
     btnAddCat:             '✓ Kategorie hinzufügen',
 
     // Kategorien – Liste
-    sectionIncomeCats:     '↑ Einnahmen-Kategorien',
-    sectionExpenseCats:    '↓ Ausgaben-Kategorien',
+    sectionExpenseCats:    'Kategorien',
     emptyCats:             'Keine Kategorien vorhanden.',
 
     // Kategorie bearbeiten
@@ -350,14 +339,11 @@ const translations = {
     subTabRecurring:       'Recurrente',
     subTabSystem:          'Ajustes del sistema',
 
-    labelIncome:           'Ingresos (Mes)',
     labelExpense:          'Gastos (Mes)',
-    labelBalance:          'Saldo (Mes)',
 
     chartCategoryTitle:    '🌞 Gastos por categoría',
     chartCategoryEmpty:    'Sin gastos este mes',
     chartHistoryTitle:     '📈 Historial últimos meses',
-    datasetIncome:         'Ingresos',
     datasetExpense:        'Gastos',
 
     modalEditTxTitle:      '✎ Editar transacción',
@@ -372,9 +358,6 @@ const translations = {
 
     btnDelete:             '🗑 Eliminar',
     emptyTx:               'No hay transacciones este mes.',
-
-    groupIncome:           '↑ Ingresos',
-    groupExpense:          '↓ Gastos',
 
     sectionRecurring:      '↻ Nuevo gasto recurrente',
     sectionRecurringList:  'Reglas activas',
@@ -434,15 +417,11 @@ const translations = {
     labelNameEs:           'Nombre (Español)',
     catNameDePlaceholder:  'p.ej. Urlaub',
     catNameEsPlaceholder:  'p.ej. Vacaciones',
-    labelType:             'Tipo',
     labelColor:            'Color',
     namePlaceholder:       'p.ej. Vacaciones',
-    typeIncome:            '↑ Ingreso',
-    typeExpense:           '↓ Gasto',
     btnAddCat:             '✓ Añadir categoría',
 
-    sectionIncomeCats:     '↑ Categorías de ingresos',
-    sectionExpenseCats:    '↓ Categorías de gastos',
+    sectionExpenseCats:    'Categorías',
     emptyCats:             'No hay categorías.',
 
     // Editar categoría

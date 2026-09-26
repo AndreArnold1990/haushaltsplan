@@ -60,20 +60,10 @@
     <!-- Dashboard-Inhalt (versteckt bis angemeldet) -->
     <div id="dashboardContent">
     <div class="summary-grid">
-      <div class="summary-card income">
-        <div class="summary-card-icon">&#8593;</div>
-        <div class="label" data-i18n="labelIncome">Einnahmen (Monat)</div>
-        <div class="amount" id="monthIncome">...</div>
-      </div>
       <div class="summary-card expense">
         <div class="summary-card-icon">&#8595;</div>
         <div class="label" data-i18n="labelExpense">Ausgaben (Monat)</div>
         <div class="amount" id="monthExpense">...</div>
-      </div>
-      <div class="summary-card balance">
-        <div class="summary-card-icon">=</div>
-        <div class="label" data-i18n="labelBalance">Saldo (Monat)</div>
-        <div class="amount" id="monthBalance">...</div>
       </div>
     </div>
     <div class="charts-grid">
@@ -147,13 +137,6 @@
             <input type="text" id="catNameEs" data-i18n-ph="catNameEsPlaceholder" placeholder="p.ej. Vacaciones" maxlength="40">
           </div>
           <div class="form-group">
-            <label data-i18n="labelType">Typ</label>
-            <select id="catType">
-              <option value="income"  data-i18n="typeIncome">&#8593; Einnahme</option>
-              <option value="expense" data-i18n="typeExpense">&#8595; Ausgabe</option>
-            </select>
-          </div>
-          <div class="form-group">
             <label data-i18n="labelColor">Farbe</label>
             <input type="color" id="catColor" value="#4f46e5">
           </div>
@@ -161,9 +144,7 @@
         <button id="btnAddCategory" class="btn btn-primary" data-i18n="btnAddCat">&#10003; Kategorie hinzuf&#252;gen</button>
       </div>
       <div class="card">
-        <div class="cat-section-title" data-i18n="sectionIncomeCats">&#8593; Einnahmen-Kategorien</div>
-        <div class="category-list" id="incomeCategoryList"></div>
-        <div class="cat-section-title" data-i18n="sectionExpenseCats">&#8595; Ausgaben-Kategorien</div>
+        <div class="cat-section-title" data-i18n="sectionExpenseCats">Kategorien</div>
         <div class="category-list" id="expenseCategoryList"></div>
       </div>
     </div>
@@ -538,13 +519,6 @@
       <div class="form-group">
         <label data-i18n="labelNameEs">Name (Español)</label>
         <input type="text" id="editCatNameEs" maxlength="40">
-      </div>
-      <div class="form-group">
-        <label data-i18n="labelType">Typ</label>
-        <select id="editCatType">
-          <option value="income"  data-i18n="typeIncome">&#8593; Einnahme</option>
-          <option value="expense" data-i18n="typeExpense">&#8595; Ausgabe</option>
-        </select>
       </div>
       <div class="form-group">
         <label data-i18n="labelColor">Farbe</label>

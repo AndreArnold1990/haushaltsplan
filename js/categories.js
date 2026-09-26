@@ -10,20 +10,21 @@ import { populateCategorySelect, renderTransactionTable } from './transactions.j
 import { renderDashboard }                              from './dashboard.js';
 
 /**
- * Rendert beide Kategorie-Listen (Einnahmen und Ausgaben).
+ * Rendert die Kategorie-Liste.
  */
 export function renderCategories() {
-  _renderCategoryList('income',  document.getElementById('incomeCategoryList'));
-  _renderCategoryList('expense', document.getElementById('expenseCategoryList'));
+  _renderCategoryList(document.getElementById('expenseCategoryList'));
 }
 
 /**
- * @param {'income'|'expense'} type
- * @param {HTMLElement}        container
+ * @param {HTMLElement} container
  * @package
  */
-function _renderCategoryList(type, container) {
-  const cats = appData.categories.filter(c => c.type === type);
+function _renderCategoryList(container) {
+  // type !== 'income' statt type === 'expense': zeigt auch Alt-Kategorien
+  // ohne gesetztes type-Feld. Einnahmen-Kategorien sind nicht mehr anlegbar,
+  // Alt-Daten bleiben aber unangetastet und tauchen hier bewusst nicht auf.
+  const cats = appData.categories.filter(c => c.type !== 'income');
   if (!cats.length) {
     container.innerHTML = `<div style="color:var(--text-secondary);font-size:0.85rem;padding:0.5rem">${t('emptyCats')}</div>`;
     return;
@@ -69,7 +70,6 @@ function _isDuplicateName(nameDe, nameEs, excludeId = null) {
 export function addCategory() {
   const nameDe = document.getElementById('catNameDe').value.trim();
   const nameEs = document.getElementById('catNameEs').value.trim();
-  const type   = document.getElementById('catType').value;
   const color  = document.getElementById('catColor').value;
 
   if (!nameDe) { toast(t('toastEnterName')); return; }
@@ -78,7 +78,7 @@ export function addCategory() {
     return;
   }
 
-  appData.categories.push({ id: 'cat_' + Date.now(), name: { de: nameDe, es: nameEs }, type, color });
+  appData.categories.push({ id: 'cat_' + Date.now(), name: { de: nameDe, es: nameEs }, type: 'expense', color });
   saveData();
   document.getElementById('catNameDe').value = '';
   document.getElementById('catNameEs').value = '';
@@ -103,7 +103,6 @@ export function openEditCatModal(id) {
   const n = cat.name;
   document.getElementById('editCatNameDe').value = typeof n === 'string' ? n : (n.de || '');
   document.getElementById('editCatNameEs').value = typeof n === 'string' ? '' : (n.es || '');
-  document.getElementById('editCatType').value   = cat.type;
   document.getElementById('editCatColor').value  = cat.color;
   document.getElementById('editCatModal').classList.add('is-open');
 }
@@ -115,7 +114,6 @@ export function saveEditCat() {
   if (!_editCatId) return;
   const nameDe = document.getElementById('editCatNameDe').value.trim();
   const nameEs = document.getElementById('editCatNameEs').value.trim();
-  const type   = document.getElementById('editCatType').value;
   const color  = document.getElementById('editCatColor').value;
 
   if (!nameDe) { toast(t('toastEnterName')); return; }
@@ -125,7 +123,6 @@ export function saveEditCat() {
 
   const cat = appData.categories.find(c => c.id === _editCatId);
   cat.name  = { de: nameDe, es: nameEs };
-  cat.type  = type;
   cat.color = color;
 
   saveData();

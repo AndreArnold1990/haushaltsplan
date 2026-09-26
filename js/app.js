@@ -235,9 +235,6 @@ function _initEventListeners() {
 
   // ── Wiederkehrende Ausgaben ───────────────────────────────────────────────
   document.getElementById('btnAddRecurring').addEventListener('click', addRecurringRule);
-  document.getElementById('recCategory').addEventListener('change', () => {
-    populateRecurringCategorySelect();
-  });
 
   // ── Modal: Wiederkehrende Ausgabe bearbeiten ──────────────────────────────
   document.getElementById('btnSaveEditRecurring').addEventListener('click',   saveEditRecurringRule);

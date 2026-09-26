@@ -91,41 +91,10 @@ export function renderTransactions() {
  */
 export function populateCategorySelect() {
   const sel = document.getElementById('txCategory');
-  const inc = appData.categories.filter(c => c.type === 'income');
-  const exp = appData.categories.filter(c => c.type === 'expense');
-
   sel.innerHTML = '';
-  if (inc.length) {
-    const g = document.createElement('optgroup');
-    g.label = t('groupIncome');
-    inc.forEach(c => g.appendChild(new Option(catName(c), c.id)));
-    sel.appendChild(g);
-  }
-  if (exp.length) {
-    const g = document.createElement('optgroup');
-    g.label = t('groupExpense');
-    exp.forEach(c => g.appendChild(new Option(catName(c), c.id)));
-    sel.appendChild(g);
-  }
-
-  // Split-Feld direkt nach dem Befüllen aktualisieren
-  _updateSplitVisibility();
-}
-
-/**
- * Zeigt oder versteckt die Split-Auswahl je nach Kategorie-Typ.
- * Einnahmen sind immer persönlich – Split ergibt hier keinen Sinn.
- */
-function _updateSplitVisibility() {
-  const catId    = document.getElementById('txCategory').value;
-  const cat      = appData.categories.find(c => c.id === catId);
-  const isIncome = cat?.type === 'income';
-  const group    = document.getElementById('txSplitGroup');
-  if (!group) return;
-  group.classList.toggle('is-hidden', isIncome);
-  if (isIncome) {
-    document.getElementById('txSplitType').value = 'personal';
-  }
+  appData.categories
+    .filter(c => c.type !== 'income')
+    .forEach(c => sel.appendChild(new Option(catName(c), c.id)));
 }
 
 /**
@@ -307,21 +276,10 @@ export function openEditTxModal(id) {
 
   // Kategorie-Dropdown befüllen
   const catSel = document.getElementById('editTxCategory');
-  const inc    = appData.categories.filter(c => c.type === 'income');
-  const exp    = appData.categories.filter(c => c.type === 'expense');
   catSel.innerHTML = '';
-  if (inc.length) {
-    const g = document.createElement('optgroup');
-    g.label = t('groupIncome');
-    inc.forEach(c => g.appendChild(new Option(catName(c), c.id)));
-    catSel.appendChild(g);
-  }
-  if (exp.length) {
-    const g = document.createElement('optgroup');
-    g.label = t('groupExpense');
-    exp.forEach(c => g.appendChild(new Option(catName(c), c.id)));
-    catSel.appendChild(g);
-  }
+  appData.categories
+    .filter(c => c.type !== 'income')
+    .forEach(c => catSel.appendChild(new Option(catName(c), c.id)));
   catSel.value = tx.categoryId;
 
   // Split-Dropdown befüllen
@@ -348,11 +306,6 @@ export function openEditTxModal(id) {
   document.getElementById('editTxDate').value        = tx.date;
   document.getElementById('editTxAmount').value      = tx.amount;
   document.getElementById('editTxDescription').value = tx.description !== '-' ? tx.description : '';
-
-  // Split-Sichtbarkeit + Listener
-  _updateEditSplitVisibility();
-  catSel.removeEventListener('change', _updateEditSplitVisibility);
-  catSel.addEventListener('change', _updateEditSplitVisibility);
 
   // Löschen-Button nur für eigene Transaktionen
   const isOwn = !sub || !tx.createdBy || tx.createdBy.sub === sub;
@@ -394,16 +347,13 @@ export function saveEditTx() {
   if (!raw || amount <= 0 || isNaN(amount)) { toast(t('toastInvalidAmount'));  return; }
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
 
-  const selectedCat = appData.categories.find(c => c.id === catId);
   let splitType = 'personal';
   let paidBySub = null;
 
-  if (selectedCat?.type !== 'income') {
-    if      (splitVal === 'equal_me')    { splitType = 'equal'; paidBySub = currentUser?.sub || null; }
-    else if (splitVal === 'full_me')     { splitType = 'full';  paidBySub = currentUser?.sub || null; }
-    else if (splitVal === 'equal_other') { splitType = 'equal'; paidBySub = _getOtherSub(); }
-    else if (splitVal === 'full_other')  { splitType = 'full';  paidBySub = _getOtherSub(); }
-  }
+  if      (splitVal === 'equal_me')    { splitType = 'equal'; paidBySub = currentUser?.sub || null; }
+  else if (splitVal === 'full_me')     { splitType = 'full';  paidBySub = currentUser?.sub || null; }
+  else if (splitVal === 'equal_other') { splitType = 'equal'; paidBySub = _getOtherSub(); }
+  else if (splitVal === 'full_other')  { splitType = 'full';  paidBySub = _getOtherSub(); }
 
   const idx = appData.transactions.findIndex(t => t.id === _editingTxId);
   if (idx === -1) return;
@@ -442,17 +392,6 @@ export function deleteEditTx() {
   toast(t('toastTxDeleted'));
 }
 
-/** Zeigt/versteckt Split-Feld im Edit-Modal je nach Kategorie-Typ. */
-function _updateEditSplitVisibility() {
-  const catId   = document.getElementById('editTxCategory').value;
-  const cat     = appData.categories.find(c => c.id === catId);
-  const group   = document.getElementById('editTxSplitGroup');
-  if (!group) return;
-  const income  = cat?.type === 'income';
-  group.classList.toggle('is-hidden', income);
-  if (income) document.getElementById('editTxSplitType').value = 'personal';
-}
-
 /**
  * Öffnet das Modal zum Hinzufügen einer Transaktion.
  */
@@ -462,11 +401,6 @@ export function openAddTxModal() {
   document.getElementById('txDescription').value = '';
   _populateSplitSelect();
   populateCategorySelect();
-
-  // Einmalig registrieren: Split-Sichtbarkeit bei Kategorie-Wechsel aktualisieren
-  const catSel = document.getElementById('txCategory');
-  catSel.removeEventListener('change', _updateSplitVisibility);
-  catSel.addEventListener('change', _updateSplitVisibility);
 
   document.getElementById('addTxModal').classList.add('is-open');
 }
@@ -494,14 +428,10 @@ export function addTransaction() {
   if (!catId)                               { toast(t('toastSelectCategory')); return; }
 
   // splitVal → internes splitType + paidBySub
-  // Einnahmen sind immer persönlich, unabhängig vom Split-Select
-  const selectedCat = appData.categories.find(c => c.id === catId);
   let splitType = 'personal';
   let paidBySub = null;
 
-  if (selectedCat?.type === 'income') {
-    // Keine weitere Verarbeitung – bleibt personal
-  } else if (splitVal === 'equal_me') {
+  if (splitVal === 'equal_me') {
     splitType = 'equal';
     paidBySub = currentUser?.sub || null;
   } else if (splitVal === 'full_me') {

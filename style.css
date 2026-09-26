@@ -188,7 +188,7 @@ main.full-bleed { max-width: none; padding: 0; }
 /* ── Summary-Grid ───────────────────────────────────────────── */
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -201,14 +201,10 @@ main.full-bleed { max-width: none; padding: 0; }
   border-top: 4px solid transparent;
   position: relative;
 }
-.summary-card.income  { border-top-color: var(--income); }
 .summary-card.expense { border-top-color: var(--expense); }
-.summary-card.balance { border-top-color: var(--primary); }
 .summary-card .label  { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 .summary-card .amount { font-size: 1.8rem; font-weight: 700; }
-.summary-card.income  .amount { color: var(--income); }
 .summary-card.expense .amount { color: var(--expense); }
-.summary-card.balance .amount { color: var(--primary); }
 
 /* Icon-Badge oben rechts in jeder Kachel */
 .summary-card-icon {
@@ -225,9 +221,7 @@ main.full-bleed { max-width: none; padding: 0; }
   font-weight: 800;
   line-height: 1;
 }
-.summary-card.income  .summary-card-icon { background: var(--income-light);  color: var(--income); }
 .summary-card.expense .summary-card-icon { background: var(--expense-light); color: var(--expense); }
-.summary-card.balance .summary-card-icon { background: var(--primary-light); color: var(--primary); }
 
 /* ── Charts ─────────────────────────────────────────────────── */
 .charts-grid   { display: grid; grid-template-columns: 5fr 7fr; gap: 1.25rem; }
@@ -824,18 +818,6 @@ input[type="color"] { font-size: 1rem; }
     font-size: 0.82rem;
     padding: 0.5rem 0.9rem;
   }
-
-  /* Summary: 3 nebeneinander aber kompakter */
-  .summary-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-  }
-  .summary-card {
-    padding: 0.85rem 0.65rem;
-  }
-  .summary-card .label       { font-size: 0.62rem; }
-  .summary-card .amount      { font-size: 1.15rem; }
-  .summary-card-icon         { display: none; } /* zu wenig Platz bei kompakten Kacheln */
 
   /* Formulare: eine Spalte */
   .form-grid { grid-template-columns: 1fr; }

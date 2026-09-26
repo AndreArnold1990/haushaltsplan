@@ -25,18 +25,8 @@ export function renderDashboard() {
   const txs    = txsForMonth(m).filter(tx => !isPendingTx(tx));
   const shares = _myShareTxs(txs);
 
-  let inc = 0, exp = 0;
-  shares.forEach(tx => {
-    if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
-  });
-  const bal = inc - exp;
-
-  document.getElementById('monthIncome').textContent  = fmt(inc);
+  const exp = shares.filter(tx => !isIncome(tx)).reduce((sum, tx) => sum + tx.amount, 0);
   document.getElementById('monthExpense').textContent = fmt(exp);
-
-  const balEl = document.getElementById('monthBalance');
-  balEl.textContent = fmt(bal);
-  balEl.style.color = bal >= 0 ? 'var(--income)' : 'var(--expense)';
 
   _renderCategoryChart(shares);
   _renderHistoryChart();
@@ -302,22 +292,17 @@ function _renderHistoryChart() {
     months.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
   }
 
-  const incData = [], expData = [];
-  months.forEach(m => {
-    let inc = 0, exp = 0;
-    _myShareTxs(txsForMonth(m).filter(tx => !isPendingTx(tx))).forEach(tx => {
-      if (isIncome(tx)) inc += tx.amount; else exp += tx.amount;
-    });
-    incData.push(inc);
-    expData.push(exp);
-  });
+  const expData = months.map(m =>
+    _myShareTxs(txsForMonth(m).filter(tx => !isPendingTx(tx)))
+      .filter(tx => !isIncome(tx))
+      .reduce((sum, tx) => sum + tx.amount, 0)
+  );
 
   chartHistory = new Chart(ctx, {
     type: 'bar',
     data: {
       labels:   months.map(monthLabel),
       datasets: [
-        { label: t('datasetIncome'),  data: incData, backgroundColor: 'rgba(52,211,153,0.25)', borderColor: '#34d399', borderWidth: 2, borderRadius: 6, borderSkipped: false },
         { label: t('datasetExpense'), data: expData, backgroundColor: 'rgba(248,113,113,0.25)', borderColor: '#f87171', borderWidth: 2, borderRadius: 6, borderSkipped: false },
       ],
     },
