@@ -10,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Tests
+        run: node tests/run.mjs
+
       - name: Rezept-Index generieren
         run: node scripts/build-recipe-index.mjs
 

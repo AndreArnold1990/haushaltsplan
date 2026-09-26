@@ -34,28 +34,36 @@
 let _passed = 0, _failed = 0;
 const _output = document.getElementById('output');
 
-function suite(title, fn) {
+/**
+ * Führt die Tests einer Suite nacheinander aus, bevor die nächste Suite
+ * beginnt – sonst könnte die Zusammenfassung unten schon stehen, bevor
+ * alle Tests durchgelaufen sind (runStoreTests wartet auf jede suite()).
+ */
+async function suite(title, fn) {
   const box = document.createElement('div');
   box.className = 'suite';
   box.innerHTML = `<div class="suite-title">${title}</div>`;
   _output.appendChild(box);
-  fn(makeAssert(box));
+
+  let chain = Promise.resolve();
+  fn((name, testFn) => {
+    chain = chain.then(() => runTest(box, name, testFn));
+  });
+  await chain;
 }
 
-function makeAssert(box) {
-  return async function test(name, fn) {
-    const row  = document.createElement('div');
-    row.className = 'test';
-    box.appendChild(row);
-    try {
-      await fn();
-      _passed++;
-      row.innerHTML = `<span class="icon pass">&#10003;</span><span>${name}</span>`;
-    } catch (e) {
-      _failed++;
-      row.innerHTML = `<span class="icon fail">&#10007;</span><div><div>${name}</div><div class="msg">${e.message}</div></div>`;
-    }
-  };
+async function runTest(box, name, fn) {
+  const row = document.createElement('div');
+  row.className = 'test';
+  box.appendChild(row);
+  try {
+    await fn();
+    _passed++;
+    row.innerHTML = `<span class="icon pass">&#10003;</span><span>${name}</span>`;
+  } catch (e) {
+    _failed++;
+    row.innerHTML = `<span class="icon fail">&#10007;</span><div><div>${name}</div><div class="msg">${e.message}</div></div>`;
+  }
 }
 
 function assert(cond, msg) {
@@ -64,15 +72,10 @@ function assert(cond, msg) {
 function assertEqual(a, b, msg) {
   if (a !== b) throw new Error(msg ?? `Erwartet: ${JSON.stringify(b)}\nErhalten: ${JSON.stringify(a)}`);
 }
-function assertContains(str, sub, msg) {
-  if (!String(str).includes(sub)) throw new Error(msg ?? `"${sub}" nicht in "${str}" gefunden`);
-}
 
 // ── Tests importieren ─────────────────────────────────────────────────────────
-import { runDriveTests } from './drive.test.js';
 import { runStoreTests } from './store.test.js';
 
-await runDriveTests(suite, assert, assertEqual, assertContains);
 await runStoreTests(suite, assert, assertEqual);
 
 // ── Zusammenfassung ───────────────────────────────────────────────────────────

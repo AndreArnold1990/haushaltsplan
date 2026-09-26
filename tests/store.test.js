@@ -30,7 +30,7 @@ function storedData() {
 export async function runStoreTests(suite, assert, assertEqual) {
 
   // ── 1. loadData ───────────────────────────────────────────────────��────────
-  suite('store.loadData – initialisiert leer, bereinigt localStorage', test => {
+  await suite('store.loadData – initialisiert leer, bereinigt localStorage', test => {
     test('initialisiert appData als leere Struktur', async () => {
       loadData();
       assert(Array.isArray(appData.categories),   'categories muss ein Array sein');
@@ -61,7 +61,7 @@ export async function runStoreTests(suite, assert, assertEqual) {
   });
 
   // ── 2. saveData ────────────────────────────────────────────────────────────
-  suite('store.saveData – kein localStorage-Write, nur Firestore-Callback', test => {
+  await suite('store.saveData – kein localStorage-Write, nur Firestore-Callback', test => {
     test('schreibt nicht in localStorage', async () => {
       localStorage.removeItem(STORAGE_KEY);
       setOnSaveCallback(null);
@@ -89,7 +89,7 @@ export async function runStoreTests(suite, assert, assertEqual) {
   });
 
   // ── 3. setAppData ─────────────────────────────��────────────────────────────
-  suite('store.setAppData – Daten aus Firestore übernehmen', test => {
+  await suite('store.setAppData – Daten aus Firestore übernehmen', test => {
     test('ersetzt appData vollständig (simuliert onDataLoaded)', async () => {
       loadData();
       assertEqual(appData.categories.length, 0, 'Ausgangszustand: leer');
