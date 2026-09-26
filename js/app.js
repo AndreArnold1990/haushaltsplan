@@ -136,11 +136,6 @@ function _initEventListeners() {
     btn.addEventListener('click', () => showScreen(btn.dataset.screen));
   });
 
-  // Zurück-Pfeile auf den Werkzeug- und Einstellungen-Seiten
-  document.querySelectorAll('.js-back-btn').forEach(btn => {
-    btn.addEventListener('click', () => showScreen('dashboard'));
-  });
-
   // ── Einstellungen Sub-Tabs ────────────────────────────────────────────────
   document.querySelectorAll('.settings-subtab').forEach(btn => {
     btn.addEventListener('click', () => {

@@ -930,50 +930,7 @@ input[type="color"] { font-size: 1rem; }
      normal mit. */
   min-height: calc(100dvh - 53px);
 }
-.tool-screen-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  background: var(--slate-950);
-  border-bottom: 1px solid var(--slate-700);
-}
-.tool-screen-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--slate-200);
-}
 .tool-screen-body { padding: 1.5rem 1.25rem; }
-
-/* Zurück-Pfeil – dunkle Variante (Werkzeug-Screens) und helle Variante
-   (Einstellungen-Screen) teilen sich Layout/Größe, nur die Farbe unterscheidet sich. */
-.screen-back-btn {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0.2rem 0.4rem;
-  border-radius: 6px;
-  flex-shrink: 0;
-  min-width: 44px;
-  min-height: 44px;
-  transition: background 0.15s;
-}
-.tool-screen-header .screen-back-btn { color: var(--slate-400); }
-.tool-screen-header .screen-back-btn:hover { color: var(--slate-200); background: rgba(255,255,255,0.06); }
-
-/* Einstellungen-Screen-Header (hell, passend zum restlichen App-Design) */
-.screen-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-.screen-header .screen-back-btn { color: var(--text-secondary); }
-.screen-header .screen-back-btn:hover { color: var(--primary); background: var(--primary-light); }
-.screen-header-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
 
 /* Kurs-Info-Zeile */
 .currency-rate-info {
