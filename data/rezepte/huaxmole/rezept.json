@@ -1,0 +1,40 @@
+{
+  "id": "huaxmole",
+  "title": { "de": "Huaxmole", "es": "Huaxmole" },
+  "emoji": "🍲",
+  "servings": 4,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "eintopf", "es": "guiso" }
+  ],
+  "ingredients": [
+    { "amount": 0.5,  "unit": "kg",                        "name": { "de": "gekochtes Schweinerückgrat, in Stücken", "es": "espinazo de cerdo cocido" } },
+    { "amount": 2,    "unit": "l",                         "name": { "de": "Wasser", "es": "agua" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "halbierte Zwiebel", "es": "cebolla en mitades" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": null, "unit": "",                          "name": { "de": "Salz nach Geschmack", "es": "sal al gusto" } },
+    { "amount": 3,    "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Öl", "es": "aceite" } },
+    { "amount": 4,    "unit": "",                          "name": { "de": "Serrano-Chilis", "es": "chiles serrano" } },
+    { "amount": 300,  "unit": "g",                         "name": { "de": "gehackte Tomaten", "es": "jitomate picado" } },
+    { "amount": 1,    "unit": { "de": "Zweig", "es": "ramita" }, "name": { "de": "Koriander", "es": "cilantro" } },
+    { "amount": 350,  "unit": "g",                         "name": { "de": "geputzte Guaje-Samen (huajes)", "es": "huajes limpios" } }
+  ],
+  "steps": {
+    "de": [
+      "Das Fleisch mit dem Wasser, einer Knoblauchzehe, der halben Zwiebel und etwas Salz kochen, bis es zart ist.",
+      "Die Chilis im Öl anbraten, die Tomaten zugeben und mitbraten. Zusammen mit der restlichen Zwiebel und dem restlichen Knoblauch in den Mixer geben und pürieren, bis alles vermischt ist. Die Sauce zurück in den Topf geben, kurz anbraten, den Koriander sowie die Kochbrühe des Fleisches zugeben. Das Fleisch unterrühren.",
+      "Die Guaje-Samen mit etwas von der Kochbrühe des Fleisches pürieren und in den Topf geben; köcheln lassen, bis die Sauce die Konsistenz einer Mole hat. Nach Belieben servieren."
+    ],
+    "es": [
+      "Cuece la carne con el agua, un ajo, media cebolla y un poco de sal hasta que esté tierna.",
+      "Fríe los chiles en el aceite, agrega los jitomates y sofríe. Vierte a la licuadora junto con la cebolla y ajo restantes y bate hasta que se integren. Regresa la salsa a la cacerola y sofríe, añade el cilantro junto con el caldo de la cocción de la carne. Integra la carne.",
+      "Muele los huajes con un poco del caldo de la cocción de la carne y vierte a la cacerola; cocina hasta que tenga una consistencia de mole. Sirve acompañando al gusto."
+    ]
+  },
+  "notes": {
+    "de": "Das Schweinefleisch wird lange gekocht, bis es vollständig gar und zart ist — wichtig in der Schwangerschaft.",
+    "es": "La carne de cerdo se cuece durante mucho tiempo hasta quedar completamente hecha y tierna — importante durante el embarazo."
+  }
+}

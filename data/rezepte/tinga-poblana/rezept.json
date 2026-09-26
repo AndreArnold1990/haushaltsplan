@@ -1,0 +1,40 @@
+{
+  "id": "tinga-poblana",
+  "title": { "de": "Tinga Poblana", "es": "Tinga poblana" },
+  "emoji": "🌮",
+  "servings": 8,
+  "timeMinutes": 50,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "fleisch", "es": "carne" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": "kg",                        "name": { "de": "mageres Schweinefleisch, in kleine Würfel geschnitten", "es": "carne magra de cerdo en cubos pequeños" } },
+    { "amount": 0.5,  "unit": "",                          "name": { "de": "Zwiebel", "es": "cebolla" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "Knoblauch", "es": "ajo" } },
+    { "amount": 200,  "unit": "g",                         "name": { "de": "Longaniza (mexikanische Frischwurst)", "es": "longaniza" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "fein gehackte Zwiebel", "es": "cebolla picada finamente" } },
+    { "amount": 5,    "unit": "",                          "name": { "de": "gebratene, gehackte Tomaten", "es": "jitomates asados y picados" } },
+    { "amount": 3,    "unit": "",                          "name": { "de": "gekochte, gewürfelte Kartoffeln", "es": "papas cocidas y en cubos" } },
+    { "amount": 0.25, "unit": { "de": "Tasse", "es": "taza" }, "name": { "de": "fein gehackte Chipotle-Chilis in Adobo", "es": "chiles chipotle adobados picados finamente" } },
+    { "amount": 1,    "unit": { "de": "Bund", "es": "manojo" }, "name": { "de": "Kräutersträußchen (z.B. Lorbeer, Thymian, Majoran)", "es": "hierbas de olor" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Essig", "es": "vinagre" } },
+    { "amount": null, "unit": "",                          "name": { "de": "Salz nach Geschmack", "es": "sal al gusto" } },
+    { "amount": null, "unit": "",                          "name": { "de": "Öl nach Bedarf", "es": "aceite, cantidad necesaria" } },
+    { "amount": null, "unit": "",                          "name": { "de": "Tostadas (Mais-Tortilla-Chips), scharfe Soße und gehackter Salat nach Belieben", "es": "tostadas de maíz, salsa picante y lechuga picada al gusto" } }
+  ],
+  "steps": {
+    "de": [
+      "Das Fleisch mit der halben Zwiebel und den Knoblauchzehen kochen, bis es zart ist.",
+      "Die Longaniza in einer beschichteten Pfanne braten, herausnehmen, das austretende Fett aber in der Pfanne lassen. Die gehackte Zwiebel, das Fleisch, die Tomaten, die Kartoffeln und die Chipotles dazugeben. Die Longaniza zurückgeben, mit dem Essig ablöschen und die Kräuter zugeben; mit Salz abschmecken. Köcheln lassen, bis der größte Teil der Flüssigkeit verdampft ist. Auf Tostadas servieren, dazu Salat und scharfe Soße nach Belieben."
+    ],
+    "es": [
+      "Cuece la carne con 1/2 cebolla y los dientes de ajo hasta que esté tierna.",
+      "Fríe la longaniza en una sartén antiadherente, retira del fuego pero reserva la grasa que soltó. Añade a la sartén la cebolla picada, la carne, los jitomates, las papas y los chipotles. Regresa la longaniza a la sartén, baña con el vinagre y agrega las hierbas de olor; sazona con sal al gusto. Deja hervir hasta que se evapore la mayor parte del líquido. Sirve sobre tostadas, acompañando con lechuga y salsa picante al gusto."
+    ]
+  },
+  "notes": {
+    "de": "Fleisch und Longaniza vollständig durchgaren, bevor sie mit dem Gemüse weiterköcheln — wichtig in der Schwangerschaft.",
+    "es": "Cocinar la carne y la longaniza completamente antes de seguir guisando con las verduras — importante durante el embarazo."
+  }
+}

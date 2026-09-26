@@ -1,0 +1,50 @@
+{
+  "id": "mole-poblano",
+  "title": { "de": "Mole Poblano", "es": "Mole poblano" },
+  "emoji": "🦃",
+  "servings": 8,
+  "timeMinutes": 80,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "fleisch", "es": "carne" }
+  ],
+  "ingredients": [
+    { "amount": 8,    "unit": "",                          "name": { "de": "Ancho-Chilis, geröstet, entkernt, über Nacht in Salzwasser eingeweicht", "es": "chiles ancho tostados, desvenados y remojados un día antes en agua con sal" } },
+    { "amount": 16,   "unit": "",                          "name": { "de": "Mulato-Chilis, geröstet, entkernt, über Nacht in Salzwasser eingeweicht", "es": "chiles mulato tostados, desvenados y remojados un día antes en agua con sal" } },
+    { "amount": 2,    "unit": "",                          "name": { "de": "Pasilla-Chilis, geröstet, entkernt, über Nacht in Salzwasser eingeweicht", "es": "chiles pasilla tostados, desvenados y remojados un día antes en agua con sal" } },
+    { "amount": 2,    "unit": "",                          "name": { "de": "Chipotle-Chilis, geröstet, entkernt, über Nacht in Salzwasser eingeweicht", "es": "chiles chipotle tostados, desvenados y remojados un día antes en agua con sal" } },
+    { "amount": 3,    "unit": "",                          "name": { "de": "reife, gebratene Tomaten", "es": "jitomates maduros y asados" } },
+    { "amount": 50,   "unit": "g",                         "name": { "de": "Mandeln", "es": "almendras" } },
+    { "amount": 50,   "unit": "g",                         "name": { "de": "Rosinen", "es": "pasas" } },
+    { "amount": 2,    "unit": { "de": "EL", "es": "cda." }, "name": { "de": "gerösteter Sesam", "es": "ajonjolí tostado" } },
+    { "amount": 0.5,  "unit": "",                          "name": { "de": "frittiertes Weißbrötchen (Bolillo)", "es": "bolillo frito" } },
+    { "amount": 1,    "unit": { "de": "Prise", "es": "pizca" }, "name": { "de": "gemahlene Nelken", "es": "clavo molido" } },
+    { "amount": 1,    "unit": { "de": "Prise", "es": "pizca" }, "name": { "de": "gemahlener Zimt", "es": "canela molida" } },
+    { "amount": 1,    "unit": { "de": "Prise", "es": "pizca" }, "name": { "de": "gemahlener schwarzer Pfeffer", "es": "pimienta negra molida" } },
+    { "amount": 1,    "unit": { "de": "Prise", "es": "pizca" }, "name": { "de": "Anis", "es": "anís" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "frittierte Tortilla", "es": "tortilla frita" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "geviertelte, angebratene Zwiebel", "es": "cebolla en cuartos y frita" } },
+    { "amount": 3,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "geröstete Knoblauchzehen", "es": "ajo asado" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "kleiner Truthahn, gut geputzt und zerteilt", "es": "guajolote chico muy limpio y en piezas" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "halbierte Zwiebel", "es": "cebolla en mitades" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "gehackte Petersilie", "es": "perejil picado" } },
+    { "amount": 250,  "unit": "g",                         "name": { "de": "Schweineschmalz", "es": "manteca" } },
+    { "amount": 50,   "unit": "g",                         "name": { "de": "Schokolade, in Stücken", "es": "chocolate en trozo" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "Zucker", "es": "azúcar" } },
+    { "amount": null, "unit": "",                          "name": { "de": "Salz nach Geschmack", "es": "sal al gusto" } }
+  ],
+  "steps": {
+    "de": [
+      "Die eingeweichten Chilis abtropfen lassen und zusammen mit den Tomaten, Mandeln, Rosinen, dem Sesam, dem Weißbrötchen, den gemahlenen Gewürzen, der Tortilla, der Zwiebel und zwei Knoblauchzehen im Mixer fein pürieren.",
+      "Den Truthahn mit der restlichen Knoblauchzehe, den Zwiebelhälften und der Petersilie garen, bis er zart ist. Die Stücke in einem Topf in etwas Schmalz anbraten, das Püree dazugeben und einige Minuten kochen lassen. Wird es zu dick, etwas von der Truthahn-Kochbrühe zugeben. Schokolade und Zucker unterrühren, aufkochen und abschmecken. Heiß servieren, nach Belieben mit Sesam bestreut."
+    ],
+    "es": [
+      "Escurre los chiles y muele en la licuadora junto con los jitomates, las almendras, las pasas, el ajonjolí, el bolillo, las especias, la tortilla, la cebolla y dos dientes de ajo.",
+      "Cuece el guajolote con el diente de ajo restante, las mitades de cebolla y el perejil hasta que esté tierno. Vierte a una cazuela y fríe con un poco de manteca las piezas de guajolote, vierte lo licuado y cocina por varios minutos. Cuando comience a espesar demasiado, agrega caldo de la cocción del guajolote. Integra el chocolate y el azúcar, lleva a hervir y verifica la sazón. Sirve caliente espolvoreando con ajonjolí al gusto."
+    ]
+  },
+  "notes": {
+    "de": "Der Truthahn wird lange gegart, bis er vollständig durch und zart ist — in der Schwangerschaft besonders wichtig.",
+    "es": "El guajolote se cuece durante mucho tiempo hasta quedar completamente hecho y tierno — especialmente importante en el embarazo."
+  }
+}

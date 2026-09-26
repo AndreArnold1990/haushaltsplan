@@ -1,0 +1,48 @@
+{
+  "id": "mole-de-olla",
+  "title": { "de": "Mole de Olla", "es": "Mole de olla" },
+  "emoji": "🥘",
+  "servings": 8,
+  "timeMinutes": 105,
+  "tags": [
+    { "de": "mexikanisch", "es": "mexicano" },
+    { "de": "fleisch", "es": "carne" },
+    { "de": "eintopf", "es": "guiso" }
+  ],
+  "ingredients": [
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "getrockneter Oregano", "es": "orégano seco" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Epazote (mexikanisches Gewürzkraut)", "es": "epazote" } },
+    { "amount": 30,   "unit": "g",                         "name": { "de": "geröstete Morita-Chilis", "es": "chiles morita asados" } },
+    { "amount": 30,   "unit": "g",                         "name": { "de": "geröstete Guajillo-Chilis", "es": "chiles guajillo asados" } },
+    { "amount": 50,   "unit": "g",                         "name": { "de": "geröstete Tomate", "es": "jitomate asado" } },
+    { "amount": 0.5,  "unit": "",                          "name": { "de": "geröstete Zwiebel", "es": "cebolla asada" } },
+    { "amount": 3,    "unit": "",                          "name": { "de": "zarte Zucchini (calabacitas), in Stücken", "es": "calabacitas tiernas en trozos" } },
+    { "amount": 1,    "unit": { "de": "EL", "es": "cda." }, "name": { "de": "Pflanzenöl", "es": "aceite vegetal" } },
+    { "amount": 1,    "unit": "",                          "name": { "de": "geschälter Chayote, in Stücken", "es": "chayote pelado y en trozos" } },
+    { "amount": 2,    "unit": { "de": "Zehen", "es": "dientes" }, "name": { "de": "geröstete Knoblauchzehen", "es": "ajo asado" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "ganze Pfefferkörner", "es": "pimienta entera" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "ganzer Kreuzkümmel", "es": "comino entero" } },
+    { "amount": 2,    "unit": "",                          "name": { "de": "Maiskolben, gedrittelt", "es": "elotes en tercios" } },
+    { "amount": 100,  "unit": "g",                         "name": { "de": "grüne Bohnen, in Stücken", "es": "ejotes en trozos" } },
+    { "amount": 2,    "unit": "",                          "name": { "de": "geschälte Xoconostle (saure Kaktusfeigen), in Stücken", "es": "xoconostles pelados y en trozos" } },
+    { "amount": 1,    "unit": { "de": "TL", "es": "cdta." }, "name": { "de": "ganze Nelken", "es": "clavo entero" } },
+    { "amount": 1,    "unit": "kg",                        "name": { "de": "durchwachsenes Rindfleisch zum Schmoren, in Stücken", "es": "carne maciza de res en trozos" } },
+    { "amount": 2,    "unit": "l",                         "name": { "de": "Wasser", "es": "agua" } }
+  ],
+  "steps": {
+    "de": [
+      "Die Chilis, die Tomate, die Zwiebel und die Knoblauchzehen in heißem Wasser einweichen. Zusammen mit Oregano, Epazote, Pfeffer, Kreuzkümmel und Nelken im Mixer pürieren, bis alles vermischt ist.",
+      "Das Öl in einem großen Topf erhitzen und Zucchini, Chayote, Mais, grüne Bohnen und Xoconostle darin anbraten, bis sie weich sind. Das Püree dazugeben und einige Minuten mitkochen.",
+      "Das Fleisch im Wasser kochen, bis es fertig ist, etwas abkühlen lassen, in Stücke schneiden und zum Gemüse in den Topf geben. Zusammen köcheln lassen, bis alles zart ist."
+    ],
+    "es": [
+      "Remoja en agua caliente los chiles, el jitomate, la cebolla y los ajos. Licua junto con el orégano, el epazote, la pimienta, el comino y el clavo hasta que se incorporen.",
+      "Calienta el aceite en una cacerola grande y sofríe las calabacitas, el chayote, el elote, los ejotes y el xoconostle hasta que estén tiernos, añade lo licuado y sazona por unos minutos.",
+      "Cuece la carne en el agua hasta que esté lista, deja enfriar un poco, pica en trozos y vierte a la cacerola con las verduras. Cocina todo junto hasta que esté tierno."
+    ]
+  },
+  "notes": {
+    "de": "Das Rindfleisch wird separat gekocht, bis es vollständig durch ist, bevor es zum Gemüse kommt — wichtig in der Schwangerschaft.",
+    "es": "La carne de res se cuece por separado hasta quedar completamente hecha antes de añadirla a las verduras — importante durante el embarazo."
+  }
+}
