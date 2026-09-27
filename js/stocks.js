@@ -333,15 +333,20 @@ async function _fetchTicker(ticker, force) {
     toast(t('stocksErrLoad', ticker));
   } else {
     const closes = _closesAscending(candleResp);
+    // Eigener Fehlertext für die Candle-Daten, unabhängig vom Gesamterfolg –
+    // Fundamentaldaten können laden, während /stock/candle allein scheitert
+    // (z.B. falls dieser Endpunkt einen bezahlten Finnhub-Plan braucht).
+    const candleErr = results[3].status === 'rejected' ? _errorLabel(results[3].reason) : null;
     s.cache[ticker] = {
-      fetchedAt:  Date.now(),
-      name:       kpis.name,
-      sector:     kpis.sector,
-      price:      kpis.price,
-      currency:   kpis.currency,
-      kpis:       kpis.values,
-      scores:     _computeScores(kpis.values),
-      indicators: { ema150: _ema(closes, 150), ema50: _ema(closes, 50) },
+      fetchedAt:       Date.now(),
+      name:            kpis.name,
+      sector:          kpis.sector,
+      price:           kpis.price,
+      currency:        kpis.currency,
+      kpis:            kpis.values,
+      scores:          _computeScores(kpis.values),
+      indicators:      { ema150: _ema(closes, 150), ema50: _ema(closes, 50) },
+      indicatorsError: closes ? null : candleErr,
     };
     saveData();
   }
@@ -779,7 +784,18 @@ function _emaRowHtml(label, value, price, currency) {
  * @param {ReturnType<typeof _store>['cache'][string]} c
  */
 function _indicatorsSectionHtml(c) {
-  const ind      = c.indicators ?? {};
+  const ind = c.indicators ?? {};
+
+  // Candle-Abruf komplett fehlgeschlagen (z.B. Plan-Beschränkung) → konkreten
+  // Grund zeigen statt stumm "–", sonst lässt sich das ohne Browser-Konsole
+  // nicht diagnostizieren (c.indicatorsError enthält Finnhubs eigenen Text,
+  // wie jeder Fremddaten-Text escapen).
+  if (ind.ema150 == null && ind.ema50 == null && c.indicatorsError) {
+    return `
+      <div class="cats-section">${t('stocksIndicatorsTitle')}</div>
+      <p class="stocks-loading stocks-error">${escHtml(c.indicatorsError)}</p>`;
+  }
+
   const currency = escHtml(c.currency ?? '');
   const rows = _emaRowHtml(t('stocksEmaTrend'),      ind.ema150 ?? null, c.price, currency)
              + _emaRowHtml(t('stocksEmaCorrection'), ind.ema50  ?? null, c.price, currency);
