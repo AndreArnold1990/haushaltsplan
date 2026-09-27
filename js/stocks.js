@@ -33,6 +33,16 @@
  *
  * v1-Umfang: Kategorien Bewertung, Rentabilität, Stabilität, Wachstum.
  * Später geplant: Qualität/Moat (Margen-Konstanz, Buybacks) + Makro (FRED).
+ *
+ * ## Indikatoren (EMA150/EMA50)
+ * Zusätzlich zu den Fundamental-Kategorien: EMA150 ("Trend") und EMA50
+ * ("Korrektur") aus Finnhubs Tages-Candles (/stock/candle) selbst berechnet
+ * (siehe {@link _ema}), statt Finnhubs eigenen /indicator-Endpunkt zu nutzen
+ * – so bleibt die Formel exakt nachvollziehbar. UNVERIFIZIERT, ob /stock/candle
+ * mit einem kostenlosen Finnhub-Key für US-Aktien funktioniert (aus der
+ * Entwicklungsumgebung heraus nicht testbar, gleiche Einschränkung wie beim
+ * Rest dieses Moduls) – schlägt der Call fehl, bleibt nur dieser eine
+ * Abschnitt leer, der Rest der Aktie funktioniert unabhängig davon weiter.
  */
 
 import { t }                 from './i18n.js';
@@ -50,6 +60,10 @@ const TICKER_RE = /^[A-Z0-9.\-]{1,12}$/;
 
 /** Cache-Lebensdauer: 20 h → höchstens 1 Aktualisierung pro Tag und Ticker. */
 const CACHE_TTL_MS = 20 * 60 * 60 * 1000;
+
+/** Kalendertage Candle-Historie für die EMA150-Berechnung: ≈380 Handelstage
+ *  (150er-Periode + reichlich Nachlauf, damit der SMA-Start-Bias abklingt). */
+const EMA_LOOKBACK_DAYS = 550;
 
 /** Kategorie-Gewichtung für den Gesamtscore (Summe = 100). */
 const WEIGHTS = { valuation: 30, profitability: 25, stability: 20, growth: 25 };
@@ -286,19 +300,23 @@ async function _fetchTicker(ticker, force) {
   _loading.add(ticker);
   _renderTable();
 
+  const now  = Math.floor(Date.now() / 1000);
+  const from = now - EMA_LOOKBACK_DAYS * 86400;
+
   // Jeder Endpoint einzeln (allSettled): Teilausfälle kosten nur die
   // betroffene Kategorie, nicht die ganze Aktie.
   const results = await Promise.allSettled([
     _finnhubGet(`stock/profile2?symbol=${ticker}`),
     _finnhubGet(`quote?symbol=${ticker}`),
     _finnhubGet(`stock/metric?symbol=${ticker}&metric=all`),
+    _finnhubGet(`stock/candle?symbol=${ticker}&resolution=D&from=${from}&to=${now}`),
   ]);
 
-  const [profile, quote, metricResp] =
+  const [profile, quote, metricResp, candleResp] =
     results.map(r => (r.status === 'fulfilled' ? r.value : null));
 
   // Diagnose pro Endpoint statt nur des ersten Fehlers.
-  const endpointLabels = ['profile', 'quote', 'metric'];
+  const endpointLabels = ['profile', 'quote', 'metric', 'candle'];
   const perEndpoint = results
     .map((r, i) => (r.status === 'rejected' ? `${endpointLabels[i]}: ${_errorLabel(r.reason)}` : null))
     .filter(Boolean);
@@ -314,14 +332,16 @@ async function _fetchTicker(ticker, force) {
     saveData();
     toast(t('stocksErrLoad', ticker));
   } else {
+    const closes = _closesAscending(candleResp);
     s.cache[ticker] = {
-      fetchedAt: Date.now(),
-      name:      kpis.name,
-      sector:    kpis.sector,
-      price:     kpis.price,
-      currency:  kpis.currency,
-      kpis:      kpis.values,
-      scores:    _computeScores(kpis.values),
+      fetchedAt:  Date.now(),
+      name:       kpis.name,
+      sector:     kpis.sector,
+      price:      kpis.price,
+      currency:   kpis.currency,
+      kpis:       kpis.values,
+      scores:     _computeScores(kpis.values),
+      indicators: { ema150: _ema(closes, 150), ema50: _ema(closes, 50) },
     };
     saveData();
   }
@@ -443,6 +463,42 @@ function _normalize(profile, quote, m) {
       fcfGrowth:    _pickPct(m, 'focfCagr5Y', 'freeCashFlowGrowth5Y'),
     },
   };
+}
+
+// ── Indikatoren (EMA) ─────────────────────────────────────────────────────────
+
+/**
+ * Extrahiert die Schlusskurse aus Finnhubs Candle-Antwort, chronologisch
+ * aufsteigend sortiert. Verlässt sich NICHT auf eine bestimmte Reihenfolge
+ * der Rohdaten – sortiert selbst anhand der Zeitstempel.
+ * @param {{s?: string, c?: number[], t?: number[]}|null} candle
+ * @returns {number[]|null}
+ */
+function _closesAscending(candle) {
+  if (!candle || candle.s !== 'ok' || !Array.isArray(candle.c) || !Array.isArray(candle.t)) return null;
+  return candle.t
+    .map((ts, i) => [ts, candle.c[i]])
+    .sort((a, b) => a[0] - b[0])
+    .map(([, close]) => close);
+}
+
+/**
+ * Exponentieller gleitender Durchschnitt (EMA) über eine chronologisch
+ * aufsteigende Schlusskurs-Reihe. Start-Seed ist der einfache Durchschnitt
+ * der ersten `period` Werte (gängige Konvention), danach die übliche
+ * EMA-Rekursion. Liefert nur den letzten (aktuellen) EMA-Wert.
+ * @param {number[]|null} closes
+ * @param {number} period
+ * @returns {number|null} null bei zu wenig Datenpunkten
+ */
+function _ema(closes, period) {
+  if (!Array.isArray(closes) || closes.length < period) return null;
+  const k = 2 / (period + 1);
+  let ema = closes.slice(0, period).reduce((a, b) => a + b, 0) / period;
+  for (let i = period; i < closes.length; i++) {
+    ema = closes[i] * k + ema * (1 - k);
+  }
+  return ema;
 }
 
 // ── Scoring-Layer ─────────────────────────────────────────────────────────────
@@ -695,6 +751,44 @@ function _fmtKpi(v, format) {
 }
 
 /**
+ * Baut eine einzelne EMA-Zeile: Wert + Pfeil (grün/rot), je nachdem ob der
+ * aktuelle Kurs über oder unter dem EMA-Wert liegt.
+ * @param {string} label
+ * @param {number|null} value
+ * @param {number|null} price
+ * @param {string} currency - bereits escapt
+ */
+function _emaRowHtml(label, value, price, currency) {
+  if (value === null) {
+    return `<tr><td>${label}</td><td class="stocks-kpi-val">–</td><td class="stocks-score">–</td></tr>`;
+  }
+  const above = price != null && price >= value;
+  const cls   = above ? 'stocks-score-good' : 'stocks-score-bad';
+  const arrow = price == null ? '–' : (above ? '▲' : '▼');
+  return `<tr>
+    <td>${label}</td>
+    <td class="stocks-kpi-val">${value.toFixed(2)} ${currency}</td>
+    <td class="stocks-score ${cls}">${arrow}</td>
+  </tr>`;
+}
+
+/**
+ * Baut den "Indikatoren"-Abschnitt (EMA150/EMA50) der Detail-Zeile. Anders
+ * als die KPI-Kategorien nicht Teil des gewichteten Gesamtscores – EMAs sind
+ * kein Verhältniswert mit fester Skala, sondern nur "Kurs drüber/drunter".
+ * @param {ReturnType<typeof _store>['cache'][string]} c
+ */
+function _indicatorsSectionHtml(c) {
+  const ind      = c.indicators ?? {};
+  const currency = escHtml(c.currency ?? '');
+  const rows = _emaRowHtml(t('stocksEmaTrend'),      ind.ema150 ?? null, c.price, currency)
+             + _emaRowHtml(t('stocksEmaCorrection'), ind.ema50  ?? null, c.price, currency);
+  return `
+    <div class="cats-section">${t('stocksIndicatorsTitle')}</div>
+    <table class="cats-table stocks-kpi-table"><tbody>${rows}</tbody></table>`;
+}
+
+/**
  * Baut die aufklappbare Detail-Zeile direkt unter der angeklickten Aktie
  * (statt einer separaten Ansicht unterhalb der ganzen Tabelle).
  * @param {string} ticker
@@ -732,7 +826,7 @@ function _detailRowHtml(ticker) {
         <span class="stocks-cat-score ${_scoreClass(catScore)}">${catScore ?? '–'}</span>
       </div>
       <table class="cats-table stocks-kpi-table"><tbody>${rows}</tbody></table>`;
-  }).join('');
+  }).join('') + _indicatorsSectionHtml(c);
 
   const fetched = c.fetchedAt
     ? new Date(c.fetchedAt).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })
