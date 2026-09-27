@@ -625,6 +625,23 @@ function _fmtBound(v, format) {
   return format === 'pct' ? `${Math.round(v * 100)} %` : String(v);
 }
 
+/**
+ * Erzeugt den "Indikatoren"-Abschnitt der Infobox – separat von KPI_DEFS,
+ * da diese Werte keine 0–100-Skala haben, sondern nur eine Kurs-Richtung.
+ */
+function _indicatorsInfoHtml() {
+  const rows = [
+    ['stocksEmaTrend',      'stocksInfoEmaTrend'],
+    ['stocksEmaCorrection', 'stocksInfoEmaCorrection'],
+    ['stocksWillr',         'stocksInfoWillr'],
+  ].map(([labelKey, descKey]) => `<li>
+    <strong>${t(labelKey)}</strong> – ${t(descKey)}
+  </li>`).join('');
+
+  return `<div class="stocks-info-cat">${t('stocksIndicatorsTitle')} · ${t('stocksInfoIndicatorsNote')}</div>
+    <ul class="stocks-info-list">${rows}</ul>`;
+}
+
 /** Erzeugt den Infobox-Inhalt aus KPI_DEFS – bleibt so automatisch synchron. */
 function _buildInfoHtml() {
   const catTitles = {
@@ -652,7 +669,8 @@ function _buildInfoHtml() {
   return `
     <div class="stocks-info-title">${t('stocksInfoTitle')}</div>
     <p class="stocks-info-intro">${t('stocksInfoIntro')}</p>
-    ${sections}`;
+    ${sections}
+    ${_indicatorsInfoHtml()}`;
 }
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
