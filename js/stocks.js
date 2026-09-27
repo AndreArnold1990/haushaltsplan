@@ -812,20 +812,29 @@ function _fmtKpi(v, format) {
 }
 
 /**
- * Baut eine einzelne EMA-Zeile: Wert + Pfeil (grün/rot), je nachdem ob der
- * aktuelle Kurs über oder unter dem EMA-Wert liegt.
+ * Baut eine einzelne EMA-Zeile: Wert + Pfeil, grün/rot je nachdem ob der
+ * aktuelle Kurs auf der als "gut" definierten Seite des EMA-Werts liegt.
+ * Der Pfeil zeigt immer die faktische Richtung (▲ = Kurs über dem EMA-Wert),
+ * nur die Farbe hängt von `goodWhen` ab – bei EMA150 ("Trend") ist "über dem
+ * Kurs" gut, bei EMA50 ("Korrektur") ist "unter dem Kurs" gut (Kurs hat sich
+ * in den kurzfristigen Durchschnitt zurückgezogen → möglicher Einstieg).
  * @param {string} label
  * @param {number|null} value
  * @param {number|null} price
  * @param {string} currency - bereits escapt
+ * @param {'above'|'below'} goodWhen - wann der Kurs relativ zum EMA-Wert als "gut" (grün) gilt
  */
-function _emaRowHtml(label, value, price, currency) {
+function _emaRowHtml(label, value, price, currency, goodWhen) {
   if (value === null) {
     return `<tr><td>${label}</td><td class="stocks-kpi-val">–</td><td class="stocks-score">–</td></tr>`;
   }
-  const above = price != null && price >= value;
-  const cls   = above ? 'stocks-score-good' : 'stocks-score-bad';
-  const arrow = price == null ? '–' : (above ? '▲' : '▼');
+  if (price == null) {
+    return `<tr><td>${label}</td><td class="stocks-kpi-val">${value.toFixed(2)} ${currency}</td><td class="stocks-score">–</td></tr>`;
+  }
+  const above  = price >= value;
+  const isGood = goodWhen === 'below' ? !above : above;
+  const cls    = isGood ? 'stocks-score-good' : 'stocks-score-bad';
+  const arrow  = above ? '▲' : '▼';
   return `<tr>
     <td>${label}</td>
     <td class="stocks-kpi-val">${value.toFixed(2)} ${currency}</td>
@@ -834,15 +843,12 @@ function _emaRowHtml(label, value, price, currency) {
 }
 
 /**
- * CSS-Klasse für Williams %R nach Standard-Interpretation: ≤ -80 überverkauft
- * (potenziell günstiger Einstieg), ≥ -20 überkauft (potenziell teuer).
+ * CSS-Klasse für Williams %R: grün unter -50, sonst rot.
  * @param {number|null} v
  */
 function _willrClass(v) {
-  if (v === null)  return '';
-  if (v <= -80)    return 'stocks-score-good';
-  if (v >= -20)    return 'stocks-score-bad';
-  return 'stocks-val-mid';
+  if (v === null) return '';
+  return v < -50 ? 'stocks-score-good' : 'stocks-score-bad';
 }
 
 /**
@@ -885,8 +891,8 @@ function _indicatorsSectionHtml(c) {
   }
 
   const currency = escHtml(c.currency ?? '');
-  const rows = _emaRowHtml(t('stocksEmaTrend'),      ind.ema150 ?? null, c.price, currency)
-             + _emaRowHtml(t('stocksEmaCorrection'), ind.ema50  ?? null, c.price, currency)
+  const rows = _emaRowHtml(t('stocksEmaTrend'),      ind.ema150 ?? null, c.price, currency, 'above')
+             + _emaRowHtml(t('stocksEmaCorrection'), ind.ema50  ?? null, c.price, currency, 'below')
              + _willrRowHtml(ind.willr ?? null);
   return `
     <div class="cats-section">${t('stocksIndicatorsTitle')}</div>
