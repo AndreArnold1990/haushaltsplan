@@ -34,15 +34,18 @@
  * v1-Umfang: Kategorien Bewertung, Rentabilität, Stabilität, Wachstum.
  * Später geplant: Qualität/Moat (Margen-Konstanz, Buybacks) + Makro (FRED).
  *
- * ## Indikatoren (EMA150/EMA50)
- * Zusätzlich zu den Fundamental-Kategorien: EMA150 ("Trend") und EMA50
- * ("Korrektur") aus Finnhubs Tages-Candles (/stock/candle) selbst berechnet
- * (siehe {@link _ema}), statt Finnhubs eigenen /indicator-Endpunkt zu nutzen
- * – so bleibt die Formel exakt nachvollziehbar. UNVERIFIZIERT, ob /stock/candle
- * mit einem kostenlosen Finnhub-Key für US-Aktien funktioniert (aus der
- * Entwicklungsumgebung heraus nicht testbar, gleiche Einschränkung wie beim
- * Rest dieses Moduls) – schlägt der Call fehl, bleibt nur dieser eine
- * Abschnitt leer, der Rest der Aktie funktioniert unabhängig davon weiter.
+ * ## Indikatoren (EMA150/EMA50/Williams %R) via Twelve Data
+ * Zweite, unabhängige API (twelvedata.com, eigener API-Key) speziell für
+ * technische Indikatoren – Finnhubs Candle-Endpoint (/stock/candle), aus dem
+ * sich EMA selbst berechnen ließe, war auf dem Finnhub-Free-Tier des Nutzers
+ * nicht nutzbar. Twelve Data liefert EMA150/EMA50 und Williams %R direkt
+ * vorberechnet ({@link _fetchIndicators}), unabhängig
+ * vom Finnhub-Key und von den Fundamentaldaten. Genau wie bei Finnhub gilt:
+ * fehlt der Key oder schlägt der Call fehl, bleibt nur der "Indikatoren"-
+ * Abschnitt leer/mit Fehlertext, der Rest der Aktie ist davon unberührt.
+ * UNVERIFIZIERT, ob Twelve Datas genaue Response-Feldnamen/CORS-Verhalten so
+ * funktionieren wie dokumentiert (aus der Entwicklungsumgebung heraus nicht
+ * testbar, gleiche Einschränkung wie beim Rest dieses Moduls).
  */
 
 import { t }                 from './i18n.js';
@@ -51,7 +54,8 @@ import { toast, escHtml }    from './utils.js';
 
 // ── Konstanten ────────────────────────────────────────────────────────────────
 
-const FINNHUB_BASE = 'https://finnhub.io/api/v1';
+const FINNHUB_BASE    = 'https://finnhub.io/api/v1';
+const TWELVEDATA_BASE = 'https://api.twelvedata.com';
 
 /** Erlaubtes Ticker-Format. Gilt für Nutzereingaben UND für von Finnhub
  *  aufgelöste Symbole (ISIN-Suche) – Finnhubs Antwort ist externe Eingabe
@@ -61,9 +65,8 @@ const TICKER_RE = /^[A-Z0-9.\-]{1,12}$/;
 /** Cache-Lebensdauer: 20 h → höchstens 1 Aktualisierung pro Tag und Ticker. */
 const CACHE_TTL_MS = 20 * 60 * 60 * 1000;
 
-/** Kalendertage Candle-Historie für die EMA150-Berechnung: ≈380 Handelstage
- *  (150er-Periode + reichlich Nachlauf, damit der SMA-Start-Bias abklingt). */
-const EMA_LOOKBACK_DAYS = 550;
+/** Periode für Williams %R – gängiger Standardwert. */
+const WILLR_PERIOD = 14;
 
 /** Kategorie-Gewichtung für den Gesamtscore (Summe = 100). */
 const WEIGHTS = { valuation: 30, profitability: 25, stability: 20, growth: 25 };
@@ -116,6 +119,9 @@ export function initStocks() {
   document.getElementById('btnSaveStocksKey')
     ?.addEventListener('click', _saveApiKey);
 
+  document.getElementById('btnSaveStocksTdKey')
+    ?.addEventListener('click', _saveTdApiKey);
+
   document.getElementById('btnAddStock')
     ?.addEventListener('click', _addTicker);
 
@@ -156,10 +162,11 @@ export function renderStocks() {
 
 /** Liefert appData.stocks und legt die Struktur bei Bedarf an. */
 function _store() {
-  if (!appData.stocks)           appData.stocks           = {};
-  if (!appData.stocks.apiKey)    appData.stocks.apiKey    = appData.stocks.apiKey ?? '';
-  if (!appData.stocks.watchlist) appData.stocks.watchlist = [];
-  if (!appData.stocks.cache)     appData.stocks.cache     = {};
+  if (!appData.stocks)               appData.stocks               = {};
+  if (!appData.stocks.apiKey)        appData.stocks.apiKey        = appData.stocks.apiKey ?? '';
+  if (!appData.stocks.twelveDataKey) appData.stocks.twelveDataKey = appData.stocks.twelveDataKey ?? '';
+  if (!appData.stocks.watchlist)     appData.stocks.watchlist     = [];
+  if (!appData.stocks.cache)         appData.stocks.cache         = {};
   return appData.stocks;
 }
 
@@ -176,6 +183,21 @@ function _saveApiKey() {
 
   const details = document.getElementById('stocksKeyDetails');
   if (details) { details.open = false; details.dataset.touched = '1'; }
+
+  toast(t('stocksToastKeySaved'));
+}
+
+/** Speichert den Twelve-Data-Key (nur für den "Indikatoren"-Abschnitt, siehe
+ *  {@link _fetchIndicators}) – unabhängig vom Finnhub-Key, blockiert also
+ *  nicht das Anlegen/Scoren von Aktien, wenn er fehlt. */
+function _saveTdApiKey() {
+  const input = document.getElementById('stocksTdApiKey');
+  const key   = input.value.trim();
+  if (!key) { toast(t('stocksErrNoKey')); return; }
+
+  _store().twelveDataKey = key;
+  saveData();
+  input.value = '';
 
   toast(t('stocksToastKeySaved'));
 }
@@ -300,23 +322,25 @@ async function _fetchTicker(ticker, force) {
   _loading.add(ticker);
   _renderTable();
 
-  const now  = Math.floor(Date.now() / 1000);
-  const from = now - EMA_LOOKBACK_DAYS * 86400;
-
-  // Jeder Endpoint einzeln (allSettled): Teilausfälle kosten nur die
-  // betroffene Kategorie, nicht die ganze Aktie.
-  const results = await Promise.allSettled([
-    _finnhubGet(`stock/profile2?symbol=${ticker}`),
-    _finnhubGet(`quote?symbol=${ticker}`),
-    _finnhubGet(`stock/metric?symbol=${ticker}&metric=all`),
-    _finnhubGet(`stock/candle?symbol=${ticker}&resolution=D&from=${from}&to=${now}`),
+  // Finnhub (Fundamentaldaten) und Twelve Data (Indikatoren) sind komplett
+  // unabhängige Anbieter mit eigenem Key → parallel abrufen, Fehlschlag des
+  // einen blockiert den anderen nicht.
+  const [results, indicators] = await Promise.all([
+    // Jeder Endpoint einzeln (allSettled): Teilausfälle kosten nur die
+    // betroffene Kategorie, nicht die ganze Aktie.
+    Promise.allSettled([
+      _finnhubGet(`stock/profile2?symbol=${ticker}`),
+      _finnhubGet(`quote?symbol=${ticker}`),
+      _finnhubGet(`stock/metric?symbol=${ticker}&metric=all`),
+    ]),
+    _fetchIndicators(ticker),
   ]);
 
-  const [profile, quote, metricResp, candleResp] =
+  const [profile, quote, metricResp] =
     results.map(r => (r.status === 'fulfilled' ? r.value : null));
 
   // Diagnose pro Endpoint statt nur des ersten Fehlers.
-  const endpointLabels = ['profile', 'quote', 'metric', 'candle'];
+  const endpointLabels = ['profile', 'quote', 'metric'];
   const perEndpoint = results
     .map((r, i) => (r.status === 'rejected' ? `${endpointLabels[i]}: ${_errorLabel(r.reason)}` : null))
     .filter(Boolean);
@@ -332,11 +356,6 @@ async function _fetchTicker(ticker, force) {
     saveData();
     toast(t('stocksErrLoad', ticker));
   } else {
-    const closes = _closesAscending(candleResp);
-    // Eigener Fehlertext für die Candle-Daten, unabhängig vom Gesamterfolg –
-    // Fundamentaldaten können laden, während /stock/candle allein scheitert
-    // (z.B. falls dieser Endpunkt einen bezahlten Finnhub-Plan braucht).
-    const candleErr = results[3].status === 'rejected' ? _errorLabel(results[3].reason) : null;
     s.cache[ticker] = {
       fetchedAt:       Date.now(),
       name:            kpis.name,
@@ -345,8 +364,9 @@ async function _fetchTicker(ticker, force) {
       currency:        kpis.currency,
       kpis:            kpis.values,
       scores:          _computeScores(kpis.values),
-      indicators:      { ema150: _ema(closes, 150), ema50: _ema(closes, 50) },
-      indicatorsError: closes ? null : candleErr,
+      indicators:      { ema150: indicators.ema150, ema50: indicators.ema50, willr: indicators.willr },
+      indicatorsError: (indicators.ema150 == null && indicators.ema50 == null && indicators.willr == null)
+        ? indicators.error : null,
     };
     saveData();
   }
@@ -357,7 +377,7 @@ async function _fetchTicker(ticker, force) {
 
 /**
  * GET gegen Finnhub; wirft mit err.status bei HTTP-Fehlern bzw.
- * err.finnhubMessage, falls die Antwort ein {"error": "..."} enthält.
+ * err.apiMessage, falls die Antwort ein {"error": "..."} enthält.
  */
 async function _finnhubGet(path) {
   const sep = path.includes('?') ? '&' : '?';
@@ -370,7 +390,26 @@ async function _finnhubGet(path) {
   const json = await res.json();
   if (json && typeof json.error === 'string') {
     const err = new Error(json.error);
-    err.finnhubMessage = json.error;
+    err.apiMessage = json.error;
+    throw err;
+  }
+  return json;
+}
+
+/**
+ * GET gegen Twelve Data; wirft mit err.status bei HTTP-Fehlern bzw.
+ * err.apiMessage, falls die Antwort {"status":"error","message":"..."}
+ * enthält (Twelve Data meldet manche Fehler – z.B. Rate-Limit, ungültiger
+ * Key – laut Dokumentation mit HTTP 200, nicht mit einem Fehlerstatuscode).
+ */
+async function _twelveDataGet(path) {
+  const sep = path.includes('?') ? '&' : '?';
+  const res  = await fetch(`${TWELVEDATA_BASE}/${path}${sep}apikey=${encodeURIComponent(_store().twelveDataKey)}`);
+  const json = await res.json().catch(() => null);
+  if (!res.ok || json?.status === 'error') {
+    const err = new Error(json?.message || `Twelve Data /${path.split('?')[0]}: HTTP ${res.status}`);
+    err.status     = res.ok ? (json?.code ?? 0) : res.status;
+    err.apiMessage = json?.message;
     throw err;
   }
   return json;
@@ -378,7 +417,7 @@ async function _finnhubGet(path) {
 
 /** Menschlich lesbare Fehlerbeschreibung für die Tabellenzeile. */
 function _errorLabel(err) {
-  if (err?.finnhubMessage) return err.finnhubMessage; // Finnhubs eigener Text, unverfälscht
+  if (err?.apiMessage) return err.apiMessage; // Anbieter-eigener Text, unverfälscht
   const status = err?.status ?? 0;
   if (status === 401 || status === 403) return t('stocksErrAuth');
   if (status === 402)                   return t('stocksErrPlan');
@@ -470,40 +509,57 @@ function _normalize(profile, quote, m) {
   };
 }
 
-// ── Indikatoren (EMA) ─────────────────────────────────────────────────────────
+// ── Indikatoren (Twelve Data) ─────────────────────────────────────────────────
 
 /**
- * Extrahiert die Schlusskurse aus Finnhubs Candle-Antwort, chronologisch
- * aufsteigend sortiert. Verlässt sich NICHT auf eine bestimmte Reihenfolge
- * der Rohdaten – sortiert selbst anhand der Zeitstempel.
- * @param {{s?: string, c?: number[], t?: number[]}|null} candle
- * @returns {number[]|null}
+ * Liest den letzten Wert aus Twelve Datas Standard-Indikator-Antwortformat
+ * `{ values: [{ <field>: "12.34", datetime: "..." }, ...] }`. Werte kommen
+ * als String → parseFloat statt direktem Zahlenvergleich.
+ * @param {{values?: Array<Record<string,string>>}|null} resp
+ * @param {string} field
+ * @returns {number|null}
  */
-function _closesAscending(candle) {
-  if (!candle || candle.s !== 'ok' || !Array.isArray(candle.c) || !Array.isArray(candle.t)) return null;
-  return candle.t
-    .map((ts, i) => [ts, candle.c[i]])
-    .sort((a, b) => a[0] - b[0])
-    .map(([, close]) => close);
+function _pickIndicatorValue(resp, field) {
+  const v = parseFloat(resp?.values?.[0]?.[field]);
+  return isFinite(v) ? v : null;
 }
 
 /**
- * Exponentieller gleitender Durchschnitt (EMA) über eine chronologisch
- * aufsteigende Schlusskurs-Reihe. Start-Seed ist der einfache Durchschnitt
- * der ersten `period` Werte (gängige Konvention), danach die übliche
- * EMA-Rekursion. Liefert nur den letzten (aktuellen) EMA-Wert.
- * @param {number[]|null} closes
- * @param {number} period
- * @returns {number|null} null bei zu wenig Datenpunkten
+ * Holt EMA150, EMA50 und Williams %R für einen Ticker von Twelve Data – 3
+ * unabhängige Calls (allSettled), völlig getrennt von der Finnhub-Pipeline.
+ * Ohne hinterlegten Key wird gar nicht erst gefetcht (kein unnötiger 401).
+ * @param {string} ticker
+ * @returns {Promise<{ema150: number|null, ema50: number|null, willr: number|null, error: string|null}>}
  */
-function _ema(closes, period) {
-  if (!Array.isArray(closes) || closes.length < period) return null;
-  const k = 2 / (period + 1);
-  let ema = closes.slice(0, period).reduce((a, b) => a + b, 0) / period;
-  for (let i = period; i < closes.length; i++) {
-    ema = closes[i] * k + ema * (1 - k);
+async function _fetchIndicators(ticker) {
+  const s = _store();
+  if (!s.twelveDataKey) {
+    return { ema150: null, ema50: null, willr: null, error: t('stocksIndicatorsNoKey') };
   }
-  return ema;
+
+  const results = await Promise.allSettled([
+    _twelveDataGet(`ema?symbol=${ticker}&interval=1day&time_period=150&outputsize=1`),
+    _twelveDataGet(`ema?symbol=${ticker}&interval=1day&time_period=50&outputsize=1`),
+    _twelveDataGet(`willr?symbol=${ticker}&interval=1day&time_period=${WILLR_PERIOD}&outputsize=1`),
+  ]);
+  results.filter(r => r.status === 'rejected')
+    .forEach(r => console.error(`[Stocks/TwelveData] ${ticker}:`, r.reason));
+
+  const [emaLongResp, emaShortResp, willrResp] =
+    results.map(r => (r.status === 'fulfilled' ? r.value : null));
+
+  const ema150 = _pickIndicatorValue(emaLongResp,  'ema');
+  const ema50  = _pickIndicatorValue(emaShortResp, 'ema');
+  const willr  = _pickIndicatorValue(willrResp,    'willr');
+
+  // Fehlertext nur relevant, wenn WIRKLICH nichts geklappt hat – einzelne
+  // fehlende Werte (z.B. nur Williams %R down) zeigen sich pro Zeile als "–".
+  const firstRejected = results.find(r => r.status === 'rejected');
+  const error = (ema150 === null && ema50 === null && willr === null)
+    ? (firstRejected ? _errorLabel(firstRejected.reason) : t('stocksErrNet'))
+    : null;
+
+  return { ema150, ema50, willr, error };
 }
 
 // ── Scoring-Layer ─────────────────────────────────────────────────────────────
@@ -778,19 +834,51 @@ function _emaRowHtml(label, value, price, currency) {
 }
 
 /**
- * Baut den "Indikatoren"-Abschnitt (EMA150/EMA50) der Detail-Zeile. Anders
- * als die KPI-Kategorien nicht Teil des gewichteten Gesamtscores – EMAs sind
- * kein Verhältniswert mit fester Skala, sondern nur "Kurs drüber/drunter".
+ * CSS-Klasse für Williams %R nach Standard-Interpretation: ≤ -80 überverkauft
+ * (potenziell günstiger Einstieg), ≥ -20 überkauft (potenziell teuer).
+ * @param {number|null} v
+ */
+function _willrClass(v) {
+  if (v === null)  return '';
+  if (v <= -80)    return 'stocks-score-good';
+  if (v >= -20)    return 'stocks-score-bad';
+  return 'stocks-val-mid';
+}
+
+/**
+ * Baut die Williams-%R-Zeile. Anders als bei EMA kein Kurs-Vergleich nötig –
+ * der Wert selbst ist bereits die Kennzahl (Skala -100 bis 0). Kein Pfeil
+ * (der würde mit der EMA-Zeilen-Bedeutung "Kurs drüber/drunter" kollidieren),
+ * stattdessen ein farbiger Punkt.
+ * @param {number|null} v
+ */
+function _willrRowHtml(v) {
+  if (v === null) {
+    return `<tr><td>${t('stocksWillr')}</td><td class="stocks-kpi-val">–</td><td class="stocks-score">–</td></tr>`;
+  }
+  const cls = _willrClass(v);
+  return `<tr>
+    <td>${t('stocksWillr')}</td>
+    <td class="stocks-kpi-val ${cls}">${v.toFixed(1)}</td>
+    <td class="stocks-score ${cls}">&#9679;</td>
+  </tr>`;
+}
+
+/**
+ * Baut den "Indikatoren"-Abschnitt (EMA150/EMA50/Williams %R, via Twelve
+ * Data) der Detail-Zeile. Anders als die KPI-Kategorien nicht Teil des
+ * gewichteten Gesamtscores – EMA/Williams %R sind keine Verhältniswerte mit
+ * fester 0–100-Skala wie der Rest.
  * @param {ReturnType<typeof _store>['cache'][string]} c
  */
 function _indicatorsSectionHtml(c) {
   const ind = c.indicators ?? {};
 
-  // Candle-Abruf komplett fehlgeschlagen (z.B. Plan-Beschränkung) → konkreten
-  // Grund zeigen statt stumm "–", sonst lässt sich das ohne Browser-Konsole
-  // nicht diagnostizieren (c.indicatorsError enthält Finnhubs eigenen Text,
-  // wie jeder Fremddaten-Text escapen).
-  if (ind.ema150 == null && ind.ema50 == null && c.indicatorsError) {
+  // Twelve-Data-Abruf komplett fehlgeschlagen (kein Key, Plan-Beschränkung,
+  // Rate-Limit …) → konkreten Grund zeigen statt stumm "–", sonst lässt sich
+  // das ohne Browser-Konsole nicht diagnostizieren (c.indicatorsError enthält
+  // Twelve Datas eigenen Text, wie jeder Fremddaten-Text escapen).
+  if (ind.ema150 == null && ind.ema50 == null && ind.willr == null && c.indicatorsError) {
     return `
       <div class="cats-section">${t('stocksIndicatorsTitle')}</div>
       <p class="stocks-loading stocks-error">${escHtml(c.indicatorsError)}</p>`;
@@ -798,7 +886,8 @@ function _indicatorsSectionHtml(c) {
 
   const currency = escHtml(c.currency ?? '');
   const rows = _emaRowHtml(t('stocksEmaTrend'),      ind.ema150 ?? null, c.price, currency)
-             + _emaRowHtml(t('stocksEmaCorrection'), ind.ema50  ?? null, c.price, currency);
+             + _emaRowHtml(t('stocksEmaCorrection'), ind.ema50  ?? null, c.price, currency)
+             + _willrRowHtml(ind.willr ?? null);
   return `
     <div class="cats-section">${t('stocksIndicatorsTitle')}</div>
     <table class="cats-table stocks-kpi-table"><tbody>${rows}</tbody></table>`;
